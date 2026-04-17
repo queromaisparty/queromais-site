@@ -1,0 +1,50 @@
+# Dependências
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+app/dist/
+app/dist-ssr/
+*.local
+
+# =============================================
+# ⚠️  VARIÁVEIS DE AMBIENTE - NÃO COMMITAR!
+# =============================================
+.env
+.env.local
+.env.*.local
+app/.env
+app/.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Cache
+.cache/
+.vite/
+.eslintcache
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Supabase local
+supabase/.temp/
+
+setup-git.bat
+setup-git.ps1
+*.bat
