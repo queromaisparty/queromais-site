@@ -8,9 +8,9 @@ import { Footer } from '@/components/layout/Footer';
 import { HeroSection } from '@/sections/HeroSection';
 import { EventsSection } from '@/sections/EventsSection';
 import { FicaMaisSection } from '@/sections/FicaMaisSection';
-import { StorytellingSection } from '@/sections/StorytellingSection';
+import { SobreSection } from '@/sections/SobreSection';
 import { MusicSection } from '@/sections/MusicSection';
-import { GallerySection } from '@/sections/GallerySection';
+import { VoceSection } from '@/sections/VoceSection';
 import { ShopSection } from '@/sections/ShopSection';
 import { ContactSection } from '@/sections/ContactSection';
 import { AdminLogin } from '@/admin/components/AdminLogin';
@@ -18,63 +18,60 @@ import { AdminDashboard } from '@/admin/components/AdminDashboard';
 import './App.css';
 
 type View = 'website' | 'admin-login' | 'admin-dashboard';
-type AdminSection = 
+type AdminSection =
   | 'dashboard'
+  | 'home'
   | 'events'
   | 'fica-mais'
-  | 'storytelling'
-  | 'music'
-  | 'gallery'
+  | 'sobre'
+  | 'qm-music'
+  | 'voce-na-qm'
   | 'shop'
   | 'contact'
   | 'faq'
+  | 'header'
+  | 'footer'
+  | 'seo'
+  | 'banners'
+  | 'social'
+  | 'users'
+  | 'logs'
   | 'settings';
+
+const toasterStyle = {
+  style: {
+    background: '#1a1a1a',
+    color: '#fff',
+    border: '1px solid rgba(255,255,255,0.1)',
+  },
+};
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('website');
   const [adminSection, setAdminSection] = useState<AdminSection>('dashboard');
 
-  const handleAdminClick = () => {
-    setCurrentView('admin-login');
-  };
-
-  const handleAdminLogin = () => {
-    setCurrentView('admin-dashboard');
-  };
-
+  const handleAdminClick = () => setCurrentView('admin-login');
+  const handleAdminLogin = () => setCurrentView('admin-dashboard');
   const handleAdminLogout = () => {
     setCurrentView('website');
     setAdminSection('dashboard');
   };
 
-  const handleSectionChange = (section: AdminSection) => {
-    setAdminSection(section);
-  };
-
-  // Renderizar o site principal
+  // ── SITE PÚBLICO ──────────────────────────────
   if (currentView === 'website') {
     return (
       <LanguageProvider>
         <DataProvider>
-          <div className="min-h-screen bg-black text-white">
-            <Toaster 
-              position="top-center" 
-              toastOptions={{
-                style: {
-                  background: '#1a1a1a',
-                  color: '#fff',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                }
-              }}
-            />
+          <div className="min-h-screen bg-white text-black">
+            <Toaster position="top-center" toastOptions={toasterStyle} />
             <Header />
-            <main>
+            <main className="pt-14 lg:pt-16">
               <HeroSection />
               <EventsSection />
               <FicaMaisSection />
-              <StorytellingSection />
+              <SobreSection />
               <MusicSection />
-              <GallerySection />
+              <VoceSection />
               <ShopSection />
               <ContactSection />
             </main>
@@ -85,25 +82,16 @@ function App() {
     );
   }
 
-  // Renderizar login do admin
+  // ── ADMIN LOGIN ───────────────────────────────
   if (currentView === 'admin-login') {
     return (
       <AuthProvider>
         <LanguageProvider>
-          <div className="min-h-screen bg-black text-white">
-            <Toaster 
-              position="top-center"
-              toastOptions={{
-                style: {
-                  background: '#1a1a1a',
-                  color: '#fff',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                }
-              }}
-            />
+          <div className="min-h-screen bg-[#0A0A0A] text-white">
+            <Toaster position="top-center" toastOptions={toasterStyle} />
             <button
               onClick={() => setCurrentView('website')}
-              className="fixed top-4 left-4 z-50 px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+              className="fixed top-4 left-4 z-50 px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm font-sans"
             >
               ← Voltar ao Site
             </button>
@@ -114,26 +102,17 @@ function App() {
     );
   }
 
-  // Renderizar dashboard do admin
+  // ── ADMIN DASHBOARD ───────────────────────────
   if (currentView === 'admin-dashboard') {
     return (
       <AuthProvider>
         <DataProvider>
           <LanguageProvider>
-            <div className="min-h-screen bg-black text-white">
-              <Toaster 
-                position="top-center"
-                toastOptions={{
-                  style: {
-                    background: '#1a1a1a',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.1)'
-                  }
-                }}
-              />
-              <AdminDashboard 
-                currentSection={adminSection}
-                onSectionChange={handleSectionChange}
+            <div className="min-h-screen bg-[#0A0A0A] text-white">
+              <Toaster position="top-center" toastOptions={toasterStyle} />
+              <AdminDashboard
+                currentSection={adminSection as Parameters<typeof AdminDashboard>[0]['currentSection']}
+                onSectionChange={(s) => setAdminSection(s as AdminSection)}
                 onLogout={handleAdminLogout}
               />
             </div>

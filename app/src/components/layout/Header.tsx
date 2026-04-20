@@ -1,179 +1,232 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Instagram, MessageCircle } from 'lucide-react';
+import { Menu, X, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { translations } from '@/lib/translations';
+
+const navItems = [
+  { href: '#home',      label: { pt: 'Home',              en: 'Home',          es: 'Inicio'    } },
+  { href: '#eventos',   label: { pt: 'Eventos',           en: 'Events',        es: 'Eventos'   } },
+  { href: '#fica-mais', label: { pt: 'Fica Mais Party',   en: 'Fica Mais',     es: 'Fica Mais' } },
+  { href: '#sobre',     label: { pt: 'Sobre',             en: 'About',         es: 'Nosotros'  } },
+  { href: '#music',     label: { pt: 'QM Music',          en: 'QM Music',      es: 'QM Music'  } },
+  { href: '#voce',      label: { pt: 'Galeria',           en: 'Gallery',       es: 'Galería'   } },
+  { href: '#loja',      label: { pt: 'Loja',              en: 'Shop',          es: 'Tienda'    } },
+  { href: '#contato',   label: { pt: 'Contato',           en: 'Contact',       es: 'Contacto'  } },
+];
+
+const langs = [
+  { code: 'pt' as const, label: 'PT' },
+  { code: 'en' as const, label: 'EN' },
+  { code: 'es' as const, label: 'ES' },
+];
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { currentLanguage, setLanguage, t } = useLanguage();
+  const { t, currentLanguage, setLanguage } = useLanguage();
+  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
+  /* ── scroll handler ── */
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navItems = [
-    { key: 'home', href: '#home', label: translations.nav.home },
-    { key: 'events', href: '#events', label: translations.nav.events },
-    { key: 'ficaMais', href: '#fica-mais', label: translations.nav.ficaMais },
-    { key: 'music', href: '#music', label: translations.nav.music },
-    { key: 'gallery', href: '#gallery', label: translations.nav.gallery },
-    { key: 'shop', href: '#shop', label: translations.nav.shop },
-    { key: 'contact', href: '#contact', label: translations.nav.contact },
-  ];
+  /* ── lock body ao abrir drawer ── */
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMobileMenuOpen(false);
+  const scrollTo = (href: string) => {
+    setMenuOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setActiveSection(href.replace('#', ''));
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-black/90 backdrop-blur-md py-3'
-          : 'bg-transparent py-5'
-      }`}
-    >
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <a 
-            href="#home" 
-            onClick={(e) => { e.preventDefault(); scrollToSection('#home'); }}
-            className="flex items-center gap-2"
-          >
-            <span className="text-2xl font-black tracking-tighter text-white">
-              QUERO <span className="text-[#CCFF00]">MAIS</span>
-            </span>
-          </a>
+    <>
+      {/* ══════════════════════════════
+          HEADER PRINCIPAL
+      ══════════════════════════════ */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'bg-white/98 backdrop-blur-md shadow-sm border-b border-[#E5E5E5]'
+            : 'bg-white border-b border-[#E5E5E5]'
+        }`}
+      >
+        {/* ── LINHA SUPERIOR: logo + idioma + CTAs ── */}
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center h-14 lg:h-16">
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <a
-                key={item.key}
-                href={item.href}
-                onClick={(e) => { e.preventDefault(); scrollToSection(item.href); }}
-                className="px-3 py-2 text-sm font-medium text-white/80 hover:text-[#CCFF00] transition-colors uppercase tracking-wide"
-              >
-                {t(item.label)}
-              </a>
-            ))}
-          </nav>
+            {/* Hambúrguer — mobile only */}
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="lg:hidden mr-3 p-2 -ml-2 rounded-lg text-[#333] hover:bg-[#F2F2F2] transition-colors"
+              aria-label="Abrir menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
 
-          {/* Right Side - Language & Social */}
-          <div className="hidden lg:flex items-center gap-4">
-            {/* Language Selector */}
-            <div className="flex items-center gap-1 bg-white/10 rounded-full p-1">
-              {(['pt', 'en', 'es'] as const).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setLanguage(lang)}
-                  className={`px-3 py-1 text-xs font-bold rounded-full transition-all ${
-                    currentLanguage === lang
-                      ? 'bg-[#CCFF00] text-black'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  {lang.toUpperCase()}
-                </button>
-              ))}
-            </div>
+            {/* Logo */}
+            <a
+              href="#home"
+              onClick={(e) => { e.preventDefault(); scrollTo('#home'); }}
+              className="flex items-center shrink-0 group"
+            >
+              <span className="font-display font-black text-xl lg:text-2xl uppercase tracking-tight text-black group-hover:text-[#6ABD45] transition-colors">
+                QUERO<span className="text-[#6ABD45]">+</span>
+              </span>
+            </a>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-2">
-              <a
-                href="https://instagram.com/queromais"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-white/60 hover:text-[#CCFF00] transition-colors"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="https://wa.me/5511999999999"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-white/60 hover:text-[#CCFF00] transition-colors"
-              >
-                <MessageCircle className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-white"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 pb-4 border-t border-white/10 pt-4">
-            <nav className="flex flex-col gap-2">
+            {/* ── Nav links desktop — centralizado ── */}
+            <nav className="hidden lg:flex flex-1 items-center justify-center gap-0.5">
               {navItems.map((item) => (
                 <a
-                  key={item.key}
+                  key={item.href}
                   href={item.href}
-                  onClick={(e) => { e.preventDefault(); scrollToSection(item.href); }}
-                  className="px-4 py-3 text-white/80 hover:text-[#CCFF00] hover:bg-white/5 rounded-lg transition-colors uppercase font-medium"
+                  onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
+                  className={`px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-colors rounded-lg whitespace-nowrap font-sans ${
+                    activeSection === item.href.replace('#', '')
+                      ? 'text-[#6ABD45]'
+                      : 'text-[#333] hover:text-[#6ABD45] hover:bg-[#F7F7F7]'
+                  }`}
                 >
                   {t(item.label)}
                 </a>
               ))}
             </nav>
 
-            {/* Mobile Language & Social */}
-            <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-              <div className="flex items-center gap-1 bg-white/10 rounded-full p-1">
-                {(['pt', 'en', 'es'] as const).map((lang) => (
-                  <button
-                    key={lang}
-                    onClick={() => setLanguage(lang)}
-                    className={`px-3 py-1 text-xs font-bold rounded-full transition-all ${
-                      currentLanguage === lang
-                        ? 'bg-[#CCFF00] text-black'
-                        : 'text-white/60'
-                    }`}
-                  >
-                    {lang.toUpperCase()}
-                  </button>
+            {/* ── Direita: idiomas + CTAs ── */}
+            <div className="hidden lg:flex items-center gap-2 shrink-0 ml-4">
+              {/* Seletor de idioma */}
+              <div className="flex items-center border border-[#E5E5E5] rounded-full px-2.5 py-1 gap-1">
+                {langs.map((lang, i) => (
+                  <span key={lang.code} className="flex items-center">
+                    <button
+                      onClick={() => setLanguage(lang.code)}
+                      className={`text-[11px] font-bold transition-colors font-sans ${
+                        currentLanguage === lang.code
+                          ? 'text-[#6ABD45]'
+                          : 'text-[#666] hover:text-black'
+                      }`}
+                    >
+                      {lang.label}
+                    </button>
+                    {i < langs.length - 1 && (
+                      <span className="text-[#D5D5D5] mx-1 text-xs select-none">|</span>
+                    )}
+                  </span>
                 ))}
               </div>
 
-              <div className="flex items-center gap-2">
-                <a
-                  href="https://instagram.com/queromais"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-white/60"
-                >
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://wa.me/5511999999999"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-white/60"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                </a>
-              </div>
+              {/* CTA 1 */}
+              <a
+                href="#eventos"
+                onClick={(e) => { e.preventDefault(); scrollTo('#eventos'); }}
+                className="flex items-center gap-1 px-4 py-2 bg-[#4A4A4A] hover:bg-black text-white rounded-full text-xs font-semibold uppercase tracking-wide transition-all group font-sans"
+              >
+                {t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}
+                <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+
+              {/* CTA 2 */}
+              <a
+                href="#eventos"
+                onClick={(e) => { e.preventDefault(); scrollTo('#eventos'); }}
+                className="flex items-center gap-1 px-4 py-2 border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#4A4A4A] hover:text-white rounded-full text-xs font-semibold uppercase tracking-wide transition-all font-sans whitespace-nowrap"
+              >
+                {t({ pt: 'Mesas e Camarotes', en: 'Mesas e Camarotes', es: 'Mesas VIP' })}
+              </a>
             </div>
+
+            {/* Mobile: idioma compacto */}
+            <div className="lg:hidden flex items-center ml-auto gap-1">
+              {langs.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => setLanguage(lang.code)}
+                  className={`text-[10px] font-bold px-1.5 py-1 rounded transition-colors font-sans ${
+                    currentLanguage === lang.code
+                      ? 'text-[#6ABD45]'
+                      : 'text-[#666] hover:text-black'
+                  }`}
+                >
+                  {lang.label}
+                </button>
+              ))}
+            </div>
+
           </div>
-        )}
+        </div>
+      </header>
+
+      {/* ══════════════════════════════
+          MOBILE DRAWER
+      ══════════════════════════════ */}
+
+      {/* Backdrop */}
+      <div
+        onClick={() => setMenuOpen(false)}
+        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${
+          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      />
+
+      {/* Painel lateral */}
+      <div
+        className={`fixed top-0 left-0 bottom-0 z-[70] w-[78vw] max-w-[320px] bg-white shadow-2xl
+                    flex flex-col transition-transform duration-300 ease-in-out ${
+          menuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {/* Cabeçalho do drawer */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#E5E5E5]">
+          <span className="font-display font-black text-lg uppercase tracking-tight">
+            QUERO<span className="text-[#6ABD45]">+</span>
+          </span>
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="p-1.5 text-[#666] hover:text-black transition-colors rounded-lg hover:bg-[#F2F2F2]"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Links de navegação */}
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          {navItems.map((item) => (
+            <button
+              key={item.href}
+              onClick={() => scrollTo(item.href)}
+              className="w-full text-left px-3 py-3 text-sm font-semibold text-black hover:text-[#6ABD45] hover:bg-[#F7F7F7] rounded-lg transition-all mb-0.5 font-sans"
+            >
+              {t(item.label)}
+            </button>
+          ))}
+        </nav>
+
+        {/* Rodapé do drawer: CTAs */}
+        <div className="px-4 pb-8 pt-4 border-t border-[#E5E5E5] space-y-2.5">
+          <a
+            href="#eventos"
+            onClick={(e) => { e.preventDefault(); scrollTo('#eventos'); }}
+            className="flex items-center justify-center gap-2 w-full py-3 bg-[#4A4A4A] hover:bg-black text-white rounded-full text-sm font-semibold transition-all font-sans"
+          >
+            {t({ pt: 'Comprar Ingressos', en: 'Buy Tickets', es: 'Comprar Entradas' })}
+            <ChevronRight className="w-4 h-4" />
+          </a>
+          <a
+            href="#eventos"
+            onClick={(e) => { e.preventDefault(); scrollTo('#eventos'); }}
+            className="flex items-center justify-center gap-2 w-full py-3 border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#4A4A4A] hover:text-white rounded-full text-sm font-semibold transition-all font-sans"
+          >
+            {t({ pt: 'Mesas e Camarotes', en: 'Mesas e Camarotes', es: 'Mesas VIP' })}
+          </a>
+        </div>
       </div>
-    </header>
+    </>
   );
 }

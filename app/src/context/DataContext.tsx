@@ -205,7 +205,7 @@ const defaultHomeSections: HomeSection[] = [
   },
   {
     id: '5',
-    type: 'gallery',
+    type: 'voce',
     title: { pt: 'GALERIA', en: 'GALLERY', es: 'GALERÍA' },
     subtitle: { 
       pt: 'Momentos inesquecíveis',

@@ -1,138 +1,119 @@
-import { useEffect, useState } from 'react';
-import { ArrowDown, Calendar, MapPin } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ChevronRight, Calendar } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
-import { translations } from '@/lib/translations';
 
 export function HeroSection() {
   const { t } = useLanguage();
-  const { getUpcomingEvents } = useData();
-  const [nextEvent, setNextEvent] = useState<ReturnType<typeof getUpcomingEvents>[0] | null>(null);
+  const { events } = useData();
 
-  useEffect(() => {
-    const events = getUpcomingEvents();
-    if (events.length > 0) {
-      setNextEvent(events[0]);
-    }
-  }, [getUpcomingEvents]);
+  // Próximo evento featured
+  const featuredEvent = events.find(e => e.featured && e.status === 'active') || events[0];
 
-  const scrollToEvents = () => {
-    const element = document.querySelector('#events');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString(
-      t({ pt: 'pt-BR', en: 'en-US', es: 'es-ES' }), 
-      { day: 'numeric', month: 'long', year: 'numeric' }
-    );
+  const scrollTo = (id: string) => {
+    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black">
-        {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#CCFF00]/10 via-transparent to-[#8B5CF6]/10 animate-pulse" />
-        
-        {/* Grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `linear-gradient(rgba(204, 255, 0, 0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(204, 255, 0, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
-          }}
+    <section id="home" className="relative w-full h-screen min-h-[600px] max-h-[900px] overflow-hidden">
+
+      {/* Imagem de fundo */}
+      <div className="absolute inset-0">
+        <img
+          src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1920&q=85"
+          alt="Quero Mais - Experiência Premium de Eventos"
+          className="w-full h-full object-cover object-center"
         />
+        {/* Overlay gradiente sutil — escurece topo e rodapé para leitura */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 xl:px-12 pt-24 pb-16">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#CCFF00]/10 border border-[#CCFF00]/30 rounded-full mb-8">
-            <span className="w-2 h-2 bg-[#CCFF00] rounded-full animate-pulse" />
-            <span className="text-[#CCFF00] text-sm font-medium uppercase tracking-wider">
-              {t({ pt: 'Experiências Únicas', en: 'Unique Experiences', es: 'Experiencias Únicas' })}
-            </span>
-          </div>
+      {/* Conteúdo centralizado */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 text-center">
 
-          {/* Main Title */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white mb-6">
-            QUERO{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#CCFF00] to-[#8B5CF6]">
-              MAIS
-            </span>
+        {/* Logo/Marca — grande, central */}
+        <div className="mb-8 animate-fade-in">
+          <h1 className="font-display font-black text-white uppercase tracking-tight leading-none"
+            style={{ fontSize: 'clamp(3rem, 10vw, 8rem)' }}>
+            QUERO<span className="text-[#6ABD45]">+</span>
           </h1>
-
-          {/* Subtitle */}
-          <p className="text-xl sm:text-2xl md:text-3xl text-white/80 font-light mb-4">
-            {t(translations.home.heroSubtitle)}
+          <p className="text-white/80 font-display font-semibold uppercase tracking-[0.3em] text-sm sm:text-base mt-2">
+            {t({
+              pt: 'Experiências que marcam',
+              en: 'Experiences that mark',
+              es: 'Experiencias que marcan',
+            })}
           </p>
-
-          {/* Description */}
-          <p className="text-base sm:text-lg text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-            {t(translations.home.heroDescription)}
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Button
-              onClick={scrollToEvents}
-              className="w-full sm:w-auto px-8 py-6 bg-[#CCFF00] text-black font-bold text-lg rounded-full hover:bg-[#b3e600] transition-all hover:scale-105"
-            >
-              {t(translations.buttons.buyTickets)}
-            </Button>
-            <a
-              href="#fica-mais"
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector('#fica-mais')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="w-full sm:w-auto px-8 py-4 border border-white/30 text-white font-bold text-lg rounded-full hover:bg-white/10 transition-all text-center"
-            >
-              {t(translations.buttons.learnMore)}
-            </a>
-          </div>
-
-          {/* Next Event Card */}
-          {nextEvent && (
-            <div className="inline-block">
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-left hover:border-[#CCFF00]/50 transition-all">
-                <p className="text-[#CCFF00] text-sm font-bold uppercase tracking-wider mb-2">
-                  {t({ pt: 'Próximo Evento', en: 'Next Event', es: 'Próximo Evento' })}
-                </p>
-                <h3 className="text-white text-xl font-bold mb-3">
-                  {t(nextEvent.title)}
-                </h3>
-                <div className="flex flex-wrap items-center gap-4 text-white/60 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-[#CCFF00]" />
-                    <span>{formatDate(nextEvent.date)}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-[#CCFF00]" />
-                    <span>{nextEvent.location}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
+
+        {/* Badge de autoridade */}
+        <div className="mb-10 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <p className="text-white font-display font-black uppercase text-lg sm:text-2xl tracking-wide">
+            {t({
+              pt: 'O melhor da música eletrônica',
+              en: 'The best of electronic music',
+              es: 'Lo mejor de la música electrónica',
+            })}
+          </p>
+          <p className="text-[#6ABD45] font-display font-bold uppercase text-base sm:text-xl tracking-wide mt-1">
+            {t({
+              pt: 'Santa Catarina e além',
+              en: 'Santa Catarina and beyond',
+              es: 'Santa Catarina y más allá',
+            })}
+          </p>
+        </div>
+
+        {/* CTAs duplos */}
+        <div className="flex flex-col sm:flex-row gap-3 animate-slide-up" style={{ animationDelay: '0.35s' }}>
+          <button
+            onClick={() => scrollTo('#eventos')}
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#4A4A4A] hover:bg-black text-white rounded-full font-semibold font-display text-sm uppercase tracking-wider transition-all duration-200 group"
+          >
+            {t({ pt: 'Ver Próximos Eventos', en: 'See Events', es: 'Ver Eventos' })}
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+
+          <button
+            onClick={() => scrollTo('#voce')}
+            className="flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/80 text-white hover:bg-white hover:text-black rounded-full font-semibold font-display text-sm uppercase tracking-wider transition-all duration-200"
+          >
+            {t({ pt: 'Você na Quero Mais?', en: 'See Gallery', es: 'Ver Galería' })}
+          </button>
+        </div>
+
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <ArrowDown className="w-6 h-6 text-white/40" />
+      {/* Card "Próximo Evento" — canto inferior */}
+      {featuredEvent && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-8 z-10 animate-slide-up"
+          style={{ animationDelay: '0.5s' }}>
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl px-5 py-4 shadow-premium flex items-center gap-4 max-w-[320px]">
+            <div className="w-10 h-10 rounded-full bg-[#6ABD45]/15 flex items-center justify-center flex-shrink-0">
+              <Calendar className="w-5 h-5 text-[#6ABD45]" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-[#6ABD45] mb-0.5">
+                {t({ pt: 'Próximo Evento', en: 'Next Event', es: 'Próximo Evento' })}
+              </p>
+              <p className="text-sm font-bold text-black truncate">
+                {t(featuredEvent.title)}
+              </p>
+              <p className="text-xs text-[#666666] mt-0.5">
+                {new Date(featuredEvent.date).toLocaleDateString(
+                  t({ pt: 'pt-BR', en: 'en-US', es: 'es-ES' }),
+                  { day: '2-digit', month: 'short' }
+                )} · {featuredEvent.time}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 sm:hidden">
+        <div className="w-[1px] h-12 bg-white/40 mx-auto animate-pulse" />
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-1/4 left-10 w-32 h-32 bg-[#CCFF00]/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-10 w-40 h-40 bg-[#8B5CF6]/20 rounded-full blur-3xl" />
     </section>
   );
 }

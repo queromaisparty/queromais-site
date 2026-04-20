@@ -1,76 +1,84 @@
-import { Instagram, MessageCircle, Mail, MapPin } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, MapPin, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { translations } from '@/lib/translations';
 import { useData } from '@/context/DataContext';
 
 interface FooterProps {
   onAdminClick?: () => void;
 }
 
+const navLinks = [
+  { href: '#home', label: { pt: 'Home', en: 'Home', es: 'Inicio' } },
+  { href: '#eventos', label: { pt: 'Próximos Eventos', en: 'Events', es: 'Eventos' } },
+  { href: '#fica-mais', label: { pt: 'Fica Mais Party', en: 'Fica Mais Party', es: 'Fica Mais Party' } },
+  { href: '#sobre', label: { pt: 'Sobre a Quero Mais', en: 'About', es: 'Nosotros' } },
+  { href: '#music', label: { pt: 'QM Music', en: 'QM Music', es: 'QM Music' } },
+  { href: '#voce', label: { pt: 'Você na Quero Mais?', en: 'Gallery', es: 'Galería' } },
+  { href: '#loja', label: { pt: 'Loja', en: 'Shop', es: 'Tienda' } },
+  { href: '#contato', label: { pt: 'Contato', en: 'Contact', es: 'Contacto' } },
+];
+
 export function Footer({ onAdminClick }: FooterProps) {
   const { t } = useLanguage();
   const { contactInfo } = useData();
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollTo = (href: string) => {
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const navLinks = [
-    { href: '#home', label: translations.nav.home },
-    { href: '#events', label: translations.nav.events },
-    { href: '#fica-mais', label: translations.nav.ficaMais },
-    { href: '#music', label: translations.nav.music },
-    { href: '#gallery', label: translations.nav.gallery },
-    { href: '#shop', label: translations.nav.shop },
-    { href: '#contact', label: translations.nav.contact },
-  ];
-
   return (
-    <footer className="bg-black border-t border-white/10">
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 py-12 lg:py-16">
+    <footer className="bg-[#0A0A0A]">
+      {/* Main content */}
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+
           {/* Brand */}
           <div className="lg:col-span-1">
-            <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('#home'); }}>
-              <span className="text-2xl font-black tracking-tighter text-white">
-                QUERO <span className="text-[#CCFF00]">MAIS</span>
+            <a
+              href="#home"
+              onClick={(e) => { e.preventDefault(); scrollTo('#home'); }}
+              className="inline-block group"
+            >
+              <span className="font-display font-black text-2xl text-white group-hover:text-[#6ABD45] transition-colors uppercase tracking-tight">
+                QUERO<span className="text-[#6ABD45]">+</span>
               </span>
             </a>
-            <p className="mt-4 text-white/60 text-sm leading-relaxed">
-              Experiências únicas e inesquecíveis. Festas, música e energia que transformam suas noites em memórias eternas.
+            <p className="mt-4 text-white/50 text-sm leading-relaxed font-sans">
+              {t({
+                pt: 'Experiências que marcam. Música, atmosfera, comunidade e energia que transformam noites em memórias.',
+                en: 'Experiences that mark. Music, atmosphere, community and energy that turn nights into memories.',
+                es: 'Experiencias que marcan. Música, atmósfera, comunidad y energía que transforman noches en recuerdos.',
+              })}
             </p>
+            {/* Redes Sociais */}
             <div className="mt-6 flex items-center gap-3">
               <a
-                href={`https://instagram.com/${contactInfo.instagram.replace('@', '')}`}
+                href={`https://instagram.com/${contactInfo.instagram?.replace('@', '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-[#CCFF00] hover:text-black transition-all"
+                className="w-10 h-10 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-[#6ABD45] hover:text-white hover:border-[#6ABD45] transition-all"
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="w-4 h-4" />
               </a>
               <a
-                href={`https://wa.me/${contactInfo.whatsapp.replace(/\D/g, '')}`}
+                href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-[#CCFF00] hover:text-black transition-all"
+                className="w-10 h-10 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-[#6ABD45] hover:text-white hover:border-[#6ABD45] transition-all"
               >
-                <MessageCircle className="w-5 h-5" />
+                <MessageCircle className="w-4 h-4" />
               </a>
               <a
                 href={`mailto:${contactInfo.email}`}
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-[#CCFF00] hover:text-black transition-all"
+                className="w-10 h-10 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-[#6ABD45] hover:text-white hover:border-[#6ABD45] transition-all"
               >
-                <Mail className="w-5 h-5" />
+                <Mail className="w-4 h-4" />
               </a>
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* Navegação */}
           <div>
-            <h3 className="text-white font-bold uppercase tracking-wide mb-4">
+            <h3 className="font-display font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
               {t({ pt: 'Navegação', en: 'Navigation', es: 'Navegación' })}
             </h3>
             <ul className="space-y-3">
@@ -78,9 +86,10 @@ export function Footer({ onAdminClick }: FooterProps) {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-                    className="text-white/60 hover:text-[#CCFF00] transition-colors text-sm"
+                    onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
+                    className="text-white/50 hover:text-[#6ABD45] transition-colors text-sm font-sans flex items-center gap-1 group"
                   >
+                    <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -ml-3 group-hover:ml-0 transition-all" />
                     {t(link.label)}
                   </a>
                 </li>
@@ -88,77 +97,78 @@ export function Footer({ onAdminClick }: FooterProps) {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contato */}
           <div>
-            <h3 className="text-white font-bold uppercase tracking-wide mb-4">
-              {t(translations.nav.contact)}
+            <h3 className="font-display font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
+              {t({ pt: 'Contato', en: 'Contact', es: 'Contacto' })}
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-[#CCFF00] mt-0.5 flex-shrink-0" />
-                <a 
+                <Mail className="w-4 h-4 text-[#6ABD45] mt-0.5 flex-shrink-0" />
+                <a
                   href={`mailto:${contactInfo.email}`}
-                  className="text-white/60 hover:text-[#CCFF00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#6ABD45] transition-colors text-sm font-sans"
                 >
                   {contactInfo.email}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <MessageCircle className="w-5 h-5 text-[#CCFF00] mt-0.5 flex-shrink-0" />
-                <a 
-                  href={`https://wa.me/${contactInfo.whatsapp.replace(/\D/g, '')}`}
+                <MessageCircle className="w-4 h-4 text-[#6ABD45] mt-0.5 flex-shrink-0" />
+                <a
+                  href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/60 hover:text-[#CCFF00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#6ABD45] transition-colors text-sm font-sans"
                 >
                   {contactInfo.whatsapp}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#CCFF00] mt-0.5 flex-shrink-0" />
-                <span className="text-white/60 text-sm">
-                  {contactInfo.address}
-                </span>
+                <MapPin className="w-4 h-4 text-[#6ABD45] mt-0.5 flex-shrink-0" />
+                <span className="text-white/50 text-sm font-sans">{contactInfo.address}</span>
               </li>
             </ul>
           </div>
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-white font-bold uppercase tracking-wide mb-4">
+            <h3 className="font-display font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
               {t({ pt: 'Newsletter', en: 'Newsletter', es: 'Newsletter' })}
             </h3>
-            <p className="text-white/60 text-sm mb-4">
-              {t({ 
-                pt: 'Receba novidades sobre nossos eventos exclusivos.',
-                en: 'Get news about our exclusive events.',
-                es: 'Recibe novedades sobre nuestros eventos exclusivos.'
+            <p className="text-white/50 text-sm mb-5 font-sans">
+              {t({
+                pt: 'Seja o primeiro a saber sobre nossos próximos eventos.',
+                en: 'Be the first to know about our next events.',
+                es: 'Sé el primero en saber sobre nuestros próximos eventos.',
               })}
             </p>
-            <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col gap-2" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
                 placeholder={t({ pt: 'Seu e-mail', en: 'Your email', es: 'Tu correo' })}
-                className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/40 text-sm focus:outline-none focus:border-[#CCFF00]"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-full text-white/80 placeholder:text-white/30 text-sm focus:outline-none focus:border-[#6ABD45] transition-colors font-sans"
               />
               <button
                 type="submit"
-                className="px-4 py-2 bg-[#CCFF00] text-black font-bold rounded-lg hover:bg-[#b3e600] transition-colors text-sm"
+                className="w-full px-4 py-3 bg-[#6ABD45] hover:bg-[#4e9630] text-white font-semibold rounded-full text-sm transition-colors font-sans"
               >
-                {t({ pt: 'Enviar', en: 'Send', es: 'Enviar' })}
+                {t({ pt: 'Quero receber', en: 'Subscribe', es: 'Suscribirme' })}
               </button>
             </form>
           </div>
-        </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-white/40 text-sm">
-            &copy; {new Date().getFullYear()} Quero Mais. {t(translations.footer.rights)}
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-white/8">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-white/30 text-xs font-sans">
+            © {new Date().getFullYear()} Quero Mais. {t({ pt: 'Todos os direitos reservados.', en: 'All rights reserved.', es: 'Todos los derechos reservados.' })}
           </p>
           <button
             onClick={onAdminClick}
-            className="text-white/40 hover:text-[#CCFF00] text-sm transition-colors"
+            className="text-white/25 hover:text-[#6ABD45] text-xs transition-colors font-sans"
           >
             {t({ pt: 'Área Administrativa', en: 'Admin Area', es: 'Área Administrativa' })}
           </button>

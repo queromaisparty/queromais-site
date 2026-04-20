@@ -48,6 +48,24 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        /* === CORES QUERO MAIS === */
+        qm: {
+          green: "#6ABD45",
+          "green-dark": "#4e9630",
+          dark: "#0A0A0A",
+          charcoal: "#3D4246",
+          "gray-bg": "#F2F2F2",
+          "gray-card": "#F7F7F7",
+          "btn-dark": "#4A4A4A",
+          text: "#000000",
+          "text-muted": "#666666",
+          border: "#E5E5E5",
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Montserrat', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
@@ -58,6 +76,12 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        premium: "0 4px 24px 0 rgb(0 0 0 / 0.10)",
+        card: "0 2px 12px 0 rgb(0 0 0 / 0.08)",
+      },
+      maxWidth: {
+        "8xl": "1440px",
+        "qm": "1280px",
       },
       keyframes: {
         "accordion-down": {
@@ -72,11 +96,21 @@ module.exports = {
           "0%,70%,100%": { opacity: "1" },
           "20%,50%": { opacity: "0" },
         },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "slide-up": {
+          from: { opacity: "0", transform: "translateY(24px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "caret-blink": "caret-blink 1.25s ease-out infinite",
+        "fade-in": "fade-in 0.6s ease-out",
+        "slide-up": "slide-up 0.6s ease-out",
       },
     },
   },

@@ -1,175 +1,153 @@
-
-import { Calendar, MapPin, Clock, Ticket } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ChevronRight, MapPin, CalendarDays } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
-import { translations } from '@/lib/translations';
 
 export function EventsSection() {
   const { t } = useLanguage();
-  const { getUpcomingEvents, events } = useData();
-  const upcomingEvents = getUpcomingEvents();
+  const { events } = useData();
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return {
-      day: date.getDate(),
-      month: date.toLocaleDateString(t({ pt: 'pt-BR', en: 'en-US', es: 'es-ES' }), { month: 'short' }).toUpperCase(),
-      full: date.toLocaleDateString(t({ pt: 'pt-BR', en: 'en-US', es: 'es-ES' }), { 
-        day: 'numeric', 
-        month: 'long', 
-        year: 'numeric' 
-      })
-    };
+  const activeEvents = events
+    .filter(e => e.status === 'active')
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  // Mock de eventos se não houver nenhum no contexto
+  const mockEvents = [
+    {
+      id: 'mock1',
+      title: { pt: 'Quero Mais — Edição Especial', en: 'Quero Mais — Special Edition', es: 'Quero Más — Edición Especial' },
+      shortDescription: { pt: 'Uma noite inesquecível com o melhor da música eletrônica. Prepare-se para uma experiência única.', en: 'An unforgettable night with the best electronic music.', es: 'Una noche inolvidable con lo mejor de la música electrónica.' },
+      date: '2025-05-24',
+      time: '23h',
+      venue: 'Quero Mais Club',
+      city: 'Florianópolis / SC',
+      coverImage: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=85',
+      ticketUrl: '#',
+      vipUrl: '#',
+      featured: true,
+      status: 'active' as const,
+      slug: 'edicao-especial',
+      order: 1,
+    },
+    {
+      id: 'mock2',
+      title: { pt: 'Fica Mais Party — Vol. 12', en: 'Fica Mais Party — Vol. 12', es: 'Fica Más Party — Vol. 12' },
+      shortDescription: { pt: 'A festa que não acaba. Fica Mais Party de volta com tudo — os melhores DJs, a melhor experiência.', en: 'The party that never ends. Fica Mais Party is back with everything.', es: 'La fiesta que nunca termina.' },
+      date: '2025-06-14',
+      time: '23h',
+      venue: 'Quero Mais Club',
+      city: 'Florianópolis / SC',
+      coverImage: 'https://images.unsplash.com/photo-1429962599919-14d18dc9d04f?w=600&q=85',
+      ticketUrl: '#',
+      vipUrl: '#',
+      featured: false,
+      status: 'active' as const,
+      slug: 'fica-mais-party-vol-12',
+      order: 2,
+    },
+  ];
+
+  const displayEvents = activeEvents.length > 0 ? activeEvents : mockEvents;
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr + 'T12:00:00');
+    return date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+    });
   };
 
-  if (events.length === 0) {
-    // Criar eventos de exemplo se não houver nenhum
-    return (
-      <section id="events" className="py-20 lg:py-32 bg-black">
-        <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
-          <div className="max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-16">
-              <span className="text-[#CCFF00] text-sm font-bold uppercase tracking-wider">
-                {t({ pt: 'Agenda', en: 'Schedule', es: 'Agenda' })}
-              </span>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mt-4 mb-6">
-                {t(translations.events.title)}
-              </h2>
-              <p className="text-white/60 text-lg max-w-2xl mx-auto">
-                {t(translations.events.subtitle)}
-              </p>
-            </div>
-
-            {/* Empty State */}
-            <div className="text-center py-20">
-              <div className="w-20 h-20 mx-auto mb-6 bg-white/5 rounded-full flex items-center justify-center">
-                <Calendar className="w-10 h-10 text-white/30" />
-              </div>
-              <h3 className="text-white text-xl font-bold mb-2">
-                {t(translations.events.noEvents)}
-              </h3>
-              <p className="text-white/50">
-                {t({ 
-                  pt: 'Fique atento às nossas redes sociais!',
-                  en: 'Stay tuned to our social media!',
-                  es: '¡Mantente atento a nuestras redes sociales!'
-                })}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section id="events" className="py-20 lg:py-32 bg-black">
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <span className="text-[#CCFF00] text-sm font-bold uppercase tracking-wider">
-              {t({ pt: 'Agenda', en: 'Schedule', es: 'Agenda' })}
-            </span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mt-4 mb-6">
-              {t(translations.events.title)}
-            </h2>
-            <p className="text-white/60 text-lg max-w-2xl mx-auto">
-              {t(translations.events.subtitle)}
-            </p>
-          </div>
+    <section id="eventos" className="py-24 lg:py-32 bg-[#F2F2F2]">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Events Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {upcomingEvents.slice(0, 6).map((event) => {
-              const date = formatDate(event.date);
-              return (
-                <div
-                  key={event.id}
-                  className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-[#CCFF00]/50 transition-all duration-300"
-                >
-                  {/* Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    {event.coverImage ? (
-                      <img
-                        src={event.coverImage}
-                        alt={t(event.title)}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-[#CCFF00]/20 to-[#8B5CF6]/20 flex items-center justify-center">
-                        <Calendar className="w-12 h-12 text-white/30" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                    
-                    {/* Date Badge */}
-                    <div className="absolute top-4 left-4 bg-[#CCFF00] text-black px-3 py-2 rounded-lg text-center">
-                      <span className="block text-2xl font-black leading-none">{date.day}</span>
-                      <span className="block text-xs font-bold uppercase">{date.month}</span>
-                    </div>
+        {/* Header da seção */}
+        <div className="text-center mb-14">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6ABD45] mb-3 font-sans">
+            {t({ pt: 'Confira a programação', en: 'Check the schedule', es: 'Consulta la programación' })}
+          </p>
+          <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight">
+            {t({ pt: 'Agenda', en: 'Events', es: 'Agenda' })}
+          </h2>
+        </div>
 
-                    {/* Featured Badge */}
-                    {event.featured && (
-                      <div className="absolute top-4 right-4 bg-[#8B5CF6] text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
-                        {t({ pt: 'Destaque', en: 'Featured', es: 'Destacado' })}
-                      </div>
-                    )}
+        {/* Grid de eventos — 2 colunas no desktop */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {displayEvents.map((event) => (
+            <div key={event.id} className="bg-white rounded-xl overflow-hidden flex hover:shadow-lg transition-shadow duration-300">
+
+              {/* Imagem do artista — quadrada, lado esquerdo */}
+              <div className="w-[180px] sm:w-[220px] flex-shrink-0 overflow-hidden">
+                <img
+                  src={event.coverImage || 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=85'}
+                  alt={t(event.title)}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+
+              {/* Informações — lado direito */}
+              <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
+
+                {/* Data + horário */}
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <CalendarDays className="w-4 h-4 text-[#6ABD45] flex-shrink-0" />
+                    <span className="text-sm font-bold text-black">
+                      {formatDate(event.date)} <span className="text-[#666666] font-medium">| {event.time}</span>
+                    </span>
                   </div>
 
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-white text-xl font-bold mb-3 group-hover:text-[#CCFF00] transition-colors">
-                      {t(event.title)}
-                    </h3>
-                    <p className="text-white/60 text-sm mb-4 line-clamp-2">
-                      {t(event.description)}
-                    </p>
+                  <h3 className="font-display font-black text-lg sm:text-xl text-black mb-2 leading-tight uppercase">
+                    {t(event.title)}
+                  </h3>
 
-                    {/* Info */}
-                    <div className="space-y-2 mb-6">
-                      <div className="flex items-center gap-2 text-white/50 text-sm">
-                        <Clock className="w-4 h-4 text-[#CCFF00]" />
-                        <span>{event.time}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-white/50 text-sm">
-                        <MapPin className="w-4 h-4 text-[#CCFF00]" />
-                        <span>{event.location}</span>
-                      </div>
-                    </div>
+                  <p className="text-sm text-[#666666] leading-relaxed line-clamp-3 mb-3">
+                    {t(event.shortDescription || { pt: '', en: '', es: '' })}
+                  </p>
 
-                    {/* Button */}
-                    {event.ticketLink && (
-                      <a
-                        href={event.ticketLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full py-3 bg-white/10 text-white font-bold rounded-lg hover:bg-[#CCFF00] hover:text-black transition-all"
-                      >
-                        <Ticket className="w-4 h-4" />
-                        {t(translations.buttons.buyTickets)}
-                      </a>
-                    )}
+                  <div className="flex items-center gap-1.5 text-xs text-[#666666]">
+                    <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                    <span>{event.venue} | {event.city}</span>
                   </div>
                 </div>
-              );
-            })}
-          </div>
 
-          {/* View All Button */}
-          {upcomingEvents.length > 6 && (
-            <div className="text-center mt-12">
-              <Button
-                variant="outline"
-                className="px-8 py-6 border-white/30 text-white hover:bg-white/10 rounded-full"
-              >
-                {t(translations.buttons.seeAll)}
-              </Button>
+                {/* Botões CTA */}
+                <div className="flex flex-col sm:flex-row gap-2 mt-5">
+                  <a
+                    href={event.ticketUrl || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 px-5 py-2.5 bg-[#4A4A4A] hover:bg-black text-white rounded-full text-xs font-semibold uppercase tracking-wider transition-all group font-sans"
+                  >
+                    {t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </a>
+
+                  <a
+                    href={event.vipUrl || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 px-5 py-2.5 border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#4A4A4A] hover:text-white rounded-full text-xs font-semibold uppercase tracking-wider transition-all group font-sans"
+                  >
+                    {t({ pt: 'Mesas e Camarotes', en: 'VIP Tables', es: 'Mesas VIP' })}
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </a>
+                </div>
+
+              </div>
             </div>
-          )}
+          ))}
         </div>
+
+        {/* Ver todos os eventos */}
+        {activeEvents.length > 2 && (
+          <div className="text-center mt-10">
+            <button className="flex items-center gap-2 mx-auto px-8 py-3.5 border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#4A4A4A] hover:text-white rounded-full text-sm font-semibold uppercase tracking-wider transition-all font-sans">
+              {t({ pt: 'Ver todos os eventos', en: 'See all events', es: 'Ver todos los eventos' })}
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
       </div>
     </section>
   );

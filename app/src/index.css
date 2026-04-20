@@ -1,153 +1,231 @@
+/* =====================================================
+   QUERO MAIS — Design System Global
+   Benchmark: greenvalleybr.com (análise 18/04/2026)
+   Fontes: Montserrat + Inter (Google Fonts)
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* =====================================================
+   CSS VARIABLES — Tokens de Design
+   ===================================================== */
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 72 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 263 70% 50%;
+    /* Shadcn/ui compatibility */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 98 52% 52%;           /* #6ABD45 Verde Marca */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 29%;          /* #4A4A4A Cinza botão */
     --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 72 100% 50%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 95%;
     --accent-foreground: 0 0% 0%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 72 100% 50%;
-    --radius: 0.75rem;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 98 52% 52%;
+    --radius: 0.5rem;
+
+    /* Sidebar (admin) */
     --sidebar-background: 0 0% 5%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 72 100% 50%;
-    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-primary: 98 52% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 10%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 72 100% 50%;
+    --sidebar-ring: 98 52% 52%;
+
+    /* === TOKENS QM ESPECÍFICOS === */
+    --qm-green: #6ABD45;            /* Verde marca */
+    --qm-green-dark: #4e9630;       /* Verde escuro hover */
+    --qm-dark: #0A0A0A;             /* Hero, footer, overlays */
+    --qm-charcoal: #3D4246;         /* Blocos institucionais carvão */
+    --qm-gray-bg: #F2F2F2;          /* Fundo seção Eventos */
+    --qm-gray-card: #F7F7F7;        /* Card fundo */
+    --qm-btn-dark: #4A4A4A;         /* Botões pill escuros */
+    --qm-text: #000000;             /* Texto principal */
+    --qm-text-muted: #666666;       /* Texto secundário */
+    --qm-border: #E5E5E5;           /* Bordas sutis */
   }
 }
 
+/* =====================================================
+   BASE GLOBAL
+   ===================================================== */
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
-  
+
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  
+
   body {
-    @apply bg-black text-white antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-white text-black;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  /* Scrollbar premium */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #6ABD45;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4e9630;
+  }
+
+  /* Seleção de texto */
+  ::selection {
+    background: #6ABD45;
+    color: white;
+  }
+
+  /* Focus visible acessível */
+  :focus-visible {
+    outline: 2px solid #6ABD45;
+    outline-offset: 2px;
   }
 }
 
-@layer utilities {
-  /* Custom scrollbar */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+/* =====================================================
+   COMPONENTES UTILITÁRIOS
+   ===================================================== */
+@layer components {
+
+  /* Container padrão (~1280px) */
+  .qm-container {
+    @apply w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8;
   }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+
+  /* Seção espaço padrão */
+  .qm-section {
+    @apply py-24 lg:py-32;
   }
-  
-  /* Line clamp utilities */
+
+  /* Label de seção (UPPERCASE, verde, pequeno) */
+  .qm-section-label {
+    font-family: 'Inter', sans-serif;
+    @apply text-xs font-semibold uppercase tracking-[0.15em] text-[#6ABD45] mb-3;
+  }
+
+  /* Título principal de seção */
+  .qm-section-title {
+    font-family: 'Montserrat', sans-serif;
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold text-black;
+  }
+
+  /* Título de seção invertido (para fundos escuros) */
+  .qm-section-title-light {
+    font-family: 'Montserrat', sans-serif;
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold text-white;
+  }
+
+  /* Botão pill primário (estilo GV — cinza escuro) */
+  .qm-btn-pill {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-[#4A4A4A] text-white
+           rounded-full text-sm font-semibold transition-all duration-200
+           hover:bg-[#2a2a2a] hover:gap-3 active:scale-[0.98];
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Botão pill outline */
+  .qm-btn-pill-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-[#4A4A4A] text-[#4A4A4A]
+           rounded-full text-sm font-semibold transition-all duration-200
+           hover:bg-[#4A4A4A] hover:text-white active:scale-[0.98];
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Botão verde marca */
+  .qm-btn-green {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-[#6ABD45] text-white
+           rounded-full text-sm font-semibold transition-all duration-200
+           hover:bg-[#4e9630] active:scale-[0.98];
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Card base */
+  .qm-card {
+    @apply bg-white border border-[#E5E5E5] rounded-lg overflow-hidden
+           transition-shadow duration-300 hover:shadow-lg;
+  }
+
+  /* Overlay escuro para hero/imagens */
+  .qm-hero-overlay {
+    @apply absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60;
+  }
+
+  /* Bloco institucional carvão */
+  .qm-block-charcoal {
+    background-color: #3D4246;
+  }
+
+  /* Clamp de texto */
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
-  /* Animation utilities */
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-  
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-  
-  @keyframes pulse-glow {
-    0%, 100% {
-      box-shadow: 0 0 20px rgba(204, 255, 0, 0.3);
-    }
-    50% {
-      box-shadow: 0 0 40px rgba(204, 255, 0, 0.6);
-    }
-  }
-  
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-  
-  /* Gradient text */
-  .text-gradient {
-    background: linear-gradient(135deg, #CCFF00 0%, #8B5CF6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  /* Glass effect */
-  .glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Hover lift effect */
-  .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  }
 }
 
-/* Selection color */
-::selection {
-  background: rgba(204, 255, 0, 0.3);
-  color: white;
-}
+/* =====================================================
+   ANIMAÇÕES
+   ===================================================== */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out both;
+  }
 
-/* Focus styles */
-:focus-visible {
-  outline: 2px solid #CCFF00;
-  outline-offset: 2px;
-}
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out both;
+  }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }

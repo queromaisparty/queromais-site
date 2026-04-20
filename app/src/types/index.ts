@@ -29,16 +29,27 @@ export interface AdminUser {
 
 export interface Event {
   id: string;
+  slug: string;
   title: TranslatableContent;
+  shortDescription?: TranslatableContent;
   description: TranslatableContent;
   coverImage: string;
   date: string;
   time: string;
-  location: string;
+  /** @deprecated use venue+city */
+  location?: string;
+  venue: string;
+  city: string;
+  ticketUrl?: string;
+  vipUrl?: string;
+  /** @deprecated use ticketUrl */
   ticketLink?: string;
   gallery: string[];
   status: 'active' | 'inactive' | 'finished';
   featured: boolean;
+  order: number;
+  seoTitle?: TranslatableContent;
+  seoDescription?: TranslatableContent;
   createdAt: string;
   updatedAt: string;
 }
@@ -93,6 +104,7 @@ export interface DJ {
   name: string;
   bio: TranslatableContent;
   image: string;
+  resident: boolean;
   socialLinks: SocialLink[];
 }
 
@@ -257,7 +269,7 @@ export interface Banner {
 
 export interface HomeSection {
   id: string;
-  type: 'hero' | 'events' | 'fica_mais' | 'storytelling' | 'music' | 'gallery' | 'shop' | 'contact';
+  type: 'hero' | 'events' | 'fica_mais' | 'sobre' | 'music' | 'voce' | 'shop' | 'contact';
   title: TranslatableContent;
   subtitle: TranslatableContent;
   content: TranslatableContent;
