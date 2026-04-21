@@ -1,90 +1,82 @@
-import { ChevronRight } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useEffect, useRef } from 'react';
 
 export function HeroSection() {
-  const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const scrollTo = (id: string) => {
-    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  useEffect(() => {
+    let animationFrameId: number;
+    
+    // Força o vídeo a carregar seus dados para termos a duração correta
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.pause();
+    }
+
+    const handleScroll = () => {
+      if (!containerRef.current || !videoRef.current) return;
+      
+      const { top, height } = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // top = distância do topo do container até o topo da tela
+      // Quando top = 0, o scroll "começa".
+      const scrollDistance = -top;
+      const maxScroll = height - windowHeight;
+      
+      let progress = scrollDistance / maxScroll;
+      
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+      
+      if (!isNaN(videoRef.current.duration) && videoRef.current.duration > 0) {
+        animationFrameId = requestAnimationFrame(() => {
+          if (videoRef.current) {
+            videoRef.current.currentTime = progress * videoRef.current.duration;
+          }
+        });
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Hook adicional para caso a duração só carregue um tempo depois:
+    const handleLoadedMetadata = () => handleScroll();
+    const currentVideo = videoRef.current;
+    
+    if (currentVideo) {
+      currentVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
+    }
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (currentVideo) {
+        currentVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      }
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   return (
-    <section id="home" className="relative w-full h-screen min-h-[600px] max-h-[900px] overflow-hidden">
-
-      {/* Imagem de fundo */}
-      <div className="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1920&q=85"
-          alt="Quero Mais - Experiência Premium de Eventos"
-          className="w-full h-full object-cover object-center"
-        />
-        {/* Overlay gradiente sutil — escurece topo e rodapé para leitura */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70" />
-      </div>
-
-      {/* Conteúdo centralizado */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 text-center">
-
-        {/* Logo/Marca — grande, central */}
-        <div className="mb-8 animate-fade-in">
-          <h1 className="font-display font-black text-white uppercase tracking-tight leading-none"
-            style={{ fontSize: 'clamp(3rem, 10vw, 8rem)' }}>
-            QUERO<span className="text-[#C2185B]">+</span>
-          </h1>
-          <p className="text-white/80 font-sans font-semibold uppercase tracking-[0.3em] text-sm sm:text-base mt-2">
-            {t({
-              pt: 'Experiências que marcam',
-              en: 'Experiences that mark',
-              es: 'Experiencias que marcan',
-            })}
-          </p>
-        </div>
-
-        {/* Badge de autoridade */}
-        <div className="mb-10 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          <p className="text-white font-sans font-black uppercase text-lg sm:text-2xl tracking-wide">
-            {t({
-              pt: 'O melhor da música eletrônica',
-              en: 'The best of electronic music',
-              es: 'Lo mejor de la música electrónica',
-            })}
-          </p>
-          <p className="text-[#C2185B] font-sans font-bold uppercase text-base sm:text-xl tracking-wide mt-1">
-            {t({
-              pt: 'Rio de Janeiro e mundo',
-              en: 'Rio de Janeiro and the world',
-              es: 'Rio de Janeiro y el mundo',
-            })}
-          </p>
-        </div>
-
-        {/* CTAs duplos */}
-        <div className="flex flex-col sm:flex-row gap-3 animate-slide-up" style={{ animationDelay: '0.35s' }}>
-          <button
-            onClick={() => scrollTo('#eventos')}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#4A4A4A] hover:bg-black text-white rounded-none font-semibold font-sans text-sm uppercase tracking-wider transition-all duration-200 group"
-          >
-            {t({ pt: 'Ver Próximos Eventos', en: 'See Events', es: 'Ver Eventos' })}
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </button>
-
-          <button
-            onClick={() => scrollTo('#voce')}
-            className="flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/80 text-white hover:bg-white hover:text-black rounded-none font-semibold font-sans text-sm uppercase tracking-wider transition-all duration-200"
-          >
-            {t({ pt: 'Você na Quero Mais?', en: 'See Gallery', es: 'Ver Galería' })}
-          </button>
+    <section ref={containerRef} id="home" className="relative w-full h-[200vh] bg-[#050505]">
+      {/* Wrapper travado que gruda na tela */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden">
+        
+        {/* Background com vídeo scrolável */}
+        <div className="absolute inset-0">
+          <video
+            ref={videoRef}
+            src="/hero-scroll.mp4"
+            className="w-full h-full object-cover object-center"
+            muted
+            playsInline
+            preload="auto"
+          />
         </div>
 
       </div>
-
-
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 sm:hidden">
-        <div className="w-[1px] h-12 bg-white/40 mx-auto animate-pulse" />
-      </div>
-
     </section>
   );
 }

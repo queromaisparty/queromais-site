@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useData } from '@/context/DataContext';
 import { MessageSquare, HelpCircle, Mail, Phone, MapPin, CheckCircle, Trash2, Plus, Edit2, Check, X } from 'lucide-react';
-import { ContactMessage, FAQ } from '@/types';
+import type { ContactMessage, FAQ } from '@/types';
 
 type Tab = 'inbox' | 'faq' | 'info';
 
