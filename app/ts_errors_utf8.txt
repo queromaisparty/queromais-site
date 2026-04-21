@@ -1,0 +1,40 @@
+﻿src/admin/components/AdminContact.tsx(1,10): error TS6133: 'Mail' is declared but its value is never read.
+src/admin/components/AdminFicaMais.tsx(1,10): error TS6133: 'Sparkles' is declared but its value is never read.
+src/admin/components/AdminMusic.tsx(1,10): error TS6133: 'Music' is declared but its value is never read.
+src/admin/components/AdminShop.tsx(1,10): error TS6133: 'ShoppingBag' is declared but its value is never read.
+src/admin/components/AdminSobre.tsx(1,10): error TS6133: 'Info' is declared but its value is never read.
+src/pages/EventosPage.tsx(4,65): error TS6133: 'Filter' is declared but its value is never read.
+src/pages/EventosPage.tsx(11,9): error TS6133: 't' is declared but its value is never read.
+src/pages/EventosPage.tsx(118,137): error TS2339: Property 'name' does not exist on type 'string'.
+src/pages/EventosPage.tsx(169,153): error TS2339: Property 'city' does not exist on type 'string'.
+src/pages/EventosPage.tsx(233,96): error TS2339: Property 'name' does not exist on type 'string'.
+src/pages/EventosPage.tsx(234,92): error TS2339: Property 'address' does not exist on type 'string'.
+src/pages/EventosPage.tsx(234,151): error TS2339: Property 'city' does not exist on type 'string'.
+src/pages/FicaMaisPage.tsx(6,42): error TS2339: Property 'role' does not exist on type 'DJ'.
+src/pages/FicaMaisPage.tsx(54,34): error TS2339: Property 'imageUrl' does not exist on type 'DJ'.
+src/pages/FicaMaisPage.tsx(54,97): error TS2339: Property 'pt' does not exist on type 'never'.
+src/pages/FicaMaisPage.tsx(59,27): error TS2339: Property 'genre' does not exist on type 'DJ'.
+src/pages/FicaMaisPage.tsx(62,72): error TS2339: Property 'pt' does not exist on type 'never'.
+src/pages/FicaMaisPage.tsx(65,28): error TS2339: Property 'soundcloudUrl' does not exist on type 'DJ'.
+src/pages/FicaMaisPage.tsx(65,57): error TS2339: Property 'soundcloudUrl' does not exist on type 'DJ'.
+src/pages/FicaMaisPage.tsx(66,28): error TS2339: Property 'instagramUrl' does not exist on type 'DJ'.
+src/pages/FicaMaisPage.tsx(66,56): error TS2339: Property 'instagramUrl' does not exist on type 'DJ'.
+src/pages/MusicPage.tsx(79,28): error TS2339: Property 'soundcloudUrl' does not exist on type 'DJSet'.
+src/pages/MusicPage.tsx(82,39): error TS2339: Property 'soundcloudUrl' does not exist on type 'DJSet'.
+src/pages/MusicPage.tsx(110,50): error TS2339: Property 'spotifyUrl' does not exist on type 'Playlist'.
+src/pages/MusicPage.tsx(144,38): error TS2339: Property 'imageUrl' does not exist on type 'DJ'.
+src/pages/MusicPage.tsx(144,101): error TS2339: Property 'pt' does not exist on type 'never'.
+src/pages/MusicPage.tsx(148,76): error TS2339: Property 'pt' does not exist on type 'never'.
+src/pages/MusicPage.tsx(150,86): error TS2339: Property 'genre' does not exist on type 'DJ'.
+src/pages/VoceNaQMPage.tsx(13,16): error TS2339: Property 'date' does not exist on type 'GalleryAlbum'.
+src/pages/VoceNaQMPage.tsx(13,45): error TS2339: Property 'date' does not exist on type 'GalleryAlbum'.
+src/pages/VoceNaQMPage.tsx(55,81): error TS2339: Property 'photos' does not exist on type 'GalleryAlbum'.
+src/pages/VoceNaQMPage.tsx(62,43): error TS2339: Property 'date' does not exist on type 'GalleryAlbum'.
+src/pages/VoceNaQMPage.tsx(87,43): error TS2339: Property 'date' does not exist on type 'GalleryAlbum'.
+src/pages/VoceNaQMPage.tsx(87,95): error TS2339: Property 'photos' does not exist on type 'GalleryAlbum'.
+src/pages/VoceNaQMPage.tsx(94,31): error TS2339: Property 'photos' does not exist on type 'GalleryAlbum'.
+src/pages/VoceNaQMPage.tsx(94,43): error TS7006: Parameter 'photoUrl' implicitly has an 'any' type.
+src/pages/VoceNaQMPage.tsx(94,53): error TS7006: Parameter 'idx' implicitly has an 'any' type.
+src/sections/VoceSection.tsx(1,20): error TS6133: 'useMemo' is declared but its value is never read.
+src/sections/VoceSection.tsx(43,7): error TS2322: Type '{ id: string; url: string; caption: string; }[]' is not assignable to type '{ caption: string; id: string; url: string; downloadAllowed: boolean; source: "upload" | "url" | "gdrive"; gdriveId?: string | undefined; width?: number | undefined; height?: number | undefined; }[]'.
+  Type '{ id: string; url: string; caption: string; }' is missing the following properties from type '{ caption: string; id: string; url: string; downloadAllowed: boolean; source: "upload" | "url" | "gdrive"; gdriveId?: string | undefined; width?: number | undefined; height?: number | undefined; }': downloadAllowed, source
