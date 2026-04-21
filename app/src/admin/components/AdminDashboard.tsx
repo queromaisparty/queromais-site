@@ -17,6 +17,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { toast } from 'sonner';
+import { AdminGallery } from './AdminGallery';
 
 type AdminSection = 
   | 'dashboard'
@@ -214,7 +215,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
           </div>
         )}
 
-        {currentSection !== 'dashboard' && (
+        {currentSection !== 'dashboard' && currentSection !== 'gallery' && (
           <div className="p-8">
             <div className="flex items-center justify-between mb-8">
               <div>
@@ -246,6 +247,12 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
                 })}
               </p>
             </div>
+          </div>
+        )}
+
+        {currentSection === 'gallery' && (
+          <div className="p-8">
+            <AdminGallery />
           </div>
         )}
       </main>

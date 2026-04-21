@@ -153,6 +153,10 @@ export interface GalleryAlbum {
   coverImage: string;
   images: GalleryImage[];
   videos: GalleryVideo[];
+  category?: string;
+  order: number;
+  featured: boolean;
+  status: 'active' | 'inactive';
   createdAt: string;
 }
 
@@ -161,6 +165,10 @@ export interface GalleryImage {
   url: string;
   caption?: TranslatableContent;
   downloadAllowed: boolean;
+  source: 'upload' | 'url' | 'gdrive';
+  gdriveId?: string;
+  width?: number;
+  height?: number;
 }
 
 export interface GalleryVideo {
@@ -169,6 +177,13 @@ export interface GalleryVideo {
   thumbnail: string;
   caption?: TranslatableContent;
   type: 'reel' | 'video';
+}
+
+export interface GoogleDriveConfig {
+  folderId: string;
+  folderName: string;
+  connected: boolean;
+  lastSync?: string;
 }
 
 // ============================================
