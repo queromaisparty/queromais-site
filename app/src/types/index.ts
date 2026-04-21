@@ -116,19 +116,57 @@ export interface PartyDate {
 // STORYTELLING
 // ============================================
 
-export interface Storytelling {
+export interface TimelineItem {
   id: string;
-  history: TranslatableContent;
-  mission: TranslatableContent;
-  values: TranslatableContent;
-  founder: FounderInfo;
-  images: string[];
+  year?: string;
+  title: string;
+  description: string;
+  order: number;
 }
 
-export interface FounderInfo {
-  name: string;
-  bio: TranslatableContent;
-  image: string;
+export interface StatItem {
+  id: string;
+  value: string;
+  label: string;
+  order: number;
+}
+
+export interface Storytelling {
+  id: string;
+  // Hero
+  heroTitle: string;
+  heroTagline: string;
+  // Stats (vazio até números reais serem confirmados)
+  stats: StatItem[];
+  // Origem e Propósito
+  origemTitle: string;
+  origemText1: string;
+  origemText2: string;
+  origemImage: string;
+  // Essência
+  essenciaTitle: string;
+  essenciaText1: string;
+  essenciaText2: string;
+  essenciaImage: string;
+  tags: string[];
+  // Símbolo: A Borboleta
+  simboloTitle: string;
+  simboloText1: string;
+  simboloText2: string;
+  simboloImage: string;
+  // Narrativa Contínua
+  narrativaTitle: string;
+  narrativaIntro: string;
+  timeline: TimelineItem[];
+  // CTA Final
+  ctaText: string;
+  ctaButtonLabel: string;
+  ctaButtonLink: string;
+  // Resumo da Home
+  homeTitle: string;
+  homeText1: string;
+  homeText2: string;
+  homeCTA: string;
 }
 
 // ============================================
