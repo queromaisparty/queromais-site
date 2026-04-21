@@ -25,7 +25,7 @@ export function VoceNaQMPage() {
                  <Camera className="w-5 h-5" /> Momentos Eternizados
                </p>
                <h1 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
-                 Sua Vibe na <span className="text-[#E91E8C]">Pista.</span>
+                 VOCÊ NA <span className="text-[#E91E8C]">QUERO MAIS.</span>
                </h1>
                <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
                  Encontre suas fotos, relembre edições passadas e veja tudo o que rolou pelos olhos dos nossos fotógrafos oficiais.

@@ -57,7 +57,7 @@ export function EventosPage() {
             <div className="mb-12 border-b border-gray-300 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
                 <h1 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
-                  Nossa <span className="text-[#E91E8C]">Agenda</span>
+                  Próximos <span className="text-[#E91E8C]">Eventos</span>
                 </h1>
                 <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
                   Programe-se para as próximas noites inesquecíveis ou explore nosso histórico de eventos épicos.
@@ -72,10 +72,10 @@ export function EventosPage() {
                     placeholder="Buscar evento..." 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-black text-sm focus:border-[#E91E8C] focus:outline-none transition-colors shadow-sm"
+                    className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-none text-black text-sm focus:border-[#E91E8C] focus:outline-none transition-colors shadow-sm"
                   />
                 </div>
-                <div className="flex bg-white border border-gray-300 rounded-xl p-1 w-full sm:w-auto shadow-sm">
+                <div className="flex bg-white border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm">
                   <button
                     onClick={() => setActiveFilter('upcoming')}
                     className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeFilter === 'upcoming' ? 'bg-[#E91E8C] text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
@@ -137,7 +137,7 @@ export function EventosPage() {
                      <div 
                        key={e.id}
                        onClick={() => setSelectedEvent(e)}
-                       className={`group cursor-pointer bg-white rounded-2xl overflow-hidden border transition-all duration-300 shadow-md flex flex-col h-full ${isPast ? 'border-gray-200 hover:border-gray-300 opacity-90' : 'border-gray-200 hover:border-[#E91E8C]/50 hover:shadow-xl'}`}
+                       className={`group cursor-pointer bg-white rounded-none overflow-hidden border transition-all duration-300 shadow-md flex flex-col h-full ${isPast ? 'border-gray-200 hover:border-gray-300 opacity-90' : 'border-gray-200 hover:border-[#E91E8C]/50 hover:shadow-xl'}`}
                      >
                        <div className="aspect-[16/10] overflow-hidden relative">
                          <img src={e.coverImage} alt={getTitle(e.title)} className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${isPast ? 'grayscale opacity-80' : ''}`} />
@@ -206,7 +206,7 @@ export function EventosPage() {
                   {getTitle(selectedEvent.description)}
                 </p>
 
-                <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 sm:p-8 space-y-6 mb-8">
+                <div className="bg-white border border-gray-200 shadow-sm rounded-none p-6 sm:p-8 space-y-6 mb-8">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl bg-[#F2F2F2] flex items-center justify-center shrink-0">
                       <Calendar className="w-5 h-5 text-[#E91E8C]" />

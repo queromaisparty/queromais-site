@@ -15,19 +15,7 @@ interface PhotoItem {
   caption?: string;
 }
 
-/* ───────────────────────────────────────────────────────────────────
-   FOTOS DEMO — usadas quando o CMS está vazio
-─────────────────────────────────────────────────────────────────── */
-const DEMO_PHOTOS: PhotoItem[] = [
-  { id: 'd1', url: 'https://images.unsplash.com/photo-1429962599919-14d18dc9d04f?w=900&q=90', caption: 'DJ Set' },
-  { id: 'd2', url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=85', caption: 'Festival' },
-  { id: 'd3', url: 'https://images.unsplash.com/photo-1571266028243-d220c13c7d0e?w=700&q=85', caption: 'Crowd' },
-  { id: 'd4', url: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=900&q=90', caption: 'Showtime' },
-  { id: 'd5', url: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=700&q=85', caption: 'Vibes' },
-  { id: 'd6', url: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=700&q=85', caption: 'Nightlife' },
-  { id: 'd7', url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=700&q=85', caption: 'Music' },
-  { id: 'd8', url: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=900&q=90', caption: 'Stage' },
-];
+
 
 export function VoceSection() {
   const { galleryAlbums } = useData();
@@ -38,7 +26,7 @@ export function VoceSection() {
   const displayPhotos = useMemo<PhotoItem[]>(() => {
     const realAlbums = galleryAlbums.filter(a => a.status === 'active' || !a.status);
 
-    let pool: PhotoItem[] = realAlbums.flatMap(album =>
+    const pool: PhotoItem[] = realAlbums.flatMap(album =>
       album.images.map(img => ({
         id: img.id,
         url: img.url,
@@ -46,9 +34,6 @@ export function VoceSection() {
       }))
     );
 
-    if (pool.length === 0) {
-      pool = DEMO_PHOTOS;
-    }
 
     // Fisher-Yates shuffle
     const shuffled = [...pool];
@@ -94,20 +79,28 @@ export function VoceSection() {
         </div>
       </div>
 
-      {/* ── Grade mosaico Masonry Responsiva ── */}
+      {/* ── Grade mosaico Masonry Responsiva ou Estado Vazio ── */}
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8" ref={containerRef}>
-        <MasonryGrid>
-          {displayPhotos.map((photo, index) => (
-             <GalleryCard
-               key={photo.id || index}
-               imageUrl={photo.url}
-               caption={photo.caption}
-               index={index}
-               isVisible={isItemVisible(index)}
-               onClick={() => openLight(index)}
-             />
-          ))}
-        </MasonryGrid>
+        {displayPhotos.length === 0 ? (
+           <div className="py-20 flex flex-col items-center justify-center opacity-50">
+              <ImageIcon className="w-16 h-16 text-gray-400 mb-6" />
+              <h3 className="text-2xl font-bold text-white mb-2">Sem Álbuns</h3>
+              <p className="text-gray-500 text-center">Ainda não há fotos publicadas no sistema.</p>
+           </div>
+        ) : (
+          <MasonryGrid>
+            {displayPhotos.map((photo, index) => (
+               <GalleryCard
+                 key={photo.id || index}
+                 imageUrl={photo.url}
+                 caption={photo.caption}
+                 index={index}
+                 isVisible={isItemVisible(index)}
+                 onClick={() => openLight(index)}
+               />
+            ))}
+          </MasonryGrid>
+        )}
       </div>
 
       {/* ── Botão Ver Mais Álbuns ── */}

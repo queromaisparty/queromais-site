@@ -13,7 +13,8 @@ import type {
   ContactInfo,
   Banner,
   HomeSection,
-  SiteConfig
+  SiteConfig,
+  ContactMessage
 } from '@/types';
 
 interface DataContextType {
@@ -63,6 +64,12 @@ interface DataContextType {
   updateFAQ: (id: string, faq: Partial<FAQ>) => void;
   deleteFAQ: (id: string) => void;
   
+  // Mensagens de Contato
+  contactMessages: ContactMessage[];
+  addContactMessage: (msg: Omit<ContactMessage, 'id' | 'createdAt'>) => void;
+  updateContactMessage: (id: string, msg: Partial<ContactMessage>) => void;
+  deleteContactMessage: (id: string) => void;
+  
   // Contato
   contactInfo: ContactInfo;
   updateContactInfo: (info: Partial<ContactInfo>) => void;
@@ -97,6 +104,7 @@ const STORAGE_KEYS = {
   tickets: 'qm-tickets',
   faqs: 'qm-faqs',
   contact: 'qm-contact',
+  contactMessages: 'qm-contact-messages',
   banners: 'qm-banners',
   homeSections: 'qm-home-sections',
   siteConfig: 'qm-site-config'
@@ -286,6 +294,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [faqs, setFaqs] = useState<FAQ[]>(defaultFAQs);
   const [contactInfo, setContactInfo] = useState<ContactInfo>(defaultContactInfo);
+  const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [banners, setBanners] = useState<Banner[]>([]);
   const [homeSections, setHomeSections] = useState<HomeSection[]>(defaultHomeSections);
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(defaultSiteConfig);
@@ -334,6 +343,9 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
             setContactInfo(parsed);
           }
         }
+
+        const storedMessages = localStorage.getItem(STORAGE_KEYS.contactMessages);
+        if (storedMessages) setContactMessages(JSON.parse(storedMessages));
 
         const storedBanners = localStorage.getItem(STORAGE_KEYS.banners);
         if (storedBanners) setBanners(JSON.parse(storedBanners));
@@ -567,11 +579,40 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     });
   }, [saveToStorage]);
 
-  // Contato
+  // Contato e Mensagens
   const updateContactInfo = useCallback((info: Partial<ContactInfo>) => {
     setContactInfo(prev => {
       const updated = { ...prev, ...info };
       saveToStorage(STORAGE_KEYS.contact, updated);
+      return updated;
+    });
+  }, [saveToStorage]);
+
+  const addContactMessage = useCallback((msg: Omit<ContactMessage, 'id' | 'createdAt'>) => {
+    const newMessage: ContactMessage = {
+      ...msg,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString()
+    };
+    setContactMessages(prev => {
+      const updated = [...prev, newMessage];
+      saveToStorage(STORAGE_KEYS.contactMessages, updated);
+      return updated;
+    });
+  }, [saveToStorage]);
+
+  const updateContactMessage = useCallback((id: string, msgData: Partial<ContactMessage>) => {
+    setContactMessages(prev => {
+      const updated = prev.map(m => m.id === id ? { ...m, ...msgData } : m);
+      saveToStorage(STORAGE_KEYS.contactMessages, updated);
+      return updated;
+    });
+  }, [saveToStorage]);
+
+  const deleteContactMessage = useCallback((id: string) => {
+    setContactMessages(prev => {
+      const updated = prev.filter(m => m.id !== id);
+      saveToStorage(STORAGE_KEYS.contactMessages, updated);
       return updated;
     });
   }, [saveToStorage]);
@@ -630,6 +671,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       products, tickets, addProduct, updateProduct, deleteProduct,
       faqs, addFAQ, updateFAQ, deleteFAQ,
       contactInfo, updateContactInfo,
+      contactMessages, addContactMessage, updateContactMessage, deleteContactMessage,
       banners, addBanner, updateBanner, deleteBanner,
       homeSections, updateHomeSection,
       siteConfig, updateSiteConfig

@@ -261,7 +261,7 @@ export interface ContactInfo {
   address?: string;
 }
 
-export interface ContactForm {
+export interface ContactMessage {
   id: string;
   name: string;
   email: string;
