@@ -24,6 +24,21 @@ export interface AdminUser {
 }
 
 // ============================================
+// INGRESSOS — multi-plataforma
+// ============================================
+
+export type TicketPlatform = 'sympla' | 'ingresse' | 'shotgun' | 'bilheteria_digital' | 'custom';
+
+export interface TicketLink {
+  id: string;
+  platform: TicketPlatform;
+  label: string;           // Ex: "Ingresso Normal", "VIP", "Camarote"
+  url: string;
+  price?: number;          // Preço (opcional, só exibição)
+  type: 'free' | 'paid';
+}
+
+// ============================================
 // EVENTOS
 // ============================================
 
@@ -33,23 +48,43 @@ export interface Event {
   title: TranslatableContent;
   shortDescription?: TranslatableContent;
   description: TranslatableContent;
+
+  // Mídia
   coverImage: string;
-  date: string;
-  time: string;
+  flyer?: string;            // imagem de flyer separada da capa
+  gallery: string[];
+
+  // Data e Local
+  date: string;              // ISO date: "2025-12-31"
+  time: string;              // "23:00"
+  endTime?: string;          // "06:00" (opcional)
   /** @deprecated use venue+city */
   location?: string;
   venue: string;
   city: string;
+  state?: string;
+  address?: string;
+
+  // Ingressos — multi-plataforma
+  ticketLinks: TicketLink[];
+  /** @deprecated use ticketLinks[0].url */
   ticketUrl?: string;
+  /** @deprecated use ticketLinks vipUrl typed */
   vipUrl?: string;
   /** @deprecated use ticketUrl */
   ticketLink?: string;
-  gallery: string[];
-  status: 'active' | 'inactive' | 'finished';
+
+  // Status e Visibilidade
+  status: 'draft' | 'active' | 'published' | 'inactive' | 'finished' | 'cancelled';
   featured: boolean;
+  featuredHome: boolean;     // destaque específico na seção Hero da Home
   order: number;
+
+  // SEO
   seoTitle?: TranslatableContent;
   seoDescription?: TranslatableContent;
+
+  // Meta
   createdAt: string;
   updatedAt: string;
 }
@@ -148,8 +183,8 @@ export interface SocialLink {
 export interface GalleryAlbum {
   id: string;
   eventId?: string;
-  title: TranslatableContent;
-  description: TranslatableContent;
+  title: string;
+  description: string;
   coverImage: string;
   images: GalleryImage[];
   videos: GalleryVideo[];

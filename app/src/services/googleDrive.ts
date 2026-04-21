@@ -61,27 +61,40 @@ export function getGDriveDownloadUrl(fileId: string): string {
   return `https://drive.google.com/uc?export=download&id=${fileId}`;
 }
 
+import { supabase } from '@/lib/supabase';
+
+// ... (existing code, wait, I need to make sure I don't overwrite the whole file. I will use multi_replace. Or I can just replace the specific function)
+
 /**
  * Lista arquivos de imagem de uma pasta pública do Google Drive
- * Usa a API pública (sem autenticação) via Google Drive embed
- * 
- * NOTA: Para pastas públicas, usa fetch direto. Para privadas, precisaria de API Key.
+ * O processamento ocorre com segurança na Edge Function do Supabase
  */
 export async function listGDriveImages(folderId: string): Promise<GDriveFile[]> {
   try {
-    // Usar Google Drive API v3 pública para pastas compartilhadas
-    const apiUrl = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+(mimeType+contains+'image/')&fields=files(id,name,mimeType,thumbnailLink)&key=`;
-    
-    // Se não tiver API key, usar fallback via embed page scraping
-    // Para MVP, vamos aceitar que o admin cola os links individuais ou o folder ID
-    // e geramos as URLs de thumbnail
-    
-    // Fallback: Retornar lista vazia e o admin adiciona manualmente os file IDs
-    console.warn('Google Drive: Para listar automaticamente, configure uma API Key do Google Cloud.');
-    return [];
+    const { data, error } = await supabase.functions.invoke('gdrive-sync-images', {
+      body: { folderId }
+    });
+
+    if (error) {
+      console.error('Erro retornado pela Edge Function:', error);
+      throw error;
+    }
+
+    if (!data || !data.files) {
+      return [];
+    }
+
+    // Mapeia o retorno da formatação da API para o nosso GDriveFile
+    return data.files.map((f: { id: string, name: string, mimeType: string }) => ({
+      id: f.id,
+      name: f.name,
+      mimeType: f.mimeType,
+      thumbnailUrl: getGDriveImageUrl(f.id, 'thumb'),
+      fullUrl: getGDriveImageUrl(f.id, 'full')
+    }));
   } catch (error) {
-    console.error('Erro ao listar arquivos do Google Drive:', error);
-    return [];
+    console.error('Erro de conexão ao listar arquivos do Google Drive:', error);
+    throw error;
   }
 }
 
@@ -95,7 +108,7 @@ export async function validateGDriveUrl(url: string): Promise<boolean> {
   try {
     // Tenta acessar a thumbnail de um arquivo para validar
     const testUrl = `https://drive.google.com/thumbnail?id=${folderId}&sz=w100`;
-    const response = await fetch(testUrl, { method: 'HEAD', mode: 'no-cors' });
+    await fetch(testUrl, { method: 'HEAD', mode: 'no-cors' });
     return true; // Se não deu erro, provavelmente é válido
   } catch {
     return false;
@@ -112,7 +125,7 @@ export function gdriveIdsToImages(fileIds: string[]): Array<{
   gdriveId: string;
   downloadAllowed: boolean;
 }> {
-  return fileIds.map((fileId, index) => ({
+  return fileIds.map((fileId) => ({
     id: `gdrive-${fileId}`,
     url: getGDriveImageUrl(fileId, 'full'),
     source: 'gdrive' as const,

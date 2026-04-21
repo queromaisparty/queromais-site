@@ -30,9 +30,9 @@ export const translations = {
       es: 'QM Music'
     },
     gallery: {
-      pt: 'Galeria',
-      en: 'Gallery',
-      es: 'Galería'
+      pt: 'Você na Quero Mais',
+      en: 'You at QM',
+      es: 'Usted en QM'
     },
     shop: {
       pt: 'Loja',
@@ -250,12 +250,12 @@ export const translations = {
     }
   },
 
-  // Galeria
+  // Você na QM
   gallery: {
     title: {
-      pt: 'GALERIA',
-      en: 'GALLERY',
-      es: 'GALERÍA'
+      pt: 'VOCÊ NA QUERO MAIS',
+      en: 'YOU AT QM',
+      es: 'USTED EN QM'
     },
     subtitle: {
       pt: 'Momentos inesquecíveis',

@@ -22,70 +22,71 @@ const langs = [
 
 export function Header() {
   const { t, currentLanguage, setLanguage } = useLanguage();
-  const [scrolled, setScrolled]   = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const activeSection = location.pathname;
 
-  /* ── scroll handler ── */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  /* ── lock body ao abrir drawer ── */
+  const isHomePage = location.pathname === '/';
+  // navbar has dark bg when scrolled.
+  // When at top: HomePage is Dark (video), Other pages are Light (#F2F2F2)
+  const isLight = !scrolled && !isHomePage;
+
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
+  // dynamic text colors: dark on light sections (top), white otherwise
+  const txt    = isLight ? 'text-[#1A1A2E]'      : 'text-white';
+  const txtMuted = isLight ? 'text-[#1A1A2E]/60'  : 'text-white/70';
+  const border = isLight ? 'border-black/20'      : 'border-white/20';
+  const hoverBg = isLight ? 'hover:bg-black/5'    : 'hover:bg-white/10';
+
   return (
     <>
-      {/* ══════════════════════════════
-          HEADER PRINCIPAL
-      ══════════════════════════════ */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-black/60 backdrop-blur-lg shadow-xl border-b border-white/10'
-            : 'bg-gradient-to-b from-black/60 to-transparent'
+            : 'bg-transparent'
         }`}
       >
-        {/* ── LINHA SUPERIOR: logo + idioma + CTAs ── */}
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-14 lg:h-16">
 
-            {/* Hambúrguer — mobile only */}
+            {/* Hambúrguer — mobile */}
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden mr-3 p-2 -ml-2 rounded-lg text-white hover:bg-white/10 transition-colors"
+              className={`lg:hidden mr-3 p-2 -ml-2 rounded-lg transition-colors ${txt} ${hoverBg}`}
               aria-label="Abrir menu"
             >
               <Menu className="w-5 h-5" />
             </button>
 
             {/* Logo */}
-            <Link
-              to="/"
-              onClick={() => { setMenuOpen(false); }}
-              className="flex items-center shrink-0 group"
-            >
-              <span className="font-display font-black text-xl lg:text-2xl uppercase tracking-tight text-white group-hover:text-[#E91E8C] transition-colors">
+            <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center shrink-0 group">
+              <span className={`font-display font-black text-xl lg:text-2xl uppercase tracking-tight transition-colors group-hover:text-[#E91E8C] ${txt}`}>
                 QUERO<span className="text-[#E91E8C]">+</span>
               </span>
             </Link>
 
-            {/* ── Nav links desktop — centralizado ── */}
+            {/* Nav desktop */}
             <nav className="hidden lg:flex flex-1 items-center justify-center gap-0.5">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-colors rounded-lg whitespace-nowrap font-sans ${
-                    activeSection === item.href
-                      ? 'text-[#E91E8C]'
-                      : 'text-white/80 hover:text-[#E91E8C] hover:bg-white/10'
+                  className={`px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-colors rounded-lg whitespace-nowrap font-sans ${hoverBg} ${
+                    activeSection === item.href ? 'text-[#E91E8C]' : `${txtMuted} hover:text-[#E91E8C]`
                   }`}
                 >
                   {t(item.label)}
@@ -93,39 +94,34 @@ export function Header() {
               ))}
             </nav>
 
-            {/* ── Direita: idiomas + CTAs ── */}
+            {/* Direita: idiomas + CTA */}
             <div className="hidden lg:flex items-center gap-2 shrink-0 ml-4">
-              {/* Seletor de idioma */}
-              <div className="flex items-center border border-white/20 rounded-full px-2.5 py-1 gap-1 bg-white/5">
+              <div className={`flex items-center border rounded-full px-2.5 py-1 gap-1 ${border}`}>
                 {langs.map((lang, i) => (
                   <span key={lang.code} className="flex items-center">
                     <button
                       onClick={() => setLanguage(lang.code)}
                       className={`text-[11px] font-bold transition-colors font-sans ${
-                        currentLanguage === lang.code
-                          ? 'text-[#E91E8C]'
-                          : 'text-white/60 hover:text-white'
+                        currentLanguage === lang.code ? 'text-[#E91E8C]' : `${txtMuted} hover:${txt}`
                       }`}
                     >
                       {lang.label}
                     </button>
                     {i < langs.length - 1 && (
-                      <span className="text-white/20 mx-1 text-xs select-none">|</span>
+                      <span className={`mx-1 text-xs select-none ${isLight ? 'text-black/20' : 'text-white/20'}`}>|</span>
                     )}
                   </span>
                 ))}
               </div>
 
-              {/* CTA 1 */}
               <Link
                 to="/eventos"
-                onClick={() => { setMenuOpen(false); }}
+                onClick={() => setMenuOpen(false)}
                 className="flex items-center gap-1 px-4 py-2 bg-[#E91E8C] hover:bg-[#D81B80] text-white rounded-md text-xs font-semibold uppercase tracking-wide transition-all group font-sans"
               >
                 {t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}
                 <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
               </Link>
-
             </div>
 
             {/* Mobile: idioma compacto */}
@@ -135,9 +131,7 @@ export function Header() {
                   key={lang.code}
                   onClick={() => setLanguage(lang.code)}
                   className={`text-[10px] font-bold px-1.5 py-1 rounded transition-colors font-sans ${
-                    currentLanguage === lang.code
-                      ? 'text-[#E91E8C]'
-                      : 'text-white/60 hover:text-white'
+                    currentLanguage === lang.code ? 'text-[#E91E8C]' : `${txtMuted}`
                   }`}
                 >
                   {lang.label}
@@ -149,11 +143,7 @@ export function Header() {
         </div>
       </header>
 
-      {/* ══════════════════════════════
-          MOBILE DRAWER
-      ══════════════════════════════ */}
-
-      {/* Backdrop */}
+      {/* Backdrop mobile */}
       <div
         onClick={() => setMenuOpen(false)}
         className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${
@@ -161,27 +151,27 @@ export function Header() {
         }`}
       />
 
-      {/* Painel lateral */}
+      {/* Drawer mobile */}
       <div
         className={`fixed top-0 left-0 bottom-0 z-[70] w-[78vw] max-w-[320px] bg-[#111111] border-r border-[#333] shadow-2xl
                     flex flex-col transition-transform duration-300 ease-in-out ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Cabeçalho do drawer */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
           <span className="font-display font-black text-lg uppercase tracking-tight text-white">
             QUERO<span className="text-[#E91E8C]">+</span>
           </span>
           <button
+            type="button"
             onClick={() => setMenuOpen(false)}
+            aria-label="Fechar menu"
             className="p-1.5 text-white/50 hover:text-white transition-colors rounded-lg hover:bg-white/10"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Links de navegação */}
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           {navItems.map((item) => (
             <Link
@@ -195,7 +185,6 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Rodapé do drawer: CTAs */}
         <div className="px-4 pb-8 pt-4 border-t border-white/10 space-y-2.5">
           <Link
             to="/eventos"

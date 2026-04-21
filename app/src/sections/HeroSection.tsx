@@ -62,7 +62,7 @@ export function HeroSection() {
         <div className="flex flex-col sm:flex-row gap-3 animate-slide-up" style={{ animationDelay: '0.35s' }}>
           <button
             onClick={() => scrollTo('#eventos')}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#4A4A4A] hover:bg-black text-white rounded-full font-semibold font-sans text-sm uppercase tracking-wider transition-all duration-200 group"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#4A4A4A] hover:bg-black text-white rounded-none font-semibold font-sans text-sm uppercase tracking-wider transition-all duration-200 group"
           >
             {t({ pt: 'Ver Próximos Eventos', en: 'See Events', es: 'Ver Eventos' })}
             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -70,7 +70,7 @@ export function HeroSection() {
 
           <button
             onClick={() => scrollTo('#voce')}
-            className="flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/80 text-white hover:bg-white hover:text-black rounded-full font-semibold font-sans text-sm uppercase tracking-wider transition-all duration-200"
+            className="flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/80 text-white hover:bg-white hover:text-black rounded-none font-semibold font-sans text-sm uppercase tracking-wider transition-all duration-200"
           >
             {t({ pt: 'Você na Quero Mais?', en: 'See Gallery', es: 'Ver Galería' })}
           </button>

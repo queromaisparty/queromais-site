@@ -84,7 +84,7 @@ export function SobreSection() {
 
           {/* Foto + missão */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="rounded-xl overflow-hidden aspect-[4/3]">
+            <div className="rounded-none overflow-hidden aspect-[4/3]">
               <img
                 src="https://images.unsplash.com/photo-1571266028243-d220c13c7d0e?w=800&q=85"
                 alt="Quero Mais — Nossa história"
@@ -113,7 +113,7 @@ export function SobreSection() {
 
               <div className="flex flex-wrap gap-3 pt-2">
                 {['Música', 'Experiência', 'Comunidade', 'Memória'].map((tag) => (
-                  <span key={tag} className="px-4 py-2 bg-[#F2F2F2] text-[#4A4A4A] text-xs font-semibold uppercase tracking-wider rounded-full font-sans">
+                  <span key={tag} className="px-4 py-2 bg-[#F2F2F2] text-[#4A4A4A] text-xs font-semibold uppercase tracking-wider rounded-none font-sans">
                     {tag}
                   </span>
                 ))}

@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { ShoppingBag, Ticket, Plus, Minus, Trash2, CreditCard } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -54,7 +54,7 @@ export function ShopSection() {
     <section id="shop" className="py-24 lg:py-32 bg-[#0A0A0A]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header da SeÃ§Ã£o & Cart Button */}
+        {/* Header da Seção & Cart Button */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 border-b border-white/10 pb-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-3 font-sans">
@@ -67,7 +67,7 @@ export function ShopSection() {
 
           <button
             onClick={() => setShowCart(!showCart)}
-            className="flex items-center gap-3 px-6 py-3 bg-[#3D4246] hover:bg-[#2A2D30] rounded-md transition-colors group"
+            className="flex items-center gap-3 px-6 py-3 bg-[#3D4246] hover:bg-[#2A2D30] rounded-none transition-colors group"
           >
             <ShoppingBag className="w-5 h-5 text-white group-hover:text-[#C2185B] transition-colors" />
             <span className="text-white font-bold uppercase tracking-wide text-sm">
@@ -83,31 +83,31 @@ export function ShopSection() {
 
         {/* Painel do Carrinho */}
         {showCart && (
-          <div className="mb-12 bg-[#1A1A1A] rounded-2xl p-6 md:p-8">
+          <div className="mb-12 bg-[#1A1A1A] rounded-none p-6 md:p-8">
             <h3 className="font-sans font-black text-2xl text-white mb-6 uppercase">
               {t(translations.shop.cart)}
             </h3>
             
             {cart.length === 0 ? (
               <p className="text-white/50 text-center py-12 text-lg">
-                {t({ pt: 'Seu carrinho estÃ¡ vazio', en: 'Your cart is empty', es: 'Tu carrito estÃ¡ vacÃ­o' })}
+                {t({ pt: 'Seu carrinho está vazio', en: 'Your cart is empty', es: 'Tu carrito está vacío' })}
               </p>
             ) : (
               <>
                 <div className="space-y-4 mb-8">
                   {cart.map((item) => (
-                    <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-[#2A2D30] rounded-xl p-4">
+                    <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-[#2A2D30] rounded-none p-4">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-20 h-20 object-cover rounded-lg bg-black"
+                        className="w-20 h-20 object-cover rounded-none bg-black"
                       />
                       <div className="flex-1 w-full">
                         <h4 className="font-sans font-black text-white text-lg uppercase mb-1">{item.name}</h4>
                         <p className="text-[#C2185B] font-bold text-lg">{formatPrice(item.price)}</p>
                       </div>
                       <div className="flex items-center gap-4 self-end sm:self-center">
-                        <div className="flex items-center gap-2 bg-[#1A1A1A] p-1 rounded-lg border border-white/5">
+                        <div className="flex items-center gap-2 bg-[#1A1A1A] p-1 rounded-none border border-white/5">
                           <button
                             onClick={() => updateQuantity(item.id, -1)}
                             className="w-8 h-8 flex items-center justify-center text-white hover:bg-white/10 rounded transition-colors"
@@ -124,7 +124,7 @@ export function ShopSection() {
                         </div>
                         <button
                           onClick={() => removeFromCart(item.id)}
-                          className="w-10 h-10 flex items-center justify-center text-red-400 hover:bg-red-400/10 rounded-lg transition-colors border border-red-400/20"
+                          className="w-10 h-10 flex items-center justify-center text-red-400 hover:bg-red-400/10 rounded-none transition-colors border border-red-400/20"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -138,7 +138,7 @@ export function ShopSection() {
                     <span className="text-white/60 tracking-wider uppercase text-sm">{t({ pt: 'Total', en: 'Total', es: 'Total' })}</span>
                     <p className="font-sans font-black text-white text-3xl mt-1">{formatPrice(cartTotal)}</p>
                   </div>
-                  <button className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#E91E8C] text-white font-black uppercase tracking-wider rounded-md hover:bg-white hover:text-black transition-colors">
+                  <button className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#E91E8C] text-white font-black uppercase tracking-wider rounded-none hover:bg-white hover:text-black transition-colors">
                     <CreditCard className="w-5 h-5" />
                     {t(translations.shop.checkout)}
                   </button>
@@ -157,7 +157,7 @@ export function ShopSection() {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key as typeof activeTab)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-md font-bold uppercase text-sm tracking-wider transition-all border ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-none font-bold uppercase text-sm tracking-wider transition-all border ${
                 activeTab === tab.key
                   ? 'bg-white border-white text-black'
                   : 'bg-transparent border-white/20 text-white hover:bg-white/10'
@@ -177,7 +177,7 @@ export function ShopSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {products.length > 0 ? (
                 products.map((product) => (
-                  <div key={product.id} className="group bg-[#1A1A1A] rounded-xl overflow-hidden hover:bg-[#2A2D30] transition-colors">
+                  <div key={product.id} className="group bg-[#1A1A1A] rounded-none overflow-hidden hover:bg-[#2A2D30] transition-colors">
                     <div className="aspect-square bg-white flex items-center justify-center overflow-hidden">
                       {product.images[0] ? (
                         <img
@@ -213,7 +213,7 @@ export function ShopSection() {
                             price: product.price,
                             image: product.images[0] || ''
                           })}
-                          className="w-12 h-12 bg-white text-black rounded-md flex items-center justify-center hover:bg-[#E91E8C] hover:text-white transition-colors"
+                          className="w-12 h-12 bg-white text-black rounded-none flex items-center justify-center hover:bg-[#E91E8C] hover:text-white transition-colors"
                         >
                           <Plus className="w-6 h-6" />
                         </button>
@@ -225,11 +225,11 @@ export function ShopSection() {
                 /* MOCK Produtos */
                 [
                   { name: 'Camiseta Quero Mais', price: 89.90, originalPrice: 119.90 },
-                  { name: 'BonÃ© Official', price: 69.90 },
+                  { name: 'Boné Official', price: 69.90 },
                   { name: 'Copo Exclusivo', price: 29.90 },
                   { name: 'Kit Festa', price: 149.90 },
                 ].map((product, index) => (
-                  <div key={index} className="group bg-[#1A1A1A] rounded-xl overflow-hidden hover:bg-[#2A2D30] transition-colors">
+                  <div key={index} className="group bg-[#1A1A1A] rounded-none overflow-hidden hover:bg-[#2A2D30] transition-colors">
                     <div className="aspect-square bg-white flex items-center justify-center overflow-hidden">
                       <ShoppingBag className="w-16 h-16 text-[#E5E5E5] group-hover:scale-110 transition-transform duration-500" />
                     </div>
@@ -246,7 +246,7 @@ export function ShopSection() {
                             </p>
                           )}
                         </div>
-                        <button className="w-12 h-12 bg-white text-black rounded-md flex items-center justify-center hover:bg-[#E91E8C] hover:text-white transition-colors">
+                        <button className="w-12 h-12 bg-white text-black rounded-none flex items-center justify-center hover:bg-[#E91E8C] hover:text-white transition-colors">
                           <Plus className="w-6 h-6" />
                         </button>
                       </div>
@@ -262,7 +262,7 @@ export function ShopSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingEvents.length > 0 ? (
                 upcomingEvents.map((event) => (
-                  <div key={event.id} className="group bg-[#1A1A1A] rounded-xl overflow-hidden">
+                  <div key={event.id} className="group bg-[#1A1A1A] rounded-none overflow-hidden">
                     <div className="aspect-video overflow-hidden bg-black">
                       {event.coverImage ? (
                         <img
@@ -287,7 +287,7 @@ export function ShopSection() {
                           href={event.ticketLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 w-full py-4 bg-white text-black font-black uppercase tracking-wider rounded-lg hover:bg-[#E91E8C] hover:text-white transition-colors"
+                          className="flex items-center justify-center gap-2 w-full py-4 bg-white text-black font-black uppercase tracking-wider rounded-none hover:bg-[#E91E8C] hover:text-white transition-colors"
                         >
                           <Ticket className="w-5 h-5" />
                           {t(translations.buttons.buyTickets)}
@@ -297,11 +297,11 @@ export function ShopSection() {
                   </div>
                 ))
               ) : (
-                <div className="col-span-full bg-[#1A1A1A] rounded-2xl py-24 text-center">
+                <div className="col-span-full bg-[#1A1A1A] rounded-none py-24 text-center">
                   <Ticket className="w-16 h-16 text-white/10 mx-auto mb-6" />
                   <p className="font-sans font-black text-white/40 text-2xl uppercase tracking-widest">
                     {t({ 
-                      pt: 'Nenhum ingresso disponÃ­vel no momento.',
+                      pt: 'Nenhum ingresso disponível no momento.',
                       en: 'No tickets available at the moment.',
                       es: 'No hay entradas disponibles en este momento.'
                     })}

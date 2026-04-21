@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Music, Play, Headphones, Disc, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -13,7 +13,7 @@ export function MusicSection() {
     <section id="music" className="py-24 lg:py-32 bg-white">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header da SeÃ§Ã£o */}
+        {/* Header da Seção */}
         <div className="text-center mb-14">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-3 font-sans">
             {t({ pt: 'Sons que marcam', en: 'Sounds that leave a mark', es: 'Sonidos que marcan' })}
@@ -36,7 +36,7 @@ export function MusicSection() {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key as typeof activeTab)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-md font-bold transition-all border ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-none font-bold transition-all border ${
                 activeTab === tab.key
                   ? 'bg-[#3D4246] border-[#3D4246] text-white'
                   : 'bg-transparent border-[#E5E5E5] text-[#3D4246] hover:bg-[#F2F2F2]'
@@ -56,7 +56,7 @@ export function MusicSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {djs.length > 0 ? (
                 djs.map((dj) => (
-                  <div key={dj.id} className="group bg-[#F2F2F2] rounded-xl overflow-hidden">
+                  <div key={dj.id} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
                     <div className="aspect-square overflow-hidden relative">
                       {dj.image ? (
                         <img
@@ -96,7 +96,7 @@ export function MusicSection() {
               ) : (
                 /* MOCK DJs */
                 ['DJ Alpha', 'DJ Beta', 'DJ Gamma', 'DJ Delta'].map((name, i) => (
-                  <div key={i} className="group bg-[#F2F2F2] rounded-xl overflow-hidden">
+                  <div key={i} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
                     <div className="aspect-square bg-gray-200 flex items-center justify-center overflow-hidden">
                       <Headphones className="w-16 h-16 text-gray-400 group-hover:scale-110 transition-transform duration-500" />
                     </div>
@@ -115,7 +115,7 @@ export function MusicSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {djSets.length > 0 ? (
                 djSets.map((set) => (
-                  <div key={set.id} className="group bg-[#F2F2F2] rounded-xl overflow-hidden">
+                  <div key={set.id} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
                     <div className="relative aspect-video overflow-hidden">
                       {set.coverImage ? (
                         <img
@@ -131,7 +131,7 @@ export function MusicSection() {
                       
                       {/* Play Button Overlay */}
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="w-16 h-16 bg-[#E91E8C] rounded-md flex items-center justify-center hover:scale-110 transition-transform">
+                        <button className="w-16 h-16 bg-[#E91E8C] rounded-none flex items-center justify-center hover:scale-110 transition-transform">
                           <Play className="w-8 h-8 text-white ml-1" />
                         </button>
                       </div>
@@ -158,11 +158,11 @@ export function MusicSection() {
               ) : (
                 /* MOCK SETS */
                 ['Live Set @ Quero Mais 2024', 'Summer Vibes Mix', 'Underground Sessions'].map((title, i) => (
-                  <div key={i} className="group bg-[#F2F2F2] rounded-xl overflow-hidden">
+                  <div key={i} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
                     <div className="relative aspect-video bg-gray-200 flex items-center justify-center overflow-hidden">
                       <Disc className="w-12 h-12 text-gray-400 group-hover:scale-110 transition-transform" />
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="w-16 h-16 bg-[#E91E8C] rounded-md flex items-center justify-center hover:scale-110 transition-transform">
+                        <button className="w-16 h-16 bg-[#E91E8C] rounded-none flex items-center justify-center hover:scale-110 transition-transform">
                           <Play className="w-8 h-8 text-white ml-1" />
                         </button>
                       </div>
@@ -182,7 +182,7 @@ export function MusicSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {playlists.length > 0 ? (
                 playlists.map((playlist) => (
-                  <div key={playlist.id} className="group bg-[#3D4246] rounded-xl overflow-hidden relative">
+                  <div key={playlist.id} className="group bg-[#3D4246] rounded-none overflow-hidden relative">
                     <div className="relative aspect-square overflow-hidden">
                       {playlist.coverImage ? (
                         <img
@@ -211,7 +211,7 @@ export function MusicSection() {
                           href={playlist.externalUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-md hover:bg-[#5aa83b] transition-colors uppercase text-sm"
+                          className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-none hover:bg-[#5aa83b] transition-colors uppercase text-sm"
                         >
                           <Play className="w-4 h-4 fill-current" />
                           {t(translations.buttons.play)}
@@ -223,7 +223,7 @@ export function MusicSection() {
               ) : (
                 /* MOCK PLAYLISTS */
                 ['Quero Mais Official', 'Pre-Party Vibes', 'After Hours'].map((title, i) => (
-                  <div key={i} className="group bg-[#3D4246] rounded-xl overflow-hidden relative">
+                  <div key={i} className="group bg-[#3D4246] rounded-none overflow-hidden relative">
                     <div className="relative aspect-square overflow-hidden bg-[#1A1A1A] flex items-center justify-center">
                       <Music className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
@@ -234,7 +234,7 @@ export function MusicSection() {
                       </div>
                     </div>
                     <div className="p-6 absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center">
-                      <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-md hover:bg-[#5aa83b] transition-colors uppercase text-sm">
+                      <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-none hover:bg-[#5aa83b] transition-colors uppercase text-sm">
                         <Play className="w-4 h-4 fill-current" />
                         {t(translations.buttons.play)}
                       </button>

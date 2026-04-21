@@ -1,18 +1,20 @@
 import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { DataProvider } from '@/context/DataContext';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { HeroSection } from '@/sections/HeroSection';
-import { EventsSection } from '@/sections/EventsSection';
-import { FicaMaisSection } from '@/sections/FicaMaisSection';
-import { SobreSection } from '@/sections/SobreSection';
-import { MusicSection } from '@/sections/MusicSection';
-import { VoceSection } from '@/sections/VoceSection';
-import { ShopSection } from '@/sections/ShopSection';
-import { ContactSection } from '@/sections/ContactSection';
+
+import { WebsiteLayout } from '@/components/layout/WebsiteLayout';
+import { HomePage } from '@/pages/HomePage';
+import { EventosPage } from '@/pages/EventosPage';
+import { FicaMaisPage } from '@/pages/FicaMaisPage';
+import { SobrePage } from '@/pages/SobrePage';
+import { MusicPage } from '@/pages/MusicPage';
+import { VoceNaQMPage } from '@/pages/VoceNaQMPage';
+import { ShopPage } from '@/pages/ShopPage';
+import { ContactPage } from '@/pages/ContactPage';
+
 import { AdminLogin } from '@/admin/components/AdminLogin';
 import { AdminDashboard } from '@/admin/components/AdminDashboard';
 import './App.css';
@@ -62,21 +64,19 @@ function App() {
     return (
       <LanguageProvider>
         <DataProvider>
-          <div className="min-h-screen bg-white text-black">
-            <Toaster position="top-center" toastOptions={toasterStyle} />
-            <Header />
-            <main className="pt-14 lg:pt-16">
-              <HeroSection />
-              <EventsSection />
-              <FicaMaisSection />
-              <SobreSection />
-              <MusicSection />
-              <VoceSection />
-              <ShopSection />
-              <ContactSection />
-            </main>
-            <Footer onAdminClick={handleAdminClick} />
-          </div>
+          <Toaster position="top-center" toastOptions={toasterStyle} />
+          <Routes>
+            <Route element={<WebsiteLayout onAdminClick={handleAdminClick} />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/eventos" element={<EventosPage />} />
+              <Route path="/fica-mais" element={<FicaMaisPage />} />
+              <Route path="/sobre" element={<SobrePage />} />
+              <Route path="/music" element={<MusicPage />} />
+              <Route path="/vocenaqm" element={<VoceNaQMPage />} />
+              <Route path="/loja" element={<ShopPage />} />
+              <Route path="/contato" element={<ContactPage />} />
+            </Route>
+          </Routes>
         </DataProvider>
       </LanguageProvider>
     );
@@ -86,18 +86,20 @@ function App() {
   if (currentView === 'admin-login') {
     return (
       <AuthProvider>
-        <LanguageProvider>
-          <div className="min-h-screen bg-[#0A0A0A] text-white">
-            <Toaster position="top-center" toastOptions={toasterStyle} />
-            <button
-              onClick={() => setCurrentView('website')}
-              className="fixed top-4 left-4 z-50 px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm font-sans"
-            >
-              ← Voltar ao Site
-            </button>
-            <AdminLogin onLogin={handleAdminLogin} />
-          </div>
-        </LanguageProvider>
+        <DataProvider>
+          <LanguageProvider>
+            <div className="min-h-screen bg-[#0A0A0A] text-white">
+              <Toaster position="top-center" toastOptions={toasterStyle} />
+              <button
+                onClick={() => setCurrentView('website')}
+                className="fixed top-4 left-4 z-50 px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm font-sans"
+              >
+                ← Voltar ao Site
+              </button>
+              <AdminLogin onLogin={handleAdminLogin} />
+            </div>
+          </LanguageProvider>
+        </DataProvider>
       </AuthProvider>
     );
   }

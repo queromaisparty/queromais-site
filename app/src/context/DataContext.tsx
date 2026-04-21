@@ -104,11 +104,11 @@ const STORAGE_KEYS = {
 
 // Dados iniciais
 const defaultContactInfo: ContactInfo = {
-  email: 'contato@queromais.com',
-  phone: '+55 11 99999-9999',
-  whatsapp: '+55 11 99999-9999',
-  instagram: '@queromais',
-  address: 'São Paulo, SP'
+  email: 'contato@queromaisparty.com.br',
+  phone: '(21) 9 7259-6991',
+  whatsapp: '(21) 972596991',
+  instagram: '@queromaisparty',
+  address: 'RIO DE JANEIRO'
 };
 
 const defaultSiteConfig: SiteConfig = {
@@ -325,7 +325,15 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         if (storedFaqs) setFaqs(JSON.parse(storedFaqs));
 
         const storedContact = localStorage.getItem(STORAGE_KEYS.contact);
-        if (storedContact) setContactInfo(JSON.parse(storedContact));
+        if (storedContact) {
+          const parsed = JSON.parse(storedContact);
+          if (parsed.email === 'contato@queromais.com') {
+            setContactInfo(defaultContactInfo);
+            localStorage.setItem(STORAGE_KEYS.contact, JSON.stringify(defaultContactInfo));
+          } else {
+            setContactInfo(parsed);
+          }
+        }
 
         const storedBanners = localStorage.getItem(STORAGE_KEYS.banners);
         if (storedBanners) setBanners(JSON.parse(storedBanners));

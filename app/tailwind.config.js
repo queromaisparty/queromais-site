@@ -50,8 +50,8 @@ module.exports = {
         },
         /* === CORES QUERO MAIS === */
         qm: {
-          green: "#6ABD45",
-          "green-dark": "#4e9630",
+          magenta: "#E91E8C",
+          "magenta-dark": "#D81B80",
           dark: "#0A0A0A",
           charcoal: "#3D4246",
           "gray-bg": "#F2F2F2",
@@ -63,8 +63,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Montserrat', 'system-ui', 'sans-serif'],
+        sans: ['Poppins', 'system-ui', 'sans-serif'],
+        display: ['Vogun', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
       borderRadius: {

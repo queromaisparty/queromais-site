@@ -16,7 +16,7 @@ export function GalleryCard({ imageUrl, caption, index, isVisible, onClick }: Ga
 
   return (
     <div
-      className="gallery-card group relative overflow-hidden rounded-lg cursor-pointer break-inside-avoid mb-3 md:mb-4"
+      className="gallery-card group relative overflow-hidden rounded-none cursor-pointer break-inside-avoid mb-3 md:mb-4"
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -31,7 +31,7 @@ export function GalleryCard({ imageUrl, caption, index, isVisible, onClick }: Ga
       {/* Skeleton shimmer while loading */}
       {!isLoaded && !hasError && (
         <div
-          className="absolute inset-0 bg-gray-200 rounded-lg"
+          className="absolute inset-0 bg-gray-200 rounded-none"
           style={{
             background: 'linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%)',
             backgroundSize: '200% 100%',
@@ -42,7 +42,7 @@ export function GalleryCard({ imageUrl, caption, index, isVisible, onClick }: Ga
 
       {/* Error fallback */}
       {hasError && (
-        <div className="w-full aspect-[4/3] bg-gray-100 flex items-center justify-center rounded-lg">
+        <div className="w-full aspect-[4/3] bg-gray-100 flex items-center justify-center rounded-none">
           <Camera className="w-10 h-10 text-gray-300" />
         </div>
       )}
@@ -55,7 +55,7 @@ export function GalleryCard({ imageUrl, caption, index, isVisible, onClick }: Ga
           loading="lazy"
           onLoad={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
-          className="w-full h-auto block rounded-lg"
+          className="w-full h-auto block rounded-none"
           style={{
             opacity: isLoaded ? 1 : 0,
             transform: 'scale(1)',
@@ -66,7 +66,7 @@ export function GalleryCard({ imageUrl, caption, index, isVisible, onClick }: Ga
 
       {/* Hover overlay */}
       <div
-        className="absolute inset-0 rounded-lg flex items-end"
+        className="absolute inset-0 rounded-none flex items-end"
         style={{
           background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%)',
           opacity: 0,

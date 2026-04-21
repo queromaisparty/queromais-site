@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Camera, Video, Download, Filter, X } from 'lucide-react';
+import { Camera, Download, X } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { translations } from '@/lib/translations';
@@ -101,7 +101,7 @@ export function GallerySection() {
               <button
                 key={cat}
                 onClick={() => setSelectedFilter(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                className={`px-4 py-2 rounded-none text-sm font-semibold transition-all duration-200 ${
                   selectedFilter === cat
                     ? 'bg-[#111] text-white'
                     : 'bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-800'
@@ -114,7 +114,7 @@ export function GallerySection() {
             {/* Download search toggle */}
             <button
               onClick={() => setShowDownloadSearch(!showDownloadSearch)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-none text-sm font-semibold transition-all duration-200 ${
                 showDownloadSearch
                   ? 'bg-[#22c55e] text-white'
                   : 'bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-800'
@@ -128,7 +128,7 @@ export function GallerySection() {
           {/* Download search panel */}
           {showDownloadSearch && (
             <div
-              className="max-w-xl mx-auto mb-12 bg-gray-50 rounded-2xl p-6 border border-gray-100"
+              className="max-w-xl mx-auto mb-12 bg-gray-50 rounded-none p-6 border border-gray-100"
               style={{
                 animation: `fadeInUp 400ms ${EASING.easeOutExpo}`,
               }}
@@ -153,9 +153,9 @@ export function GallerySection() {
                 <input
                   type="text"
                   placeholder={t({ pt: 'Nome ou código...', en: 'Name or code...', es: 'Nombre o código...' })}
-                  className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors"
+                  className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors"
                 />
-                <button className="px-5 py-2.5 bg-[#111] text-white font-semibold text-sm rounded-xl hover:bg-[#222] transition-colors">
+                <button className="px-5 py-2.5 bg-[#111] text-white font-semibold text-sm rounded-none hover:bg-[#222] transition-colors">
                   {t({ pt: 'Buscar', en: 'Search', es: 'Buscar' })}
                 </button>
               </div>
@@ -191,7 +191,7 @@ export function GallerySection() {
                   .map((album) => (
                     <div
                       key={album.id}
-                      className="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                      className="group bg-white border border-gray-100 rounded-none overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
                     >
                       <div className="aspect-[16/10] overflow-hidden">
                         {album.coverImage ? (

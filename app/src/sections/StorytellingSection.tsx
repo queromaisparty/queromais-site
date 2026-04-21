@@ -49,7 +49,7 @@ export function StorytellingSection() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/20 rounded-full mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/20 rounded-none mb-6">
               <BookOpen className="w-4 h-4 text-[#CCFF00]" />
               <span className="text-[#CCFF00] text-sm font-bold uppercase tracking-wider">
                 {t({ pt: 'Nossa História', en: 'Our Story', es: 'Nuestra Historia' })}
@@ -69,9 +69,9 @@ export function StorytellingSection() {
               <div className="space-y-4 text-white/70 leading-relaxed">
                 <p>
                   {storytelling?.history?.pt || t({
-                    pt: 'A Quero Mais nasceu de um sonho: criar experiências que fossem além da festa comum. Fundada em 2018 por um grupo de amigos apaixonados por música e entretenimento, começamos com pequenos eventos em São Paulo.',
-                    en: 'Quero Mais was born from a dream: to create experiences that went beyond the common party. Founded in 2018 by a group of friends passionate about music and entertainment, we started with small events in São Paulo.',
-                    es: 'Quero Más nació de un sueño: crear experiencias que fueran más allá de la fiesta común. Fundada en 2018 por un grupo de amigos apasionados por la música y el entretenimiento, comenzamos con pequeños eventos en São Paulo.'
+                    pt: 'A Quero Mais nasceu de um sonho: criar experiências que fossem além da festa comum. Fundada em 2018 por um grupo de amigos apaixonados por música e entretenimento, começamos com pequenos eventos no Rio de Janeiro.',
+                    en: 'Quero Mais was born from a dream: to create experiences that went beyond the common party. Founded in 2018 by a group of friends passionate about music and entertainment, we started with small events in Rio de Janeiro.',
+                    es: 'Quero Más nació de un sueño: crear experiencias que fueran más allá de la fiesta común. Fundada en 2018 por un grupo de amigos apasionados por la música y el entretenimiento, comenzamos con pequeños eventos en Río de Janeiro.'
                   })}
                 </p>
                 <p>
@@ -85,7 +85,7 @@ export function StorytellingSection() {
             </div>
             <div className="order-1 lg:order-2">
               <div className="relative">
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-white/10">
+                <div className="aspect-[4/3] rounded-none overflow-hidden border border-white/10">
                   {storytelling?.images?.[0] ? (
                     <img
                       src={storytelling.images[0]}
@@ -98,7 +98,7 @@ export function StorytellingSection() {
                     </div>
                   )}
                 </div>
-                <div className="absolute -bottom-4 -left-4 bg-[#CCFF00] text-black px-6 py-3 rounded-xl font-bold">
+                <div className="absolute -bottom-4 -left-4 bg-[#CCFF00] text-black px-6 py-3 rounded-none font-bold">
                   2018 - {new Date().getFullYear()}
                 </div>
               </div>
@@ -108,9 +108,9 @@ export function StorytellingSection() {
           {/* Mission & Values */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
             {/* Mission */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+            <div className="bg-white/5 border border-white/10 rounded-none p-8">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-[#CCFF00] rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#CCFF00] rounded-none flex items-center justify-center">
                   <Target className="w-6 h-6 text-black" />
                 </div>
                 <h3 className="text-2xl font-bold text-white">
@@ -127,9 +127,9 @@ export function StorytellingSection() {
             </div>
 
             {/* Values */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+            <div className="bg-white/5 border border-white/10 rounded-none p-8">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-[#8B5CF6] rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#8B5CF6] rounded-none flex items-center justify-center">
                   <Heart className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-white">
@@ -152,10 +152,10 @@ export function StorytellingSection() {
 
           {/* Founder Section */}
           {storytelling?.founder && (
-            <div className="bg-gradient-to-r from-[#CCFF00]/10 to-[#8B5CF6]/10 border border-white/10 rounded-2xl p-8 lg:p-12">
+            <div className="bg-gradient-to-r from-[#CCFF00]/10 to-[#8B5CF6]/10 border border-white/10 rounded-none p-8 lg:p-12">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                 <div className="md:col-span-1">
-                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-[#CCFF00]">
+                  <div className="w-32 h-32 mx-auto rounded-none overflow-hidden border-4 border-[#CCFF00]">
                     {storytelling.founder.image ? (
                       <img
                         src={storytelling.founder.image}

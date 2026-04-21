@@ -110,7 +110,7 @@ export function ContactSection() {
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder:text-white/40 focus:outline-none focus:border-[#CCFF00] transition-colors"
-                      placeholder="(11) 99999-9999"
+                      placeholder="(21) 9 9999-9999"
                     />
                   </div>
                   <div>
