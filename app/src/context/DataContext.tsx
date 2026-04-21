@@ -120,8 +120,43 @@ function mapFromDB(obj: any): any {
   }, {});
 }
 
-// Simulando default storytelling via const, só para evitar crashe caso falte os defaults do payload original
-const defaultStorytelling: Storytelling = { id: '1', heroTitle: 'EXPERIÊNCIAS QUE MARCAM', heroTagline: 'Onde o dia se transforma em experiência.', stats: [], origemTitle: 'Onde o dia se transforma em experiência', origemText1: '', origemText2: '', origemImage: '', essenciaTitle: '', essenciaText1: '', essenciaText2: '', essenciaImage: '', tags: [], simboloTitle: '', simboloText1: '', simboloText2: '', simboloImage: '', narrativaTitle: '', narrativaIntro: '', timeline: [], ctaText: '', ctaButtonLabel: '', ctaButtonLink: '', homeTitle: '', homeText1: '', homeText2: '', homeCTA: ''};
+const defaultStorytelling: Storytelling = {
+  id: '1',
+  heroTitle: 'EXPERIÊNCIAS QUE MARCAM',
+  heroTagline: 'Onde o dia se transforma em experiência.',
+  stats: [],
+  origemTitle: 'Onde o dia se transforma em experiência',
+  origemText1: 'Nascida no Rio de Janeiro, a Quero Mais Day Party surge com um propósito claro: não ser apenas mais uma festa, mas uma experiência completa, imersiva e inesquecível.',
+  origemText2: 'Desde o início, a marca foi concebida para provocar algo maior. Não se trata apenas de música. Se trata de transformação. Do desejo de criar suas edições em momentos que marcam as pessoas.',
+  origemImage: '',
+  essenciaTitle: 'A essência por trás da marca',
+  essenciaText1: 'A Quero Mais nasce para redefinir a forma como as pessoas vivem o entretenimento. Aqui, a experiência não começa na entrada do evento. Ela começa no primeiro contato.',
+  essenciaText2: 'Cada edição começa no anúncio que instiga, na estética que envolve e na narrativa que captura. E se estende até o último momento: na energia da pista, na construção dos sets e na memória que permanece.',
+  essenciaImage: '',
+  tags: ['Experiência', 'Transformação', 'Narrativa', 'Memória'],
+  simboloTitle: 'O símbolo: a borboleta',
+  simboloText1: 'No centro de tudo está o brasão da marca: a borboleta. Mais do que um elemento visual, ela é a representação viva do que é a Quero Mais Day Party.',
+  simboloText2: 'A borboleta carrega o significado da metamorfose, o processo de transformação profunda, inevitável e necessária. A Quero Mais nasce exatamente nesse ponto de transição. A borboleta não é apenas símbolo. É um convite.',
+  simboloImage: '',
+  narrativaTitle: 'Narrativa contínua',
+  narrativaIntro: 'Cada edição é um capítulo de uma história maior. Os temas não são eventos isolados: são partes de um mesmo universo narrativo. Eles se conectam, evoluem e se transformam. Sempre estamos a contar o próximo passo da nossa história.',
+  timeline: [
+    { id: '1', title: 'Metamorphosis', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 1 },
+    { id: '2', title: 'The Grand Masquerade', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 2 },
+    { id: '3', title: 'Universo das Cores', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 3 },
+    { id: '4', title: 'Vale Encantado', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 4 },
+    { id: '5', title: 'Another Miracle', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 5 },
+    { id: '6', title: 'Efeito Borboleta', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 6 },
+    { id: '7', title: 'Era Uma Vez', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 7 },
+  ],
+  ctaText: 'Conheça os próximos capítulos dessa experiência.',
+  ctaButtonLabel: 'Ver próximos eventos',
+  ctaButtonLink: '/eventos',
+  homeTitle: 'Onde o dia se transforma em experiência',
+  homeText1: 'Nascida no Rio de Janeiro, a Quero Mais Day Party surgiu com o propósito de ser mais do que uma festa.',
+  homeText2: 'Uma experiência imersiva, estética e transformadora que marca cada edição.',
+  homeCTA: 'Conheça nossa história',
+};
 const defaultContactInfo: ContactInfo = { email: 'contato@queromaisparty.com.br', phone: '(21) 9 7259-6991', whatsapp: '(21) 972596991', instagram: '@queromaisparty', address: 'RIO DE JANEIRO' };
 const defaultSiteConfig: SiteConfig = { siteName: { pt: 'Quero Mais', en: 'Want More', es: 'Quiero Más' }, siteDescription: { pt: 'Experiências', en: 'Experiences', es: 'Experiencias' }, logo: '/logo.png', favicon: '/favicon.ico', primaryColor: '#CCFF00', secondaryColor: '#8B5CF6', socialLinks: [], seo: { title: {pt:'Quero Mais', en:'Want More', es:'Quiero Más'}, description: {pt:'Exp', en:'Exp', es:'Exp'}, keywords: 'festas', ogImage: '/og-image.jpg'} };
 
