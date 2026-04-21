@@ -16,7 +16,8 @@ import type {
   Banner,
   HomeSection,
   SiteConfig,
-  ContactMessage
+  ContactMessage,
+  NewsletterSubscriber
 } from '@/types';
 
 interface DataContextType {
@@ -89,6 +90,12 @@ interface DataContextType {
   // Config
   siteConfig: SiteConfig;
   updateSiteConfig: (config: Partial<SiteConfig>) => void;
+  
+  // Newsletter
+  newsletterSubscribers: NewsletterSubscriber[];
+  addNewsletterSubscriber: (sub: Omit<NewsletterSubscriber, 'id'|'createdAt'>) => void;
+  updateNewsletterSubscriber: (id: string, sub: Partial<NewsletterSubscriber>) => void;
+  deleteNewsletterSubscriber: (id: string) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -158,7 +165,7 @@ const defaultStorytelling: Storytelling = {
   homeCTA: 'Conheça nossa história',
 };
 const defaultContactInfo: ContactInfo = { email: 'contato@queromaisparty.com.br', phone: '(21) 9 7259-6991', whatsapp: '(21) 972596991', instagram: '@queromaisparty', address: 'RIO DE JANEIRO' };
-const defaultSiteConfig: SiteConfig = { siteName: { pt: 'Quero Mais', en: 'Want More', es: 'Quiero Más' }, siteDescription: { pt: 'Experiências', en: 'Experiences', es: 'Experiencias' }, logo: '/logo.png', favicon: '/favicon.ico', primaryColor: '#CCFF00', secondaryColor: '#8B5CF6', socialLinks: [], seo: { title: {pt:'Quero Mais', en:'Want More', es:'Quiero Más'}, description: {pt:'Exp', en:'Exp', es:'Exp'}, keywords: 'festas', ogImage: '/og-image.jpg'} };
+const defaultSiteConfig: SiteConfig = { siteName: { pt: 'Quero Mais', en: 'Want More', es: 'Quiero Más' }, siteDescription: { pt: 'Experiências', en: 'Experiences', es: 'Experiencias' }, logo: '/logo.png', favicon: '/favicon.ico', primaryColor: '#E91E8C', secondaryColor: '#8B5CF6', socialLinks: [], seo: { title: {pt:'Quero Mais', en:'Want More', es:'Quiero Más'}, description: {pt:'Exp', en:'Exp', es:'Exp'}, keywords: 'festas', ogImage: '/og-image.jpg'} };
 
 function useOptimisticCRUD<T extends { id: string }>(table: string, setState: React.Dispatch<React.SetStateAction<T[]>>) {
   const add = useCallback(async (item: Omit<T, 'id'|'createdAt'|'updatedAt'>) => {
@@ -217,6 +224,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [contactInfo, setContactInfo] = useState<ContactInfo>(defaultContactInfo);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
+  const [newsletterSubscribers, setNewsletterSubscribers] = useState<NewsletterSubscriber[]>([]);
   const [banners, setBanners] = useState<Banner[]>([]);
   const [homeSections, setHomeSections] = useState<HomeSection[]>([]);
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(defaultSiteConfig);
@@ -240,6 +248,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           fetchTable('faqs', setFaqs),
           fetchTable('banners', setBanners),
           fetchTable('contact_messages', setContactMessages),
+          fetchTable('newsletter_subscribers', setNewsletterSubscribers),
         ]);
 
         const { data: config } = await supabase.from('site_config').select('*').limit(1).single();
@@ -270,6 +279,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const crudFaqs = useOptimisticCRUD('faqs', setFaqs);
   const crudBanners = useOptimisticCRUD('banners', setBanners);
   const crudMessages = useOptimisticCRUD('contact_messages', setContactMessages);
+  const crudNewsletter = useOptimisticCRUD('newsletter_subscribers', setNewsletterSubscribers);
 
   const getFeaturedEvents = useCallback(() => events.filter(e => e.featured && e.status === 'active'), [events]);
   const getUpcomingEvents = useCallback(() => {
@@ -327,6 +337,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       faqs, addFAQ: crudFaqs.add, updateFAQ: crudFaqs.update, deleteFAQ: crudFaqs.del,
       contactInfo, updateContactInfo,
       contactMessages, addContactMessage: crudMessages.add, updateContactMessage: crudMessages.update, deleteContactMessage: crudMessages.del,
+      newsletterSubscribers, addNewsletterSubscriber: crudNewsletter.add, updateNewsletterSubscriber: crudNewsletter.update, deleteNewsletterSubscriber: crudNewsletter.del,
       banners, addBanner: crudBanners.add, updateBanner: crudBanners.update, deleteBanner: crudBanners.del,
       homeSections, updateHomeSection,
       siteConfig, updateSiteConfig

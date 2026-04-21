@@ -2,6 +2,8 @@ import { Instagram, MessageCircle, Mail, MapPin, ChevronRight } from 'lucide-rea
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface FooterProps {
   onAdminClick?: () => void;
@@ -20,7 +22,20 @@ const navLinks = [
 
 export function Footer({ onAdminClick }: FooterProps) {
   const { t } = useLanguage();
-  const { contactInfo } = useData();
+  const { contactInfo, addNewsletterSubscriber } = useData();
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setIsSubmitting(true);
+    await new Promise(resolve => setTimeout(resolve, 600)); // Simulando delay
+    addNewsletterSubscriber({ email, active: true });
+    toast.success('Inscrição confirmada com sucesso!');
+    setEmail('');
+    setIsSubmitting(false);
+  };
 
   return (
     <footer className="bg-[#0A0A0A]">
@@ -136,17 +151,21 @@ export function Footer({ onAdminClick }: FooterProps) {
                 es: 'Sé el primero en saber sobre nuestros próximos eventos.',
               })}
             </p>
-            <form className="flex flex-col gap-2" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col gap-2" onSubmit={handleSubscribe}>
               <input
                 type="email"
+                value={email}
+                required
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder={t({ pt: 'Seu e-mail', en: 'Your email', es: 'Tu correo' })}
                 className="px-4 py-3 bg-white/5 border border-white/10 rounded-md text-white/80 placeholder:text-white/30 text-sm focus:outline-none focus:border-[#E91E8C] transition-colors font-sans"
               />
               <button
                 type="submit"
-                className="w-full px-4 py-3 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-semibold rounded-md text-sm transition-colors font-sans"
+                disabled={isSubmitting}
+                className="w-full px-4 py-3 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-semibold rounded-md text-sm transition-colors font-sans disabled:opacity-50"
               >
-                {t({ pt: 'Quero receber', en: 'Subscribe', es: 'Suscribirme' })}
+                {isSubmitting ? '...' : t({ pt: 'Quero receber', en: 'Subscribe', es: 'Suscribirme' })}
               </button>
             </form>
           </div>

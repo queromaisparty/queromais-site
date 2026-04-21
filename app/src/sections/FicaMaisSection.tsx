@@ -22,7 +22,7 @@ export function FicaMaisSection() {
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#8B5CF6]/20 rounded-full blur-[120px]" />
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-[#CCFF00]/10 rounded-full blur-[80px]" />
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-[#E91E8C]/10 rounded-full blur-[80px]" />
       </div>
 
       <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 xl:px-12">
@@ -37,7 +37,7 @@ export function FicaMaisSection() {
             </div>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mt-4 mb-6">
               <span className="text-[#8B5CF6]">FICA</span> MAIS{' '}
-              <span className="text-[#CCFF00]">PARTY</span>
+              <span className="text-[#E91E8C]">PARTY</span>
             </h2>
             <p className="text-white/60 text-lg max-w-2xl mx-auto">
               {t(translations.ficaMais.description)}
@@ -50,7 +50,7 @@ export function FicaMaisSection() {
             <div className="relative">
               <div className="relative aspect-square max-w-lg mx-auto">
                 {/* Main Image Container */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#8B5CF6] to-[#CCFF00] rounded-none rotate-3 opacity-50" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#8B5CF6] to-[#E91E8C] rounded-none rotate-3 opacity-50" />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a2e] to-black rounded-none -rotate-3 overflow-hidden border border-white/10">
                   {ficaMaisParty?.homeMedia ? (
                     <img
@@ -61,14 +61,14 @@ export function FicaMaisSection() {
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center">
                       <Moon className="w-24 h-24 text-[#8B5CF6] mb-4" />
-                      <Sparkles className="w-12 h-12 text-[#CCFF00]" />
+                      <Sparkles className="w-12 h-12 text-[#E91E8C]" />
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 </div>
 
                 {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#CCFF00] rounded-none flex items-center justify-center rotate-12 shadow-lg shadow-[#CCFF00]/30">
+                <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#E91E8C] rounded-none flex items-center justify-center rotate-12 shadow-lg shadow-[#E91E8C]/30">
                   <Music className="w-10 h-10 text-black" />
                 </div>
                 <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#8B5CF6] rounded-none flex items-center justify-center -rotate-12 shadow-lg shadow-[#8B5CF6]/30">
@@ -123,7 +123,7 @@ export function FicaMaisSection() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-[#CCFF00] mb-1">24h</div>
+                      <div className="text-3xl font-black text-[#E91E8C] mb-1">24h</div>
                       <div className="text-white/50 text-sm">
                         {t({ pt: 'De Festa', en: 'Of Party', es: 'De Fiesta' })}
                       </div>
@@ -142,9 +142,9 @@ export function FicaMaisSection() {
                     ficaMaisParty.upcomingDates.map((date) => (
                       <div
                         key={date.id}
-                        className="bg-white/5 border border-white/10 rounded-none p-4 flex items-center gap-4 hover:border-[#CCFF00]/50 transition-all"
+                        className="bg-white/5 border border-white/10 rounded-none p-4 flex items-center gap-4 hover:border-[#E91E8C]/50 transition-all"
                       >
-                        <div className="w-14 h-14 bg-[#CCFF00] rounded-none flex flex-col items-center justify-center text-black flex-shrink-0">
+                        <div className="w-14 h-14 bg-[#E91E8C] rounded-none flex flex-col items-center justify-center text-white flex-shrink-0">
                           <span className="text-lg font-black leading-none">
                             {new Date(date.date).getDate()}
                           </span>
@@ -167,7 +167,7 @@ export function FicaMaisSection() {
                             href={date.ticketLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-4 py-2 bg-[#CCFF00] text-black font-bold rounded-none text-sm hover:bg-[#b3e600] transition-colors"
+                            className="px-4 py-2 bg-[#E91E8C] text-white font-bold rounded-none text-sm hover:bg-[#D81B80] transition-colors"
                           >
                             {t(translations.buttons.buyTickets)}
                           </a>

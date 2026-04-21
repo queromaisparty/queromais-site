@@ -27,7 +27,7 @@ export function ContactPage() {
     
     addContactMessage({
       ...formData,
-      read: false
+      status: 'nova'
     });
 
     toast.success('Mensagem enviada com sucesso! Nossa equipe retornará em breve.');

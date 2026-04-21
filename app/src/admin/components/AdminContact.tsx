@@ -17,8 +17,8 @@ export function AdminContact() {
   const [faqForm, setFaqForm] = useState<Partial<FAQ>>({});
   const [isEditingFaq, setIsEditingFaq] = useState(false);
 
-  const handleMessageStatus = (id: string, read: boolean) => {
-    updateContactMessage(id, { read });
+  const handleMessageStatus = (id: string, status: 'nova' | 'lida' | 'respondida' | 'arquivada') => {
+    updateContactMessage(id, { status });
   };
 
   const handleSaveFaq = () => {
@@ -89,8 +89,10 @@ export function AdminContact() {
                 [...contactMessages].reverse().map(msg => (
                   <tr key={msg.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="px-6 py-4">
-                      {msg.read ? (
-                        <span className="inline-flex items-center gap-1 text-green-600 bg-green-50 px-2 py-1 rounded-md text-xs font-bold">Lida</span>
+                      {msg.status === 'lida' || msg.status === 'respondida' ? (
+                        <span className="inline-flex items-center gap-1 text-green-600 bg-green-50 px-2 py-1 rounded-md text-xs font-bold capitalize">{msg.status}</span>
+                      ) : msg.status === 'arquivada' ? (
+                        <span className="inline-flex items-center gap-1 text-gray-600 bg-gray-100 px-2 py-1 rounded-md text-xs font-bold capitalize">{msg.status}</span>
                       ) : (
                         <span className="inline-flex items-center gap-1 text-[#E91E8C] bg-[#E91E8C]/10 px-2 py-1 rounded-md text-xs font-bold">Nova</span>
                       )}
@@ -106,8 +108,8 @@ export function AdminContact() {
                       <p className="text-xs truncate max-w-xs">{msg.message}</p>
                     </td>
                     <td className="px-6 py-4 flex items-center gap-3">
-                      <button onClick={() => handleMessageStatus(msg.id, !msg.read)} className="text-gray-400 hover:text-green-600" title="Marcar lido/não lido">
-                        {msg.read ? <X className="w-5 h-5"/> : <CheckCircle className="w-5 h-5"/>}
+                      <button onClick={() => handleMessageStatus(msg.id, msg.status === 'nova' ? 'lida' : 'nova')} className="text-gray-400 hover:text-green-600" title="Marcar lido/não lido">
+                        {msg.status !== 'nova' ? <X className="w-5 h-5"/> : <CheckCircle className="w-5 h-5"/>}
                       </button>
                       <button onClick={() => deleteContactMessage(msg.id)} className="text-gray-400 hover:text-red-600" title="Excluir">
                         <Trash2 className="w-5 h-5"/>
@@ -137,7 +139,7 @@ export function AdminContact() {
                   <button onClick={() => { setFaqForm(faq); setIsEditingFaq(true); }} className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-[#E91E8C] hover:text-white flex items-center justify-center text-gray-600 transition-colors">
                     <Edit2 className="w-4 h-4" />
                   </button>
-                  <button onClick={() => deleteFAQ(faq.id)} className="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-500 hover:text-white flex items-center justify-center text-red-500 transition-colors">
+                  <button onClick={() => deleteFAQ(faq.id)} className="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-500 hover:text-white flex items-center justify-center text-red-500 transition-colors" title="Excluir">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
@@ -152,18 +154,22 @@ export function AdminContact() {
                 <label className="text-xs font-bold text-gray-500 uppercase">Pergunta</label>
                 <input
                   type="text"
+                  placeholder="Pergunta (PT)"
+                  title="Pergunta em Português"
                   value={typeof faqForm.question === 'string' ? faqForm.question : faqForm.question?.pt || ''}
                   onChange={(e) => setFaqForm({ ...faqForm, question: e.target.value as any })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black focus:border-[#E91E8C] focus:outline-none"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-[#E91E8C] transition-colors"
                 />
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-500 uppercase">Resposta</label>
                 <textarea
-                  rows={4}
+                  rows={3}
+                  placeholder="Resposta (PT)"
+                  title="Resposta em Português"
                   value={typeof faqForm.answer === 'string' ? faqForm.answer : faqForm.answer?.pt || ''}
                   onChange={(e) => setFaqForm({ ...faqForm, answer: e.target.value as any })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black focus:border-[#E91E8C] focus:outline-none resize-none"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-[#E91E8C] transition-colors"
                 />
               </div>
               <div>
@@ -213,6 +219,26 @@ export function AdminContact() {
                 value={contactInfo.whatsapp}
                 onChange={(e) => updateContactInfo({ whatsapp: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-[#E91E8C] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-bold text-gray-500 uppercase flex items-center gap-1">Instagram</label>
+              <input
+                type="text"
+                value={contactInfo.instagram}
+                onChange={(e) => updateContactInfo({ instagram: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-[#E91E8C] focus:outline-none"
+                placeholder="@queromaisdayparty"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-bold text-gray-500 uppercase flex items-center gap-1">Cidade / Endereço</label>
+              <input
+                type="text"
+                value={contactInfo.address}
+                onChange={(e) => updateContactInfo({ address: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-[#E91E8C] focus:outline-none"
+                placeholder="RIO DE JANEIRO - RJ"
               />
             </div>
             <p className="text-xs text-gray-500 mt-4">* As alterações são salvas automaticamente no banco de dados.</p>

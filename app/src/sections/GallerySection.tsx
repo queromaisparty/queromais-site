@@ -113,7 +113,7 @@ export function GallerySection() {
               onClick={() => setShowDownloadSearch(!showDownloadSearch)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-none text-sm font-semibold transition-all duration-200 ${
                 showDownloadSearch
-                  ? 'bg-[#22c55e] text-white'
+                  ? 'bg-[#E91E8C] text-white'
                   : 'bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-800'
               }`}
             >
@@ -150,7 +150,7 @@ export function GallerySection() {
                 <input
                   type="text"
                   placeholder={t({ pt: 'Nome ou código...', en: 'Name or code...', es: 'Nombre o código...' })}
-                  className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#22c55e] focus:ring-1 focus:ring-[#22c55e] transition-colors"
+                  className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#E91E8C] focus:ring-1 focus:ring-[#E91E8C] transition-colors"
                 />
                 <button className="px-5 py-2.5 bg-[#111] text-white font-semibold text-sm rounded-none hover:bg-[#222] transition-colors">
                   {t({ pt: 'Buscar', en: 'Search', es: 'Buscar' })}

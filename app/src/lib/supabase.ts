@@ -40,5 +40,21 @@ export async function testSupabaseConnection(): Promise<boolean> {
   }
 }
 
+/**
+ * Faz upload de uma imagem para o bucket 'site-images' no Supabase Storage.
+ * O bucket deve existir e ser público no painel do Supabase.
+ * Retorna a URL pública do arquivo.
+ */
+export async function uploadImage(file: File, folder = 'geral'): Promise<string> {
+  const ext = file.name.split('.').pop() ?? 'jpg';
+  const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const { error } = await supabase.storage
+    .from('site-images')
+    .upload(filename, file, { upsert: true, contentType: file.type });
+  if (error) throw new Error(error.message);
+  const { data } = supabase.storage.from('site-images').getPublicUrl(filename);
+  return data.publicUrl;
+}
+
 export type { SupabaseClient } from '@supabase/supabase-js';
 export default supabase;

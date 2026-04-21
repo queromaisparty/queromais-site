@@ -25,6 +25,7 @@ import { AdminMusic } from './AdminMusic';
 import { AdminSobre } from './AdminSobre';
 import { AdminFicaMais } from './AdminFicaMais';
 import { AdminContact } from './AdminContact';
+import { AdminNewsletter } from './AdminNewsletter';
 
 type AdminSection = 
   | 'dashboard'
@@ -36,6 +37,7 @@ type AdminSection =
   | 'shop'
   | 'contact'
   | 'faq'
+  | 'newsletter'
   | 'settings';
 
 interface AdminDashboardProps {
@@ -72,6 +74,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
     { id: 'gallery',      label: { pt: 'Você na QM',       en: 'You at QM',    es: 'Usted en QM'  }, icon: Image },
     { id: 'shop',         label: { pt: 'Loja',             en: 'Shop',         es: 'Tienda'       }, icon: ShoppingBag },
     { id: 'contact',      label: { pt: 'Contato',          en: 'Contact',      es: 'Contacto'     }, icon: Mail },
+    { id: 'newsletter',   label: { pt: 'Newsletter',       en: 'Newsletter',   es: 'Boletín'      }, icon: Mail },
     { id: 'faq',          label: { pt: 'FAQ',              en: 'FAQ',          es: 'FAQ'          }, icon: HelpCircle },
     { id: 'settings',     label: { pt: 'Configurações',    en: 'Settings',     es: 'Configuración'}, icon: Settings },
   ];
@@ -269,6 +272,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
           currentSection !== 'music' &&
           currentSection !== 'storytelling' &&
           currentSection !== 'fica-mais' &&
+          currentSection !== 'newsletter' &&
           currentSection !== 'contact' && (
           <div className="p-8">
             <div className="mb-8">
@@ -331,6 +335,11 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
         {/* CONTACT / FAQ */}
         {currentSection === 'contact' && (
           <AdminContact />
+        )}
+
+        {/* NEWSLETTER */}
+        {currentSection === 'newsletter' && (
+          <AdminNewsletter />
         )}
 
         {/* GALERIA */}

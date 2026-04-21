@@ -307,7 +307,14 @@ export interface ContactMessage {
   subject: string;
   message: string;
   createdAt: string;
-  read: boolean;
+  status: 'nova' | 'lida' | 'respondida' | 'arquivada';
+}
+
+export interface NewsletterSubscriber {
+  id: string;
+  email: string;
+  active: boolean;
+  createdAt: string;
 }
 
 export interface FAQ {

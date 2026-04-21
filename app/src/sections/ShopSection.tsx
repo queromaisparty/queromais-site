@@ -1,29 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ShoppingBag, Ticket, Plus, Minus, Trash2, CreditCard } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { translations } from '@/lib/translations';
-import type { CartItem } from '@/types';
+import type { CartItem, Product } from '@/types';
 
 export function ShopSection() {
   const { t } = useLanguage();
-  const { products, getUpcomingEvents } = useData();
+  const { products, getUpcomingEvents, contactInfo } = useData();
   const [activeTab, setActiveTab] = useState<'products' | 'tickets'>('products');
-  const [cart, setCart] = useState<CartItem[]>([]);
+  
+  // Carrinho sincronizado com localStorage
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const saved = localStorage.getItem('@QueroMais:cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
   const [showCart, setShowCart] = useState(false);
 
-  const upcomingEvents = getUpcomingEvents();
+  useEffect(() => {
+    localStorage.setItem('@QueroMais:cart', JSON.stringify(cart));
+  }, [cart]);
 
-  const addToCart = (item: Omit<CartItem, 'quantity'>) => {
+  const upcomingEvents = getUpcomingEvents();
+  // Pegar os ativos e os originais disponíveis para Preview na home
+  const activeProducts = products.filter(p => p.status === 'active' || p.stock > 0);
+
+  const addToCart = (product: Product) => {
     setCart(prev => {
-      const existing = prev.find(i => i.id === item.id);
+      const existing = prev.find(i => i.id === product.id);
       if (existing) {
         return prev.map(i => 
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
-      return [...prev, { ...item, quantity: 1 }];
+      return [...prev, { 
+        id: product.id, 
+        name: t(product.name), 
+        price: product.price, 
+        image: product.images?.[0] || '', 
+        quantity: 1 
+      }];
     });
+    setShowCart(true);
   };
 
   const removeFromCart = (id: string) => {
@@ -42,6 +66,17 @@ export function ShopSection() {
 
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const cartItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  const checkoutWhatsApp = () => {
+    const phone = contactInfo.whatsapp.replace(/\D/g, '');
+    let text = `*NOVO PEDIDO - QUERO MAIS STORE*%0A%0A`;
+    cart.forEach(item => {
+      text += `${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}%0A`;
+    });
+    text += `%0A*TOTAL: R$ ${cartTotal.toFixed(2)}*%0A%0A`;
+    text += `Olá! Gostaria de finalizar o meu pedido.`;
+    window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+  };
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat(t({ pt: 'pt-BR', en: 'en-US', es: 'es-ES' }), {
@@ -138,9 +173,12 @@ export function ShopSection() {
                     <span className="text-white/60 tracking-wider uppercase text-sm">{t({ pt: 'Total', en: 'Total', es: 'Total' })}</span>
                     <p className="font-sans font-black text-white text-3xl mt-1">{formatPrice(cartTotal)}</p>
                   </div>
-                  <button className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#E91E8C] text-white font-black uppercase tracking-wider rounded-none hover:bg-white hover:text-black transition-colors">
+                  <button 
+                    onClick={checkoutWhatsApp}
+                    className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#E91E8C] text-white font-black uppercase tracking-wider rounded-none hover:bg-white hover:text-black transition-colors"
+                  >
                     <CreditCard className="w-5 h-5" />
-                    {t(translations.shop.checkout)}
+                    Finalizar via WhatsApp
                   </button>
                 </div>
               </>
@@ -175,8 +213,8 @@ export function ShopSection() {
           {/* Aba de Produtos */}
           {activeTab === 'products' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {products.length > 0 ? (
-                products.map((product) => (
+              {activeProducts.length > 0 ? (
+                activeProducts.slice(0, 4).map((product) => (
                   <div key={product.id} className="group bg-[#1A1A1A] rounded-none overflow-hidden hover:bg-[#2A2D30] transition-colors">
                     <div className="aspect-square bg-white flex items-center justify-center overflow-hidden">
                       {product.images[0] ? (
@@ -206,14 +244,8 @@ export function ShopSection() {
                           )}
                         </div>
                         <button
-                          onClick={() => addToCart({
-                            id: product.id,
-                            productId: product.id,
-                            name: t(product.name),
-                            price: product.price,
-                            image: product.images[0] || ''
-                          })}
-                          className="w-12 h-12 bg-white text-black rounded-none flex items-center justify-center hover:bg-[#E91E8C] hover:text-white transition-colors"
+                          onClick={() => addToCart(product)}
+                          className="w-12 h-12 flex items-center justify-center bg-white text-black rounded-none hover:bg-[#E91E8C] hover:text-white transition-colors"
                         >
                           <Plus className="w-6 h-6" />
                         </button>

@@ -1,20 +1,25 @@
 import { useEffect, useRef } from 'react';
 
 export function HeroSection() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoDesktopRef = useRef<HTMLVideoElement>(null);
+  const videoMobileRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let animationFrameId: number;
     
     // Força o vídeo a carregar seus dados para termos a duração correta
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.pause();
+    if (videoDesktopRef.current) {
+      videoDesktopRef.current.load();
+      videoDesktopRef.current.pause();
+    }
+    if (videoMobileRef.current) {
+      videoMobileRef.current.load();
+      videoMobileRef.current.pause();
     }
 
     const handleScroll = () => {
-      if (!containerRef.current || !videoRef.current) return;
+      if (!containerRef.current) return;
       
       const { top, height } = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
@@ -29,32 +34,35 @@ export function HeroSection() {
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
       
-      if (!isNaN(videoRef.current.duration) && videoRef.current.duration > 0) {
-        animationFrameId = requestAnimationFrame(() => {
-          if (videoRef.current) {
-            videoRef.current.currentTime = progress * videoRef.current.duration;
-          }
-        });
-      }
+      animationFrameId = requestAnimationFrame(() => {
+        // Desktop
+        if (videoDesktopRef.current && !isNaN(videoDesktopRef.current.duration) && videoDesktopRef.current.duration > 0) {
+          videoDesktopRef.current.currentTime = progress * videoDesktopRef.current.duration;
+        }
+        // Mobile
+        if (videoMobileRef.current && !isNaN(videoMobileRef.current.duration) && videoMobileRef.current.duration > 0) {
+          videoMobileRef.current.currentTime = progress * videoMobileRef.current.duration;
+        }
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Hook adicional para caso a duração só carregue um tempo depois:
     const handleLoadedMetadata = () => handleScroll();
-    const currentVideo = videoRef.current;
     
-    if (currentVideo) {
-      currentVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
-    }
+    const desktopVideo = videoDesktopRef.current;
+    const mobileVideo = videoMobileRef.current;
+    
+    if (desktopVideo) desktopVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
+    if (mobileVideo) mobileVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
 
     handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (currentVideo) {
-        currentVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      }
+      if (desktopVideo) desktopVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      if (mobileVideo) mobileVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -64,12 +72,24 @@ export function HeroSection() {
       {/* Wrapper travado que gruda na tela */}
       <div className="sticky top-0 w-full h-screen overflow-hidden">
         
-        {/* Background com vídeo scrolável */}
-        <div className="absolute inset-0">
+        {/* Background com vídeo scrolável (VÍDEO DESKTOP) */}
+        <div className="hidden md:block absolute inset-0">
           <video
-            ref={videoRef}
+            ref={videoDesktopRef}
             src="/hero-scroll.mp4"
             className="w-full h-full object-cover object-center"
+            muted
+            playsInline
+            preload="auto"
+          />
+        </div>
+        
+        {/* Background com vídeo scrolável (VÍDEO MOBILE) */}
+        <div className="md:hidden absolute inset-0">
+          <video
+            ref={videoMobileRef}
+            src="/videoversaomobile.mp4"
+            className="w-full h-full object-cover object-[70%_center]"
             muted
             playsInline
             preload="auto"
