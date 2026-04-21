@@ -84,9 +84,6 @@ export function GallerySection() {
 
           {/* Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <span className="inline-block text-[#22c55e] text-xs font-bold uppercase tracking-[0.2em] mb-4">
-              {t({ pt: 'Momentos', en: 'Moments', es: 'Momentos' })}
-            </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#111] leading-[0.95] tracking-tight">
               {t(translations.gallery.title)}
             </h2>
