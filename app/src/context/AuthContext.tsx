@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { AdminUser } from '@/types';
+import { supabase } from '@/lib/supabase';
 
 interface AuthContextType {
   user: AdminUser | null;
@@ -11,59 +12,62 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'quero-mais-auth';
-const USER_KEY = 'quero-mais-user';
-
-// Credenciais padrão para demonstração
-const DEFAULT_CREDENTIALS = {
-  email: 'admin@queromais.com',
-  password: 'admin123'
-};
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar se há sessão salva
-    const storedAuth = localStorage.getItem(STORAGE_KEY);
-    const storedUser = localStorage.getItem(USER_KEY);
-    
-    if (storedAuth === 'true' && storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch {
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem(USER_KEY);
+    // Check active session on mount
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email || '',
+          name: 'Administrador',
+          role: 'admin',
+          createdAt: session.user.created_at,
+          lastLogin: new Date().toISOString()
+        });
       }
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    });
+
+    // Listen for changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email || '',
+          name: 'Administrador',
+          role: 'admin',
+          createdAt: session.user.created_at,
+          lastLogin: new Date().toISOString()
+        });
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const login = useCallback(async (email: string, password: string): Promise<boolean> => {
-    // Simulação de autenticação
-    if (email === DEFAULT_CREDENTIALS.email && password === DEFAULT_CREDENTIALS.password) {
-      const userData: AdminUser = {
-        id: '1',
-        email: DEFAULT_CREDENTIALS.email,
-        name: 'Administrador',
-        role: 'admin',
-        createdAt: new Date().toISOString(),
-        lastLogin: new Date().toISOString()
-      };
-      
-      setUser(userData);
-      localStorage.setItem(STORAGE_KEY, 'true');
-      localStorage.setItem(USER_KEY, JSON.stringify(userData));
-      return true;
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        console.error('Login erro:', error.message);
+        return false;
+      }
+      return !!data.user;
+    } catch (error) {
+      console.error(error);
+      return false;
     }
-    return false;
   }, []);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(USER_KEY);
   }, []);
 
   return (
