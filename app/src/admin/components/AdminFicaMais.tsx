@@ -1,4 +1,4 @@
-import { Sparkles, Settings } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export function AdminFicaMais() {

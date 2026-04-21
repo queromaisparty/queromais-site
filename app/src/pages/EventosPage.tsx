@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { useData } from '@/context/DataContext';
-import { useLanguage } from '@/context/LanguageContext';
-import { Calendar, MapPin, Clock, Ticket as TicketIcon, Search, Filter, ChevronLeft, ArrowRight, Image as ImageIcon } from 'lucide-react';
+import { Calendar, MapPin, Clock, Ticket as TicketIcon, Search, ChevronLeft, ArrowRight, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Event as SiteEvent } from '@/types'; 
 
 type FilterState = 'all' | 'upcoming' | 'past';
 
 export function EventosPage() {
-  const { t } = useLanguage();
   const { events } = useData();
   
   const [selectedEvent, setSelectedEvent] = useState<SiteEvent | null>(null);
@@ -115,7 +113,7 @@ export function EventosPage() {
                      </h2>
                      <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm sm:text-base font-medium text-gray-200">
                         <span className="flex items-center gap-2"><Calendar className="w-5 h-5 text-[#E91E8C]"/> {new Date(featuredEvent.date).toLocaleDateString('pt-BR')}</span>
-                        <span className="flex items-center gap-2"><MapPin className="w-5 h-5 text-[#E91E8C]"/> {featuredEvent.location?.name || 'A Definir'}</span>
+                        <span className="flex items-center gap-2"><MapPin className="w-5 h-5 text-[#E91E8C]"/> {featuredEvent.venue || 'A Definir'}</span>
                         <Button className="mt-2 sm:mt-0 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-bold px-8 rounded-xl pointer-events-none">
                           Ver Detalhes <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
@@ -166,7 +164,7 @@ export function EventosPage() {
                          </p>
                          
                          <div className={`mt-auto flex items-center justify-between border-t border-gray-100 pt-4 text-xs font-semibold ${isPast ? 'text-gray-400' : 'text-gray-500'}`}>
-                           <span className="flex items-center gap-1.5"><MapPin className={`w-3.5 h-3.5 ${!isPast && 'text-[#E91E8C]'}`} /> {e.location?.city || 'Brasil'}</span>
+                           <span className="flex items-center gap-1.5"><MapPin className={`w-3.5 h-3.5 ${!isPast && 'text-[#E91E8C]'}`} /> {e.city || 'Brasil'}</span>
                            <span className="flex items-center gap-1.5"><Clock className={`w-3.5 h-3.5 ${!isPast && 'text-[#E91E8C]'}`} /> {e.time || '22:00'}</span>
                          </div>
                        </div>
@@ -230,8 +228,8 @@ export function EventosPage() {
                     </div>
                     <div>
                       <div className="text-sm text-gray-500 font-semibold mb-1">Localização</div>
-                      <div className="text-black font-medium text-lg">{selectedEvent.location?.name || 'Local a ser definido'}</div>
-                      <div className="text-gray-500 text-sm mt-1">{selectedEvent.location?.address || 'Detalhes em breve'} - {selectedEvent.location?.city}</div>
+                      <div className="text-black font-medium text-lg">{selectedEvent.venue || 'Local a ser definido'}</div>
+                      <div className="text-gray-500 text-sm mt-1">{selectedEvent.address || 'Detalhes em breve'} {selectedEvent.city ? `- ${selectedEvent.city}` : ''}</div>
                     </div>
                   </div>
                 </div>
