@@ -335,7 +335,36 @@ FaqItem {
 - **App**: `C:\Projetos\QUEROMAISSITE\app`
 - **Benchmark Visual**: https://www.greenvalleybr.com/
 - **Dev local**: http://localhost:5173
-- **Conversação**: `7d147015-aca3-4d79-9d78-ee2af9ca60bf`
+- **Conversa inicial**: `7d147015-aca3-4d79-9d78-ee2af9ca60bf`
+
+---
+
+## 🚨 REGRAS DE PASTAS — OBRIGATÓRIO LER
+
+> **EXISTE CONFUSÃO ENTRE DUAS PASTAS. SEGUIR ESTAS REGRAS SEM EXCEÇÃO.**
+
+### Qual pasta usar para quê?
+
+| Pasta | Uso | Git? |
+|---|---|---|
+| `C:\Projetos\QUEROMAISSITE` | ✅ EDITAR CÓDIGO + GIT + DEPLOY | ✅ Tem `.git` → GitHub |
+| `C:\Users\djhen\Documents\QUEROMAISSITE` | ⚠️ Só referências visuais e memory.md para leitura do Antigravity | ❌ Sem Git |
+
+### Comandos Git — SEMPRE a partir de `C:\Projetos\QUEROMAISSITE`:
+```powershell
+cd C:\Projetos\QUEROMAISSITE
+git status
+git add .
+git commit -m "feat: descrição da mudança"
+git push origin main
+```
+
+### Sinal de erro: se `git status` retornar `fatal: not a git repository` → errou a pasta!
+
+### Sincronizar memory.md ao final de cada sessão:
+```powershell
+Copy-Item -Path "C:\Projetos\QUEROMAISSITE\memory.md" -Destination "C:\Users\djhen\Documents\QUEROMAISSITE\memory.md" -Force
+```
 
 ---
 
