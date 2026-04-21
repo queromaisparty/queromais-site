@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useData } from '@/context/DataContext';
-import { Mail, MapPin, Phone, MessageSquare, Plus, Send } from 'lucide-react';
+import { Mail, Phone, MessageSquare, Plus, Send } from 'lucide-react';
 import { toast } from 'sonner';
 
 export function ContactPage() {
