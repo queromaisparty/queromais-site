@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Lock, Mail, Eye, EyeOff, ArrowRight, Sparkles } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -37,19 +37,13 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
       <div className="w-full max-w-sm">
 
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div
-            className="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #E91E8C, #FF6BB5)', boxShadow: '0 8px 24px rgba(233,30,140,0.3)' }}
-          >
-            <Sparkles className="w-7 h-7 text-white" />
-          </div>
+        <div className="text-center mb-8 pt-4">
           <img 
             src="/LOGOQUEROMAIS_PRETA.svg" 
             alt="Quero Mais" 
-            className="h-6 w-auto mx-auto mt-2"
+            className="h-10 lg:h-12 w-auto mx-auto mb-3"
           />
-          <p className="text-sm mt-1" style={{ color: '#9CA3AF' }}>
+          <p className="text-sm" style={{ color: '#9CA3AF' }}>
             {t({ pt: 'Painel Administrativo', en: 'Admin Panel', es: 'Panel Administrativo' })}
           </p>
         </div>
@@ -147,12 +141,6 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
             </button>
           </form>
 
-          {/* Credenciais padrão */}
-          <div className="mt-5 pt-5 text-center" style={{ borderTop: '1px solid #F3F4F6' }}>
-            <p className="text-xs" style={{ color: '#9CA3AF' }}>
-              {t({ pt: 'Acesso padrão: admin@queromais.com / admin123', en: 'Default: admin@queromais.com / admin123', es: 'Defecto: admin@queromais.com / admin123' })}
-            </p>
-          </div>
         </div>
       </div>
     </div>
