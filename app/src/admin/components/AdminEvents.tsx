@@ -16,9 +16,9 @@ import { useDiscountList } from '@/hooks/useDiscountList';
 import type { Event, TicketLink } from '@/types';
 
 // ─── Tipos ───────────────────────────────────────────
-type EventStatus = 'draft' | 'active' | 'published' | 'inactive' | 'finished' | 'cancelled';
+type EventStatus = 'active' | 'inactive' | 'sold_out';
 type TabId = 'event' | 'tickets' | 'lists';
-type Filter = 'all' | 'active' | 'draft' | 'finished';
+type Filter = 'all' | 'active' | 'sold_out';
 
 interface FormData {
   title: string;
@@ -38,7 +38,7 @@ const EMPTY_FORM: FormData = {
   time: '23:00',
   venue: '',
   city: '',
-  status: 'draft',
+  status: 'active',
   flyer: '',
   ticketLinks: [],
   featuredHome: false,
@@ -85,12 +85,9 @@ function formToEvent(f: FormData): Omit<Event, 'id' | 'createdAt' | 'updatedAt'>
 
 // ─── Config de status ────────────────────────────────
 const STATUS_CONFIG: Record<EventStatus, { label: string; color: string; bg: string; dot: string }> = {
-  draft:     { label: 'Rascunho',  color: '#9CA3AF', bg: '#F3F4F6',              dot: '#D1D5DB' },
   active:    { label: 'Ativo',     color: '#059669', bg: '#D1FAE5',              dot: '#10B981' },
-  published: { label: 'Publicado', color: '#2563EB', bg: '#DBEAFE',              dot: '#3B82F6' },
   inactive:  { label: 'Inativo',   color: '#6B7280', bg: '#F9FAFB',              dot: '#9CA3AF' },
-  finished:  { label: 'Encerrado', color: '#7C3AED', bg: '#EDE9FE',              dot: '#8B5CF6' },
-  cancelled: { label: 'Cancelado', color: '#DC2626', bg: '#FEE2E2',              dot: '#EF4444' },
+  sold_out:  { label: 'Esgotado', color: '#7C3AED', bg: '#EDE9FE',              dot: '#8B5CF6' },
 };
 
 function fmtDate(d: string) {
@@ -414,8 +411,8 @@ function EventCard({ event, onEdit, onDelete, onToggleStatus, onOpenLists }: {
   onToggleStatus: () => void; onOpenLists: () => void;
 }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const cfg = STATUS_CONFIG[event.status as EventStatus] ?? STATUS_CONFIG.draft;
-  const isActive = event.status === 'active' || event.status === 'published';
+  const cfg = STATUS_CONFIG[event.status as EventStatus] ?? STATUS_CONFIG.inactive;
+  const isActive = event.status === 'active';
 
   return (
     <div
@@ -689,9 +686,8 @@ export function AdminEvents() {
 
   const filtered = events
     .filter(e => {
-      if (filter === 'active') return e.status === 'active' || e.status === 'published';
-      if (filter === 'draft') return e.status === 'draft';
-      if (filter === 'finished') return e.status === 'finished' || e.status === 'cancelled';
+      if (filter === 'active') return e.status === 'active';
+      if (filter === 'sold_out') return e.status === 'sold_out';
       return true;
     })
     .filter(e =>
@@ -710,7 +706,7 @@ export function AdminEvents() {
   };
 
   const handleToggleStatus = (event: Event) => {
-    const isActive = event.status === 'active' || event.status === 'published';
+    const isActive = event.status === 'active';
     updateEvent(event.id, { status: isActive ? 'inactive' : 'active' });
     toast.success(isActive ? 'Evento desativado.' : 'Evento ativado!');
   };
@@ -718,8 +714,7 @@ export function AdminEvents() {
   const FILTERS: { id: Filter; label: string }[] = [
     { id: 'all', label: 'Todos' },
     { id: 'active', label: 'Ativos' },
-    { id: 'draft', label: 'Rascunhos' },
-    { id: 'finished', label: 'Encerrados' },
+    { id: 'sold_out', label: 'Esgotados' },
   ];
 
   // Tela de listas

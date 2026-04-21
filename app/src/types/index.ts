@@ -75,7 +75,7 @@ export interface Event {
   ticketLink?: string;
 
   // Status e Visibilidade
-  status: 'draft' | 'active' | 'published' | 'inactive' | 'finished' | 'cancelled';
+  status: 'active' | 'inactive' | 'sold_out';
   featured: boolean;
   featuredHome: boolean;     // destaque específico na seção Hero da Home
   order: number;
