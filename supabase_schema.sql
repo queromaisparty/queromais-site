@@ -161,6 +161,47 @@ CREATE POLICY "Escrita autenticada - contact_info" ON contact_info FOR ALL USING
 CREATE POLICY "Escrita autenticada - gallery_albums" ON gallery_albums FOR ALL USING (auth.role() = 'authenticated');
 
 -- =====================================================
+-- TABELAS: Lista de Desconto por Evento
+-- =====================================================
+
+CREATE TABLE IF NOT EXISTS events_meta (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  event_date DATE,
+  has_list BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS event_discount_lists (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  event_id TEXT NOT NULL REFERENCES events_meta(id) ON DELETE CASCADE,
+  active BOOLEAN DEFAULT true,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS event_discount_entries (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  list_id UUID NOT NULL REFERENCES event_discount_lists(id) ON DELETE CASCADE,
+  event_id TEXT NOT NULL,
+  name TEXT NOT NULL,
+  phone TEXT,
+  guests INTEGER DEFAULT 1,
+  status TEXT DEFAULT 'ok' CHECK (status IN ('ok', 'usado', 'cancelado')),
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE events_meta ENABLE ROW LEVEL SECURITY;
+ALTER TABLE event_discount_lists ENABLE ROW LEVEL SECURITY;
+ALTER TABLE event_discount_entries ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "acesso_events_meta" ON events_meta FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "acesso_discount_lists" ON event_discount_lists FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "acesso_discount_entries" ON event_discount_entries FOR ALL USING (true) WITH CHECK (true);
+
+-- =====================================================
 -- Dados iniciais
 -- =====================================================
 INSERT INTO site_config (site_name, primary_color, secondary_color)

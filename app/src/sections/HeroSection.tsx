@@ -1,13 +1,8 @@
-import { ChevronRight, Calendar } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { useData } from '@/context/DataContext';
 
 export function HeroSection() {
   const { t } = useLanguage();
-  const { events } = useData();
-
-  // Próximo evento featured
-  const featuredEvent = events.find(e => e.featured && e.status === 'active') || events[0];
 
   const scrollTo = (id: string) => {
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -34,7 +29,7 @@ export function HeroSection() {
         <div className="mb-8 animate-fade-in">
           <h1 className="font-display font-black text-white uppercase tracking-tight leading-none"
             style={{ fontSize: 'clamp(3rem, 10vw, 8rem)' }}>
-            QUERO<span className="text-[#6ABD45]">+</span>
+            QUERO<span className="text-[#C2185B]">+</span>
           </h1>
           <p className="text-white/80 font-display font-semibold uppercase tracking-[0.3em] text-sm sm:text-base mt-2">
             {t({
@@ -54,11 +49,11 @@ export function HeroSection() {
               es: 'Lo mejor de la música electrónica',
             })}
           </p>
-          <p className="text-[#6ABD45] font-display font-bold uppercase text-base sm:text-xl tracking-wide mt-1">
+          <p className="text-[#C2185B] font-display font-bold uppercase text-base sm:text-xl tracking-wide mt-1">
             {t({
-              pt: 'Santa Catarina e além',
-              en: 'Santa Catarina and beyond',
-              es: 'Santa Catarina y más allá',
+              pt: 'Rio de Janeiro e mundo',
+              en: 'Rio de Janeiro and the world',
+              es: 'Rio de Janeiro y el mundo',
             })}
           </p>
         </div>
@@ -83,31 +78,7 @@ export function HeroSection() {
 
       </div>
 
-      {/* Card "Próximo Evento" — canto inferior */}
-      {featuredEvent && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-8 z-10 animate-slide-up"
-          style={{ animationDelay: '0.5s' }}>
-          <div className="bg-white/95 backdrop-blur-sm rounded-xl px-5 py-4 shadow-premium flex items-center gap-4 max-w-[320px]">
-            <div className="w-10 h-10 rounded-full bg-[#6ABD45]/15 flex items-center justify-center flex-shrink-0">
-              <Calendar className="w-5 h-5 text-[#6ABD45]" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-[#6ABD45] mb-0.5">
-                {t({ pt: 'Próximo Evento', en: 'Next Event', es: 'Próximo Evento' })}
-              </p>
-              <p className="text-sm font-bold text-black truncate">
-                {t(featuredEvent.title)}
-              </p>
-              <p className="text-xs text-[#666666] mt-0.5">
-                {new Date(featuredEvent.date).toLocaleDateString(
-                  t({ pt: 'pt-BR', en: 'en-US', es: 'es-ES' }),
-                  { day: '2-digit', month: 'short' }
-                )} · {featuredEvent.time}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 sm:hidden">

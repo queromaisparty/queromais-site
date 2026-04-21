@@ -20,7 +20,7 @@ export function SobreSection() {
 
             {/* Esquerda: Texto grande uppercase */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6ABD45] mb-6 font-sans">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-6 font-sans">
                 {t({ pt: 'Quem somos', en: 'Who we are', es: 'Quiénes somos' })}
               </p>
               <h2 className="font-display font-black text-white uppercase leading-none tracking-tight"
@@ -53,7 +53,7 @@ export function SobreSection() {
                 })}
               </p>
 
-              <p className="text-[#6ABD45] font-display font-bold uppercase tracking-wide text-sm">
+              <p className="text-[#C2185B] font-display font-bold uppercase tracking-wide text-sm">
                 {t({
                   pt: 'E segue como referência absoluta.',
                   en: 'And continues as an absolute reference.',
@@ -93,7 +93,7 @@ export function SobreSection() {
             </div>
 
             <div className="space-y-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6ABD45] font-sans">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] font-sans">
                 {t({ pt: 'Nossa missão', en: 'Our mission', es: 'Nuestra misión' })}
               </p>
               <h3 className="font-display font-black text-3xl lg:text-4xl text-black uppercase leading-tight">
