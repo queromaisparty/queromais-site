@@ -1,31 +1,33 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function HeroSection() {
-  const videoDesktopRef = useRef<HTMLVideoElement>(null);
-  const videoMobileRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     let animationFrameId: number;
     
-    // Força o vídeo a carregar seus dados para termos a duração correta
-    if (videoDesktopRef.current) {
-      videoDesktopRef.current.load();
-      videoDesktopRef.current.pause();
-    }
-    if (videoMobileRef.current) {
-      videoMobileRef.current.load();
-      videoMobileRef.current.pause();
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.pause();
     }
 
     const handleScroll = () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || !videoRef.current) return;
       
       const { top, height } = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // top = distância do topo do container até o topo da tela
-      // Quando top = 0, o scroll "começa".
       const scrollDistance = -top;
       const maxScroll = height - windowHeight;
       
@@ -34,68 +36,49 @@ export function HeroSection() {
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
       
-      animationFrameId = requestAnimationFrame(() => {
-        // Desktop
-        if (videoDesktopRef.current && !isNaN(videoDesktopRef.current.duration) && videoDesktopRef.current.duration > 0) {
-          videoDesktopRef.current.currentTime = progress * videoDesktopRef.current.duration;
-        }
-        // Mobile
-        if (videoMobileRef.current && !isNaN(videoMobileRef.current.duration) && videoMobileRef.current.duration > 0) {
-          videoMobileRef.current.currentTime = progress * videoMobileRef.current.duration;
-        }
-      });
+      if (!isNaN(videoRef.current.duration) && videoRef.current.duration > 0) {
+        animationFrameId = requestAnimationFrame(() => {
+          if (videoRef.current) {
+            videoRef.current.currentTime = progress * videoRef.current.duration;
+          }
+        });
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Hook adicional para caso a duração só carregue um tempo depois:
     const handleLoadedMetadata = () => handleScroll();
+    const currentVideo = videoRef.current;
     
-    const desktopVideo = videoDesktopRef.current;
-    const mobileVideo = videoMobileRef.current;
-    
-    if (desktopVideo) desktopVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
-    if (mobileVideo) mobileVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
+    if (currentVideo) {
+      currentVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
+    }
 
     handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (desktopVideo) desktopVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      if (mobileVideo) mobileVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      if (currentVideo) {
+        currentVideo.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      }
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isMobile]); // Re-run scroll setup if video source changes
 
   return (
     <section ref={containerRef} id="home" className="relative w-full h-[200vh] bg-[#050505]">
       {/* Wrapper travado que gruda na tela */}
-      <div className="sticky top-0 w-full h-screen overflow-hidden">
-        
-        {/* Background com vídeo scrolável (VÍDEO DESKTOP) */}
-        <div className="hidden md:block absolute inset-0">
+      <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#050505]">
+        <div className="absolute inset-0 flex items-center justify-center">
           <video
-            ref={videoDesktopRef}
-            src="/hero-scroll.mp4"
+            ref={videoRef}
+            src={isMobile ? "/videoversaomobile.mp4" : "/hero-scroll.mp4"}
             className="w-full h-full object-cover object-center"
             muted
             playsInline
             preload="auto"
           />
         </div>
-        
-        {/* Background com vídeo scrolável (VÍDEO MOBILE) */}
-        <div className="md:hidden absolute inset-0 bg-[#050505] flex items-center justify-center">
-          <video
-            ref={videoMobileRef}
-            src="/videoversaomobile.mp4"
-            className="w-full h-full object-cover object-center"
-            muted
-            playsInline
-            preload="auto"
-          />
-        </div>
-
       </div>
     </section>
   );
