@@ -85,11 +85,11 @@ export function HeroSection() {
         </div>
         
         {/* Background com vídeo scrolável (VÍDEO MOBILE) */}
-        <div className="md:hidden absolute inset-0">
+        <div className="md:hidden absolute inset-0 bg-[#050505] flex items-center justify-center">
           <video
             ref={videoMobileRef}
             src="/videoversaomobile.mp4"
-            className="w-full h-full object-cover object-[70%_center]"
+            className="w-full h-full object-cover object-center"
             muted
             playsInline
             preload="auto"
