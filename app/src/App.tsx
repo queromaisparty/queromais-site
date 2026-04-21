@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { LanguageProvider } from '@/context/LanguageContext';
@@ -51,6 +51,13 @@ const toasterStyle = {
 function App() {
   const [currentView, setCurrentView] = useState<View>('website');
   const [adminSection, setAdminSection] = useState<AdminSection>('dashboard');
+
+  useEffect(() => {
+    if (window.location.pathname === '/admin') {
+      window.history.replaceState(null, '', '/');
+      setCurrentView('admin-login');
+    }
+  }, []);
 
   const handleAdminClick = () => setCurrentView('admin-login');
   const handleAdminLogin = () => setCurrentView('admin-dashboard');
