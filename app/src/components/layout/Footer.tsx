@@ -78,7 +78,7 @@ export function Footer({ onAdminClick }: FooterProps) {
 
           {/* NavegaÃ§Ã£o */}
           <div>
-            <h3 className="font-display font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
+            <h3 className="font-sans font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
               {t({ pt: 'NavegaÃ§Ã£o', en: 'Navigation', es: 'NavegaciÃ³n' })}
             </h3>
             <ul className="space-y-3">
@@ -99,7 +99,7 @@ export function Footer({ onAdminClick }: FooterProps) {
 
           {/* Contato */}
           <div>
-            <h3 className="font-display font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
+            <h3 className="font-sans font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
               {t({ pt: 'Contato', en: 'Contact', es: 'Contacto' })}
             </h3>
             <ul className="space-y-4">
@@ -132,7 +132,7 @@ export function Footer({ onAdminClick }: FooterProps) {
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-display font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
+            <h3 className="font-sans font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
               {t({ pt: 'Newsletter', en: 'Newsletter', es: 'Newsletter' })}
             </h3>
             <p className="text-white/50 text-sm mb-5 font-sans">

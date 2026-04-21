@@ -110,7 +110,7 @@ export function VoceSection() {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#C2185B] mb-3 font-sans">
               {t({ pt: 'MemÃ³rias e experiÃªncias', en: 'Memories & experiences', es: 'Recuerdos y experiencias' })}
             </p>
-            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none">
+            <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none">
               {t({ pt: 'VocÃª na Quero Mais?', en: 'Were You There?', es: 'Â¿Estuviste AhÃ­?' })}
             </h2>
           </div>
@@ -214,7 +214,7 @@ export function VoceSection() {
             <div className="w-20 h-20 mx-auto mb-8 bg-[#E91E8C]/10 rounded-md flex items-center justify-center">
               <Download className="w-9 h-9 text-[#C2185B]" />
             </div>
-            <h3 className="font-display font-black text-3xl uppercase text-black mb-4">
+            <h3 className="font-sans font-black text-3xl uppercase text-black mb-4">
               {t({ pt: 'Pegue sua foto', en: 'Get your photo', es: 'Tu foto' })}
             </h3>
             <p className="text-[#666] font-sans mb-8 leading-relaxed">

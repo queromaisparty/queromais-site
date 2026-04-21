@@ -31,7 +31,7 @@ export function HeroSection() {
             style={{ fontSize: 'clamp(3rem, 10vw, 8rem)' }}>
             QUERO<span className="text-[#C2185B]">+</span>
           </h1>
-          <p className="text-white/80 font-display font-semibold uppercase tracking-[0.3em] text-sm sm:text-base mt-2">
+          <p className="text-white/80 font-sans font-semibold uppercase tracking-[0.3em] text-sm sm:text-base mt-2">
             {t({
               pt: 'Experiências que marcam',
               en: 'Experiences that mark',
@@ -42,14 +42,14 @@ export function HeroSection() {
 
         {/* Badge de autoridade */}
         <div className="mb-10 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          <p className="text-white font-display font-black uppercase text-lg sm:text-2xl tracking-wide">
+          <p className="text-white font-sans font-black uppercase text-lg sm:text-2xl tracking-wide">
             {t({
               pt: 'O melhor da música eletrônica',
               en: 'The best of electronic music',
               es: 'Lo mejor de la música electrónica',
             })}
           </p>
-          <p className="text-[#C2185B] font-display font-bold uppercase text-base sm:text-xl tracking-wide mt-1">
+          <p className="text-[#C2185B] font-sans font-bold uppercase text-base sm:text-xl tracking-wide mt-1">
             {t({
               pt: 'Rio de Janeiro e mundo',
               en: 'Rio de Janeiro and the world',
@@ -62,7 +62,7 @@ export function HeroSection() {
         <div className="flex flex-col sm:flex-row gap-3 animate-slide-up" style={{ animationDelay: '0.35s' }}>
           <button
             onClick={() => scrollTo('#eventos')}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#4A4A4A] hover:bg-black text-white rounded-full font-semibold font-display text-sm uppercase tracking-wider transition-all duration-200 group"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#4A4A4A] hover:bg-black text-white rounded-full font-semibold font-sans text-sm uppercase tracking-wider transition-all duration-200 group"
           >
             {t({ pt: 'Ver Próximos Eventos', en: 'See Events', es: 'Ver Eventos' })}
             <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -70,7 +70,7 @@ export function HeroSection() {
 
           <button
             onClick={() => scrollTo('#voce')}
-            className="flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/80 text-white hover:bg-white hover:text-black rounded-full font-semibold font-display text-sm uppercase tracking-wider transition-all duration-200"
+            className="flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/80 text-white hover:bg-white hover:text-black rounded-full font-semibold font-sans text-sm uppercase tracking-wider transition-all duration-200"
           >
             {t({ pt: 'Você na Quero Mais?', en: 'See Gallery', es: 'Ver Galería' })}
           </button>

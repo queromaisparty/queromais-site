@@ -18,7 +18,7 @@ export function MusicSection() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-3 font-sans">
             {t({ pt: 'Sons que marcam', en: 'Sounds that leave a mark', es: 'Sonidos que marcan' })}
           </p>
-          <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight">
+          <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight">
             QM MUSIC
           </h2>
           <p className="text-black/60 text-lg max-w-2xl mx-auto mt-4 font-medium">
@@ -71,7 +71,7 @@ export function MusicSection() {
                       )}
                     </div>
                     <div className="p-6">
-                      <h3 className="font-display font-black text-xl text-black mb-2 uppercase">{dj.name}</h3>
+                      <h3 className="font-sans font-black text-xl text-black mb-2 uppercase">{dj.name}</h3>
                       <p className="text-black/60 text-sm line-clamp-3 mb-4">
                         {t(dj.bio)}
                       </p>
@@ -101,7 +101,7 @@ export function MusicSection() {
                       <Headphones className="w-16 h-16 text-gray-400 group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     <div className="p-6">
-                      <h3 className="font-display font-black text-xl text-black mb-1 uppercase">{name}</h3>
+                      <h3 className="font-sans font-black text-xl text-black mb-1 uppercase">{name}</h3>
                       <p className="text-[#C2185B] font-bold text-sm uppercase">House / Techno</p>
                     </div>
                   </div>
@@ -137,7 +137,7 @@ export function MusicSection() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="font-display font-black text-xl text-black mb-2 uppercase">{t(set.title)}</h3>
+                      <h3 className="font-sans font-black text-xl text-black mb-2 uppercase">{t(set.title)}</h3>
                       <p className="text-black/60 text-sm line-clamp-2 mb-4">
                         {t(set.description)}
                       </p>
@@ -168,7 +168,7 @@ export function MusicSection() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="font-display font-black text-xl text-black mb-1 uppercase">{title}</h3>
+                      <h3 className="font-sans font-black text-xl text-black mb-1 uppercase">{title}</h3>
                       <p className="text-[#C2185B] font-bold text-sm">2:30:00</p>
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export function MusicSection() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                       
                       <div className="absolute bottom-6 left-6 right-6">
-                        <h3 className="font-display font-black text-white text-3xl mb-1 uppercase">{t(playlist.title)}</h3>
+                        <h3 className="font-sans font-black text-white text-3xl mb-1 uppercase">{t(playlist.title)}</h3>
                         <p className="text-[#C2185B] font-bold text-sm tracking-widest">{playlist.tracks.length} TRACKS</p>
                       </div>
                     </div>
@@ -229,7 +229,7 @@ export function MusicSection() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                       
                       <div className="absolute bottom-6 left-6 right-6">
-                        <h3 className="font-display font-black text-white text-3xl mb-1 uppercase">{title}</h3>
+                        <h3 className="font-sans font-black text-white text-3xl mb-1 uppercase">{title}</h3>
                         <p className="text-[#C2185B] font-bold text-sm tracking-widest">+50 TRACKS</p>
                       </div>
                     </div>

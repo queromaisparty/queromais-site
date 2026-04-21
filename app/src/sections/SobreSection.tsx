@@ -23,7 +23,7 @@ export function SobreSection() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-6 font-sans">
                 {t({ pt: 'Quem somos', en: 'Who we are', es: 'Quiénes somos' })}
               </p>
-              <h2 className="font-display font-black text-white uppercase leading-none tracking-tight"
+              <h2 className="font-sans font-black text-white uppercase leading-none tracking-tight"
                   style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
                 {t({
                   pt: 'A QUERO MAIS SACUDIU AS BASES DA MÚSICA ELETRÔNICA EM SC.',
@@ -53,7 +53,7 @@ export function SobreSection() {
                 })}
               </p>
 
-              <p className="text-[#C2185B] font-display font-bold uppercase tracking-wide text-sm">
+              <p className="text-[#C2185B] font-sans font-bold uppercase tracking-wide text-sm">
                 {t({
                   pt: 'E segue como referência absoluta.',
                   en: 'And continues as an absolute reference.',
@@ -74,7 +74,7 @@ export function SobreSection() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {stats.map((stat, i) => (
               <div key={i} className="text-center">
-                <p className="font-display font-black text-4xl lg:text-5xl text-black mb-2">{stat.value}</p>
+                <p className="font-sans font-black text-4xl lg:text-5xl text-black mb-2">{stat.value}</p>
                 <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#666666] font-sans">
                   {t(stat.label)}
                 </p>
@@ -96,7 +96,7 @@ export function SobreSection() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] font-sans">
                 {t({ pt: 'Nossa missão', en: 'Our mission', es: 'Nuestra misión' })}
               </p>
-              <h3 className="font-display font-black text-3xl lg:text-4xl text-black uppercase leading-tight">
+              <h3 className="font-sans font-black text-3xl lg:text-4xl text-black uppercase leading-tight">
                 {t({
                   pt: 'Criar experiências que as pessoas carregam para sempre.',
                   en: 'Create experiences people carry forever.',

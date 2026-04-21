@@ -60,7 +60,7 @@ export function ShopSection() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-3 font-sans">
               {t({ pt: 'Loja Oficial', en: 'Official Store', es: 'Tienda Oficial' })}
             </p>
-            <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight">
+            <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight">
               {t(translations.shop.title)}
             </h2>
           </div>
@@ -84,7 +84,7 @@ export function ShopSection() {
         {/* Painel do Carrinho */}
         {showCart && (
           <div className="mb-12 bg-[#1A1A1A] rounded-2xl p-6 md:p-8">
-            <h3 className="font-display font-black text-2xl text-white mb-6 uppercase">
+            <h3 className="font-sans font-black text-2xl text-white mb-6 uppercase">
               {t(translations.shop.cart)}
             </h3>
             
@@ -103,7 +103,7 @@ export function ShopSection() {
                         className="w-20 h-20 object-cover rounded-lg bg-black"
                       />
                       <div className="flex-1 w-full">
-                        <h4 className="font-display font-black text-white text-lg uppercase mb-1">{item.name}</h4>
+                        <h4 className="font-sans font-black text-white text-lg uppercase mb-1">{item.name}</h4>
                         <p className="text-[#C2185B] font-bold text-lg">{formatPrice(item.price)}</p>
                       </div>
                       <div className="flex items-center gap-4 self-end sm:self-center">
@@ -136,7 +136,7 @@ export function ShopSection() {
                 <div className="flex flex-col md:flex-row items-center justify-between pt-6 border-t border-white/10 gap-6">
                   <div>
                     <span className="text-white/60 tracking-wider uppercase text-sm">{t({ pt: 'Total', en: 'Total', es: 'Total' })}</span>
-                    <p className="font-display font-black text-white text-3xl mt-1">{formatPrice(cartTotal)}</p>
+                    <p className="font-sans font-black text-white text-3xl mt-1">{formatPrice(cartTotal)}</p>
                   </div>
                   <button className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#E91E8C] text-white font-black uppercase tracking-wider rounded-md hover:bg-white hover:text-black transition-colors">
                     <CreditCard className="w-5 h-5" />
@@ -190,7 +190,7 @@ export function ShopSection() {
                       )}
                     </div>
                     <div className="p-6">
-                      <h3 className="font-display font-black text-xl text-white mb-2 uppercase">{t(product.name)}</h3>
+                      <h3 className="font-sans font-black text-xl text-white mb-2 uppercase">{t(product.name)}</h3>
                       <p className="text-white/50 text-sm line-clamp-2 mb-6">
                         {t(product.description)}
                       </p>
@@ -234,7 +234,7 @@ export function ShopSection() {
                       <ShoppingBag className="w-16 h-16 text-[#E5E5E5] group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     <div className="p-6">
-                      <h3 className="font-display font-black text-xl text-white mb-6 uppercase">{product.name}</h3>
+                      <h3 className="font-sans font-black text-xl text-white mb-6 uppercase">{product.name}</h3>
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-[#C2185B] font-black text-xl">
@@ -280,7 +280,7 @@ export function ShopSection() {
                       <p className="text-[#C2185B] font-bold text-sm tracking-widest mb-2">
                         {new Date(event.date).toLocaleDateString()}
                       </p>
-                      <h3 className="font-display font-black text-2xl text-white mb-6 uppercase">{t(event.title)}</h3>
+                      <h3 className="font-sans font-black text-2xl text-white mb-6 uppercase">{t(event.title)}</h3>
                       
                       {event.ticketLink && (
                         <a
@@ -299,7 +299,7 @@ export function ShopSection() {
               ) : (
                 <div className="col-span-full bg-[#1A1A1A] rounded-2xl py-24 text-center">
                   <Ticket className="w-16 h-16 text-white/10 mx-auto mb-6" />
-                  <p className="font-display font-black text-white/40 text-2xl uppercase tracking-widest">
+                  <p className="font-sans font-black text-white/40 text-2xl uppercase tracking-widest">
                     {t({ 
                       pt: 'Nenhum ingresso disponÃ­vel no momento.',
                       en: 'No tickets available at the moment.',
