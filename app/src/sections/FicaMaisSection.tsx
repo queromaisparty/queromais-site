@@ -52,9 +52,9 @@ export function FicaMaisSection() {
                 {/* Main Image Container */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#8B5CF6] to-[#CCFF00] rounded-none rotate-3 opacity-50" />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a2e] to-black rounded-none -rotate-3 overflow-hidden border border-white/10">
-                  {ficaMaisParty?.images?.[0] ? (
+                  {ficaMaisParty?.homeMedia ? (
                     <img
-                      src={ficaMaisParty.images[0]}
+                      src={ficaMaisParty.homeMedia}
                       alt="Fica Mais Party"
                       className="w-full h-full object-cover"
                     />
@@ -111,11 +111,11 @@ export function FicaMaisSection() {
                       {t({ pt: 'O que é a Fica Mais Party?', en: 'What is Fica Mais Party?', es: '¿Qué es Fica Mais Party?' })}
                     </h3>
                     <p className="text-white/60 leading-relaxed">
-                      {ficaMaisParty?.description?.pt || 
+                      {ficaMaisParty?.manifestoCurto?.pt ||
                         t({ 
                           pt: 'A Fica Mais Party é o after oficial da Quero Mais. Um espaço onde a festa continua quando o sol nasce, criando momentos únicos e memoráveis para quem não quer que a noite acabe. Música, energia e uma vibe exclusiva que só quem viveu conhece.',
-                          en: 'Fica Mais Party is the official Quero Mais after party. A space where the party continues when the sun rises, creating unique and memorable moments for those who don\'t want the night to end. Music, energy and an exclusive vibe that only those who lived it know.',
-                          es: 'Fica Mais Party es el after oficial de Quero Más. Un espacio donde la fiesta continúa cuando sale el sol, creando momentos únicos y memorables para quienes no quieren que la noche termine. Música, energía y una vibra exclusiva que solo quienes la vivieron conocen.'
+                          en: 'Fica Mais Party is the official Quero Mais after party. A space where the party continues when the sun rises, creating unique and memorable moments for those who don\'t want the night to end.',
+                          es: 'Fica Mais Party es el after oficial de Quero Más. Un espacio donde la fiesta continúa cuando sale el sol, creando momentos únicos y memorables para quienes no quieren que la noche termine.'
                         })
                       }
                     </p>
