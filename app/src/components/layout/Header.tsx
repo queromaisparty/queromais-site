@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { Link, useLocation } from 'react-router-dom';
 
 const navItems = [
-  { href: '#home',      label: { pt: 'Home',              en: 'Home',          es: 'Inicio'    } },
-  { href: '#eventos',   label: { pt: 'Eventos',           en: 'Events',        es: 'Eventos'   } },
-  { href: '#fica-mais', label: { pt: 'Fica Mais Party',   en: 'Fica Mais',     es: 'Fica Mais' } },
-  { href: '#sobre',     label: { pt: 'Sobre',             en: 'About',         es: 'Nosotros'  } },
-  { href: '#music',     label: { pt: 'QM Music',          en: 'QM Music',      es: 'QM Music'  } },
-  { href: '#voce',      label: { pt: 'Galeria',           en: 'Gallery',       es: 'Galería'   } },
-  { href: '#loja',      label: { pt: 'Loja',              en: 'Shop',          es: 'Tienda'    } },
-  { href: '#contato',   label: { pt: 'Contato',           en: 'Contact',       es: 'Contacto'  } },
+  { href: '/',          label: { pt: 'Home',              en: 'Home',          es: 'Inicio'    } },
+  { href: '/eventos',   label: { pt: 'Eventos',           en: 'Events',        es: 'Eventos'   } },
+  { href: '/fica-mais', label: { pt: 'Fica Mais Party',   en: 'Fica Mais',     es: 'Fica Mais' } },
+  { href: '/sobre',     label: { pt: 'Sobre',             en: 'About',         es: 'Nosotros'  } },
+  { href: '/music',     label: { pt: 'QM Music',          en: 'QM Music',      es: 'QM Music'  } },
+  { href: '/vocenaqm',  label: { pt: 'Você na QM',        en: 'You at QM',     es: 'Usted en QM' } },
+  { href: '/loja',      label: { pt: 'Loja',              en: 'Shop',          es: 'Tienda'    } },
+  { href: '/contato',   label: { pt: 'Contato',           en: 'Contact',       es: 'Contacto'  } },
 ];
 
 const langs = [
@@ -23,7 +24,8 @@ export function Header() {
   const { t, currentLanguage, setLanguage } = useLanguage();
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const location = useLocation();
+  const activeSection = location.pathname;
 
   /* ── scroll handler ── */
   useEffect(() => {
@@ -38,13 +40,6 @@ export function Header() {
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
-  const scrollTo = (href: string) => {
-    setMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-    setActiveSection(href.replace('#', ''));
-  };
-
   return (
     <>
       {/* ══════════════════════════════
@@ -53,8 +48,8 @@ export function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-white/98 backdrop-blur-md shadow-sm border-b border-[#E5E5E5]'
-            : 'bg-white border-b border-[#E5E5E5]'
+            ? 'bg-black/60 backdrop-blur-lg shadow-xl border-b border-white/10'
+            : 'bg-gradient-to-b from-black/60 to-transparent'
         }`}
       >
         {/* ── LINHA SUPERIOR: logo + idioma + CTAs ── */}
@@ -64,82 +59,73 @@ export function Header() {
             {/* Hambúrguer — mobile only */}
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden mr-3 p-2 -ml-2 rounded-lg text-[#333] hover:bg-[#F2F2F2] transition-colors"
+              className="lg:hidden mr-3 p-2 -ml-2 rounded-lg text-white hover:bg-white/10 transition-colors"
               aria-label="Abrir menu"
             >
               <Menu className="w-5 h-5" />
             </button>
 
             {/* Logo */}
-            <a
-              href="#home"
-              onClick={(e) => { e.preventDefault(); scrollTo('#home'); }}
+            <Link
+              to="/"
+              onClick={() => { setMenuOpen(false); }}
               className="flex items-center shrink-0 group"
             >
-              <span className="font-display font-black text-xl lg:text-2xl uppercase tracking-tight text-black group-hover:text-[#6ABD45] transition-colors">
-                QUERO<span className="text-[#6ABD45]">+</span>
+              <span className="font-display font-black text-xl lg:text-2xl uppercase tracking-tight text-white group-hover:text-[#E91E8C] transition-colors">
+                QUERO<span className="text-[#E91E8C]">+</span>
               </span>
-            </a>
+            </Link>
 
             {/* ── Nav links desktop — centralizado ── */}
             <nav className="hidden lg:flex flex-1 items-center justify-center gap-0.5">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.href}
-                  href={item.href}
-                  onClick={(e) => { e.preventDefault(); scrollTo(item.href); }}
+                  to={item.href}
                   className={`px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-colors rounded-lg whitespace-nowrap font-sans ${
-                    activeSection === item.href.replace('#', '')
-                      ? 'text-[#6ABD45]'
-                      : 'text-[#333] hover:text-[#6ABD45] hover:bg-[#F7F7F7]'
+                    activeSection === item.href
+                      ? 'text-[#E91E8C]'
+                      : 'text-white/80 hover:text-[#E91E8C] hover:bg-white/10'
                   }`}
                 >
                   {t(item.label)}
-                </a>
+                </Link>
               ))}
             </nav>
 
             {/* ── Direita: idiomas + CTAs ── */}
             <div className="hidden lg:flex items-center gap-2 shrink-0 ml-4">
               {/* Seletor de idioma */}
-              <div className="flex items-center border border-[#E5E5E5] rounded-full px-2.5 py-1 gap-1">
+              <div className="flex items-center border border-white/20 rounded-full px-2.5 py-1 gap-1 bg-white/5">
                 {langs.map((lang, i) => (
                   <span key={lang.code} className="flex items-center">
                     <button
                       onClick={() => setLanguage(lang.code)}
                       className={`text-[11px] font-bold transition-colors font-sans ${
                         currentLanguage === lang.code
-                          ? 'text-[#6ABD45]'
-                          : 'text-[#666] hover:text-black'
+                          ? 'text-[#E91E8C]'
+                          : 'text-white/60 hover:text-white'
                       }`}
                     >
                       {lang.label}
                     </button>
                     {i < langs.length - 1 && (
-                      <span className="text-[#D5D5D5] mx-1 text-xs select-none">|</span>
+                      <span className="text-white/20 mx-1 text-xs select-none">|</span>
                     )}
                   </span>
                 ))}
               </div>
 
               {/* CTA 1 */}
-              <a
-                href="#eventos"
-                onClick={(e) => { e.preventDefault(); scrollTo('#eventos'); }}
-                className="flex items-center gap-1 px-4 py-2 bg-[#4A4A4A] hover:bg-black text-white rounded-full text-xs font-semibold uppercase tracking-wide transition-all group font-sans"
+              <Link
+                to="/eventos"
+                onClick={() => { setMenuOpen(false); }}
+                className="flex items-center gap-1 px-4 py-2 bg-[#E91E8C] hover:bg-[#D81B80] text-white rounded-md text-xs font-semibold uppercase tracking-wide transition-all group font-sans"
               >
                 {t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}
                 <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-              </a>
+              </Link>
 
-              {/* CTA 2 */}
-              <a
-                href="#eventos"
-                onClick={(e) => { e.preventDefault(); scrollTo('#eventos'); }}
-                className="flex items-center gap-1 px-4 py-2 border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#4A4A4A] hover:text-white rounded-full text-xs font-semibold uppercase tracking-wide transition-all font-sans whitespace-nowrap"
-              >
-                {t({ pt: 'Mesas e Camarotes', en: 'Mesas e Camarotes', es: 'Mesas VIP' })}
-              </a>
             </div>
 
             {/* Mobile: idioma compacto */}
@@ -150,8 +136,8 @@ export function Header() {
                   onClick={() => setLanguage(lang.code)}
                   className={`text-[10px] font-bold px-1.5 py-1 rounded transition-colors font-sans ${
                     currentLanguage === lang.code
-                      ? 'text-[#6ABD45]'
-                      : 'text-[#666] hover:text-black'
+                      ? 'text-[#E91E8C]'
+                      : 'text-white/60 hover:text-white'
                   }`}
                 >
                   {lang.label}
@@ -177,19 +163,19 @@ export function Header() {
 
       {/* Painel lateral */}
       <div
-        className={`fixed top-0 left-0 bottom-0 z-[70] w-[78vw] max-w-[320px] bg-white shadow-2xl
+        className={`fixed top-0 left-0 bottom-0 z-[70] w-[78vw] max-w-[320px] bg-[#111111] border-r border-[#333] shadow-2xl
                     flex flex-col transition-transform duration-300 ease-in-out ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Cabeçalho do drawer */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#E5E5E5]">
-          <span className="font-display font-black text-lg uppercase tracking-tight">
-            QUERO<span className="text-[#6ABD45]">+</span>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+          <span className="font-display font-black text-lg uppercase tracking-tight text-white">
+            QUERO<span className="text-[#E91E8C]">+</span>
           </span>
           <button
             onClick={() => setMenuOpen(false)}
-            className="p-1.5 text-[#666] hover:text-black transition-colors rounded-lg hover:bg-[#F2F2F2]"
+            className="p-1.5 text-white/50 hover:text-white transition-colors rounded-lg hover:bg-white/10"
           >
             <X className="w-5 h-5" />
           </button>
@@ -198,33 +184,27 @@ export function Header() {
         {/* Links de navegação */}
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           {navItems.map((item) => (
-            <button
+            <Link
               key={item.href}
-              onClick={() => scrollTo(item.href)}
-              className="w-full text-left px-3 py-3 text-sm font-semibold text-black hover:text-[#6ABD45] hover:bg-[#F7F7F7] rounded-lg transition-all mb-0.5 font-sans"
+              to={item.href}
+              onClick={() => setMenuOpen(false)}
+              className="block w-full text-left px-3 py-3 text-sm font-semibold text-white/80 hover:text-[#E91E8C] hover:bg-white/5 rounded-lg transition-all mb-0.5 font-sans"
             >
               {t(item.label)}
-            </button>
+            </Link>
           ))}
         </nav>
 
         {/* Rodapé do drawer: CTAs */}
-        <div className="px-4 pb-8 pt-4 border-t border-[#E5E5E5] space-y-2.5">
-          <a
-            href="#eventos"
-            onClick={(e) => { e.preventDefault(); scrollTo('#eventos'); }}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-[#4A4A4A] hover:bg-black text-white rounded-full text-sm font-semibold transition-all font-sans"
+        <div className="px-4 pb-8 pt-4 border-t border-white/10 space-y-2.5">
+          <Link
+            to="/eventos"
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center justify-center gap-2 w-full py-3 bg-[#E91E8C] hover:bg-[#D81B80] text-white rounded-md text-sm font-semibold transition-all font-sans"
           >
             {t({ pt: 'Comprar Ingressos', en: 'Buy Tickets', es: 'Comprar Entradas' })}
             <ChevronRight className="w-4 h-4" />
-          </a>
-          <a
-            href="#eventos"
-            onClick={(e) => { e.preventDefault(); scrollTo('#eventos'); }}
-            className="flex items-center justify-center gap-2 w-full py-3 border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#4A4A4A] hover:text-white rounded-full text-sm font-semibold transition-all font-sans"
-          >
-            {t({ pt: 'Mesas e Camarotes', en: 'Mesas e Camarotes', es: 'Mesas VIP' })}
-          </a>
+          </Link>
         </div>
       </div>
     </>
