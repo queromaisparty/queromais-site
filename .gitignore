@@ -48,3 +48,16 @@ supabase/.temp/
 setup-git.bat
 setup-git.ps1
 *.bat
+
+# =============================================
+# 🧠 ARQUIVOS INTERNOS - NÃO COMMITAR
+# =============================================
+# memory.md fica só local (Antigravity lê do filesystem)
+memory.md
+# Scripts auxiliares internos
+fix_encoding.py
+ts_fix.js
+ts_errors.txt
+ts_errors_utf8.txt
+build_errors.log
+info.md
