@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
+import { useState } from 'react';
 import { useData } from '@/context/DataContext';
 import { GalleryCard } from '@/components/gallery/GalleryCard';
 import { GalleryLightbox } from '@/components/gallery/GalleryLightbox';
@@ -8,10 +9,16 @@ import { DURATION } from '@/lib/animations';
 import { Image as ImageIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+interface PhotoItem {
+  id: string;
+  url: string;
+  caption?: string;
+}
+
 /* ───────────────────────────────────────────────────────────────────
    FOTOS DEMO — usadas quando o CMS está vazio
 ─────────────────────────────────────────────────────────────────── */
-const DEMO_PHOTOS = [
+const DEMO_PHOTOS: PhotoItem[] = [
   { id: 'd1', url: 'https://images.unsplash.com/photo-1429962599919-14d18dc9d04f?w=900&q=90', caption: 'DJ Set' },
   { id: 'd2', url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=85', caption: 'Festival' },
   { id: 'd3', url: 'https://images.unsplash.com/photo-1571266028243-d220c13c7d0e?w=700&q=85', caption: 'Crowd' },
@@ -26,16 +33,16 @@ export function VoceSection() {
   const { galleryAlbums } = useData();
 
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
-  const [displayPhotos, setDisplayPhotos] = useState<typeof DEMO_PHOTOS>([]);
 
   /* ── Extrai uma amostra randomizada de todos os álbuns ativos ── */
-  useEffect(() => {
+  const displayPhotos = useMemo<PhotoItem[]>(() => {
     const realAlbums = galleryAlbums.filter(a => a.status === 'active' || !a.status);
-    
-    let pool = realAlbums.flatMap(album => 
+
+    let pool: PhotoItem[] = realAlbums.flatMap(album =>
       album.images.map(img => ({
-        ...img,
-        caption: album.title // Usando o título limpo em vez de TranslatableContent
+        id: img.id,
+        url: img.url,
+        caption: album.title,
       }))
     );
 
@@ -50,16 +57,24 @@ export function VoceSection() {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    // Seleciona as primeiras 8 fotos como preview aleatório
-    setDisplayPhotos(shuffled.slice(0, 8));
+    return shuffled.slice(0, 8);
   }, [galleryAlbums]);
 
   // Hook para revelar com animação
   const { containerRef, isItemVisible } = useStaggeredReveal(displayPhotos.length, DURATION.stagger);
-  
+
   // Handlers para o lightbox
   const openLight = (i: number) => setLightboxIdx(i);
   const closeLight = () => setLightboxIdx(null);
+
+  // Lightbox photos no formato esperado (url + caption string)
+  const lightboxImages = displayPhotos.map(p => ({
+    id: p.id,
+    url: p.url,
+    caption: p.caption,
+    downloadAllowed: false as const,
+    source: 'url' as const,
+  }));
 
   return (
     <section id="vocenaqm" className="bg-[#050505] relative overflow-hidden py-20 lg:py-32">
@@ -86,7 +101,7 @@ export function VoceSection() {
              <GalleryCard
                key={photo.id || index}
                imageUrl={photo.url}
-               caption={'caption' in photo && photo.caption ? photo.caption : undefined}
+               caption={photo.caption}
                index={index}
                isVisible={isItemVisible(index)}
                onClick={() => openLight(index)}
@@ -97,7 +112,7 @@ export function VoceSection() {
 
       {/* ── Botão Ver Mais Álbuns ── */}
       <div className="flex justify-center mt-12 px-4">
-        <Link 
+        <Link
           to="/vocenaqm"
           className="flex items-center gap-3 px-8 py-4 bg-[#E91E8C] hover:bg-[#D81B80] transition-colors text-white font-bold rounded-none shadow-lg hover:shadow-xl hover:shadow-[#E91E8C]/20"
         >
@@ -109,13 +124,13 @@ export function VoceSection() {
       {/* ── Lightbox Profissional ── */}
       {lightboxIdx !== null && (
         <GalleryLightbox
-          images={displayPhotos as any}
+          images={lightboxImages}
           initialIndex={lightboxIdx}
           isOpen={true}
           onClose={closeLight}
         />
       )}
-      
+
     </section>
   );
 }

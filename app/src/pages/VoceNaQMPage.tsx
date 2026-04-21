@@ -10,7 +10,7 @@ export function VoceNaQMPage() {
 
   // Ordenar álbuns por data (mais recentes primeiro)
   const sortedAlbums = [...galleryAlbums].sort((a, b) => 
-    new Date(b.date).getTime() - new Date(a.date).getTime()
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
   return (
@@ -52,14 +52,14 @@ export function VoceNaQMPage() {
                        
                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2 shadow-lg">
                           <ImageIcon className="w-3.5 h-3.5 text-[#E91E8C]" />
-                          <span className="text-xs font-bold text-black">{album.photos.length} fotos</span>
+                          <span className="text-xs font-bold text-black">{album.images.length} fotos</span>
                        </div>
                     </div>
                     <div className="p-6 sm:p-8 flex-1 flex flex-col">
                        <h3 className="text-xl sm:text-2xl font-bold text-black uppercase tracking-tight mb-2 group-hover:text-[#E91E8C] transition-colors">{album.title}</h3>
                        <div className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-4 mt-auto">
                           <Calendar className="w-4 h-4 text-[#E91E8C]" />
-                          {new Date(album.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                          {new Date(album.createdAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
                        </div>
                     </div>
                   </div>
@@ -84,20 +84,20 @@ export function VoceNaQMPage() {
               <div className="text-right">
                 <h1 className="text-2xl sm:text-4xl font-black text-black uppercase tracking-tight">{selectedAlbum.title}</h1>
                 <p className="text-gray-500 text-sm font-semibold mt-1">
-                  {new Date(selectedAlbum.date).toLocaleDateString('pt-BR')} • {selectedAlbum.photos.length} Fotos Oficiais
+                  {new Date(selectedAlbum.createdAt).toLocaleDateString('pt-BR')} • {selectedAlbum.images.length} Fotos Oficiais
                 </p>
               </div>
             </div>
 
             {/* Grid Mansory para as fotos */}
             <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-               {selectedAlbum.photos.map((photoUrl, idx) => (
+               {selectedAlbum.images.map((img, idx) => (
                  <div 
                    key={idx} 
-                   onClick={() => setSelectedPhoto(photoUrl)}
+                   onClick={() => setSelectedPhoto(img.url)}
                    className="break-inside-avoid relative group rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all"
                  >
-                    <img src={photoUrl} alt={`Foto ${idx+1}`} className="w-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    <img src={img.url} alt={`Foto ${idx+1}`} className="w-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                        <div className="bg-white text-black font-bold uppercase text-xs px-4 py-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-all">
                          Ampliar

@@ -76,10 +76,10 @@ export function MusicPage() {
                         </p>
                       </div>
                       
-                      {set.soundcloudUrl && (
+                      {(set.externalLink || set.audioUrl) && (
                         <div className="shrink-0 w-full sm:w-auto mt-4 sm:mt-0">
                           <a 
-                            href={set.soundcloudUrl} 
+                            href={set.externalLink || set.audioUrl} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="bg-[#4A4A4A] hover:bg-[#333] text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-colors border border-transparent shadow-md w-full"
@@ -107,7 +107,7 @@ export function MusicPage() {
                   </div>
                 ) : (
                   playlists.map((pl, i) => (
-                    <a key={pl.id || i} href={pl.spotifyUrl} target="_blank" rel="noopener noreferrer" className="group rounded-2xl overflow-hidden aspect-[4/3] relative border border-gray-200 block shadow-sm">
+                     <a key={pl.id || i} href={pl.externalUrl} target="_blank" rel="noopener noreferrer" className="group rounded-2xl overflow-hidden aspect-[4/3] relative border border-gray-200 block shadow-sm">
                       <img src={pl.coverImage} alt={typeof pl.title === 'string' ? pl.title : pl.title.pt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                       <div className="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between">
@@ -141,13 +141,13 @@ export function MusicPage() {
                   {djs.slice(0, 5).map(dj => (
                     <div key={dj.id} className="flex items-center gap-4 group cursor-pointer border-b border-gray-100 pb-4 last:border-0 last:pb-0">
                       <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#E91E8C] transition-colors shrink-0 grayscale group-hover:grayscale-0">
-                        <img src={dj.imageUrl} alt={typeof dj.name === 'string' ? dj.name : dj.name.pt} className="w-full h-full object-cover" />
+                        <img src={dj.image} alt={dj.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex-1">
                         <h4 className="text-black font-bold uppercase group-hover:text-[#E91E8C] transition-colors">
-                          {typeof dj.name === 'string' ? dj.name : dj.name.pt}
+                          {dj.name}
                         </h4>
-                        <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{dj.genre || 'Open Format'}</p>
+                        <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{'Open Format'}</p>
                       </div>
                       <button className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-[#E91E8C] flex items-center justify-center transition-colors">
                         <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white" />

@@ -3,7 +3,7 @@ import { useData } from '@/context/DataContext';
 
 export function FicaMaisPage() {
   const { djs } = useData();
-  const residentes = djs.filter(dj => dj.role === 'residente');
+  const residentes = djs.filter(dj => dj.resident === true);
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-white">
@@ -51,19 +51,19 @@ export function FicaMaisPage() {
               residentes.map(dj => (
                 <div key={dj.id} className="group relative overflow-hidden rounded-3xl bg-[#F2F2F2] border border-gray-200 shadow-sm cursor-pointer hover:shadow-xl transition-all">
                   <div className="aspect-square overflow-hidden">
-                    <img src={dj.imageUrl} alt={typeof dj.name === 'string' ? dj.name : dj.name.pt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0" />
+                    <img src={dj.image} alt={dj.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out grayscale group-hover:grayscale-0" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-8 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
                     <div className="text-[#E91E8C] text-xs font-bold uppercase tracking-widest mb-1">
-                      {dj.genre || 'Residente Oficial'}
+                      {'Residente Oficial'}
                     </div>
                     <h3 className="text-3xl font-black text-white uppercase tracking-tight mb-3">
-                      {typeof dj.name === 'string' ? dj.name : dj.name.pt}
+                      {dj.name}
                     </h3>
                     <div className="flex gap-2">
-                       {dj.soundcloudUrl && <a href={dj.soundcloudUrl} className="w-10 h-10 rounded-full bg-[#FF5500] text-white flex items-center justify-center hover:scale-110 transition-transform"><Disc3 className="w-4 h-4" /></a>}
-                       {dj.instagramUrl && <a href={dj.instagramUrl} className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-white hover:text-black transition-colors"><ArrowRight className="w-4 h-4" /></a>}
+                       {dj.socialLinks?.find(l => l.platform === 'soundcloud')?.url && <a href={dj.socialLinks.find(l => l.platform === 'soundcloud')?.url} className="w-10 h-10 rounded-full bg-[#FF5500] text-white flex items-center justify-center hover:scale-110 transition-transform"><Disc3 className="w-4 h-4" /></a>}
+                       {dj.socialLinks?.find(l => l.platform === 'instagram')?.url && <a href={dj.socialLinks.find(l => l.platform === 'instagram')?.url} className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-white hover:text-black transition-colors"><ArrowRight className="w-4 h-4" /></a>}
                     </div>
                   </div>
                 </div>
