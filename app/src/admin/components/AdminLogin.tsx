@@ -44,9 +44,11 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
           >
             <Sparkles className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-black tracking-tight" style={{ color: '#1A1A2E' }}>
-            QUERO <span style={{ color: '#E91E8C' }}>MAIS</span>
-          </h1>
+          <img 
+            src="/LOGOQUEROMAIS_PRETA.svg" 
+            alt="Quero Mais" 
+            className="h-6 w-auto mx-auto mt-2"
+          />
           <p className="text-sm mt-1" style={{ color: '#9CA3AF' }}>
             {t({ pt: 'Painel Administrativo', en: 'Admin Panel', es: 'Panel Administrativo' })}
           </p>

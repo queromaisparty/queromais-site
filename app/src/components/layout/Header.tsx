@@ -35,8 +35,6 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const isHomePage = location.pathname === '/';
-  
   // Agora TODAS as páginas (incluindo a Home com o vídeo claro)
   // terão texto escuro (isLight = true) quando estiverem no topo (!scrolled)
   const isLight = !scrolled;
@@ -75,9 +73,11 @@ export function Header() {
 
             {/* Logo */}
             <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center shrink-0 group">
-              <span className={`font-display font-black text-xl lg:text-2xl uppercase tracking-tight transition-colors group-hover:text-[#E91E8C] ${txt}`}>
-                QUERO<span className="text-[#E91E8C]">+</span>
-              </span>
+              <img 
+                src={isLight ? '/LOGOQUEROMAIS_PRETA.svg' : '/LOGOQUEROMAIS_BRANCAMAGENTA.svg'} 
+                alt="Quero Mais" 
+                className="h-6 lg:h-8 w-auto transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
 
             {/* Nav desktop */}
@@ -160,9 +160,11 @@ export function Header() {
         }`}
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
-          <span className="font-display font-black text-lg uppercase tracking-tight text-white">
-            QUERO<span className="text-[#E91E8C]">+</span>
-          </span>
+          <img 
+            src="/LOGOQUEROMAIS_BRANCAMAGENTA.svg" 
+            alt="Quero Mais" 
+            className="h-5 w-auto"
+          />
           <button
             type="button"
             onClick={() => setMenuOpen(false)}

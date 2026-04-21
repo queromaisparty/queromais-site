@@ -29,16 +29,15 @@ export function Footer({ onAdminClick }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
 
           {/* Brand */}
-          <div className="lg:col-span-1">
-            <Link
-              to="/"
-              className="inline-block group"
-            >
-              <span className="font-display font-black text-2xl text-white group-hover:text-[#C2185B] transition-colors uppercase tracking-tight">
-                QUERO<span className="text-[#C2185B]">+</span>
-              </span>
+          <div className="mb-8 md:mb-0">
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-block group mb-6">
+              <img 
+                src="/LOGOQUEROMAIS_BRANCAMAGENTA.svg" 
+                alt="Quero Mais" 
+                className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
-            <p className="mt-4 text-white/50 text-sm leading-relaxed font-sans">
+            <p className="text-white/60 text-sm max-w-sm font-sans leading-relaxed">
               {t({
                 pt: 'Experiências que marcam. Música, atmosfera, comunidade e energia que transformam noites em memórias.',
                 en: 'Experiences that mark. Music, atmosphere, community and energy that turn nights into memories.',

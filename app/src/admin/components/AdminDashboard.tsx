@@ -105,9 +105,11 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
               <Sparkles className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className="text-sm font-black tracking-tight" style={{ color: '#1A1A2E' }}>
-                QUERO <span style={{ color: '#E91E8C' }}>MAIS</span>
-              </h1>
+              <img 
+                src="/LOGOQUEROMAIS_PRETA.svg" 
+                alt="Quero Mais" 
+                className="h-4 w-auto mb-1"
+              />
               <p className="text-xs" style={{ color: '#9CA3AF' }}>Admin Panel</p>
             </div>
           </div>
