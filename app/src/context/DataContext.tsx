@@ -401,7 +401,16 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   // Fica Mais Party
   const updateFicaMaisParty = useCallback((data: Partial<FicaMaisParty>) => {
     setFicaMaisParty(prev => {
-      const updated = prev ? { ...prev, ...data } : { ...data, id: '1' } as FicaMaisParty;
+      const updated = prev ? { ...prev, ...data } : { 
+        showInHome: true,
+        isActivePage: true,
+        manifestoCurto: { pt: '', en: '', es: '' },
+        manifestoCompleto: { pt: '', en: '', es: '' },
+        homeMedia: '',
+        pageMedia: '',
+        upcomingDates: [],
+        ...data 
+      } as FicaMaisParty;
       saveToStorage(STORAGE_KEYS.ficaMaisParty, updated);
       return updated;
     });

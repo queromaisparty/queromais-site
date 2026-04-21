@@ -94,13 +94,14 @@ export interface Event {
 // ============================================
 
 export interface FicaMaisParty {
-  id: string;
-  title: TranslatableContent;
-  description: TranslatableContent;
-  images: string[];
-  videos: string[];
+  showInHome: boolean;
+  isActivePage: boolean;
+  manifestoCurto: TranslatableContent;
+  manifestoCompleto: TranslatableContent;
+  homeMedia: string;
+  pageMedia: string;
   upcomingDates: PartyDate[];
-  status: 'active' | 'inactive';
+  galleryAlbumId?: string; // Relation to Albums for Vibes/AM
 }
 
 export interface PartyDate {
