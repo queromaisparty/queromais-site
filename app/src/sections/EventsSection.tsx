@@ -26,7 +26,7 @@ export function EventsSection() {
         {/* Header da seção */}
         <div className="text-center mb-16">
           <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-5xl text-[#555555] tracking-tight capitalize">
-            {t({ pt: 'Agenda', en: 'Agenda', es: 'Agenda' })}
+            {t({ pt: 'Próximos Eventos', en: 'Upcoming Events', es: 'Próximos Eventos' })}
           </h2>
         </div>
 

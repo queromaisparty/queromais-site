@@ -50,8 +50,8 @@ module.exports = {
         },
         /* === CORES QUERO MAIS === */
         qm: {
-          magenta: "#E91E8C",
-          "magenta-dark": "#D81B80",
+          magenta: "var(--primary-color, #E91E8C)",
+          "magenta-dark": "var(--secondary-color, #D81B80)",
           dark: "#0A0A0A",
           charcoal: "#3D4246",
           "gray-bg": "#F2F2F2",

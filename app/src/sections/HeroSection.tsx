@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import { useData } from '@/context/DataContext';
 
 // Detecta mobile antes do primeiro render para evitar double-loading
 const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 768;
 
 export function HeroSection() {
+  const { siteConfig } = useData();
+  const hero = siteConfig.hero;
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(getIsMobile);
@@ -13,6 +17,11 @@ export function HeroSection() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const desktopVideo = hero?.desktop?.upload || hero?.desktop?.url || '/hero-scroll.mp4';
+  const mobileVideo = hero?.mobile?.upload || hero?.mobile?.url || '/videoversaomobile.mp4';
+  const fallback = hero?.fallbackImage || '/hero-poster.jpg';
+  const videoSrc = isMobile ? mobileVideo : desktopVideo;
 
   useEffect(() => {
     let animationFrameId: number;
@@ -63,7 +72,9 @@ export function HeroSection() {
       }
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, [isMobile]);
+  }, [isMobile, videoSrc]);
+
+  if (hero && hero.active === false) return null;
 
   return (
     <section ref={containerRef} id="home" className="relative w-full h-[250vh] bg-[#050505]">
@@ -72,8 +83,9 @@ export function HeroSection() {
         <div className="absolute inset-0 flex items-center justify-center">
           <video
             ref={videoRef}
-            src={isMobile ? "/videoversaomobile.mp4" : "/hero-scroll.mp4"}
-            className="w-full h-full object-cover object-center max-md:scale-[1.25]"
+            src={videoSrc}
+            poster={fallback}
+            className="w-full h-full object-cover object-center"
             muted
             playsInline
             preload="auto"

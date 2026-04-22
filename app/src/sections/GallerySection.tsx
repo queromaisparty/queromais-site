@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Camera, Download, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
@@ -18,18 +18,22 @@ export function GallerySection() {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [showDownloadSearch, setShowDownloadSearch] = useState(false);
 
+  const filteredAlbums = useMemo(() => {
+    return galleryAlbums
+      .filter(a => a.status === 'active' && a.images?.length > 0)
+      .sort((a, b) => (a.order || 0) - (b.order || 0) || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }, [galleryAlbums]);
+
   // Flatten all images from albums (no more demo images)
   const allImages = useMemo(() => {
-    return galleryAlbums
-      .filter(a => a.status === 'active' || !a.status)
-      .flatMap(album =>
+    return filteredAlbums.flatMap(album =>
         album.images.map(img => ({
           ...img,
           albumTitle: t(album.title),
           albumCategory: album.category || 'all',
         }))
       );
-  }, [galleryAlbums, t]);
+  }, [filteredAlbums, t]);
 
   // Get unique categories
   const categories = useMemo(() => {
@@ -37,17 +41,24 @@ export function GallerySection() {
     return ['all', ...Array.from(cats).filter(c => c !== 'all')];
   }, [allImages]);
 
-  // Filter images
-  const filteredImages = useMemo(() => {
-    if (selectedFilter === 'all') return allImages;
-    return allImages.filter(img => img.albumCategory === selectedFilter);
+  const [randomizedImages, setRandomizedImages] = useState<any[]>([]);
+
+  // Update randomized sample when source images or filter changes
+  useEffect(() => {
+    const sourceImages = selectedFilter === 'all' 
+      ? allImages 
+      : allImages.filter(img => img.albumCategory === selectedFilter);
+    
+    // Shuffle and slice for Home preview (top 12 randomized)
+    const shuffled = [...sourceImages].sort(() => Math.random() - 0.5);
+    setRandomizedImages(shuffled.slice(0, 12));
   }, [allImages, selectedFilter]);
 
   // Staggered reveal
-  const { containerRef, isItemVisible } = useStaggeredReveal(filteredImages.length, DURATION.stagger);
+  const { containerRef, isItemVisible } = useStaggeredReveal(randomizedImages.length, DURATION.stagger);
 
   // Lightbox images
-  const lightboxImages = filteredImages.map(img => ({
+  const lightboxImages = randomizedImages.map(img => ({
     url: img.url,
     caption: 'caption' in img && img.caption ? t(img.caption as any) : img.albumTitle,
     downloadAllowed: img.downloadAllowed,
@@ -100,7 +111,7 @@ export function GallerySection() {
               onClick={() => setShowDownloadSearch(!showDownloadSearch)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-none text-sm font-semibold transition-all duration-200 ${
                 showDownloadSearch
-                  ? 'bg-[#E91E8C] text-white'
+                  ? 'bg-qm-magenta text-white'
                   : 'bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-800'
               }`}
             >
@@ -137,7 +148,7 @@ export function GallerySection() {
                 <input
                   type="text"
                   placeholder={t({ pt: 'Nome ou código...', en: 'Name or code...', es: 'Nombre o código...' })}
-                  className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#E91E8C] focus:ring-1 focus:ring-[#E91E8C] transition-colors"
+                  className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-qm-magenta focus:ring-1 focus:ring-qm-magenta transition-colors"
                 />
                 <button className="px-5 py-2.5 bg-[#111] text-white font-semibold text-sm rounded-none hover:bg-[#222] transition-colors">
                   {t({ pt: 'Buscar', en: 'Search', es: 'Buscar' })}
@@ -149,7 +160,7 @@ export function GallerySection() {
           {/* Masonry Gallery Grid */}
           <div ref={containerRef}>
             <MasonryGrid>
-              {filteredImages.map((image, index) => (
+              {randomizedImages.map((image, index) => (
                 <GalleryCard
                   key={image.id}
                   imageUrl={image.url}
@@ -163,16 +174,13 @@ export function GallerySection() {
           </div>
 
           {/* Albums row (if real albums exist) */}
-          {galleryAlbums.length > 0 && (
+          {filteredAlbums.length > 0 && (
             <div className="mt-16">
               <h3 className="text-[#111] text-xl font-bold mb-6 tracking-tight">
                 {t({ pt: 'Álbuns', en: 'Albums', es: 'Álbumes' })}
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {galleryAlbums
-                  .filter(a => a.status === 'active' || !a.status)
-                  .sort((a, b) => (a.order || 0) - (b.order || 0))
-                  .map((album) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {filteredAlbums.map((album) => (
                     <div
                       key={album.id}
                       className="group bg-white border border-gray-100 rounded-none overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
@@ -211,7 +219,7 @@ export function GallerySection() {
         <div className="flex justify-center mt-12 px-4">
           <Link
             to="/vocenaqm"
-            className="flex items-center gap-3 px-8 py-4 bg-[#111] hover:bg-[#E91E8C] transition-colors text-white font-bold rounded-none shadow-lg hover:shadow-xl hover:shadow-[#E91E8C]/20 uppercase text-sm tracking-wider"
+            className="flex items-center gap-3 px-8 py-4 bg-[#111] hover:bg-qm-magenta transition-colors text-white font-bold rounded-none shadow-lg hover:shadow-xl hover:shadow-qm-magenta/20 uppercase text-sm tracking-wider"
           >
             <Camera className="w-5 h-5" />
             {t({ pt: 'Ver Todos os Álbuns', en: 'See All Albums', es: 'Ver Todos los Álbumes' })}

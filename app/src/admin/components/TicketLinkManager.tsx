@@ -68,7 +68,7 @@ export function TicketLinkManager({ links, onChange }: TicketLinkManagerProps) {
           className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-all"
           style={{
             background: '#FCE7F3',
-            color: '#E91E8C',
+            color: 'var(--primary-color)',
             border: '1px solid #FBCFE8',
           }}
           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#FDF2F8'; }}
@@ -86,7 +86,7 @@ export function TicketLinkManager({ links, onChange }: TicketLinkManagerProps) {
           style={{ border: '2px dashed #E8E8ED', background: '#F9FAFB' }}
         >
           <div className="w-10 h-10 rounded-xl mx-auto mb-2 flex items-center justify-center" style={{ background: '#FCE7F3' }}>
-            <ExternalLink className="w-5 h-5" style={{ color: '#E91E8C' }} />
+            <ExternalLink className="w-5 h-5" style={{ color: 'var(--primary-color)' }} />
           </div>
           <p className="text-sm font-medium" style={{ color: '#374151' }}>Nenhum link de ingresso</p>
           <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>Clique em "Adicionar link" para incluir</p>
@@ -207,7 +207,7 @@ export function TicketLinkManager({ links, onChange }: TicketLinkManagerProps) {
                 {/* URL */}
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: '#9CA3AF' }}>
-                    URL <span style={{ color: '#E91E8C' }}>*</span>
+                    URL <span style={{ color: 'var(--primary-color)' }}>*</span>
                   </label>
                   <input
                     type="url"

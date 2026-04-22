@@ -83,7 +83,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                     border: '1px solid #E8E8ED',
                     color: '#1A1A2E',
                   }}
-                  onFocus={e => { (e.target as HTMLElement).style.borderColor = '#E91E8C'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
+                  onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color)'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
                   onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; (e.target as HTMLElement).style.boxShadow = 'none'; }}
                 />
               </div>
@@ -104,7 +104,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   required
                   className="w-full pl-10 pr-11 py-2.5 text-sm md:text-base rounded-xl outline-none transition-all"
                   style={{ background: '#F9FAFB', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
-                  onFocus={e => { (e.target as HTMLElement).style.borderColor = '#E91E8C'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
+                  onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color)'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
                   onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; (e.target as HTMLElement).style.boxShadow = 'none'; }}
                 />
                 <button
@@ -124,7 +124,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               disabled={isLoading}
               className="w-full flex items-center justify-center gap-2 py-3 text-sm font-bold text-white rounded-xl transition-all disabled:opacity-50"
               style={{
-                background: 'linear-gradient(135deg, #E91E8C, #FF6BB5)',
+                background: 'linear-gradient(135deg, var(--primary-color), #FF6BB5)',
                 boxShadow: '0 4px 16px rgba(233,30,140,0.3)',
               }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 20px rgba(233,30,140,0.4)'; }}

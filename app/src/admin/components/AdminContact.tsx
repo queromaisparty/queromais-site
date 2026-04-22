@@ -27,8 +27,8 @@ export function AdminContact() {
       updateFAQ(faqForm.id, faqForm);
     } else {
       addFAQ({
-        question: faqForm.question,
-        answer: faqForm.answer,
+        question: typeof faqForm.question === 'string' ? { pt: faqForm.question, en: faqForm.question, es: faqForm.question } : faqForm.question!,
+        answer: typeof faqForm.answer === 'string' ? { pt: faqForm.answer, en: faqForm.answer, es: faqForm.answer } : faqForm.answer!,
         category: faqForm.category || 'Geral',
         order: faqForm.order || faqs.length + 1,
         status: faqForm.status || 'active'
@@ -50,19 +50,19 @@ export function AdminContact() {
       <div className="flex gap-2 mb-6 border-b pb-4" style={{ borderColor: '#E8E8ED' }}>
         <button
           onClick={() => setActiveTab('inbox')}
-          className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeTab === 'inbox' ? 'bg-[#E91E8C] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+          className={`px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeTab === 'inbox' ? 'bg-qm-magenta text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
         >
           <div className="flex items-center gap-2"><MessageSquare className="w-4 h-4" /> Caixa de Entrada</div>
         </button>
         <button
           onClick={() => setActiveTab('faq')}
-          className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeTab === 'faq' ? 'bg-[#E91E8C] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+          className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeTab === 'faq' ? 'bg-qm-magenta text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
         >
           <div className="flex items-center gap-2"><HelpCircle className="w-4 h-4" /> Gestão de FAQ</div>
         </button>
         <button
           onClick={() => setActiveTab('info')}
-          className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeTab === 'info' ? 'bg-[#E91E8C] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+          className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeTab === 'info' ? 'bg-qm-magenta text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
         >
           <div className="flex items-center gap-2"><Mail className="w-4 h-4" /> Dados Oficiais</div>
         </button>
@@ -94,7 +94,7 @@ export function AdminContact() {
                       ) : msg.status === 'arquivada' ? (
                         <span className="inline-flex items-center gap-1 text-gray-600 bg-gray-100 px-2 py-1 rounded-md text-xs font-bold capitalize">{msg.status}</span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[#E91E8C] bg-[#E91E8C]/10 px-2 py-1 rounded-md text-xs font-bold">Nova</span>
+                        <span className="inline-flex items-center gap-1 text-qm-magenta bg-qm-magenta/10 px-2 py-1 rounded-md text-xs font-bold">Nova</span>
                       )}
                     </td>
                     <td className="px-6 py-4">{new Date(msg.createdAt).toLocaleDateString()}</td>
@@ -136,7 +136,7 @@ export function AdminContact() {
                   <p className="text-sm text-gray-600 mt-1">{typeof faq.answer === 'string' ? faq.answer : faq.answer?.pt}</p>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => { setFaqForm(faq); setIsEditingFaq(true); }} className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-[#E91E8C] hover:text-white flex items-center justify-center text-gray-600 transition-colors">
+                  <button onClick={() => { setFaqForm(faq); setIsEditingFaq(true); }} className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-qm-magenta hover:text-white flex items-center justify-center text-gray-600 transition-colors">
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button onClick={() => deleteFAQ(faq.id)} className="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-500 hover:text-white flex items-center justify-center text-red-500 transition-colors" title="Excluir">
@@ -157,8 +157,15 @@ export function AdminContact() {
                   placeholder="Pergunta (PT)"
                   title="Pergunta em Português"
                   value={typeof faqForm.question === 'string' ? faqForm.question : faqForm.question?.pt || ''}
-                  onChange={(e) => setFaqForm({ ...faqForm, question: e.target.value as any })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-[#E91E8C] transition-colors"
+                  onChange={(e) => setFaqForm({ 
+                    ...faqForm, 
+                    question: { 
+                      pt: e.target.value, 
+                      en: typeof faqForm.question === 'object' ? faqForm.question?.en || e.target.value : e.target.value,
+                      es: typeof faqForm.question === 'object' ? faqForm.question?.es || e.target.value : e.target.value
+                    } 
+                  })}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-qm-magenta transition-colors"
                 />
               </div>
               <div>
@@ -168,8 +175,15 @@ export function AdminContact() {
                   placeholder="Resposta (PT)"
                   title="Resposta em Português"
                   value={typeof faqForm.answer === 'string' ? faqForm.answer : faqForm.answer?.pt || ''}
-                  onChange={(e) => setFaqForm({ ...faqForm, answer: e.target.value as any })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-black focus:outline-none focus:border-[#E91E8C] transition-colors"
+                  onChange={(e) => setFaqForm({ 
+                    ...faqForm, 
+                    answer: { 
+                      pt: e.target.value, 
+                      en: typeof faqForm.answer === 'object' ? faqForm.answer?.en || e.target.value : e.target.value,
+                      es: typeof faqForm.answer === 'object' ? faqForm.answer?.es || e.target.value : e.target.value
+                    } 
+                  })}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-qm-magenta transition-colors resize-none"
                 />
               </div>
               <div>
@@ -178,13 +192,13 @@ export function AdminContact() {
                   type="number"
                   value={faqForm.order || 0}
                   onChange={(e) => setFaqForm({ ...faqForm, order: Number(e.target.value) })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black focus:border-[#E91E8C] focus:outline-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black focus:border-qm-magenta focus:outline-none"
                 />
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={handleSaveFaq}
-                  className="flex-1 bg-[#E91E8C] text-white font-bold py-2 rounded-lg hover:bg-[#D81B80] transition-colors"
+                  className="flex-1 bg-qm-magenta text-white font-bold py-2 rounded-lg hover:bg-qm-magenta-dark transition-colors"
                 >
                   Salvar
                 </button>
@@ -209,7 +223,7 @@ export function AdminContact() {
                 type="email"
                 value={contactInfo.email}
                 onChange={(e) => updateContactInfo({ email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-[#E91E8C] focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-qm-magenta focus:outline-none"
               />
             </div>
             <div>
@@ -218,7 +232,7 @@ export function AdminContact() {
                 type="text"
                 value={contactInfo.whatsapp}
                 onChange={(e) => updateContactInfo({ whatsapp: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-[#E91E8C] focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-qm-magenta focus:outline-none"
               />
             </div>
             <div>
@@ -227,7 +241,7 @@ export function AdminContact() {
                 type="text"
                 value={contactInfo.instagram}
                 onChange={(e) => updateContactInfo({ instagram: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-[#E91E8C] focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-qm-magenta focus:outline-none"
                 placeholder="@queromaisdayparty"
               />
             </div>
@@ -237,7 +251,7 @@ export function AdminContact() {
                 type="text"
                 value={contactInfo.address}
                 onChange={(e) => updateContactInfo({ address: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-[#E91E8C] focus:outline-none"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black mt-1 focus:border-qm-magenta focus:outline-none"
                 placeholder="RIO DE JANEIRO - RJ"
               />
             </div>

@@ -57,7 +57,7 @@ export function ContactSection() {
 
         <Link
           to="/contato"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold uppercase tracking-wider hover:bg-[#D81B80] transition-colors rounded-none text-sm"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-qm-magenta text-white font-bold uppercase tracking-wider hover:bg-qm-magenta-dark transition-colors rounded-none text-sm"
         >
           {t({ pt: 'Fale Direto', en: 'Contact Us', es: 'Contáctenos' })}
           <ArrowRight className="w-4 h-4" />

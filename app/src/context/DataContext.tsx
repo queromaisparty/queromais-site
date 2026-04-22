@@ -132,43 +132,73 @@ function mapFromDB(obj: any): any {
 
 const defaultStorytelling: Storytelling = {
   id: '1',
-  heroTitle: 'EXPERIÊNCIAS QUE MARCAM',
-  heroTagline: 'Onde o dia se transforma em experiência.',
-  stats: [],
-  origemTitle: 'Onde o dia se transforma em experiência',
-  origemText1: 'Nascida no Rio de Janeiro, a Quero Mais Day Party surge com um propósito claro: não ser apenas mais uma festa, mas uma experiência completa, imersiva e inesquecível.',
-  origemText2: 'Desde o início, a marca foi concebida para provocar algo maior. Não se trata apenas de música. Se trata de transformação. Do desejo de criar suas edições em momentos que marcam as pessoas.',
-  origemImage: '',
-  essenciaTitle: 'A essência por trás da marca',
-  essenciaText1: 'A Quero Mais nasce para redefinir a forma como as pessoas vivem o entretenimento. Aqui, a experiência não começa na entrada do evento. Ela começa no primeiro contato.',
-  essenciaText2: 'Cada edição começa no anúncio que instiga, na estética que envolve e na narrativa que captura. E se estende até o último momento: na energia da pista, na construção dos sets e na memória que permanece.',
-  essenciaImage: '',
-  tags: ['Experiência', 'Transformação', 'Narrativa', 'Memória'],
-  simboloTitle: 'O símbolo: a borboleta',
-  simboloText1: 'No centro de tudo está o brasão da marca: a borboleta. Mais do que um elemento visual, ela é a representação viva do que é a Quero Mais Day Party.',
-  simboloText2: 'A borboleta carrega o significado da metamorfose, o processo de transformação profunda, inevitável e necessária. A Quero Mais nasce exatamente nesse ponto de transição. A borboleta não é apenas símbolo. É um convite.',
-  simboloImage: '',
-  narrativaTitle: 'Narrativa contínua',
-  narrativaIntro: 'Cada edição é um capítulo de uma história maior. Os temas não são eventos isolados: são partes de um mesmo universo narrativo. Eles se conectam, evoluem e se transformam. Sempre estamos a contar o próximo passo da nossa história.',
-  timeline: [
-    { id: '1', title: 'Metamorphosis', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 1 },
-    { id: '2', title: 'The Grand Masquerade', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 2 },
-    { id: '3', title: 'Universo das Cores', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 3 },
-    { id: '4', title: 'Vale Encantado', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 4 },
-    { id: '5', title: 'Another Miracle', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 5 },
-    { id: '6', title: 'Efeito Borboleta', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 6 },
-    { id: '7', title: 'Era Uma Vez', description: 'Parte de um universo narrativo em constante evolução, onde cada edição amplia a história da Quero Mais.', order: 7 },
+  heroTitle: 'VIVA A METAMORFOSE',
+  heroTagline: 'Onde cada edição transforma o dia em uma experiência inesquecível.',
+  stats: [
+    { label: 'EDIÇÕES', value: '15+' },
+    { label: 'CIDADES', value: '03' },
+    { label: 'PESSOAS', value: '40K+' }
   ],
-  ctaText: 'Conheça os próximos capítulos dessa experiência.',
-  ctaButtonLabel: 'Ver próximos eventos',
+  origemTitle: 'Onde o dia se transforma em experiência',
+  origemText1: 'Nascida no pulsar do Rio de Janeiro, a Quero Mais Day Party surgiu com um propósito que transcende a música: criar momentos de transformação real.',
+  origemText2: 'Não somos apenas um evento. Somos um capítulo na história de cada pessoa que escolhe viver a energia da borboleta.',
+  origemImage: '',
+  essenciaTitle: 'A essência por trás da borboleta',
+  essenciaText1: 'Nossa marca é guiada pela estética, pela narrativa e pela conexão. Cada detalhe, do anúncio ao último beat, é planejado para ser imersivo.',
+  essenciaText2: 'Aqui, a metamorfose é celebrada. Mudamos a cada edição, evoluímos a cada tema, mas mantemos a alma vibrante.',
+  essenciaImage: '',
+  tags: ['Metamorfose', 'Experiência', 'Estética', 'Conexão'],
+  simboloTitle: 'O símbolo: A Borboleta',
+  simboloText1: 'Muito mais que um ícone, a borboleta representa o processo de evolução constante. Ela convida você a sair do casulo e viver a liberdade.',
+  simboloText2: 'A cada bater de asas, uma nova edição, uma nova história, um novo sentimento que perdura.',
+  simboloImage: '',
+  narrativaTitle: 'Uma Jornada Contínua',
+  narrativaIntro: 'Nossos temas não são isolados. Eles formam um universo narrativo que se expande. Conheça as edições que definiram nossa trajetória até aqui.',
+  timeline: [
+    { id: '1', title: 'Metamorphosis', description: 'O despertar da marca e o início da nossa jornada narrativa.', order: 1 },
+    { id: '2', title: 'The Grand Masquerade', description: 'Mistério e elegância em uma edição que elevou nossos padrões.', order: 2 },
+    { id: '3', title: 'Universo das Cores', description: 'A explosão cromática que celebrou a diversidade da nossa pista.', order: 3 },
+    { id: '4', title: 'Vale Encantado', description: 'Natureza e música em perfeita sintonia.', order: 4 },
+  ],
+  ctaText: 'Pronto para escrever o próximo capítulo conosco?',
+  ctaButtonLabel: 'Ver Agenda Oficial',
   ctaButtonLink: '/eventos',
-  homeTitle: 'Onde o dia se transforma em experiência',
-  homeText1: 'Nascida no Rio de Janeiro, a Quero Mais Day Party surgiu com o propósito de ser mais do que uma festa.',
-  homeText2: 'Uma experiência imersiva, estética e transformadora que marca cada edição.',
+  homeTitle: 'VIVA A SUA MELHOR VERSÃO',
+  homeText1: 'Nascida no Rio de Janeiro, a Quero Mais é uma celebração itinerante que redefine o conceito de Day Party.',
+  homeText2: 'Estética impecável, curadoria musical de alto nível e um público que pulsa na mesma frequência.',
   homeCTA: 'Conheça nossa história',
 };
-const defaultContactInfo: ContactInfo = { email: 'contato@queromaisparty.com.br', phone: '(21) 9 7259-6991', whatsapp: '(21) 972596991', instagram: '@queromaisparty', address: 'RIO DE JANEIRO' };
-const defaultSiteConfig: SiteConfig = { siteName: { pt: 'Quero Mais', en: 'Want More', es: 'Quiero Más' }, siteDescription: { pt: 'Experiências', en: 'Experiences', es: 'Experiencias' }, logo: '/logo.png', favicon: '/favicon.ico', primaryColor: '#E91E8C', secondaryColor: '#8B5CF6', socialLinks: [], seo: { title: {pt:'Quero Mais', en:'Want More', es:'Quiero Más'}, description: {pt:'Exp', en:'Exp', es:'Exp'}, keywords: 'festas', ogImage: '/og-image.jpg'} };
+const defaultContactInfo: ContactInfo = { 
+  email: 'contato@queromaisparty.com.br', 
+  phone: '(21) 97259-6991', 
+  whatsapp: '21972596991', 
+  instagram: '@queromaisparty', 
+  address: 'RIO DE JANEIRO - RJ' 
+};
+const defaultSiteConfig: SiteConfig = { 
+  siteName: { pt: 'Quero Mais Day Party', en: 'Want More Day Party', es: 'Quiero Más Day Party' }, 
+  siteDescription: { pt: 'Experiência Imersiva | Estética | Música', en: 'Immersive Experience | Aesthetics | Music', es: 'Experiencia Inmersiva | Estética | Música' }, 
+  logo: '/logo.png', 
+  favicon: '/favicon.ico', 
+  primaryColor: '#CCFF00', 
+  secondaryColor: '#8B5CF6', 
+  socialLinks: [
+    { platform: 'instagram', url: 'https://instagram.com/queromaisparty' },
+    { platform: 'facebook', url: 'https://facebook.com/queromaisparty' }
+  ], 
+  seo: { 
+    title: {pt: 'Quero Mais Day Party | Agenda Oficial', en: 'Want More Day Party | Official Schedule', es: 'Quiero Más Day Party | Agenda Oficial'}, 
+    description: {pt: 'A maior experiência de day party do Rio de Janeiro. Confira nossa agenda, compre ingressos e viva a metamorfose.', en: 'The greatest day party experience in Rio. Check our schedule and buy tickets.', es: 'La mejor experiencia de day party en Río. Consulta nuestra agenda y compra entradas.'}, 
+    keywords: 'festa, rio de janeiro, day party, música eletrônica, eventos, quero mais', 
+    ogImage: '/og-image.jpg'
+  }, 
+  hero: { 
+    active: true, 
+    desktop: { url: '/hero-scroll.mp4', upload: '' }, 
+    mobile: { url: '/videoversaomobile.mp4', upload: '' }, 
+    fallbackImage: '/hero-poster.jpg' 
+  } 
+};
 
 function useOptimisticCRUD<T extends { id: string }>(table: string, setState: React.Dispatch<React.SetStateAction<T[]>>) {
   const add = useCallback(async (item: Omit<T, 'id'|'createdAt'|'updatedAt'>) => {

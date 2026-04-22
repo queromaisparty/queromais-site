@@ -15,7 +15,7 @@ export function MusicSection() {
         
         {/* Header da Seção */}
         <div className="text-center mb-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3">
             {t({ pt: 'Sons que marcam', en: 'Sounds that leave a mark', es: 'Sonidos que marcan' })}
           </p>
           <h2 className="font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight">
@@ -65,7 +65,7 @@ export function MusicSection() {
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1A1A2E] to-[#E91E8C]/20">
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1A1A2E] to-qm-magenta/20">
                           <Headphones className="w-16 h-16 text-white/20" />
                         </div>
                       )}
@@ -83,7 +83,7 @@ export function MusicSection() {
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-black/40 hover:text-[#C2185B] transition-colors"
+                              className="text-black/40 hover:text-[var(--primary-color)] transition-colors"
                             >
                               <ExternalLink className="w-4 h-4" />
                             </a>
@@ -124,7 +124,7 @@ export function MusicSection() {
                       
                       {/* Play Button Overlay */}
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="w-16 h-16 bg-[#E91E8C] rounded-none flex items-center justify-center hover:scale-110 transition-transform">
+                        <button className="w-16 h-16 bg-qm-magenta rounded-none flex items-center justify-center hover:scale-110 transition-transform">
                           <Play className="w-8 h-8 text-white ml-1" />
                         </button>
                       </div>
@@ -139,7 +139,7 @@ export function MusicSection() {
                           href={set.externalLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-[#C2185B] font-bold hover:underline text-sm uppercase"
+                          className="inline-flex items-center gap-2 text-[var(--primary-color)] font-bold hover:underline text-sm uppercase"
                         >
                           <ExternalLink className="w-4 h-4" />
                           {t(translations.buttons.play)}
@@ -180,7 +180,7 @@ export function MusicSection() {
                       
                       <div className="absolute bottom-6 left-6 right-6">
                         <h3 className="font-black text-white text-3xl mb-1 uppercase">{t(playlist.title)}</h3>
-                        <p className="text-[#C2185B] font-bold text-sm tracking-widest">{playlist.tracks.length} TRACKS</p>
+                        <p className="text-[var(--primary-color)] font-bold text-sm tracking-widest">{playlist.tracks.length} TRACKS</p>
                       </div>
                     </div>
                     <div className="p-6 absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center">
@@ -192,7 +192,7 @@ export function MusicSection() {
                           href={playlist.externalUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-none hover:bg-[#D81B80] transition-colors uppercase text-sm"
+                          className="inline-flex items-center gap-2 px-6 py-3 bg-qm-magenta text-white font-bold rounded-none hover:bg-qm-magenta-dark transition-colors uppercase text-sm"
                         >
                           <Play className="w-4 h-4 fill-current" />
                           {t(translations.buttons.play)}

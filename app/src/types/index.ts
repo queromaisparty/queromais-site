@@ -355,6 +355,12 @@ export interface SiteConfig {
   secondaryColor: string;
   socialLinks: SocialLink[];
   seo: SEOConfig;
+  hero?: {
+    active: boolean;
+    desktop: { url: string; upload: string };
+    mobile: { url: string; upload: string };
+    fallbackImage: string;
+  };
 }
 
 export interface SEOConfig {

@@ -17,7 +17,7 @@ export function SobrePage() {
           <h1 className="font-black text-5xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-6">
             {s.heroTitle.split(' ').map((word, i, arr) =>
               i === arr.length - 1
-                ? <span key={i} className="text-[#E91E8C]"> {word}</span>
+                ? <span key={i} className="text-qm-magenta"> {word}</span>
                 : word + ' '
             )}
           </h1>
@@ -30,7 +30,7 @@ export function SobrePage() {
         {stats.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
             {stats.map(stat => (
-              <div key={stat.id} className="bg-[#F8F8F8] border border-gray-100 rounded-3xl p-8 flex flex-col items-center text-center">
+              <div key={stat.id} className="bg-[#F8F8F8] border border-gray-100 rounded-none p-8 flex flex-col items-center text-center">
                 <div className="text-4xl font-black text-black mb-2">{stat.value}</div>
                 <div className="text-xs uppercase tracking-widest text-[#4A4A4A] font-bold">{stat.label}</div>
               </div>
@@ -42,7 +42,7 @@ export function SobrePage() {
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E91E8C] mb-5 font-sans">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5 font-sans">
                 Origem e Propósito
               </p>
               <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tight mb-6"
@@ -53,11 +53,11 @@ export function SobrePage() {
               <p className="text-gray-500 leading-relaxed text-sm">{s.origemText2}</p>
             </div>
             {s.origemImage ? (
-              <div className="aspect-[4/3] overflow-hidden rounded-2xl">
+              <div className="aspect-[4/3] overflow-hidden rounded-none">
                 <img src={s.origemImage} alt="Origem da Quero Mais" className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className="aspect-[4/3] bg-[#F8F8F8] rounded-2xl flex items-center justify-center">
+              <div className="aspect-[4/3] bg-[#F8F8F8] rounded-none flex items-center justify-center">
                 <span className="text-gray-300 text-sm">Imagem em breve</span>
               </div>
             )}
@@ -69,14 +69,14 @@ export function SobrePage() {
       <section className="w-full bg-[#3D4246] py-20 mb-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E91E8C] mb-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5">
               {s.essenciaTitle}
             </p>
             <p className="text-white/90 text-lg leading-relaxed mb-4">{s.essenciaText1}</p>
             <div className="w-12 h-px bg-white/20 my-6" />
             <p className="text-white/60 leading-relaxed text-sm mb-8">{s.essenciaText2}</p>
             {s.essenciaImage && (
-              <div className="mb-8 aspect-[16/7] overflow-hidden rounded-2xl">
+              <div className="mb-8 aspect-[16/7] overflow-hidden rounded-none">
                 <img src={s.essenciaImage} alt="Essência da Quero Mais" className="w-full h-full object-cover" />
               </div>
             )}
@@ -98,16 +98,16 @@ export function SobrePage() {
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {s.simboloImage ? (
-              <div className="aspect-square overflow-hidden rounded-3xl">
+              <div className="aspect-square overflow-hidden rounded-none">
                 <img src={s.simboloImage} alt="A borboleta — símbolo da Quero Mais" className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className="aspect-square bg-[#F8F8F8] rounded-3xl flex items-center justify-center">
+              <div className="aspect-square bg-[#F8F8F8] rounded-none flex items-center justify-center">
                 <span className="text-gray-300 text-sm">Imagem em breve</span>
               </div>
             )}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E91E8C] mb-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5">
                 O Símbolo
               </p>
               <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tight mb-6"
@@ -124,7 +124,7 @@ export function SobrePage() {
         {timeline.length > 0 && (
           <div className="mb-24">
             <div className="text-center mb-14">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E91E8C] mb-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-3">
                 {s.narrativaTitle}
               </p>
               <p className="text-gray-500 max-w-2xl mx-auto text-sm leading-relaxed">
@@ -133,13 +133,13 @@ export function SobrePage() {
             </div>
 
             <div className="relative max-w-3xl mx-auto">
-              <div className="absolute top-0 bottom-0 left-[15px] sm:left-1/2 w-px bg-gradient-to-b from-transparent via-[#E91E8C]/30 to-transparent sm:-translate-x-1/2" />
+              <div className="absolute top-0 bottom-0 left-[15px] sm:left-1/2 w-px bg-gradient-to-b from-transparent via-qm-magenta/30 to-transparent sm:-translate-x-1/2" />
 
               <div className="space-y-12">
                 {timeline.map((item, idx) => (
                   <div key={item.id}
                     className={`relative flex flex-col sm:flex-row items-start sm:items-center gap-8 sm:gap-16 ${idx % 2 === 0 ? 'sm:flex-row-reverse sm:text-right' : ''}`}>
-                    <div className="absolute left-[11px] sm:left-1/2 w-2 h-2 bg-[#E91E8C] rounded-full sm:-translate-x-1/2 shadow-[0_0_12px_rgba(233,30,140,0.5)]" />
+                    <div className="absolute left-[11px] sm:left-1/2 w-2 h-2 bg-qm-magenta rounded-full sm:-translate-x-1/2 shadow-[0_0_12px_rgba(233,30,140,0.5)]" />
                     <div className="flex-1 ml-10 sm:ml-0">
                       {item.year && (
                         <div className="text-3xl font-black text-gray-100 mb-1 leading-none">{item.year}</div>
@@ -160,7 +160,7 @@ export function SobrePage() {
           <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto">{s.ctaText}</p>
           <Link
             to={s.ctaButtonLink}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#E91E8C] text-white font-bold uppercase tracking-wider text-sm rounded-full hover:bg-[#D81B80] transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-qm-magenta text-white font-bold uppercase tracking-wider text-sm rounded-full hover:bg-qm-magenta-dark transition-colors"
           >
             {s.ctaButtonLabel}
           </Link>

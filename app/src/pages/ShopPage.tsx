@@ -84,22 +84,22 @@ export function ShopPage() {
           <button 
             title="Carrinho"
             onClick={() => setShowCart(!showCart)}
-            className="absolute right-0 top-0 flex items-center justify-center p-4 bg-black text-white hover:bg-[#E91E8C] transition-colors rounded-full shadow-lg z-20"
+            className="absolute right-0 top-0 flex items-center justify-center p-4 bg-black text-white hover:bg-qm-magenta transition-colors rounded-full shadow-lg z-20"
           >
             <ShoppingCart className="w-6 h-6" />
             {cartItemsCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-6 h-6 bg-[#E91E8C] text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+              <span className="absolute -top-2 -right-2 w-6 h-6 bg-qm-magenta text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
                 {cartItemsCount}
               </span>
             )}
           </button>
 
           <div className="flex flex-col items-center text-center">
-             <div className="w-16 h-16 rounded-full bg-[#E91E8C]/10 flex items-center justify-center mb-6">
-                <ShoppingBag className="w-8 h-8 text-[#E91E8C]" />
+             <div className="w-16 h-16 rounded-full bg-qm-magenta/10 flex items-center justify-center mb-6">
+                <ShoppingBag className="w-8 h-8 text-qm-magenta" />
              </div>
              <h1 className="font-black text-5xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-none mb-4">
-                QM <span className="text-[#E91E8C]">STORE</span>
+                QM <span className="text-qm-magenta">STORE</span>
              </h1>
              <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
                 Vista a energia. Nossa linha oficial de vestuário e acessórios para quem respira música eletrônica.
@@ -134,7 +134,7 @@ export function ShopPage() {
                       )}
                       <div className="flex-1">
                         <h4 className="font-bold text-gray-900">{item.name}</h4>
-                        <p className="text-[#E91E8C] font-bold">{formatPrice(item.price)}</p>
+                        <p className="text-qm-magenta font-bold">{formatPrice(item.price)}</p>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="flex items-center bg-gray-100 rounded-lg p-1">
@@ -152,7 +152,7 @@ export function ShopPage() {
                     <span className="text-gray-500 uppercase text-sm font-bold">Total</span>
                     <p className="text-3xl font-black text-black">{formatPrice(cartTotal)}</p>
                   </div>
-                  <button title="Finalizar" onClick={checkoutWhatsApp} className="w-full md:w-auto mt-4 md:mt-0 flex items-center justify-center gap-2 px-8 py-4 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-black uppercase rounded-none transition-transform hover:scale-105 shadow-lg">
+                  <button title="Finalizar" onClick={checkoutWhatsApp} className="w-full md:w-auto mt-4 md:mt-0 flex items-center justify-center gap-2 px-8 py-4 bg-qm-magenta hover:bg-qm-magenta-dark text-white font-black uppercase rounded-none transition-transform hover:scale-105 shadow-lg">
                     <CreditCard className="w-5 h-5" />
                     Finalizar via WhatsApp
                   </button>
@@ -176,7 +176,7 @@ export function ShopPage() {
                  title={cat.label}
                  onClick={() => setActiveCategory(cat.id as 'todos' | 'vestuario' | 'acessorios' | 'tickets')}
                  className={`px-8 py-3 rounded-none text-sm font-bold uppercase tracking-wider transition-colors whitespace-nowrap border-r border-gray-200 last:border-0 ${
-                   activeCategory === cat.id ? 'bg-[#E91E8C] text-white shadow-md' : 'text-gray-500 hover:text-black hover:bg-gray-50'
+                   activeCategory === cat.id ? 'bg-qm-magenta text-white shadow-md' : 'text-gray-500 hover:text-black hover:bg-gray-50'
                  }`}
                >
                  {cat.label}
@@ -199,10 +199,10 @@ export function ShopPage() {
                       )}
                     </div>
                     <div className="p-6">
-                      <p className="text-[#E91E8C] font-bold text-sm tracking-widest mb-2">{new Date(event.date).toLocaleDateString()}</p>
+                      <p className="text-qm-magenta font-bold text-sm tracking-widest mb-2">{new Date(event.date).toLocaleDateString()}</p>
                       <h3 className="font-sans font-black text-2xl text-black mb-6 uppercase">{t(event.title)}</h3>
                       {event.ticketLink && (
-                        <a href={event.ticketLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-4 bg-black text-white font-black uppercase tracking-wider rounded-none hover:bg-[#E91E8C] transition-colors">
+                        <a href={event.ticketLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-4 bg-black text-white font-black uppercase tracking-wider rounded-none hover:bg-qm-magenta transition-colors">
                           <Ticket className="w-5 h-5" /> COMPRAR INGRESSO
                         </a>
                       )}
@@ -227,7 +227,7 @@ export function ShopPage() {
             ) : (
               filteredProducts.map((product) => (
                 <div key={product.id} className="group flex flex-col h-full bg-white border border-gray-200 rounded-none shadow-sm hover:shadow-xl transition-all">
-                   <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 mb-0 border-b border-gray-100 group-hover:border-[#E91E8C]/30 transition-colors">
+                   <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 mb-0 border-b border-gray-100 group-hover:border-qm-magenta/30 transition-colors">
                       
                       {product.images && product.images[0] ? (
                         <>
@@ -258,7 +258,7 @@ export function ShopPage() {
   
                       {product.status !== 'out_of_stock' && (
                         <div className="absolute inset-x-0 bottom-0 p-0 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                          <button title="Comprar" onClick={() => addToCart(product)} className="w-full bg-[#E91E8C] text-white font-bold uppercase text-xs tracking-wider py-4 rounded-none flex items-center justify-center gap-2 hover:bg-[#D81B80] transition-colors">
+                          <button title="Comprar" onClick={() => addToCart(product)} className="w-full bg-qm-magenta text-white font-bold uppercase text-xs tracking-wider py-4 rounded-none flex items-center justify-center gap-2 hover:bg-qm-magenta-dark transition-colors">
                             <ShoppingCart className="w-4 h-4" /> Adicionar ao Carrinho
                           </button>
                         </div>
@@ -266,10 +266,10 @@ export function ShopPage() {
                    </div>
   
                    <div className="flex flex-col flex-1 p-5">
-                     <h3 className="text-black font-bold text-lg mb-1 group-hover:text-[#E91E8C] transition-colors line-clamp-1">{t(product.name)}</h3>
+                     <h3 className="text-black font-bold text-lg mb-1 group-hover:text-qm-magenta transition-colors line-clamp-1">{t(product.name)}</h3>
                      <div className="flex items-center justify-between mt-auto">
                        <span className={`font-black tracking-tight ${product.status === 'out_of_stock' ? 'text-gray-400 line-through' : 'text-gray-900'}`}>{formatPrice(product.price)}</span>
-                       {product.status !== 'out_of_stock' && <Star className="w-4 h-4 text-[#E91E8C] opacity-0 group-hover:opacity-100 transition-opacity" />}
+                       {product.status !== 'out_of_stock' && <Star className="w-4 h-4 text-qm-magenta opacity-0 group-hover:opacity-100 transition-opacity" />}
                      </div>
                    </div>
                 </div>
@@ -279,7 +279,7 @@ export function ShopPage() {
         )}
 
         {/* Promo Bar */}
-        <div className="rounded-none bg-gradient-to-r from-[#E91E8C] to-[#D81B80] p-8 sm:p-12 text-center relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-8 shadow-xl mt-20">
+        <div className="rounded-none bg-gradient-to-r from-qm-magenta to-qm-magenta-dark p-8 sm:p-12 text-center relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-8 shadow-xl mt-20">
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none mix-blend-overlay" />
            <div className="relative text-left flex-1">
              <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight mb-2">Envio Grátis</h2>

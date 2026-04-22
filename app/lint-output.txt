@@ -1,0 +1,195 @@
+﻿
+> my-app@0.0.0 lint
+> eslint .
+
+
+C:\Projetos\QUEROMAISSITE\app\src\App.tsx
+  59:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projetos\QUEROMAISSITE\app\src\App.tsx:59:7
+  57 |     if (window.location.pathname === '/admin') {
+  58 |       window.history.replaceState(null, '', '/');
+> 59 |       setCurrentView('admin-login');
+     |       ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  60 |     }
+  61 |   }, []);
+  62 |  react-hooks/set-state-in-effect
+
+C:\Projetos\QUEROMAISSITE\app\src\admin\components\AdminContact.tsx
+  160:89  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  171:87  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projetos\QUEROMAISSITE\app\src\admin\components\AdminGallery.tsx
+  110:14  error  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Projetos\QUEROMAISSITE\app\src\admin\components\AdminMusic.tsx
+  219:53   error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  345:127  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  358:121  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projetos\QUEROMAISSITE\app\src\admin\components\AdminSettings.tsx
+    1:20  error  'useRef' is defined but never used        @typescript-eslint/no-unused-vars
+    2:76  error  'Upload' is defined but never used        @typescript-eslint/no-unused-vars
+    2:84  error  'X' is defined but never used             @typescript-eslint/no-unused-vars
+    2:87  error  'AlertCircle' is defined but never used   @typescript-eslint/no-unused-vars
+   61:13  error  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  147:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projetos\QUEROMAISSITE\app\src\components\gallery\GalleryLightbox.tsx
+  42:35  error  Error: Cannot access variable before it is declared
+
+`goNext` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Projetos\QUEROMAISSITE\app\src\components\gallery\GalleryLightbox.tsx:42:35
+  40 |     const handleKey = (e: KeyboardEvent) => {
+  41 |       if (e.key === 'Escape') onClose();
+> 42 |       if (e.key === 'ArrowRight') goNext();
+     |                                   ^^^^^^ `goNext` accessed before it is declared
+  43 |       if (e.key === 'ArrowLeft') goPrev();
+  44 |     };
+  45 |     window.addEventListener('keydown', handleKey);
+
+C:\Projetos\QUEROMAISSITE\app\src\components\gallery\GalleryLightbox.tsx:49:3
+  47 |   });
+  48 |
+> 49 |   const goNext = useCallback(() => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 50 |     if (isAnimating || images.length <= 1) return;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 51 |     setIsAnimating(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 52 |     setCurrentIndex(prev => (prev + 1) % images.length);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |     setTimeout(() => setIsAnimating(false), DURATION.lightbox);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |   }, [images.length, isAnimating]);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `goNext` is declared here
+  55 |
+  56 |   const goPrev = useCallback(() => {
+  57 |     if (isAnimating || images.length <= 1) return;                                                   react-hooks/immutability
+  43:34  error  Error: Cannot access variable before it is declared
+
+`goPrev` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Projetos\QUEROMAISSITE\app\src\components\gallery\GalleryLightbox.tsx:43:34
+  41 |       if (e.key === 'Escape') onClose();
+  42 |       if (e.key === 'ArrowRight') goNext();
+> 43 |       if (e.key === 'ArrowLeft') goPrev();
+     |                                  ^^^^^^ `goPrev` accessed before it is declared
+  44 |     };
+  45 |     window.addEventListener('keydown', handleKey);
+  46 |     return () => window.removeEventListener('keydown', handleKey);
+
+C:\Projetos\QUEROMAISSITE\app\src\components\gallery\GalleryLightbox.tsx:56:3
+  54 |   }, [images.length, isAnimating]);
+  55 |
+> 56 |   const goPrev = useCallback(() => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |     if (isAnimating || images.length <= 1) return;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 58 |     setIsAnimating(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 59 |     setCurrentIndex(prev => (prev - 1 + images.length) % images.length);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 60 |     setTimeout(() => setIsAnimating(false), DURATION.lightbox);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 61 |   }, [images.length, isAnimating]);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `goPrev` is declared here
+  62 |
+  63 |   // Touch/swipe
+  64 |   const handleTouchStart = (e: React.TouchEvent) => {  react-hooks/immutability
+
+C:\Projetos\QUEROMAISSITE\app\src\components\ui\badge.tsx
+  46:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\components\ui\button-group.tsx
+  82:3  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\components\ui\button.tsx
+  62:18  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\components\ui\form.tsx
+  159:3  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\components\ui\navigation-menu.tsx
+  167:3  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\components\ui\sidebar.tsx
+  611:26  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Projetos\QUEROMAISSITE\app\src\components\ui\sidebar.tsx:611:26
+  609 |   // Random width between 50 to 90%.
+  610 |   const width = React.useMemo(() => {
+> 611 |     return `${Math.floor(Math.random() * 40) + 50}%`
+      |                          ^^^^^^^^^^^^^ Cannot call impure function
+  612 |   }, [])
+  613 |
+  614 |   return (  react-hooks/purity
+  725:3   error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\components\ui\toggle.tsx
+  45:18  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\context\AuthContext.tsx
+  86:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\context\DataContext.backup.tsx
+  722:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\context\DataContext.tsx
+  109:23  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  109:29  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  112:40  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  119:25  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  119:31  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  122:40  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  126:45  error  'e' is defined but never used                                                                                                   @typescript-eslint/no-unused-vars
+  126:48  error  Empty block statement                                                                                                           no-empty
+  182:19  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  196:19  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  208:19  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  239:58  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  301:55  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  308:54  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  326:53  error  Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  353:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\context\LanguageContext.tsx
+  45:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  54:17  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Projetos\QUEROMAISSITE\app\src\hooks\useSupabaseStatus.ts
+  15:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Projetos\QUEROMAISSITE\app\src\hooks\useSupabaseStatus.ts:15:7
+  13 |     // Se a key ainda ├® o placeholder, n├úo testa
+  14 |     if (!anonKey || anonKey === 'SUBSTITUA_PELA_ANON_KEY_PUBLICA') {
+> 15 |       setStatus('no-key');
+     |       ^^^^^^^^^ Avoid calling setState() directly within an effect
+  16 |       setError('Anon key n├úo configurada. Configure o .env com VITE_SUPABASE_ANON_KEY.');
+  17 |       return;
+  18 |     }  react-hooks/set-state-in-effect
+
+C:\Projetos\QUEROMAISSITE\app\src\sections\GallerySection.tsx
+   52:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  156:85  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Projetos\QUEROMAISSITE\app\ts_fix.js
+  34:30  error  Parsing error: Expecting Unicode escape sequence \uXXXX
+
+Ô£û 47 problems (47 errors, 0 warnings)
+

@@ -107,7 +107,7 @@ export function AdminGallery() {
 
       setFormData(prev => ({ ...prev, images: [...prev.images, ...newImages] }));
       toast.success(`${newImages.length} imagens sincronizadas com sucesso!`);
-    } catch (error) {
+    } catch {
       toast.error('Erro ao sincronizar pasta. Verifique os logs.');
     } finally {
       setIsSyncing(false);
@@ -180,7 +180,7 @@ export function AdminGallery() {
     setViewMode('list');
   };
 
-  const inputCls = "w-full px-3 py-2 bg-white border border-[#E8E8ED] rounded-lg text-[#1A1A2E] text-sm placeholder:text-[#9CA3AF] focus:border-[#E91E8C] focus:outline-none transition-colors";
+  const inputCls = "w-full px-3 py-2 bg-white border border-[#E8E8ED] rounded-lg text-[#1A1A2E] text-sm placeholder:text-[#9CA3AF] focus:border-qm-magenta focus:outline-none transition-colors";
 
   if (viewMode === 'list') {
     return (
@@ -196,7 +196,7 @@ export function AdminGallery() {
           </div>
           <button
             onClick={handleNew}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#E91E8C] text-white font-bold rounded-xl hover:bg-[#D81B80] transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 bg-qm-magenta text-white font-bold rounded-xl hover:bg-qm-magenta-dark transition-colors"
           >
             <Plus className="w-4 h-4" />
             Novo Álbum
@@ -210,7 +210,7 @@ export function AdminGallery() {
             <p className="text-sm mb-6 max-w-sm mx-auto" style={{ color: '#9CA3AF' }}>
               Crie seu primeiro álbum para liberar a prateleira de fotos do público.
             </p>
-            <button onClick={handleNew} className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-xl hover:scale-105 transition-transform">
+            <button onClick={handleNew} className="inline-flex items-center gap-2 px-6 py-3 bg-qm-magenta text-white font-bold rounded-xl hover:scale-105 transition-transform">
               <Plus className="w-4 h-4" />
               Criar Primeiro Álbum
             </button>
@@ -252,7 +252,7 @@ export function AdminGallery() {
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div className="max-w-[80%]">
-                        <span className="text-[10px] font-bold uppercase tracking-wider mb-1 block" style={{ color: '#E91E8C' }}>
+                        <span className="text-[10px] font-bold uppercase tracking-wider mb-1 block" style={{ color: 'var(--primary-color)' }}>
                           {album.category || 'Geral'}
                         </span>
                         <h3 className="font-bold text-base truncate" style={{ color: '#1A1A2E' }}>{album.title}</h3>
@@ -325,7 +325,7 @@ export function AdminGallery() {
           </button>
           <button
             onClick={handleSave}
-            className="px-6 py-2 text-sm font-bold bg-[#E91E8C] text-white rounded-lg hover:bg-[#D81B80] transition-colors"
+            className="px-6 py-2 text-sm font-bold bg-qm-magenta text-white rounded-lg hover:bg-qm-magenta-dark transition-colors"
           >
             {editingId ? 'Salvar Alterações' : 'Publicar Álbum'}
           </button>
@@ -402,7 +402,7 @@ export function AdminGallery() {
           <h3 className="text-base font-bold" style={{ color: '#1A1A2E' }}>
             Repositório de Fotos ({formData.images.length})
           </h3>
-          <span className="text-xs font-bold" style={{ color: '#E91E8C' }}>Uploads e Links</span>
+          <span className="text-xs font-bold" style={{ color: 'var(--primary-color)' }}>Uploads e Links</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -410,17 +410,17 @@ export function AdminGallery() {
           {/* PAINEL ESQUERDO: UPLOADERS */}
           <div className="space-y-4">
             
-            <div className="p-4 rounded-xl border border-dashed" style={{ borderColor: '#E91E8C', background: '#FDF2F8' }}>
+            <div className="p-4 rounded-xl border border-dashed" style={{ borderColor: 'var(--primary-color)', background: '#FDF2F8' }}>
               <div className="flex items-center gap-2 mb-2">
-                <Upload className="w-4 h-4" style={{ color: '#E91E8C' }} />
-                <span className="text-sm font-bold" style={{ color: '#E91E8C' }}>Upload Local (Direto do PC)</span>
+                <Upload className="w-4 h-4" style={{ color: 'var(--primary-color)' }} />
+                <span className="text-sm font-bold" style={{ color: 'var(--primary-color)' }}>Upload Local (Direto do PC)</span>
               </div>
               <input
                 type="file"
                 multiple
                 accept="image/*"
                 onChange={handleFileUpload}
-                className="w-full text-xs file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#E91E8C] file:text-white hover:file:bg-[#D81B80] cursor-pointer"
+                className="w-full text-xs file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-qm-magenta file:text-white hover:file:bg-qm-magenta-dark cursor-pointer"
               />
             </div>
             

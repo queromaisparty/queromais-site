@@ -43,11 +43,11 @@ export function ContactPage() {
         
         {/* Header de Atendimento */}
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 mt-8 mb-16 text-center">
-          <p className="text-[#E91E8C] text-sm font-bold uppercase tracking-widest mb-3 flex items-center justify-center gap-2">
+          <p className="text-qm-magenta text-sm font-bold uppercase tracking-widest mb-3 flex items-center justify-center gap-2">
              <MessageSquare className="w-5 h-5" /> Atendimento Oficial
           </p>
           <h1 className="font-black text-5xl sm:text-6xl text-black uppercase tracking-tight leading-none mb-6">
-            Fale com a <br className="sm:hidden" /> <span className="text-[#E91E8C]">Quero Mais</span>
+            Fale com a <br className="sm:hidden" /> <span className="text-qm-magenta">Quero Mais</span>
           </h1>
         </div>
 
@@ -57,7 +57,7 @@ export function ContactPage() {
           <div className="lg:col-span-6">
              <div className="flex items-center gap-4 mb-8 border-b border-gray-300 pb-4">
                 <div className="w-12 h-12 bg-gray-100 rounded-none flex items-center justify-center shadow-sm">
-                  <span className="text-[#E91E8C] font-black text-xl">?</span>
+                  <span className="text-qm-magenta font-black text-xl">?</span>
                 </div>
                 <h2 className="text-3xl font-black text-black uppercase tracking-tight">Dúvidas Frequentes</h2>
              </div>
@@ -69,16 +69,16 @@ export function ContactPage() {
                  activeFaqs.map((faq) => (
                    <div 
                      key={faq.id} 
-                     className={`border ${openFaq === faq.id ? 'border-[#E91E8C] shadow-md' : 'border-gray-200 shadow-sm'} bg-white rounded-none overflow-hidden transition-all duration-300`}
+                     className={`border ${openFaq === faq.id ? 'border-qm-magenta shadow-md' : 'border-gray-200 shadow-sm'} bg-white rounded-none overflow-hidden transition-all duration-300`}
                    >
                      <button 
                        onClick={() => setOpenFaq(openFaq === faq.id ? null : faq.id)}
                        className="w-full text-left px-6 py-5 sm:px-8 sm:py-6 flex items-center justify-between gap-4 bg-white hover:bg-gray-50 transition-colors"
                      >
-                       <h3 className={`font-bold sm:text-lg pr-4 ${openFaq === faq.id ? 'text-[#E91E8C]' : 'text-black'}`}>
+                       <h3 className={`font-bold sm:text-lg pr-4 ${openFaq === faq.id ? 'text-qm-magenta' : 'text-black'}`}>
                          {getTitle(faq.question)}
                        </h3>
-                       <div className={`w-8 h-8 rounded-none border flex flex-col items-center justify-center shrink-0 transition-all duration-300 ${openFaq === faq.id ? 'bg-[#E91E8C] border-[#E91E8C] text-white rotate-45' : 'border-gray-300 text-gray-400 bg-gray-50'}`}>
+                       <div className={`w-8 h-8 rounded-none border flex flex-col items-center justify-center shrink-0 transition-all duration-300 ${openFaq === faq.id ? 'bg-qm-magenta border-qm-magenta text-white rotate-45' : 'border-gray-300 text-gray-400 bg-gray-50'}`}>
                          <Plus className="w-4 h-4" />
                        </div>
                      </button>
@@ -111,7 +111,7 @@ export function ContactPage() {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Nome completo"
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-[#E91E8C] transition-colors"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-qm-magenta transition-colors"
                     />
                     <input
                       type="email"
@@ -119,7 +119,7 @@ export function ContactPage() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="seu@email.com"
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-[#E91E8C] transition-colors"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-qm-magenta transition-colors"
                     />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -128,7 +128,7 @@ export function ContactPage() {
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="WhatsApp / Telefone"
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-[#E91E8C] transition-colors"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-qm-magenta transition-colors"
                     />
                     <input
                       type="text"
@@ -136,7 +136,7 @@ export function ContactPage() {
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                       placeholder="Assunto"
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-[#E91E8C] transition-colors"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-qm-magenta transition-colors"
                     />
                   </div>
                   <textarea
@@ -145,12 +145,12 @@ export function ContactPage() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Sua mensagem detalhada..."
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-[#E91E8C] transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-none text-black focus:outline-none focus:border-qm-magenta transition-colors resize-none"
                   />
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 py-4 bg-[#E91E8C] text-white font-bold uppercase tracking-wider rounded-none hover:bg-[#D81B80] transition-colors disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 py-4 bg-qm-magenta text-white font-bold uppercase tracking-wider rounded-none hover:bg-qm-magenta-dark transition-colors disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -165,7 +165,7 @@ export function ContactPage() {
 
             {/* Infos Adicionais */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <a href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="bg-white border border-gray-200 p-6 rounded-none flex items-center gap-4 hover:border-[#E91E8C] transition-colors group">
+              <a href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="bg-white border border-gray-200 p-6 rounded-none flex items-center gap-4 hover:border-qm-magenta transition-colors group">
                 <div className="w-12 h-12 bg-green-50 text-green-600 rounded-none flex items-center justify-center group-hover:bg-green-100 transition-colors">
                   <Phone className="w-6 h-6" />
                 </div>
@@ -175,7 +175,7 @@ export function ContactPage() {
                 </div>
               </a>
               
-              <a href={`mailto:${contactInfo.email}`} className="bg-white border border-gray-200 p-6 rounded-none flex items-center gap-4 hover:border-[#E91E8C] transition-colors group">
+              <a href={`mailto:${contactInfo.email}`} className="bg-white border border-gray-200 p-6 rounded-none flex items-center gap-4 hover:border-qm-magenta transition-colors group">
                 <div className="w-12 h-12 bg-gray-50 text-gray-600 rounded-none flex items-center justify-center group-hover:bg-gray-100 transition-colors">
                   <Mail className="w-6 h-6" />
                 </div>

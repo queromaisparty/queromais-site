@@ -41,7 +41,7 @@ export function AdminNewsletter() {
         </div>
         <button
           onClick={handleExportCSV}
-          className="flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-lg hover:bg-[#D81B80] transition-colors shadow-sm"
+          className="flex items-center gap-2 px-6 py-3 bg-qm-magenta text-white font-bold rounded-lg hover:bg-qm-magenta-dark transition-colors shadow-sm"
         >
           <Download className="w-5 h-5" /> Exportar para CSV
         </button>
@@ -49,7 +49,7 @@ export function AdminNewsletter() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white p-6 rounded-2xl border border-gray-200 flex items-center gap-4 shadow-sm">
-          <div className="w-12 h-12 rounded-xl bg-pink-50 text-[#E91E8C] flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-pink-50 text-qm-magenta flex items-center justify-center">
             <Mail className="w-6 h-6" />
           </div>
           <div>

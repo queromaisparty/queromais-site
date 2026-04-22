@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { AuthProvider } from '@/context/AuthContext';
-import { DataProvider } from '@/context/DataContext';
+import { DataProvider, useData } from '@/context/DataContext';
 
 import { WebsiteLayout } from '@/components/layout/WebsiteLayout';
 import { HomePage } from '@/pages/HomePage';
@@ -49,6 +49,33 @@ const toasterStyle = {
   },
 };
 
+function SiteEngine() {
+  const { siteConfig } = useData();
+
+  useEffect(() => {
+    if (!siteConfig) return;
+
+    // 1. Atualizar SEO (Title e Meta Description)
+    const title = siteConfig.seo?.title?.pt || siteConfig.siteName?.pt || 'Quero Mais';
+    document.title = title;
+    
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.setAttribute('name', 'description');
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', siteConfig.seo?.description?.pt || siteConfig.siteDescription?.pt || '');
+
+    // 2. Atualizar CSS Variables Globais (Variáveis de Cor)
+    const root = document.documentElement;
+    root.style.setProperty('--primary-color', siteConfig.primaryColor || 'var(--primary-color)');
+    root.style.setProperty('--secondary-color', siteConfig.secondaryColor || '#8B5CF6');
+  }, [siteConfig]);
+
+  return null;
+}
+
 function App() {
   const [currentView, setCurrentView] = useState<View>('website');
   const [adminSection, setAdminSection] = useState<AdminSection>('dashboard');
@@ -56,6 +83,7 @@ function App() {
   useEffect(() => {
     if (window.location.pathname === '/admin') {
       window.history.replaceState(null, '', '/');
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCurrentView('admin-login');
     }
   }, []);
@@ -72,6 +100,7 @@ function App() {
     return (
       <LanguageProvider>
         <DataProvider>
+          <SiteEngine />
           <Toaster position="top-center" toastOptions={toasterStyle} />
           <Routes>
             <Route element={<WebsiteLayout onAdminClick={handleAdminClick} />}>
@@ -97,6 +126,7 @@ function App() {
       <AuthProvider>
         <DataProvider>
           <LanguageProvider>
+            <SiteEngine />
             <div className="min-h-screen bg-[#0A0A0A] text-white">
               <Toaster position="top-center" toastOptions={toasterStyle} />
               <button
@@ -119,6 +149,7 @@ function App() {
       <AuthProvider>
         <DataProvider>
           <LanguageProvider>
+            <SiteEngine />
             <div className="min-h-screen bg-[#0A0A0A] text-white">
               <Toaster position="top-center" toastOptions={toasterStyle} />
               <AdminDashboard

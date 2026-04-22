@@ -65,7 +65,7 @@ export function Footer({ onAdminClick }: FooterProps) {
                 href={`https://instagram.com/${contactInfo.instagram?.replace('@', '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-md bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-[#E91E8C] hover:text-white hover:border-[#E91E8C] transition-all"
+                className="w-10 h-10 rounded-md bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-qm-magenta hover:text-white hover:border-qm-magenta transition-all"
               >
                 <Instagram className="w-4 h-4" />
               </a>
@@ -73,13 +73,13 @@ export function Footer({ onAdminClick }: FooterProps) {
                 href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-md bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-[#E91E8C] hover:text-white hover:border-[#E91E8C] transition-all"
+                className="w-10 h-10 rounded-md bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-qm-magenta hover:text-white hover:border-qm-magenta transition-all"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>
               <a
                 href={`mailto:${contactInfo.email}`}
-                className="w-10 h-10 rounded-md bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-[#E91E8C] hover:text-white hover:border-[#E91E8C] transition-all"
+                className="w-10 h-10 rounded-md bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-qm-magenta hover:text-white hover:border-qm-magenta transition-all"
               >
                 <Mail className="w-4 h-4" />
               </a>
@@ -96,7 +96,7 @@ export function Footer({ onAdminClick }: FooterProps) {
                 <li key={link.href}>
                   <Link
                     to={link.href}
-                    className="text-white/50 hover:text-[#C2185B] transition-colors text-sm flex items-center gap-1 group"
+                    className="text-white/50 hover:text-[var(--primary-color)] transition-colors text-sm flex items-center gap-1 group"
                   >
                     <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -ml-3 group-hover:ml-0 transition-all" />
                     {t(link.label)}
@@ -113,27 +113,27 @@ export function Footer({ onAdminClick }: FooterProps) {
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-[#C2185B] mt-0.5 flex-shrink-0" />
+                <Mail className="w-4 h-4 text-[var(--primary-color)] mt-0.5 flex-shrink-0" />
                 <a
                   href={`mailto:${contactInfo.email}`}
-                  className="text-white/50 hover:text-[#C2185B] transition-colors text-sm font-sans"
+                  className="text-white/50 hover:text-[var(--primary-color)] transition-colors text-sm font-sans"
                 >
                   {contactInfo.email}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <MessageCircle className="w-4 h-4 text-[#C2185B] mt-0.5 flex-shrink-0" />
+                <MessageCircle className="w-4 h-4 text-[var(--primary-color)] mt-0.5 flex-shrink-0" />
                 <a
                   href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/50 hover:text-[#C2185B] transition-colors text-sm font-sans"
+                  className="text-white/50 hover:text-[var(--primary-color)] transition-colors text-sm font-sans"
                 >
                   {contactInfo.whatsapp}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-[#C2185B] mt-0.5 flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-[var(--primary-color)] mt-0.5 flex-shrink-0" />
                 <span className="text-white/50 text-sm font-sans">{contactInfo.address}</span>
               </li>
             </ul>
@@ -158,12 +158,12 @@ export function Footer({ onAdminClick }: FooterProps) {
                 required
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t({ pt: 'Seu e-mail', en: 'Your email', es: 'Tu correo' })}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-md text-white/80 placeholder:text-white/30 text-sm focus:outline-none focus:border-[#E91E8C] transition-colors font-sans"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-md text-white/80 placeholder:text-white/30 text-sm focus:outline-none focus:border-qm-magenta transition-colors font-sans"
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-4 py-3 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-semibold rounded-md text-sm transition-colors font-sans disabled:opacity-50"
+                className="w-full px-4 py-3 bg-qm-magenta hover:bg-qm-magenta-dark text-white font-semibold rounded-md text-sm transition-colors font-sans disabled:opacity-50"
               >
                 {isSubmitting ? '...' : t({ pt: 'Quero receber', en: 'Subscribe', es: 'Suscribirme' })}
               </button>
@@ -181,7 +181,7 @@ export function Footer({ onAdminClick }: FooterProps) {
           </p>
           <button
             onClick={onAdminClick}
-            className="text-white/25 hover:text-[#C2185B] text-xs transition-colors font-sans"
+            className="text-white/25 hover:text-[var(--primary-color)] text-xs transition-colors font-sans"
           >
             {t({ pt: 'Ãrea Administrativa', en: 'Admin Area', es: 'Ãrea Administrativa' })}
           </button>

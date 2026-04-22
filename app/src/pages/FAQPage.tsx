@@ -26,11 +26,11 @@ export function FAQPage() {
           onClick={() => toggle(faq.id)}
           className="w-full flex items-center justify-between py-5 px-1 text-left group"
         >
-          <span className={`text-base font-semibold transition-colors ${isOpen ? 'text-[#E91E8C]' : 'text-[#1A1A2E] group-hover:text-[#E91E8C]'}`}>
+          <span className={`text-base font-semibold transition-colors ${isOpen ? 'text-qm-magenta' : 'text-[#1A1A2E] group-hover:text-qm-magenta'}`}>
             {t(faq.question)}
           </span>
           <ChevronDown
-            className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${isOpen ? 'rotate-180 text-[#E91E8C]' : ''}`}
+            className={`w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0 ml-4 ${isOpen ? 'rotate-180 text-qm-magenta' : ''}`}
           />
         </button>
         <div
@@ -54,8 +54,8 @@ export function FAQPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FCE7F3] rounded-full mb-6">
-            <HelpCircle className="w-4 h-4 text-[#E91E8C]" />
-            <span className="text-[#E91E8C] text-sm font-bold uppercase tracking-wider">
+            <HelpCircle className="w-4 h-4 text-qm-magenta" />
+            <span className="text-qm-magenta text-sm font-bold uppercase tracking-wider">
               {t({ pt: 'Tire suas dúvidas', en: 'Get answers', es: 'Resuelve tus dudas' })}
             </span>
           </div>
@@ -102,7 +102,7 @@ export function FAQPage() {
               const categoryFaqs = activeFaqs.filter(f => f.category === category);
               return (
                 <div key={category}>
-                  <h2 className="text-sm font-bold uppercase tracking-[0.15em] text-[#E91E8C] mb-4 px-1">
+                  <h2 className="text-sm font-bold uppercase tracking-[0.15em] text-qm-magenta mb-4 px-1">
                     {category}
                   </h2>
                   <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">

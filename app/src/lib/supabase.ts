@@ -56,5 +56,16 @@ export async function uploadImage(file: File, folder = 'geral'): Promise<string>
   return data.publicUrl;
 }
 
+export async function uploadVideo(file: File, folder = 'hero'): Promise<string> {
+  const ext = file.name.split('.').pop() ?? 'mp4';
+  const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const { error } = await supabase.storage
+    .from('site-images')
+    .upload(filename, file, { upsert: true, contentType: file.type });
+  if (error) throw new Error(error.message);
+  const { data } = supabase.storage.from('site-images').getPublicUrl(filename);
+  return data.publicUrl;
+}
+
 export type { SupabaseClient } from '@supabase/supabase-js';
 export default supabase;

@@ -93,7 +93,7 @@ export function ShopSection() {
         {/* Header da Seção & Cart Button */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 border-b border-white/10 pb-8">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-3 font-sans">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3 font-sans">
               {t({ pt: 'Loja Oficial', en: 'Official Store', es: 'Tienda Oficial' })}
             </p>
             <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight">
@@ -105,12 +105,12 @@ export function ShopSection() {
             onClick={() => setShowCart(!showCart)}
             className="flex items-center gap-3 px-6 py-3 bg-[#3D4246] hover:bg-[#2A2D30] rounded-none transition-colors group"
           >
-            <ShoppingBag className="w-5 h-5 text-white group-hover:text-[#C2185B] transition-colors" />
+            <ShoppingBag className="w-5 h-5 text-white group-hover:text-[var(--primary-color)] transition-colors" />
             <span className="text-white font-bold uppercase tracking-wide text-sm">
               {t(translations.shop.cart)}
             </span>
             {cartItemsCount > 0 && (
-              <span className="w-6 h-6 bg-[#E91E8C] text-white text-xs font-bold rounded-md flex items-center justify-center">
+              <span className="w-6 h-6 bg-qm-magenta text-white text-xs font-bold rounded-md flex items-center justify-center">
                 {cartItemsCount}
               </span>
             )}
@@ -140,7 +140,7 @@ export function ShopSection() {
                       />
                       <div className="flex-1 w-full">
                         <h4 className="font-black text-white text-lg uppercase mb-1">{item.name}</h4>
-                        <p className="text-[#C2185B] font-bold text-lg">{formatPrice(item.price)}</p>
+                        <p className="text-[var(--primary-color)] font-bold text-lg">{formatPrice(item.price)}</p>
                       </div>
                       <div className="flex items-center gap-4 self-end sm:self-center">
                         <div className="flex items-center gap-2 bg-[#1A1A1A] p-1 rounded-none border border-white/5">
@@ -176,7 +176,7 @@ export function ShopSection() {
                   </div>
                   <button 
                     onClick={checkoutWhatsApp}
-                    className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#E91E8C] text-white font-black uppercase tracking-wider rounded-none hover:bg-white hover:text-black transition-colors"
+                    className="w-full md:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-qm-magenta text-white font-black uppercase tracking-wider rounded-none hover:bg-white hover:text-black transition-colors"
                   >
                     <CreditCard className="w-5 h-5" />
                     Finalizar via WhatsApp
@@ -235,7 +235,7 @@ export function ShopSection() {
                       </p>
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-[#C2185B] font-black text-xl">
+                          <p className="text-[var(--primary-color)] font-black text-xl">
                             {formatPrice(product.price)}
                           </p>
                           {product.originalPrice && (
@@ -251,7 +251,7 @@ export function ShopSection() {
                         ) : (
                           <button
                             onClick={() => addToCart(product)}
-                            className="w-12 h-12 flex items-center justify-center bg-white text-black rounded-none hover:bg-[#E91E8C] hover:text-white transition-colors"
+                            className="w-12 h-12 flex items-center justify-center bg-white text-black rounded-none hover:bg-qm-magenta hover:text-white transition-colors"
                           >
                             <Plus className="w-6 h-6" />
                           </button>
@@ -292,7 +292,7 @@ export function ShopSection() {
                       )}
                     </div>
                     <div className="p-6">
-                      <p className="text-[#C2185B] font-bold text-sm tracking-widest mb-2">
+                      <p className="text-[var(--primary-color)] font-bold text-sm tracking-widest mb-2">
                         {new Date(event.date).toLocaleDateString()}
                       </p>
                       <h3 className="font-black text-2xl text-white mb-6 uppercase">{t(event.title)}</h3>
@@ -302,7 +302,7 @@ export function ShopSection() {
                           href={event.ticketLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 w-full py-4 bg-white text-black font-black uppercase tracking-wider rounded-none hover:bg-[#E91E8C] hover:text-white transition-colors"
+                          className="flex items-center justify-center gap-2 w-full py-4 bg-white text-black font-black uppercase tracking-wider rounded-none hover:bg-qm-magenta hover:text-white transition-colors"
                         >
                           <Ticket className="w-5 h-5" />
                           {t(translations.buttons.buyTickets)}

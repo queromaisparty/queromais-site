@@ -31,7 +31,7 @@
     --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
-    --primary: 327 84% 52%;          /* #E91E8C Magenta Marca */
+    --primary: 327 84% 52%;          /* var(--primary-color) Magenta Marca */
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 10%;          /* #1A1A1A Cinza escuro */
     --secondary-foreground: 0 0% 100%;
@@ -57,8 +57,8 @@
     --sidebar-ring: 98 52% 52%;
 
     /* === TOKENS QM ESPECÃFICOS === */
-    --qm-magenta: #E91E8C;            /* Magenta marca */
-    --qm-magenta-dark: #D81B80;       /* Magenta escuro hover */
+    --qm-magenta: var(--primary-color);            /* Magenta marca */
+    --qm-magenta-dark: var(--secondary-color);       /* Magenta escuro hover */
     --qm-dark: #0A0A0A;             /* Hero, footer, overlays */
     --qm-charcoal: #3D4246;         /* Blocos institucionais carvão */
     --qm-gray-bg: #F2F2F2;          /* Fundo seção Eventos */
@@ -115,22 +115,22 @@
   background: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E91E8C;
+  background: var(--primary-color);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D81B80;
+  background: var(--secondary-color);
 }
 
 /* Seleção de texto */
 ::selection {
-  background: #E91E8C;
+  background: var(--primary-color);
   color: white;
 }
 
 /* Focus visible acessível */
 :focus-visible {
-  outline: 2px solid #E91E8C;
+  outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
 
@@ -152,7 +152,7 @@
   /* Label de seção (UPPERCASE, magenta, pequeno) */
   .qm-section-label {
     font-family: 'Poppins', sans-serif;
-    @apply text-xs font-semibold uppercase tracking-[0.15em] text-[#E91E8C] mb-3;
+    @apply text-xs font-semibold uppercase tracking-[0.15em] text-qm-magenta mb-3;
   }
 
   /* Título principal de seção */
@@ -185,9 +185,9 @@
 
   /* Botão verde marca */
   .qm-btn-green {
-    @apply inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-qm-magenta text-white
            rounded-md text-sm font-semibold transition-all duration-200
-           hover:bg-[#D81B80] active:scale-[0.98];
+           hover:bg-qm-magenta-dark active:scale-[0.98];
     font-family: 'Inter', sans-serif;
   }
 

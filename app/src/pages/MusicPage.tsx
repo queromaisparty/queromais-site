@@ -13,11 +13,11 @@ export function MusicPage() {
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-300">
             <div>
-              <p className="text-[#E91E8C] text-sm font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
+              <p className="text-qm-magenta text-sm font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
                 <Headphones className="w-4 h-4" /> Som Oficial
               </p>
               <h1 className="font-black text-5xl sm:text-6xl lg:text-7xl text-black uppercase tracking-tighter leading-none mb-4">
-                QM <span className="text-[#E91E8C]">MUSIC</span>
+                QM <span className="text-qm-magenta">MUSIC</span>
               </h1>
               <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
                 Nossa gravadora espiritual. Escute os sets originais dos nossos residentes e reviva as edições através das playlists oficiais.
@@ -48,7 +48,7 @@ export function MusicPage() {
       <section className="w-full py-20 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tight mb-12 flex items-center gap-3">
-            <Disc className="w-8 h-8 text-[#E91E8C]" /> Live Sets Originais
+            <Disc className="w-8 h-8 text-qm-magenta" /> Live Sets Originais
           </h2>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -68,14 +68,14 @@ export function MusicPage() {
                           <div className="w-full h-full flex items-center justify-center bg-gray-200"><Disc className="w-8 h-8 text-gray-400" /></div>
                         )}
                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="w-10 h-10 rounded-full bg-[#E91E8C] flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-full bg-qm-magenta flex items-center justify-center">
                             <Play className="w-4 h-4 text-white ml-1" />
                           </div>
                         </div>
                       </div>
                       
                       <div className="flex-1 text-center sm:text-left">
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-[#E91E8C] mb-1">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-qm-magenta mb-1">
                           DJ SET COMPLETO
                         </div>
                         <h3 className="text-xl font-bold text-black mb-2 line-clamp-1">
@@ -115,8 +115,10 @@ export function MusicPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {playlists.length === 0 ? (
               <div className="col-span-full py-16 flex flex-col items-center text-center">
-                <h3 className="text-white font-bold mt-2">Nenhuma playlist selecionada.</h3>
-                  </div>
+                <Disc className="w-12 h-12 text-gray-800 mb-4" />
+                <h3 className="text-white font-bold mb-1">Nenhuma playlist selecionada</h3>
+                <p className="text-gray-400 text-sm">Em breve, nossa seleção musical oficial aqui.</p>
+              </div>
             ) : (
               playlists.map((pl, i) => (
                  <a key={pl.id || i} href={pl.externalUrl} target="_blank" rel="noopener noreferrer" className="group overflow-hidden aspect-[4/3] relative block bg-[#111]">
@@ -151,10 +153,10 @@ export function MusicPage() {
                 Nosso Cast Oficial
               </h2>
             </div>
-            <div className="p-4 rounded-xl bg-white border-l-4 border-[#E91E8C] min-w-[280px]">
+            <div className="p-4 rounded-xl bg-white border-l-4 border-qm-magenta min-w-[280px]">
               <h3 className="font-bold text-black uppercase text-sm mb-1">Agenciamento GIGs</h3>
               <p className="text-xs text-gray-500 mb-2">Interessado em ter um de nossos DJs?</p>
-              <a href="/contato" className="text-[#E91E8C] font-bold text-xs uppercase hover:underline">
+              <a href="/contato" className="text-qm-magenta font-bold text-xs uppercase hover:underline">
                 Falar com Booker &rarr;
               </a>
             </div>
@@ -162,24 +164,28 @@ export function MusicPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {djs.length === 0 ? (
-              <p className="text-gray-500 text-center py-4 col-span-full">DJs da casa não configurados.</p>
+              <div className="col-span-full py-12 flex flex-col items-center text-center">
+                <Headphones className="w-10 h-10 text-gray-300 mb-3" />
+                <h3 className="text-black font-bold mb-1">Line-up em construção</h3>
+                <p className="text-gray-500 text-sm">Os DJs residentes serão listados aqui em breve.</p>
+              </div>
             ) : (
               djs.map(dj => (
                 <div key={dj.id} className="flex items-center gap-4 group cursor-pointer bg-white p-4">
-                  <div className="w-16 h-16 overflow-hidden border-2 border-transparent group-hover:border-[#E91E8C] transition-colors shrink-0 grayscale group-hover:grayscale-0 rounded-full bg-gray-200">
+                  <div className="w-16 h-16 overflow-hidden border-2 border-transparent group-hover:border-qm-magenta transition-colors shrink-0 grayscale group-hover:grayscale-0 rounded-full bg-gray-200">
                         {dj.image ? (
                           <img src={dj.image} alt={dj.name} className="w-full h-full object-cover" />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-200 to-[#E91E8C]/20"><Headphones className="w-6 h-6 text-gray-400" /></div>
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-200 to-qm-magenta/20"><Headphones className="w-6 h-6 text-gray-400" /></div>
                         )}
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-black font-bold uppercase group-hover:text-[#E91E8C] transition-colors">
+                        <h4 className="text-black font-bold uppercase group-hover:text-qm-magenta transition-colors">
                           {dj.name}
                         </h4>
                         <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{dj.musicStyle || 'Open Format'}</p>
                       </div>
-                      <button title="Ver DJ" className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-[#E91E8C] flex items-center justify-center transition-colors">
+                      <button title="Ver DJ" className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-qm-magenta flex items-center justify-center transition-colors">
                         <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white" />
                       </button>
                     </div>

@@ -28,12 +28,12 @@ export function FicaMaisPage() {
             </div>
             <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
               <div className="p-8 sm:p-16 lg:p-24 max-w-4xl">
-                <div className="text-sm font-bold uppercase tracking-[0.3em] text-[#E91E8C] mb-6 flex items-center gap-3">
-                  <span className="w-8 h-px bg-[#E91E8C]" />
+                <div className="text-sm font-bold uppercase tracking-[0.3em] text-qm-magenta mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-qm-magenta" />
                   O After Oficial
                 </div>
                 <h1 className="font-black text-6xl sm:text-7xl lg:text-8xl text-white uppercase tracking-tighter leading-[0.9] mb-8">
-                  FICA MAIS <span className="text-[#E91E8C]">PARTY</span>
+                  FICA MAIS <span className="text-qm-magenta">PARTY</span>
                 </h1>
                 <p className="text-xl sm:text-2xl text-white/80 font-medium leading-relaxed mb-12 max-w-2xl">
                   {manifesto}
@@ -42,18 +42,18 @@ export function FicaMaisPage() {
             </div>
           </>
         ) : (
-          <div className="bg-gradient-to-br from-[#E91E8C]/10 via-white to-orange-50">
+          <div className="bg-gradient-to-br from-qm-magenta/10 via-white to-orange-50">
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">
               <div className="absolute top-0 right-0 p-12 opacity-10">
-                <Moon className="w-64 h-64 text-[#E91E8C]" />
+                <Moon className="w-64 h-64 text-qm-magenta" />
               </div>
               <div className="relative z-10 p-8 sm:p-16 lg:p-24 max-w-4xl">
-                <div className="text-sm font-bold uppercase tracking-[0.3em] text-[#E91E8C] mb-6 flex items-center gap-3">
-                  <span className="w-8 h-px bg-[#E91E8C]" />
+                <div className="text-sm font-bold uppercase tracking-[0.3em] text-qm-magenta mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-qm-magenta" />
                   O After Oficial
                 </div>
                 <h1 className="font-black text-6xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-8">
-                  FICA MAIS <span className="text-[#E91E8C]">PARTY</span>
+                  FICA MAIS <span className="text-qm-magenta">PARTY</span>
                 </h1>
                 <p className="text-xl sm:text-2xl text-gray-600 font-medium leading-relaxed mb-12">
                   {manifesto}
@@ -87,7 +87,7 @@ export function FicaMaisPage() {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-8 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <div className="text-[#E91E8C] text-xs font-bold uppercase tracking-widest mb-1">Residente Oficial</div>
+                    <div className="text-qm-magenta text-xs font-bold uppercase tracking-widest mb-1">Residente Oficial</div>
                     <h3 className="text-3xl font-black text-white uppercase tracking-tight mb-3">{dj.name}</h3>
                     <div className="flex gap-2">
                       {dj.socialLinks?.find(l => l.platform === 'soundcloud')?.url && (
@@ -117,7 +117,7 @@ export function FicaMaisPage() {
               <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight">Galeria Fica Mais</h2>
               <p className="text-gray-600 mt-1">A fotografia de um público que não quer ir embora.</p>
             </div>
-            <a href="/vocenaqm" className="text-[#E91E8C] font-bold uppercase text-sm tracking-wider hover:text-[#D81B80] transition-colors flex items-center gap-2">
+            <a href="/vocenaqm" className="text-qm-magenta font-bold uppercase text-sm tracking-wider hover:text-qm-magenta-dark transition-colors flex items-center gap-2">
               Ver Todas <ArrowRight className="w-4 h-4" />
             </a>
           </div>

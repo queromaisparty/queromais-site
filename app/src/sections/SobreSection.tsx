@@ -15,7 +15,7 @@ export function SobreSection() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E91E8C] mb-6 font-sans">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-6 font-sans">
                 Quem somos
               </p>
               <h2 className="font-sans font-black text-white uppercase leading-none tracking-tight"
@@ -34,7 +34,7 @@ export function SobreSection() {
               </p>
               <Link
                 to="/sobre"
-                className="inline-block text-[#E91E8C] font-sans font-bold uppercase tracking-wide text-sm hover:underline"
+                className="inline-block text-qm-magenta font-sans font-bold uppercase tracking-wide text-sm hover:underline"
               >
                 {s.homeCTA} →
               </Link>
@@ -77,7 +77,7 @@ export function SobreSection() {
             )}
 
             <div className="space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E91E8C] font-sans">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta font-sans">
                 {s.essenciaTitle}
               </p>
               <h3 className="font-sans font-black text-2xl lg:text-3xl text-black uppercase leading-tight">

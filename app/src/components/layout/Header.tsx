@@ -5,11 +5,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 const navItems = [
   { href: '/',          label: { pt: 'Home',              en: 'Home',          es: 'Inicio'    } },
-  { href: '/eventos',   label: { pt: 'Eventos',           en: 'Events',        es: 'Eventos'   } },
+  { href: '/eventos',   label: { pt: 'Próximos Eventos',  en: 'Upcoming Events', es: 'Próximos Eventos' } },
   { href: '/fica-mais', label: { pt: 'Fica Mais Party',   en: 'Fica Mais',     es: 'Fica Mais' } },
   { href: '/sobre',     label: { pt: 'Sobre',             en: 'About',         es: 'Nosotros'  } },
   { href: '/music',     label: { pt: 'QM Music',          en: 'QM Music',      es: 'QM Music'  } },
-  { href: '/vocenaqm',  label: { pt: 'Você na QM',        en: 'You at QM',     es: 'Usted en QM' } },
+  { href: '/vocenaqm',  label: { pt: 'VOCÊ NA QUERO MAIS', en: 'YOU AT QUERO MAIS', es: 'VOCÊ NA QUERO MAIS' } },
   { href: '/loja',      label: { pt: 'Loja',              en: 'Shop',          es: 'Tienda'    } },
   { href: '/contato',   label: { pt: 'Contato',           en: 'Contact',       es: 'Contacto'  } },
 ];
@@ -87,7 +87,7 @@ export function Header() {
                   key={item.href}
                   to={item.href}
                   className={`px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-colors rounded-lg whitespace-nowrap font-sans ${hoverBg} ${
-                    activeSection === item.href ? 'text-[#E91E8C]' : `${txtMuted} hover:text-[#E91E8C]`
+                    activeSection === item.href ? 'text-qm-magenta' : `${txtMuted} hover:text-qm-magenta`
                   }`}
                 >
                   {t(item.label)}
@@ -103,7 +103,7 @@ export function Header() {
                     <button
                       onClick={() => setLanguage(lang.code)}
                       className={`text-[11px] font-bold transition-colors font-sans ${
-                        currentLanguage === lang.code ? 'text-[#E91E8C]' : `${txtMuted} hover:${txt}`
+                        currentLanguage === lang.code ? 'text-qm-magenta' : `${txtMuted} hover:${txt}`
                       }`}
                     >
                       {lang.label}
@@ -118,7 +118,7 @@ export function Header() {
               <Link
                 to="/eventos"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-1 px-4 py-2 bg-[#E91E8C] hover:bg-[#D81B80] text-white rounded-md text-xs font-semibold uppercase tracking-wide transition-all group font-sans"
+                className="flex items-center gap-1 px-4 py-2 bg-qm-magenta hover:bg-qm-magenta-dark text-white rounded-md text-xs font-semibold uppercase tracking-wide transition-all group font-sans"
               >
                 {t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}
                 <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -132,7 +132,7 @@ export function Header() {
                   key={lang.code}
                   onClick={() => setLanguage(lang.code)}
                   className={`text-[10px] font-bold px-1.5 py-1 rounded transition-colors font-sans ${
-                    currentLanguage === lang.code ? 'text-[#E91E8C]' : `${txtMuted}`
+                    currentLanguage === lang.code ? 'text-qm-magenta' : `${txtMuted}`
                   }`}
                 >
                   {lang.label}
@@ -179,7 +179,7 @@ export function Header() {
                 to={item.href}
                 onClick={() => setMenuOpen(false)}
                 className={`block w-full text-left text-[22px] tracking-tight transition-all font-medium ${
-                  isHome ? 'text-[#3EBC50] font-medium' : 'text-[#222222] hover:text-[#E91E8C]'
+                  isHome ? 'text-[#3EBC50] font-medium' : 'text-[#222222] hover:text-qm-magenta'
                 }`}
               >
                 {t(item.label)}
@@ -192,7 +192,7 @@ export function Header() {
           <Link
             to="/eventos"
             onClick={() => setMenuOpen(false)}
-            className="flex items-center justify-center gap-2 w-full py-4 bg-[#E91E8C] hover:bg-[#D81B80] text-white rounded-md text-lg font-bold transition-all uppercase tracking-tight"
+            className="flex items-center justify-center gap-2 w-full py-4 bg-qm-magenta hover:bg-qm-magenta-dark text-white rounded-md text-lg font-bold transition-all uppercase tracking-tight"
           >
             {t({ pt: 'Comprar Ingressos', en: 'Buy Tickets', es: 'Comprar Entradas' })}
           </Link>

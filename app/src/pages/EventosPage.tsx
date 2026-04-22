@@ -7,7 +7,9 @@ import type { Event as SiteEvent } from '@/types';
 type FilterState = 'all' | 'upcoming' | 'past';
 
 export function EventosPage() {
-  const { events } = useData();
+  const { events, contactInfo } = useData();
+  const whatsappNumber = contactInfo?.whatsapp?.replace(/\D/g, '') || '';
+  const whatsappUrl = whatsappNumber ? `https://wa.me/55${whatsappNumber}?text=Olá, gostaria de saber mais sobre reservas e camarotes para os próximos eventos.` : '#';
   
   const [selectedEvent, setSelectedEvent] = useState<SiteEvent | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterState>('upcoming');
@@ -58,7 +60,7 @@ export function EventosPage() {
             <div className="mb-12 border-b border-gray-300 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
                 <h1 className="font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
-                  Próximos <span className="text-[#E91E8C]">Eventos</span>
+                  Próximos <span className="text-qm-magenta">Eventos</span>
                 </h1>
                 <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
                   Programe-se para as próximas noites inesquecíveis ou explore nosso histórico de eventos épicos.
@@ -73,25 +75,25 @@ export function EventosPage() {
                     placeholder="Buscar evento..." 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-none text-black text-sm focus:border-[#E91E8C] focus:outline-none transition-colors shadow-sm"
+                    className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-none text-black text-sm focus:border-qm-magenta focus:outline-none transition-colors shadow-sm"
                   />
                 </div>
                 <div className="flex bg-white border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm">
                   <button
                     onClick={() => setActiveFilter('upcoming')}
-                    className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeFilter === 'upcoming' ? 'bg-[#E91E8C] text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
+                    className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'upcoming' ? 'bg-qm-magenta text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
                   >
                     Próximos
                   </button>
                   <button
                     onClick={() => setActiveFilter('past')}
-                    className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeFilter === 'past' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
+                    className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'past' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
                   >
                     Histórico
                   </button>
                   <button
                     onClick={() => setActiveFilter('all')}
-                    className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-lg transition-colors ${activeFilter === 'all' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
+                    className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'all' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
                   >
                     Todos
                   </button>
@@ -101,21 +103,21 @@ export function EventosPage() {
 
             {activeFilter !== 'past' && !searchQuery && featuredEvent && new Date(featuredEvent.date) >= now && (
               <div className="mb-16">
-                <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#E91E8C] mb-4">Próxima Grande Parada</div>
+                <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-4">Próxima Grande Parada</div>
                 <div 
                   onClick={() => setSelectedEvent(featuredEvent)}
-                  className="group relative rounded-none overflow-hidden aspect-[16/9] md:aspect-[21/9] cursor-pointer border border-transparent hover:border-[#E91E8C]/50 transition-colors shadow-2xl"
+                  className="group relative rounded-none overflow-hidden aspect-[16/9] md:aspect-[21/9] cursor-pointer border border-transparent hover:border-qm-magenta/50 transition-colors shadow-2xl"
                 >
                   <img src={featuredEvent.coverImage} alt={getTitle(featuredEvent.title)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 lg:p-14">
-                     <h2 className="text-3xl sm:text-5xl lg:text-7xl font-sans font-black text-white uppercase tracking-tight leading-none mb-4 group-hover:text-[#E91E8C] transition-colors line-clamp-2">
+                     <h2 className="text-3xl sm:text-5xl lg:text-7xl font-sans font-black text-white uppercase tracking-tight leading-none mb-4 group-hover:text-qm-magenta transition-colors line-clamp-2">
                        {getTitle(featuredEvent.title)}
                      </h2>
                      <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm sm:text-base font-medium text-gray-200">
-                        <span className="flex items-center gap-2"><Calendar className="w-5 h-5 text-[#E91E8C]"/> {new Date(featuredEvent.date).toLocaleDateString('pt-BR')}</span>
-                        <span className="flex items-center gap-2"><MapPin className="w-5 h-5 text-[#E91E8C]"/> {featuredEvent.venue || 'A Definir'}</span>
-                        <Button className="mt-2 sm:mt-0 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-bold px-8 rounded-none pointer-events-none">
+                        <span className="flex items-center gap-2"><Calendar className="w-5 h-5 text-qm-magenta"/> {new Date(featuredEvent.date).toLocaleDateString('pt-BR')}</span>
+                        <span className="flex items-center gap-2"><MapPin className="w-5 h-5 text-qm-magenta"/> {featuredEvent.venue || 'A Definir'}</span>
+                        <Button className="mt-2 sm:mt-0 bg-qm-magenta hover:bg-qm-magenta-dark text-white font-bold px-8 rounded-none pointer-events-none">
                           Ver Detalhes <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
                      </div>
@@ -158,7 +160,7 @@ export function EventosPage() {
                           </div>
                         )}
                         <div className="absolute top-3 right-3">
-                          <div className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-white ${isPast ? 'bg-[#4A4A4A]' : 'bg-[#E91E8C]'}`}>
+                          <div className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-none text-white ${isPast ? 'bg-[#4A4A4A]' : 'bg-qm-magenta'}`}>
                             {new Date(e.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                           </div>
                         </div>
@@ -183,14 +185,14 @@ export function EventosPage() {
                             ? (e.ticketLinks ?? []).map(link => (
                                 <span
                                   key={link.id}
-                                  className="flex items-center justify-between w-full max-w-[200px] px-4 py-2 bg-[#4A4A4A] text-white rounded-full text-xs font-bold tracking-[0.1em] font-sans"
+                                  className="flex items-center justify-between w-full max-w-[200px] px-4 py-2 bg-[#4A4A4A] text-white rounded-none text-xs font-bold tracking-[0.1em] font-sans"
                                 >
                                   <span>{link.label}</span>
                                   <ChevronLeft className="w-3.5 h-3.5 rotate-180 ml-2" />
                                 </span>
                               ))
                             : !isPast && (
-                                <span className="flex items-center justify-between w-full max-w-[200px] px-4 py-2 bg-[#4A4A4A] text-white rounded-full text-xs font-bold tracking-[0.1em] font-sans">
+                                <span className="flex items-center justify-between w-full max-w-[200px] px-4 py-2 bg-[#4A4A4A] text-white rounded-none text-xs font-bold tracking-[0.1em] font-sans">
                                   <span>Ver detalhes</span>
                                   <ChevronLeft className="w-3.5 h-3.5 rotate-180 ml-2" />
                                 </span>
@@ -210,7 +212,7 @@ export function EventosPage() {
           <div className="animate-in fade-in slide-in-from-right-8 duration-500 mt-4">
             <button 
               onClick={() => setSelectedEvent(null)}
-              className="flex items-center gap-2 text-gray-500 hover:text-black transition-colors font-semibold group mb-8 bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-lg w-fit shadow-sm"
+              className="flex items-center gap-2 text-gray-500 hover:text-black transition-colors font-semibold group mb-8 bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-none w-fit shadow-sm"
             >
               <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
               Voltar à Agenda
@@ -225,7 +227,7 @@ export function EventosPage() {
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-center">
-                <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#E91E8C] mb-2 font-sans">
+                <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-2 font-sans">
                   {new Date(selectedEvent.date) < now ? 'Edição Histórica' : 'Evento Oficial'}
                 </div>
                 <h1 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-6">
@@ -239,7 +241,7 @@ export function EventosPage() {
                 <div className="bg-white border border-gray-200 shadow-sm rounded-none p-6 sm:p-8 space-y-6 mb-8">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-none bg-[#F2F2F2] flex items-center justify-center shrink-0">
-                      <Calendar className="w-5 h-5 text-[#E91E8C]" />
+                      <Calendar className="w-5 h-5 text-qm-magenta" />
                     </div>
                     <div>
                       <div className="text-sm text-gray-500 font-semibold mb-1">Data e Hora</div>
@@ -254,7 +256,7 @@ export function EventosPage() {
 
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-none bg-[#F2F2F2] flex items-center justify-center shrink-0">
-                      <MapPin className="w-5 h-5 text-[#E91E8C]" />
+                      <MapPin className="w-5 h-5 text-qm-magenta" />
                     </div>
                     <div>
                       <div className="text-sm text-gray-500 font-semibold mb-1">Localização</div>
@@ -274,7 +276,7 @@ export function EventosPage() {
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-3 w-full py-4 text-base font-bold bg-[#E91E8C] hover:bg-[#D81B80] text-white uppercase tracking-wider shadow-lg shadow-[#E91E8C]/20 transition-colors"
+                            className="flex items-center justify-center gap-3 w-full py-4 text-base font-bold bg-qm-magenta hover:bg-qm-magenta-dark text-white uppercase tracking-wider shadow-lg shadow-qm-magenta/20 transition-colors"
                           >
                             <TicketIcon className="w-5 h-5" />
                             {link.label}
@@ -286,7 +288,7 @@ export function EventosPage() {
                         Vendas Em Breve
                       </Button>
                     )}
-                    <a href="#contato" className="block text-center text-sm font-semibold text-gray-500 hover:text-black transition-colors underline-offset-4 hover:underline">
+                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block text-center text-sm font-semibold text-gray-500 hover:text-black transition-colors underline-offset-4 hover:underline">
                       Informações de Reservas / Camarotes
                     </a>
                   </div>
