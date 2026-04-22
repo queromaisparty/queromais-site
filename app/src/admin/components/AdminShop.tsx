@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Save, X, ShoppingBag, Eye, Store, Link as LinkIcon, Star, Check } from 'lucide-react';
+import { useState } from 'react';
+import { Plus, Edit2, Trash2, Save, X, ShoppingBag, Store, Link as LinkIcon, Star, Check } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import type { Product } from '@/types';
 import { toast } from 'sonner';

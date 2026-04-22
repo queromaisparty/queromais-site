@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Moon, Calendar, MapPin, Music, Sparkles } from 'lucide-react';
+import { Moon, Calendar, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { translations } from '@/lib/translations';

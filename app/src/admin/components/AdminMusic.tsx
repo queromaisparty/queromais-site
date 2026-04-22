@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Save, X, Headphones, Disc, Music, Star, ExternalLink, Check } from 'lucide-react';
+import { useState } from 'react';
+import { Plus, Edit2, Trash2, Save, X, Headphones, Disc, Music, Star } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import type { DJ, DJSet, Playlist } from '@/types';
 import { toast } from 'sonner';
@@ -64,7 +64,7 @@ export function AdminMusic() {
       updateDJ(currentDJ.id, currentDJ);
       toast.success('DJ atualizado!');
     } else {
-      addDJ(currentDJ as Omit<DJ, 'id' | 'createdAt'>);
+      addDJ(currentDJ as Omit<DJ, 'id'>);
       toast.success('DJ criado!');
     }
     closeForm();
