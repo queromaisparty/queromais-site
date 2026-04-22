@@ -260,7 +260,14 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [newsletterSubscribers, setNewsletterSubscribers] = useState<NewsletterSubscriber[]>([]);
   const [banners, setBanners] = useState<Banner[]>([]);
   const [homeSections, setHomeSections] = useState<HomeSection[]>([]);
-  const [siteConfig, setSiteConfig] = useState<SiteConfig>(defaultSiteConfig);
+  const [siteConfig, setSiteConfig] = useState<SiteConfig>(() => {
+    try {
+      const pc = localStorage.getItem('@QueroMais:primaryColor');
+      const sc = localStorage.getItem('@QueroMais:secondaryColor');
+      if (pc || sc) return { ...defaultSiteConfig, ...(pc ? { primaryColor: pc } : {}), ...(sc ? { secondaryColor: sc } : {}) };
+    } catch (e: unknown) { void e; }
+    return defaultSiteConfig;
+  });
   const siteConfigIdRef = useRef<string | null>(null);
   const contactInfoIdRef = useRef<string | null>(null);
 
@@ -290,6 +297,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         if (config && mounted) {
           siteConfigIdRef.current = config.id; // Guardar UUID real
           console.log('✅ site_config carregado, id:', config.id, 'primary_color:', config.primary_color);
+          if (config.primary_color) localStorage.setItem('@QueroMais:primaryColor', config.primary_color);
+          if (config.secondary_color) localStorage.setItem('@QueroMais:secondaryColor', config.secondary_color);
           setSiteConfig(mapFromDB(config));
           if (config.fica_mais_party) setFicaMaisParty(mapFromDB(config.fica_mais_party));
           if (config.storytelling) setStorytelling(mapFromDB(config.storytelling));
@@ -332,6 +341,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   }, [events]);
 
   const updateSiteConfig = useCallback(async (data: Partial<SiteConfig>) => {
+    if (data.primaryColor) localStorage.setItem('@QueroMais:primaryColor', data.primaryColor);
+    if (data.secondaryColor) localStorage.setItem('@QueroMais:secondaryColor', data.secondaryColor);
     setSiteConfig(prev => ({ ...prev, ...data }));
     try {
       const configId = siteConfigIdRef.current;
