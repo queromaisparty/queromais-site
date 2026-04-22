@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useData } from '@/context/DataContext';
 import { Mail, Download, CheckCircle, XCircle } from 'lucide-react';
 import { toast } from 'sonner';
