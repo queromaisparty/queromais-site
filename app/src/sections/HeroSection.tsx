@@ -1,24 +1,39 @@
 import { useEffect, useRef, useState } from 'react';
 
+// Detecta mobile antes do primeiro render para evitar double-loading
+const getIsMobile = () => typeof window !== 'undefined' && window.innerWidth < 768;
+
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(getIsMobile);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Inicia o preload completo só após a página terminar de carregar
+  useEffect(() => {
+    const enableFullPreload = () => {
+      if (videoRef.current) {
+        videoRef.current.preload = 'auto';
+        videoRef.current.load();
+        videoRef.current.pause();
+      }
+    };
+    if (document.readyState === 'complete') {
+      enableFullPreload();
+    } else {
+      window.addEventListener('load', enableFullPreload, { once: true });
+    }
+  }, [isMobile]);
+
   useEffect(() => {
     let animationFrameId: number;
-    
+
     if (videoRef.current) {
-      videoRef.current.load();
       videoRef.current.pause();
     }
 
@@ -76,7 +91,7 @@ export function HeroSection() {
             className="w-full h-full object-cover object-center"
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
           />
         </div>
       </div>
