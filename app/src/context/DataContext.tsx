@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import type { 
@@ -261,6 +261,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [homeSections, setHomeSections] = useState<HomeSection[]>([]);
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(defaultSiteConfig);
+  const siteConfigIdRef = useRef<string | null>(null);
+  const contactInfoIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -286,14 +288,23 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
 
         const { data: config } = await supabase.from('site_config').select('*').limit(1).single();
         if (config && mounted) {
+          siteConfigIdRef.current = config.id; // Guardar UUID real
+          console.log('✅ site_config carregado, id:', config.id, 'primary_color:', config.primary_color);
           setSiteConfig(mapFromDB(config));
           if (config.fica_mais_party) setFicaMaisParty(mapFromDB(config.fica_mais_party));
           if (config.storytelling) setStorytelling(mapFromDB(config.storytelling));
           if (config.home_sections) setHomeSections(mapFromDB(config.home_sections));
+        } else {
+          console.warn('⚠️ Nenhuma row encontrada em site_config! Execute a migration SQL.');
         }
 
         const { data: contact } = await supabase.from('contact_info').select('*').limit(1).single();
-        if (contact && mounted) setContactInfo(mapFromDB(contact));
+        if (contact && mounted) {
+          contactInfoIdRef.current = contact.id; // Guardar UUID real
+          setContactInfo(mapFromDB(contact));
+        } else {
+          console.warn('⚠️ Nenhuma row encontrada em contact_info! Execute a migration SQL.');
+        }
       } catch (e) {
         console.error('Error load supabase data:', e);
       }
@@ -321,41 +332,40 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   }, [events]);
 
   const updateSiteConfig = useCallback(async (data: Partial<SiteConfig>) => {
-    const merged = { ...siteConfig, ...data };
-    setSiteConfig(merged);
+    setSiteConfig(prev => ({ ...prev, ...data }));
     try {
-      // Upsert: se não existir registro, cria; se existir, atualiza
-      const dbData = mapToDB(merged);
-      // Garantir que existe um id para upsert
-      dbData.id = dbData.id || 1;
+      const configId = siteConfigIdRef.current;
+      if (!configId) {
+        console.error('❌ Sem ID de site_config — execute a migration SQL no Supabase!');
+        return;
+      }
       const { error } = await supabase
         .from('site_config')
-        .upsert(dbData, { onConflict: 'id' });
+        .update(mapToDB(data))
+        .eq('id', configId);
       if (error) {
-        console.error('Erro ao salvar config no Supabase:', error);
-        // Fallback: tentar update simples em qualquer registro existente
-        const { error: err2 } = await supabase
-          .from('site_config')
-          .update(mapToDB(data))
-          .neq('id', '00000000-0000-0000-0000-000000000000');
-        if (err2) console.error('Fallback update também falhou:', err2);
+        console.error('❌ Erro ao salvar site_config:', error);
       } else {
-        console.log('✅ site_config salvo com sucesso:', data);
+        console.log('✅ site_config salvo com sucesso:', Object.keys(data));
       }
     } catch (e) { console.error('Exceção updateSiteConfig:', e); }
-  }, [siteConfig]);
+  }, []);
 
   const updateFicaMaisParty = useCallback(async (data: Partial<FicaMaisParty>) => {
     setFicaMaisParty(prev => ({ ...prev, ...data } as any));
     try {
-      await supabase.from('site_config').update({ fica_mais_party: data }).neq('id', '00000000-0000-0000-0000-000000000000');
+      const configId = siteConfigIdRef.current;
+      if (!configId) return;
+      await supabase.from('site_config').update({ fica_mais_party: data }).eq('id', configId);
     } catch (e) { console.error(e); }
   }, []);
 
   const updateStorytelling = useCallback(async (data: Partial<Storytelling>) => {
     setStorytelling(prev => ({ ...prev, ...data } as any));
     try {
-      await supabase.from('site_config').update({ storytelling: data }).neq('id', '00000000-0000-0000-0000-000000000000');
+      const configId = siteConfigIdRef.current;
+      if (!configId) return;
+      await supabase.from('site_config').update({ storytelling: data }).eq('id', configId);
     } catch (e) { console.error(e); }
   }, []);
 
@@ -366,14 +376,18 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       return currentSections;
     });
     try {
-      await supabase.from('site_config').update({ home_sections: currentSections }).neq('id', '00000000-0000-0000-0000-000000000000');
+      const configId = siteConfigIdRef.current;
+      if (!configId) return;
+      await supabase.from('site_config').update({ home_sections: currentSections }).eq('id', configId);
     } catch (e) { console.error(e); }
   }, []);
 
   const updateContactInfo = useCallback(async (data: Partial<ContactInfo>) => {
     setContactInfo(prev => ({ ...prev, ...data } as any));
     try {
-      await supabase.from('contact_info').update(mapToDB(data)).neq('id', '00000000-0000-0000-0000-000000000000');
+      const cId = contactInfoIdRef.current;
+      if (!cId) return;
+      await supabase.from('contact_info').update(mapToDB(data)).eq('id', cId);
     } catch (e) { console.error(e); }
   }, []);
 
