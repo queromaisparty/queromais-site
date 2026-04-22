@@ -321,11 +321,29 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   }, [events]);
 
   const updateSiteConfig = useCallback(async (data: Partial<SiteConfig>) => {
-    setSiteConfig(prev => ({ ...prev, ...data }));
+    const merged = { ...siteConfig, ...data };
+    setSiteConfig(merged);
     try {
-      await supabase.from('site_config').update(mapToDB(data)).neq('id', '00000000-0000-0000-0000-000000000000');
-    } catch (e) { console.error(e); }
-  }, []);
+      // Upsert: se não existir registro, cria; se existir, atualiza
+      const dbData = mapToDB(merged);
+      // Garantir que existe um id para upsert
+      dbData.id = dbData.id || 1;
+      const { error } = await supabase
+        .from('site_config')
+        .upsert(dbData, { onConflict: 'id' });
+      if (error) {
+        console.error('Erro ao salvar config no Supabase:', error);
+        // Fallback: tentar update simples em qualquer registro existente
+        const { error: err2 } = await supabase
+          .from('site_config')
+          .update(mapToDB(data))
+          .neq('id', '00000000-0000-0000-0000-000000000000');
+        if (err2) console.error('Fallback update também falhou:', err2);
+      } else {
+        console.log('✅ site_config salvo com sucesso:', data);
+      }
+    } catch (e) { console.error('Exceção updateSiteConfig:', e); }
+  }, [siteConfig]);
 
   const updateFicaMaisParty = useCallback(async (data: Partial<FicaMaisParty>) => {
     setFicaMaisParty(prev => ({ ...prev, ...data } as any));

@@ -14,7 +14,7 @@ export function AdminSettings() {
   // ── Identidade ──
   const [siteName, setSiteName] = useState(siteConfig.siteName?.pt || '');
   const [siteDesc, setSiteDesc] = useState(siteConfig.siteDescription?.pt || '');
-  const [primaryColor, setPrimaryColor] = useState(siteConfig.primaryColor || 'var(--primary-color)');
+  const [primaryColor, setPrimaryColor] = useState(siteConfig.primaryColor || '#E91E8C');
   const [secondaryColor, setSecondaryColor] = useState(siteConfig.secondaryColor || '#8B5CF6');
 
   // ── Contato ──
@@ -48,7 +48,7 @@ export function AdminSettings() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSiteName(siteConfig.siteName?.pt || '');
     setSiteDesc(siteConfig.siteDescription?.pt || '');
-    setPrimaryColor(siteConfig.primaryColor || 'var(--primary-color)');
+    setPrimaryColor(siteConfig.primaryColor || '#E91E8C');
     setSecondaryColor(siteConfig.secondaryColor || '#8B5CF6');
 
     // Contato
