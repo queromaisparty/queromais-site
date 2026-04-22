@@ -66,7 +66,7 @@ export function HeroSection() {
   }, [isMobile]);
 
   return (
-    <section ref={containerRef} id="home" className="relative w-full h-[200vh] bg-[#050505]">
+    <section ref={containerRef} id="home" className="relative w-full h-[250vh] bg-[#050505]">
       {/* Wrapper travado que gruda na tela */}
       <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
