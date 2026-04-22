@@ -1,4 +1,5 @@
 import { ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 
@@ -137,9 +138,9 @@ export function EventsSection() {
         {/* Ver todos — botão em estilo diferente se houver mais de 2 */}
         {activeEvents.length > 2 && (
           <div className="text-center mt-12">
-            <button className="inline-block px-10 py-3 bg-[#111111] hover:bg-black text-white text-sm font-bold tracking-widest uppercase transition-colors rounded-none">
+            <Link to="/eventos" className="inline-block px-10 py-3 bg-[#111111] hover:bg-black text-white text-sm font-bold tracking-widest uppercase transition-colors rounded-none">
               {t({ pt: 'Ver todos os eventos', en: 'See all events', es: 'Ver todos los eventos' })}
-            </button>
+            </Link>
           </div>
         )}
 

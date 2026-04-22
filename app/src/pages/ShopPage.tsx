@@ -109,7 +109,7 @@ export function ShopPage() {
 
         {/* Carrinho Modal/Panel Local */}
         {showCart && (
-          <div className="mb-12 bg-gray-50 border border-gray-200 rounded-3xl p-6 md:p-8 shadow-xl animate-in fade-in slide-in-from-top-4">
+          <div className="mb-12 bg-gray-50 border border-gray-200 rounded-none p-6 md:p-8 shadow-xl animate-in fade-in slide-in-from-top-4">
             <div className="flex justify-between items-center mb-6">
               <h3 className="font-black text-2xl text-black uppercase">Seu Carrinho</h3>
               <button 

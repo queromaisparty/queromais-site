@@ -1,37 +1,67 @@
-import { Sunrise, Disc3, ArrowRight } from 'lucide-react';
+import { Disc3, ArrowRight, Moon, Image as ImageIcon } from 'lucide-react';
 import { useData } from '@/context/DataContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function FicaMaisPage() {
-  const { djs } = useData();
+  const { t } = useLanguage();
+  const { djs, ficaMaisParty, galleryAlbums } = useData();
   const residentes = djs.filter(dj => dj.category === 'resident');
+
+  const ficaMaisAlbum = galleryAlbums.find(a => a.id === ficaMaisParty?.galleryAlbumId && (a.status === 'active' || !a.status));
+  const galleryImages = ficaMaisAlbum?.images.slice(0, 4) ?? [];
+
+  const manifesto =
+    ficaMaisParty?.manifestoCompleto?.pt ||
+    ficaMaisParty?.manifestoCurto?.pt ||
+    'Quando a noite termina para a maioria, a nossa verdadeira jornada começa. Fica Mais Party é o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.';
 
   return (
     <main className="pt-24 min-h-screen bg-white">
 
-      {/* Manifesto Fica Mais */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#E91E8C]/10 via-white to-orange-50 w-full mb-12">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-           <div className="absolute top-0 right-0 p-12 opacity-10">
-              <Sunrise className="w-64 h-64 text-[#E91E8C]" />
-           </div>
-
-           <div className="relative z-10 p-8 sm:p-16 lg:p-24 max-w-4xl">
-             <div className="text-sm font-bold uppercase tracking-[0.3em] text-[#E91E8C] mb-6 flex items-center gap-3">
-               <span className="w-8 h-px bg-[#E91E8C]" />
-               O After Oficial
-             </div>
-             <h1 className="font-black text-6xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-8">
-               A pista <br/> não <span className="text-[#E91E8C]">para.</span>
-             </h1>
-             <p className="text-xl sm:text-2xl text-gray-600 font-medium leading-relaxed mb-12">
-               Quando a noite termina para a maioria, a nossa verdadeira jornada começa.
-               Fica Mais Party é o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.
-             </p>
-             <button className="bg-[#4A4A4A] hover:bg-black text-white font-bold uppercase tracking-widest px-8 py-4 rounded-none flex items-center gap-3 transition-all shadow-md">
-               Ouça as Playlists <Disc3 className="w-5 h-5" />
-             </button>
-           </div>
-        </div>
+      {/* Hero Fica Mais */}
+      <section className="relative overflow-hidden w-full mb-12">
+        {ficaMaisParty?.pageMedia ? (
+          <>
+            <div className="absolute inset-0">
+              <img src={ficaMaisParty.pageMedia} alt="Fica Mais Party" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-white" />
+            </div>
+            <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="p-8 sm:p-16 lg:p-24 max-w-4xl">
+                <div className="text-sm font-bold uppercase tracking-[0.3em] text-[#E91E8C] mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-[#E91E8C]" />
+                  O After Oficial
+                </div>
+                <h1 className="font-black text-6xl sm:text-7xl lg:text-8xl text-white uppercase tracking-tighter leading-[0.9] mb-8">
+                  FICA MAIS <span className="text-[#E91E8C]">PARTY</span>
+                </h1>
+                <p className="text-xl sm:text-2xl text-white/80 font-medium leading-relaxed mb-12 max-w-2xl">
+                  {manifesto}
+                </p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="bg-gradient-to-br from-[#E91E8C]/10 via-white to-orange-50">
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">
+              <div className="absolute top-0 right-0 p-12 opacity-10">
+                <Moon className="w-64 h-64 text-[#E91E8C]" />
+              </div>
+              <div className="relative z-10 p-8 sm:p-16 lg:p-24 max-w-4xl">
+                <div className="text-sm font-bold uppercase tracking-[0.3em] text-[#E91E8C] mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-[#E91E8C]" />
+                  O After Oficial
+                </div>
+                <h1 className="font-black text-6xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-8">
+                  FICA MAIS <span className="text-[#E91E8C]">PARTY</span>
+                </h1>
+                <p className="text-xl sm:text-2xl text-gray-600 font-medium leading-relaxed mb-12">
+                  {manifesto}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Os Residentes */}
@@ -46,9 +76,9 @@ export function FicaMaisPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {residentes.length === 0 ? (
-               <div className="col-span-full py-12 flex flex-col items-center justify-center border border-gray-200 border-dashed bg-gray-50">
-                  <p className="text-gray-500 font-medium">Nenhum residente cadastrado no momento.</p>
-               </div>
+              <div className="col-span-full py-12 flex flex-col items-center justify-center border border-gray-200 border-dashed bg-gray-50">
+                <p className="text-gray-500 font-medium">Nenhum residente cadastrado no momento.</p>
+              </div>
             ) : (
               residentes.map(dj => (
                 <div key={dj.id} className="group relative overflow-hidden bg-[#F2F2F2] border border-gray-200 shadow-sm cursor-pointer hover:shadow-xl transition-all">
@@ -57,15 +87,19 @@ export function FicaMaisPage() {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-8 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <div className="text-[#E91E8C] text-xs font-bold uppercase tracking-widest mb-1">
-                      {'Residente Oficial'}
-                    </div>
-                    <h3 className="text-3xl font-black text-white uppercase tracking-tight mb-3">
-                      {dj.name}
-                    </h3>
+                    <div className="text-[#E91E8C] text-xs font-bold uppercase tracking-widest mb-1">Residente Oficial</div>
+                    <h3 className="text-3xl font-black text-white uppercase tracking-tight mb-3">{dj.name}</h3>
                     <div className="flex gap-2">
-                       {dj.socialLinks?.find(l => l.platform === 'soundcloud')?.url && <a href={dj.socialLinks.find(l => l.platform === 'soundcloud')?.url} className="w-10 h-10 bg-[#FF5500] text-white flex items-center justify-center hover:scale-110 transition-transform"><Disc3 className="w-4 h-4" /></a>}
-                       {dj.socialLinks?.find(l => l.platform === 'instagram')?.url && <a href={dj.socialLinks.find(l => l.platform === 'instagram')?.url} className="w-10 h-10 bg-black/50 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-white hover:text-black transition-colors"><ArrowRight className="w-4 h-4" /></a>}
+                      {dj.socialLinks?.find(l => l.platform === 'soundcloud')?.url && (
+                        <a href={dj.socialLinks.find(l => l.platform === 'soundcloud')?.url} title={`${dj.name} no SoundCloud`} className="w-10 h-10 bg-[#FF5500] text-white flex items-center justify-center hover:scale-110 transition-transform">
+                          <Disc3 className="w-4 h-4" />
+                        </a>
+                      )}
+                      {dj.socialLinks?.find(l => l.platform === 'instagram')?.url && (
+                        <a href={dj.socialLinks.find(l => l.platform === 'instagram')?.url} title={`${dj.name} no Instagram`} className="w-10 h-10 bg-black/50 backdrop-blur-md text-white flex items-center justify-center border border-white/20 hover:bg-white hover:text-black transition-colors">
+                          <ArrowRight className="w-4 h-4" />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -75,7 +109,7 @@ export function FicaMaisPage() {
         </div>
       </section>
 
-      {/* Galeria VIBES / AM */}
+      {/* Galeria Fica Mais */}
       <section className="w-full bg-[#F2F2F2] py-20">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 border-b border-gray-300 pb-8">
@@ -88,12 +122,20 @@ export function FicaMaisPage() {
             </a>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-             <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
-             <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1545128485-c400e7702796?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
-             <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
-             <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
-          </div>
+          {galleryImages.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {galleryImages.map(img => (
+                <div key={img.id} className="aspect-square bg-gray-200 overflow-hidden">
+                  <img src={img.url} alt={ficaMaisAlbum ? t(ficaMaisAlbum.title) : 'Fica Mais'} className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 border border-gray-200 border-dashed">
+              <ImageIcon className="w-12 h-12 text-gray-300 mb-4" />
+              <p className="text-gray-400 font-medium">Fotos em breve.</p>
+            </div>
+          )}
         </div>
       </section>
     </main>

@@ -48,14 +48,19 @@ export function FicaMaisSection() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left - Visual */}
             <div className="relative">
-              <div className="relative aspect-square max-w-[500px] mx-auto overflow-hidden rounded-2xl group shadow-2xl">
-                {/* Main Image Container */}
+              <div className="relative aspect-square max-w-[500px] mx-auto overflow-hidden rounded-none group shadow-2xl">
                 <div className="absolute inset-0 bg-black/10 transition-opacity opacity-0 group-hover:opacity-20" />
-                <img
-                  src={'/fica-mais-provisoria.jpg'}
-                  alt="Fica Mais Party"
-                  className="w-full h-full object-cover"
-                />
+                {ficaMaisParty?.homeMedia ? (
+                  <img
+                    src={ficaMaisParty.homeMedia}
+                    alt="Fica Mais Party"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-[#8B5CF6]/30 via-[#1a0a2e] to-[#E91E8C]/20 flex items-center justify-center">
+                    <Moon className="w-20 h-20 text-white/20" />
+                  </div>
+                )}
               </div>
             </div>
 

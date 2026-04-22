@@ -46,7 +46,8 @@ export function EventosPage() {
     return activeFilter === 'past' ? db - da : da - db;
   });
 
-  const getTitle = (content: any) => typeof content === 'string' ? content : content?.pt || '';
+  const getTitle = (content: string | { pt?: string; en?: string; es?: string } | null | undefined) =>
+    typeof content === 'string' ? content : content?.pt || '';
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
@@ -103,7 +104,7 @@ export function EventosPage() {
                 <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#E91E8C] mb-4">Próxima Grande Parada</div>
                 <div 
                   onClick={() => setSelectedEvent(featuredEvent)}
-                  className="group relative rounded-3xl overflow-hidden aspect-[16/9] md:aspect-[21/9] cursor-pointer border border-transparent hover:border-[#E91E8C]/50 transition-colors shadow-2xl"
+                  className="group relative rounded-none overflow-hidden aspect-[16/9] md:aspect-[21/9] cursor-pointer border border-transparent hover:border-[#E91E8C]/50 transition-colors shadow-2xl"
                 >
                   <img src={featuredEvent.coverImage} alt={getTitle(featuredEvent.title)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -114,7 +115,7 @@ export function EventosPage() {
                      <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm sm:text-base font-medium text-gray-200">
                         <span className="flex items-center gap-2"><Calendar className="w-5 h-5 text-[#E91E8C]"/> {new Date(featuredEvent.date).toLocaleDateString('pt-BR')}</span>
                         <span className="flex items-center gap-2"><MapPin className="w-5 h-5 text-[#E91E8C]"/> {featuredEvent.venue || 'A Definir'}</span>
-                        <Button className="mt-2 sm:mt-0 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-bold px-8 rounded-xl pointer-events-none">
+                        <Button className="mt-2 sm:mt-0 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-bold px-8 rounded-none pointer-events-none">
                           Ver Detalhes <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
                      </div>
@@ -212,14 +213,14 @@ export function EventosPage() {
             <div className="grid lg:grid-cols-12 gap-12">
               
               <div className="lg:col-span-7 space-y-6">
-                <div className="rounded-3xl overflow-hidden border border-gray-200 aspect-square sm:aspect-[4/3] w-full shadow-lg">
+                <div className="rounded-none overflow-hidden border border-gray-200 aspect-square sm:aspect-[4/3] w-full shadow-lg">
                   <img src={selectedEvent.coverImage} alt={getTitle(selectedEvent.title)} className="w-full h-full object-cover" />
                 </div>
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-center">
                 <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#E91E8C] mb-2 font-sans">
-                  {new Date(selectedEvent.date) < now ? 'Edição Histórica (Passada)' : 'Oficial Event'}
+                  {new Date(selectedEvent.date) < now ? 'Edição Histórica' : 'Evento Oficial'}
                 </div>
                 <h1 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-6">
                   {getTitle(selectedEvent.title)}
@@ -231,7 +232,7 @@ export function EventosPage() {
 
                 <div className="bg-white border border-gray-200 shadow-sm rounded-none p-6 sm:p-8 space-y-6 mb-8">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#F2F2F2] flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-none bg-[#F2F2F2] flex items-center justify-center shrink-0">
                       <Calendar className="w-5 h-5 text-[#E91E8C]" />
                     </div>
                     <div>
@@ -246,7 +247,7 @@ export function EventosPage() {
                   <div className="w-full h-px bg-gray-100" />
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#F2F2F2] flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-none bg-[#F2F2F2] flex items-center justify-center shrink-0">
                       <MapPin className="w-5 h-5 text-[#E91E8C]" />
                     </div>
                     <div>
@@ -259,13 +260,23 @@ export function EventosPage() {
 
                 {new Date(selectedEvent.date) >= now ? (
                   <div className="space-y-4">
-                    {selectedEvent.ticketUrl ? (
-                      <Button className="w-full py-6 text-lg font-bold bg-[#E91E8C] hover:bg-[#D81B80] text-white rounded-xl uppercase tracking-wider shadow-lg shadow-[#E91E8C]/20">
-                        <TicketIcon className="w-5 h-5 mr-3" />
-                        Garantir Ingressos
-                      </Button>
+                    {(selectedEvent.ticketLinks ?? []).length > 0 ? (
+                      <div className="space-y-3">
+                        {(selectedEvent.ticketLinks ?? []).map(link => (
+                          <a
+                            key={link.id}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-3 w-full py-4 text-base font-bold bg-[#E91E8C] hover:bg-[#D81B80] text-white uppercase tracking-wider shadow-lg shadow-[#E91E8C]/20 transition-colors"
+                          >
+                            <TicketIcon className="w-5 h-5" />
+                            {link.label}
+                          </a>
+                        ))}
+                      </div>
                     ) : (
-                      <Button disabled className="w-full py-6 text-lg font-bold bg-gray-200 text-gray-400 rounded-xl uppercase tracking-wider">
+                      <Button disabled className="w-full py-6 text-lg font-bold bg-gray-200 text-gray-400 rounded-none uppercase tracking-wider">
                         Vendas Em Breve
                       </Button>
                     )}
@@ -274,7 +285,7 @@ export function EventosPage() {
                     </a>
                   </div>
                 ) : (
-                  <Button className="w-full py-6 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-xl uppercase tracking-wider shadow-lg">
+                  <Button className="w-full py-6 text-lg font-bold bg-black text-white hover:bg-gray-800 rounded-none uppercase tracking-wider shadow-lg">
                      <ImageIcon className="w-5 h-5 mr-3" />
                      Ver Fotos na Galeria
                   </Button>

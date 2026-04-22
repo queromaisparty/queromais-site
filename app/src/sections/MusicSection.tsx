@@ -192,7 +192,7 @@ export function MusicSection() {
                           href={playlist.externalUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-none hover:bg-[#5aa83b] transition-colors uppercase text-sm"
+                          className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-none hover:bg-[#D81B80] transition-colors uppercase text-sm"
                         >
                           <Play className="w-4 h-4 fill-current" />
                           {t(translations.buttons.play)}

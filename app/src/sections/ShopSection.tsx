@@ -28,7 +28,9 @@ export function ShopSection() {
   }, [cart]);
 
   const upcomingEvents = getUpcomingEvents();
-  const activeProducts = products.filter(p => (p.status === 'active' || p.stock > 0) && p.featured);
+  const allActive = products.filter(p => p.status === 'active' || p.stock > 0);
+  const featured = allActive.filter(p => p.featured);
+  const activeProducts = featured.length > 0 ? featured : allActive.slice(0, 4);
 
   const addToCart = (product: Product) => {
     setCart(prev => {
