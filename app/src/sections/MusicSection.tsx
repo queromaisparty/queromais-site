@@ -58,18 +58,12 @@ export function MusicSection() {
                 djs.map((dj) => (
                   <div key={dj.id} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
                     <div className="aspect-square overflow-hidden relative">
-                      {dj.image ? (
-                        <img
-                          src={dj.image}
-                          alt={dj.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x400/111/444?text=DJ'; e.currentTarget.onerror = null; }}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                          <Headphones className="w-16 h-16 text-gray-400" />
-                        </div>
-                      )}
+                      <img
+                        src={dj.image || `https://placehold.co/400x400/1a1a1a/E91E8C?text=${encodeURIComponent(dj.name?.split(' ').map(w => w[0]).join('') || 'DJ')}`}
+                        alt={dj.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => { e.currentTarget.src = `https://placehold.co/400x400/1a1a1a/E91E8C?text=${encodeURIComponent(dj.name?.split(' ').map(w => w[0]).join('') || 'DJ')}`; e.currentTarget.onerror = null; }}
+                      />
                     </div>
                     <div className="p-6">
                       <h3 className="font-black text-xl text-black mb-2 uppercase">{dj.name}</h3>

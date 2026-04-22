@@ -159,7 +159,7 @@ export function MusicPage() {
               djs.map(dj => (
                 <div key={dj.id} className="flex items-center gap-4 group cursor-pointer bg-white p-4">
                   <div className="w-16 h-16 overflow-hidden border-2 border-transparent group-hover:border-[#E91E8C] transition-colors shrink-0 grayscale group-hover:grayscale-0 rounded-full">
-                        <img src={dj.image} alt={dj.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x400/111/444?text=DJ'; e.currentTarget.onerror = null; }} />
+                        <img src={dj.image || `https://placehold.co/200x200/1a1a1a/E91E8C?text=${encodeURIComponent(dj.name?.split(' ').map(w => w[0]).join('') || 'DJ')}`} alt={dj.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = `https://placehold.co/200x200/1a1a1a/E91E8C?text=${encodeURIComponent(dj.name?.split(' ').map(w => w[0]).join('') || 'DJ')}`; e.currentTarget.onerror = null; }} />
                       </div>
                       <div className="flex-1">
                         <h4 className="text-black font-bold uppercase group-hover:text-[#E91E8C] transition-colors">
@@ -167,7 +167,7 @@ export function MusicPage() {
                         </h4>
                         <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{dj.musicStyle || 'Open Format'}</p>
                       </div>
-                      <button className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-[#E91E8C] flex items-center justify-center transition-colors">
+                      <button title="Ver DJ" className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-[#E91E8C] flex items-center justify-center transition-colors">
                         <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white" />
                       </button>
                     </div>
