@@ -2,9 +2,8 @@ import { Sunrise, Disc3, ArrowRight } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 
 export function FicaMaisPage() {
-  const { djs, ficaMaisParty, galleryAlbums } = useData();
-  const residentes = djs.filter(dj => dj.category === 'resident');
-  const selectedAlbum = galleryAlbums.find(a => a.id === ficaMaisParty?.galleryAlbumId);
+  const { djs } = useData();
+  const residentes = djs.filter(dj => dj.resident === true);
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-white">
@@ -22,18 +21,15 @@ export function FicaMaisPage() {
                O After Oficial
              </div>
              <h1 className="font-sans font-black text-6xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-8">
-               {ficaMaisParty?.heroTitle?.pt || (
-                 <>A pista <br/> não <span className="text-[#E91E8C]">para.</span></>
-               )}
+               A pista <br/> não <span className="text-[#E91E8C]">para.</span>
              </h1>
              <p className="text-xl sm:text-2xl text-gray-600 font-medium leading-relaxed mb-12">
-               {ficaMaisParty?.manifestoCompleto?.pt ||
-                 'Quando a noite termina para a maioria, a nossa verdadeira jornada começa. Fica Mais Party é o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.'
-               }
+               Quando a noite termina para a maioria, a nossa verdadeira jornada começa.
+               Fica Mais Party é o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.
              </p>
-             <a href={ficaMaisParty?.heroCtaLink || '/music'} className="bg-[#4A4A4A] inline-flex hover:bg-black text-white font-bold uppercase tracking-widest px-8 py-4 rounded-none items-center gap-3 transition-all shadow-md">
-               {ficaMaisParty?.heroCta?.pt || 'Ouça as Playlists'} <Disc3 className="w-5 h-5" />
-             </a>
+             <button className="bg-[#4A4A4A] hover:bg-black text-white font-bold uppercase tracking-widest px-8 py-4 rounded-none flex items-center gap-3 transition-all shadow-md">
+               Ouça as Playlists <Disc3 className="w-5 h-5" />
+             </button>
            </div>
         </div>
 
@@ -89,19 +85,10 @@ export function FicaMaisPage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-             {selectedAlbum && selectedAlbum.images?.length > 0 ? (
-               selectedAlbum.images.slice(0, 4).map((img, idx) => (
-                 <div key={idx} className="aspect-square bg-gray-200 overflow-hidden">
-                   <img src={img.url} alt={`Vibes AM ${idx}`} className="w-full h-full object-cover" />
-                 </div>
-               ))
-             ) : (
-               <>
-                 <div className="col-span-full py-12 flex flex-col items-center justify-center border border-gray-300 border-dashed bg-gray-100">
-                    <p className="text-gray-500 font-medium">Sincronize um álbum da Galeria no Admin para exibir aqui.</p>
-                 </div>
-               </>
-             )}
+             <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
+             <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1545128485-c400e7702796?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
+             <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
+             <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
           </div>
         </div>
 
