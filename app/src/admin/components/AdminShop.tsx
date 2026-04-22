@@ -127,14 +127,14 @@ export function AdminShop() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-3">
-            <Store className="w-6 h-6 text-qm-magenta" /> Gerenciar Loja
+            <Store className="w-6 h-6 text-admin-accent" /> Gerenciar Loja
           </h2>
           <p className="text-white/60 mt-1">Controle do catálogo de produtos oficiais.</p>
         </div>
         {!isEditing && (
           <button
             onClick={() => { resetForm(); setIsEditing(true); }}
-            className="flex items-center gap-2 bg-qm-magenta text-white px-4 py-2 rounded-lg font-bold hover:bg-qm-magenta-dark transition-colors"
+            className="flex items-center gap-2 bg-admin-accent text-white px-4 py-2 rounded-lg font-bold hover:bg-admin-accent-dark transition-colors"
           >
             <Plus className="w-5 h-5" /> Novo Produto
           </button>
@@ -160,7 +160,7 @@ export function AdminShop() {
                   type="text"
                   value={currentProduct.name?.pt || ''}
                   onChange={e => setCurrentProduct({ ...currentProduct, name: { ...currentProduct.name!, pt: e.target.value } })}
-                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-qm-magenta transition-colors"
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-admin-accent transition-colors"
                   placeholder="Ex: Camiseta Quero Mais"
                 />
               </div>
@@ -170,7 +170,7 @@ export function AdminShop() {
                 <textarea
                   value={currentProduct.description?.pt || ''}
                   onChange={e => setCurrentProduct({ ...currentProduct, description: { ...currentProduct.description!, pt: e.target.value } })}
-                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-qm-magenta transition-colors min-h-[120px]"
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-admin-accent transition-colors min-h-[120px]"
                   placeholder="Descrição completa do produto..."
                 />
               </div>
@@ -183,7 +183,7 @@ export function AdminShop() {
                     step="0.01"
                     value={currentProduct.price || ''}
                     onChange={e => setCurrentProduct({ ...currentProduct, price: parseFloat(e.target.value) })}
-                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-qm-magenta transition-colors"
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-admin-accent transition-colors"
                   />
                 </div>
                 <div>
@@ -193,7 +193,7 @@ export function AdminShop() {
                     step="0.01"
                     value={currentProduct.originalPrice || ''}
                     onChange={e => setCurrentProduct({ ...currentProduct, originalPrice: parseFloat(e.target.value) })}
-                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-qm-magenta transition-colors"
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-admin-accent transition-colors"
                     placeholder="Opcional"
                   />
                 </div>
@@ -205,7 +205,7 @@ export function AdminShop() {
                   <select
                     value={currentProduct.category}
                     onChange={e => setCurrentProduct({ ...currentProduct, category: e.target.value })}
-                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-qm-magenta transition-colors"
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-admin-accent transition-colors"
                   >
                     <option value="vestuario">Vestuário</option>
                     <option value="acessorios">Acessórios</option>
@@ -218,7 +218,7 @@ export function AdminShop() {
                     type="number"
                     value={currentProduct.stock || 0}
                     onChange={e => setCurrentProduct({ ...currentProduct, stock: parseInt(e.target.value) })}
-                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-qm-magenta transition-colors"
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-admin-accent transition-colors"
                   />
                 </div>
               </div>
@@ -232,7 +232,7 @@ export function AdminShop() {
                     type="url"
                     value={imageUrlInput}
                     onChange={e => setImageUrlInput(e.target.value)}
-                    className="flex-1 bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-qm-magenta transition-colors"
+                    className="flex-1 bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-admin-accent transition-colors"
                     placeholder="Colar URL ou fazer upload..."
                   />
                   <button
@@ -246,7 +246,7 @@ export function AdminShop() {
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={uploading}
-                    className="shrink-0 flex items-center gap-1.5 px-4 py-3 rounded-lg border border-qm-magenta text-qm-magenta font-semibold hover:bg-qm-magenta hover:text-white transition-colors disabled:opacity-50"
+                    className="shrink-0 flex items-center gap-1.5 px-4 py-3 rounded-lg border border-admin-accent text-admin-accent font-semibold hover:bg-admin-accent hover:text-white transition-colors disabled:opacity-50"
                     title="Fazer upload do computador"
                   >
                     {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
@@ -279,7 +279,7 @@ export function AdminShop() {
                   type="url"
                   value={currentProduct.externalLink || ''}
                   onChange={e => setCurrentProduct({ ...currentProduct, externalLink: e.target.value })}
-                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-qm-magenta transition-colors"
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-admin-accent transition-colors"
                   placeholder="https://pagseguro..."
                 />
               </div>
@@ -290,7 +290,7 @@ export function AdminShop() {
                     type="checkbox"
                     checked={currentProduct.featured}
                     onChange={e => setCurrentProduct({ ...currentProduct, featured: e.target.checked })}
-                    className="w-5 h-5 accent-qm-magenta"
+                    className="w-5 h-5 accent-admin-accent"
                   />
                   <div>
                     <span className="text-white font-bold block">Destaque na Home</span>
@@ -303,7 +303,7 @@ export function AdminShop() {
                     type="checkbox"
                     checked={currentProduct.status === 'active'}
                     onChange={e => setCurrentProduct({ ...currentProduct, status: e.target.checked ? 'active' : 'inactive' })}
-                    className="w-5 h-5 accent-qm-magenta"
+                    className="w-5 h-5 accent-admin-accent"
                   />
                   <div>
                     <span className="text-white font-bold block">Produto Ativo</span>
@@ -323,7 +323,7 @@ export function AdminShop() {
             </button>
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 bg-qm-magenta text-white px-8 py-3 rounded-lg font-bold hover:bg-qm-magenta-dark transition-colors uppercase text-sm tracking-wider shadow-lg shadow-qm-magenta/20"
+              className="flex items-center gap-2 bg-admin-accent text-white px-8 py-3 rounded-lg font-bold hover:bg-admin-accent-dark transition-colors uppercase text-sm tracking-wider shadow-lg shadow-admin-accent/20"
             >
               <Save className="w-5 h-5" /> Salvar Produto
             </button>
@@ -374,7 +374,7 @@ export function AdminShop() {
                         </div>
                       </td>
                       <td className="p-4 text-white/70 capitalize">{product.category}</td>
-                      <td className="p-4 font-bold text-qm-magenta">
+                      <td className="p-4 font-bold text-admin-accent">
                         R$ {product.price.toFixed(2)}
                       </td>
                       <td className="p-4 text-center">
@@ -419,7 +419,7 @@ export function AdminShop() {
                           )}
                           <button
                             onClick={() => handleEdit(product)}
-                            className="p-2 text-white/40 hover:text-qm-magenta hover:bg-qm-magenta/10 rounded-lg transition-colors"
+                            className="p-2 text-white/40 hover:text-admin-accent hover:bg-admin-accent/10 rounded-lg transition-colors"
                             title="Editar"
                           >
                             <Edit2 className="w-4 h-4" />

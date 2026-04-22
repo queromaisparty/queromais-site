@@ -4,8 +4,8 @@ import type { FAQ } from '@/types';
 import { Plus, Trash2, Save, ChevronUp, ChevronDown, Edit2, X } from 'lucide-react';
 
 const fieldStyle = {
-  input: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-qm-magenta transition-colors',
-  textarea: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-qm-magenta transition-colors resize-none',
+  input: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-admin-accent transition-colors',
+  textarea: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-admin-accent transition-colors resize-none',
   label: 'block text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider mb-1',
 };
 
@@ -82,7 +82,7 @@ export function AdminFAQ() {
         <button
           onClick={() => { resetForm(); setShowForm(true); }}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors"
-          style={{ background: 'var(--primary-color)' }}
+          style={{ background: '#E91E8C' }}
         >
           <Plus className="w-4 h-4" /> Nova Pergunta
         </button>
@@ -159,7 +159,7 @@ export function AdminFAQ() {
             onClick={handleSave}
             disabled={!questionPt.trim()}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors disabled:opacity-50"
-            style={{ background: 'var(--primary-color)' }}
+            style={{ background: '#E91E8C' }}
           >
             <Save className="w-4 h-4" />
             {editingId ? 'Atualizar' : 'Adicionar'}
@@ -187,7 +187,7 @@ export function AdminFAQ() {
                     const prev = sortedFaqs[idx - 1];
                     updateFAQ(prev.id, { order: prev.order + 1 });
                   }}
-                  className="p-0.5 hover:text-qm-magenta text-[#9CA3AF]"
+                  className="p-0.5 hover:text-admin-accent text-[#9CA3AF]"
                   title="Mover para cima"
                 >
                   <ChevronUp className="w-3.5 h-3.5" />
@@ -199,7 +199,7 @@ export function AdminFAQ() {
                     const next = sortedFaqs[idx + 1];
                     updateFAQ(next.id, { order: next.order - 1 });
                   }}
-                  className="p-0.5 hover:text-qm-magenta text-[#9CA3AF]"
+                  className="p-0.5 hover:text-admin-accent text-[#9CA3AF]"
                   title="Mover para baixo"
                 >
                   <ChevronDown className="w-3.5 h-3.5" />
@@ -213,7 +213,7 @@ export function AdminFAQ() {
                     {faq.status === 'active' ? 'Ativo' : 'Inativo'}
                   </span>
                   {faq.category && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#FCE7F3] text-qm-magenta font-semibold">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#FCE7F3] text-admin-accent font-semibold">
                       {faq.category}
                     </span>
                   )}
@@ -223,7 +223,7 @@ export function AdminFAQ() {
               <div className="flex gap-2">
                 <button
                   onClick={() => editFaq(faq)}
-                  className="p-2 text-[#9CA3AF] hover:text-qm-magenta transition-colors"
+                  className="p-2 text-[#9CA3AF] hover:text-admin-accent transition-colors"
                   title="Editar"
                 >
                   <Edit2 className="w-4 h-4" />

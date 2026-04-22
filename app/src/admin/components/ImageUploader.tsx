@@ -123,7 +123,7 @@ export function ImageUploader({
         onDragLeave={handleDragLeave}
         className={`
           relative rounded-xl border-2 border-dashed cursor-pointer transition-all overflow-hidden
-          ${isDragging ? 'border-qm-magenta bg-qm-magenta/5' : 'border-white/15 hover:border-white/30 bg-white/3'}
+          ${isDragging ? 'border-admin-accent bg-admin-accent/5' : 'border-white/15 hover:border-white/30 bg-white/3'}
           ${value ? 'min-h-[160px]' : 'min-h-[120px]'}
         `}
       >
@@ -177,7 +177,7 @@ export function ImageUploader({
         {/* Processando */}
         {isProcessing && (
           <div className="flex flex-col items-center justify-center py-8">
-            <div className="w-8 h-8 border-2 border-qm-magenta border-t-transparent rounded-full animate-spin mb-3" />
+            <div className="w-8 h-8 border-2 border-admin-accent border-t-transparent rounded-full animate-spin mb-3" />
             <p className="text-white/60 text-sm">Processando...</p>
           </div>
         )}
@@ -197,7 +197,7 @@ export function ImageUploader({
           <input
             type="url"
             placeholder="Ou cole uma URL de imagem..."
-            className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-xs placeholder:text-white/25 focus:outline-none focus:border-qm-magenta/50"
+            className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-xs placeholder:text-white/25 focus:outline-none focus:border-admin-accent/50"
             onBlur={(e) => {
               const url = e.target.value.trim();
               if (url && (url.startsWith('http://') || url.startsWith('https://'))) {

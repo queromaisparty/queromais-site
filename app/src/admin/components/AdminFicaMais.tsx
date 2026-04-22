@@ -13,8 +13,8 @@ const TABS: { id: Tab; label: string }[] = [
 ];
 
 const fieldStyle = {
-  input: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-qm-magenta transition-colors',
-  textarea: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-qm-magenta transition-colors resize-none',
+  input: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-admin-accent transition-colors',
+  textarea: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-admin-accent transition-colors resize-none',
   label: 'block text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider mb-1',
 };
 
@@ -73,7 +73,7 @@ function ImageField({ label, value, onChange, folder = 'fica-mais' }: { label: s
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg border border-qm-magenta text-qm-magenta text-sm font-semibold hover:bg-qm-magenta hover:text-white transition-colors disabled:opacity-50"
+            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg border border-admin-accent text-admin-accent text-sm font-semibold hover:bg-admin-accent hover:text-white transition-colors disabled:opacity-50"
             title="Fazer upload do computador"
           >
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
@@ -118,7 +118,7 @@ export function AdminFicaMais() {
               type="checkbox"
               checked={showInHome}
               onChange={e => setShowInHome(e.target.checked)}
-              className="w-4 h-4 accent-qm-magenta"
+              className="w-4 h-4 accent-admin-accent"
             />
             <div>
               <span className="text-sm font-semibold text-[#1A1A2E]">Exibir na Home</span>
@@ -130,7 +130,7 @@ export function AdminFicaMais() {
               type="checkbox"
               checked={isActivePage}
               onChange={e => setIsActivePage(e.target.checked)}
-              className="w-4 h-4 accent-qm-magenta"
+              className="w-4 h-4 accent-admin-accent"
             />
             <div>
               <span className="text-sm font-semibold text-[#1A1A2E]">Página Ativa</span>
@@ -269,7 +269,7 @@ export function AdminFicaMais() {
           </div>
         ))}
 
-        <button onClick={add} className="flex items-center gap-2 text-sm text-qm-magenta font-semibold hover:underline">
+        <button onClick={add} className="flex items-center gap-2 text-sm text-admin-accent font-semibold hover:underline">
           <Plus className="w-4 h-4" /> Adicionar data
         </button>
 
@@ -305,7 +305,7 @@ export function AdminFicaMais() {
       <button
         onClick={onClick}
         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors"
-        style={{ background: saved ? '#10B981' : 'var(--primary-color)' }}
+        style={{ background: saved ? '#10B981' : '#E91E8C' }}
       >
         <Save className="w-4 h-4" />
         {saved ? 'Salvo!' : 'Salvar'}
@@ -336,8 +336,8 @@ export function AdminFicaMais() {
             onClick={() => setActiveTab(tab.id)}
             className="px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors"
             style={{
-              color: activeTab === tab.id ? 'var(--primary-color)' : '#9CA3AF',
-              borderBottom: activeTab === tab.id ? '2px solid var(--primary-color)' : '2px solid transparent',
+              color: activeTab === tab.id ? '#E91E8C' : '#9CA3AF',
+              borderBottom: activeTab === tab.id ? '2px solid #E91E8C' : '2px solid transparent',
               background: 'transparent',
             }}
           >

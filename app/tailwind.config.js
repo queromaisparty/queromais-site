@@ -61,6 +61,11 @@ module.exports = {
           "text-muted": "#666666",
           border: "#E5E5E5",
         },
+        /* === CORES FIXAS DO ADMIN (nunca mudam) === */
+        admin: {
+          accent: "#E91E8C",
+          "accent-dark": "#D81B80",
+        },
       },
       fontFamily: {
         sans: ['Poppins', 'system-ui', 'sans-serif'],

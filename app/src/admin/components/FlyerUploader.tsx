@@ -135,7 +135,7 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
           </p>
           <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: '#E8E8ED' }}>
             <div className="h-full rounded-full transition-all duration-200"
-              style={{ width: `${progress}%`, background: 'linear-gradient(90deg, var(--primary-color), #FF6BB5)' }} />
+              style={{ width: `${progress}%`, background: 'linear-gradient(90deg, #E91E8C, #FF6BB5)' }} />
           </div>
           <p className="text-xs text-center" style={{ color: '#D1D5DB' }}>{progress}%</p>
         </div>
@@ -186,11 +186,11 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
         }}
       >
         <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: '#FCE7F3' }}>
-          <ImagePlus className="w-6 h-6" style={{ color: 'var(--primary-color)' }} />
+          <ImagePlus className="w-6 h-6" style={{ color: '#E91E8C' }} />
         </div>
         <div className="text-center">
           <p className="text-sm font-medium" style={{ color: '#374151' }}>
-            Arraste ou <span style={{ color: 'var(--primary-color)' }}>clique para enviar</span>
+            Arraste ou <span style={{ color: '#E91E8C' }}>clique para enviar</span>
           </p>
           <p className="text-xs mt-1" style={{ color: '#9CA3AF' }}>JPG · PNG · WebP · max 8MB</p>
           <p className="text-xs" style={{ color: '#D1D5DB' }}>Comprimido automaticamente</p>

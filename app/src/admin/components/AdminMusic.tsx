@@ -57,13 +57,13 @@ function ImageUploadField({ label, value, onChange, folder, aspect = 'square' }:
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder="Colar URL ou fazer upload..."
-          className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-900 text-sm focus:border-qm-magenta outline-none"
+          className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2 text-gray-900 text-sm focus:border-admin-accent outline-none"
         />
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
           disabled={uploading}
-          className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg border border-qm-magenta text-qm-magenta text-sm font-semibold hover:bg-qm-magenta hover:text-white transition-colors disabled:opacity-50"
+          className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg border border-admin-accent text-admin-accent text-sm font-semibold hover:bg-admin-accent hover:text-white transition-colors disabled:opacity-50"
           title="Fazer upload do computador"
         >
           {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
@@ -192,14 +192,14 @@ export function AdminMusic() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tight flex items-center gap-3" style={{ color: '#1A1A2E' }}>
-            <Music className="w-5 h-5 sm:w-6 sm:h-6 text-qm-magenta" /> QM Music
+            <Music className="w-5 h-5 sm:w-6 sm:h-6 text-admin-accent" /> QM Music
           </h2>
           <p className="text-gray-500 mt-1 text-sm sm:text-base">Gerencie o cast oficial, sets gravados e playlists.</p>
         </div>
         {!isEditing && (
           <button
             onClick={() => setIsEditing(true)}
-            className="flex items-center justify-center gap-2 bg-qm-magenta text-white px-4 py-2 rounded-lg font-bold hover:bg-qm-magenta-dark transition-colors whitespace-nowrap"
+            className="flex items-center justify-center gap-2 bg-admin-accent text-white px-4 py-2 rounded-lg font-bold hover:bg-admin-accent-dark transition-colors whitespace-nowrap"
           >
             <Plus className="w-5 h-5" /> NOVO {activeTab === 'djs' ? 'DJ' : activeTab === 'sets' ? 'SET' : 'PLAYLIST'}
           </button>
@@ -259,7 +259,7 @@ export function AdminMusic() {
                       <td className="py-4 text-gray-600 capitalize">{dj.category}</td>
                       <td className="py-4 text-gray-600">{dj.musicStyle}</td>
                       <td className="py-4 text-center">
-                        <button title="Destaque" onClick={() => toggleFeatureDJ(dj)} className={`p-2 rounded-lg transition-colors inline-block ${dj.featured ? 'text-qm-magenta bg-pink-50' : 'text-gray-300 hover:text-gray-500'}`}>
+                        <button title="Destaque" onClick={() => toggleFeatureDJ(dj)} className={`p-2 rounded-lg transition-colors inline-block ${dj.featured ? 'text-admin-accent bg-pink-50' : 'text-gray-300 hover:text-gray-500'}`}>
                           <Star className={`w-4 h-4 ${dj.featured ? 'fill-current' : ''}`} />
                         </button>
                       </td>
@@ -337,12 +337,12 @@ export function AdminMusic() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Nome do DJ</label>
-                  <input type="text" value={currentDJ.name} onChange={e => setCurrentDJ({...currentDJ, name: e.target.value})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none" />
+                  <input type="text" value={currentDJ.name} onChange={e => setCurrentDJ({...currentDJ, name: e.target.value})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">Categoria</label>
-                    <select value={currentDJ.category} onChange={e => setCurrentDJ({...currentDJ, category: e.target.value as any})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none">
+                    <select value={currentDJ.category} onChange={e => setCurrentDJ({...currentDJ, category: e.target.value as any})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none">
                       <option value="guest">Convidado</option>
                       <option value="resident">Residente</option>
                       <option value="special">Especial</option>
@@ -350,19 +350,19 @@ export function AdminMusic() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-600 mb-1">Estilo Musical</label>
-                    <input type="text" value={currentDJ.musicStyle || ''} onChange={e => setCurrentDJ({...currentDJ, musicStyle: e.target.value})} placeholder="Open Format..." className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none" />
+                    <input type="text" value={currentDJ.musicStyle || ''} onChange={e => setCurrentDJ({...currentDJ, musicStyle: e.target.value})} placeholder="Open Format..." className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Status</label>
-                  <select value={currentDJ.status} onChange={e => setCurrentDJ({...currentDJ, status: e.target.value as any})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none">
+                  <select value={currentDJ.status} onChange={e => setCurrentDJ({...currentDJ, status: e.target.value as any})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none">
                     <option value="active">Ativo</option>
                     <option value="inactive">Oculto</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Bio (Texto Curto Padrão)</label>
-                  <textarea value={currentDJ.bio?.pt || ''} onChange={e => setCurrentDJ({...currentDJ, bio: {...currentDJ.bio!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none min-h-[100px]" />
+                  <textarea value={currentDJ.bio?.pt || ''} onChange={e => setCurrentDJ({...currentDJ, bio: {...currentDJ.bio!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none min-h-[100px]" />
                 </div>
               </div>
               <div className="space-y-4">
@@ -375,9 +375,9 @@ export function AdminMusic() {
                 />
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Link Instagram</label>
-                  <input type="url" value={currentDJ.socialLinks?.[0]?.url || ''} onChange={e => setCurrentDJ({...currentDJ, socialLinks: [{platform: 'instagram', url: e.target.value}]})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none" />
+                  <input type="url" value={currentDJ.socialLinks?.[0]?.url || ''} onChange={e => setCurrentDJ({...currentDJ, socialLinks: [{platform: 'instagram', url: e.target.value}]})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none" />
                 </div>
-                <button onClick={handleSaveDJ} className="w-full bg-qm-magenta text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-qm-magenta-dark transition-colors">
+                <button onClick={handleSaveDJ} className="w-full bg-admin-accent text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-admin-accent-dark transition-colors">
                   <Save className="w-5 h-5" /> Salvar DJ
                 </button>
               </div>
@@ -389,15 +389,15 @@ export function AdminMusic() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Título do Set</label>
-                  <input type="text" value={currentSet.title?.pt || ''} onChange={e => setCurrentSet({...currentSet, title: {...currentSet.title!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none" />
+                  <input type="text" value={currentSet.title?.pt || ''} onChange={e => setCurrentSet({...currentSet, title: {...currentSet.title!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Descrição</label>
-                  <textarea value={currentSet.description?.pt || ''} onChange={e => setCurrentSet({...currentSet, description: {...currentSet.description!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none min-h-[80px]" />
+                  <textarea value={currentSet.description?.pt || ''} onChange={e => setCurrentSet({...currentSet, description: {...currentSet.description!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none min-h-[80px]" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">URL de Streaming (Spotify, Soundcloud, YouTube)</label>
-                  <input type="url" value={currentSet.externalLink || ''} onChange={e => setCurrentSet({...currentSet, externalLink: e.target.value})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none" />
+                  <input type="url" value={currentSet.externalLink || ''} onChange={e => setCurrentSet({...currentSet, externalLink: e.target.value})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none" />
                 </div>
               </div>
               <div className="space-y-4">
@@ -408,7 +408,7 @@ export function AdminMusic() {
                   folder="sets"
                   aspect="video"
                 />
-                 <button onClick={handleSaveSet} className="w-full bg-qm-magenta text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-qm-magenta-dark transition-colors">
+                 <button onClick={handleSaveSet} className="w-full bg-admin-accent text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-admin-accent-dark transition-colors">
                   <Save className="w-5 h-5" /> Salvar Set
                  </button>
               </div>
@@ -420,15 +420,15 @@ export function AdminMusic() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Nome da Playlist</label>
-                  <input type="text" value={currentPlaylist.title?.pt || ''} onChange={e => setCurrentPlaylist({...currentPlaylist, title: {...currentPlaylist.title!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none" />
+                  <input type="text" value={currentPlaylist.title?.pt || ''} onChange={e => setCurrentPlaylist({...currentPlaylist, title: {...currentPlaylist.title!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Descrição Curta</label>
-                  <textarea value={currentPlaylist.description?.pt || ''} onChange={e => setCurrentPlaylist({...currentPlaylist, description: {...currentPlaylist.description!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none min-h-[80px]" />
+                  <textarea value={currentPlaylist.description?.pt || ''} onChange={e => setCurrentPlaylist({...currentPlaylist, description: {...currentPlaylist.description!, pt: e.target.value}})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none min-h-[80px]" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">Link do Spotify</label>
-                  <input type="url" value={currentPlaylist.externalUrl || ''} onChange={e => setCurrentPlaylist({...currentPlaylist, externalUrl: e.target.value})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-qm-magenta outline-none" />
+                  <input type="url" value={currentPlaylist.externalUrl || ''} onChange={e => setCurrentPlaylist({...currentPlaylist, externalUrl: e.target.value})} className="w-full bg-white border border-gray-200 rounded-lg px-4 py-2 text-gray-900 focus:border-admin-accent outline-none" />
                 </div>
               </div>
               <div className="space-y-4">
@@ -439,7 +439,7 @@ export function AdminMusic() {
                   folder="playlists"
                   aspect="square"
                 />
-                 <button onClick={handleSavePlaylist} className="w-full bg-qm-magenta text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-qm-magenta-dark transition-colors mt-auto">
+                 <button onClick={handleSavePlaylist} className="w-full bg-admin-accent text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-admin-accent-dark transition-colors mt-auto">
                    <Save className="w-5 h-5" /> Salvar Playlist
                  </button>
               </div>

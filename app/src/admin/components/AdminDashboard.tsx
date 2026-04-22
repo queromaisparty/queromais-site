@@ -11,8 +11,7 @@ import {
   Settings,
   LogOut,
   Users,
-  ChevronRight,
-  Sparkles
+  ChevronRight
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
@@ -50,7 +49,7 @@ interface AdminDashboardProps {
 }
 
 // ── Paleta magenta ──────────────────────────────────
-// Primária: var(--primary-color) (magenta vibrante)
+// Primária: #E91E8C (magenta vibrante)
 // Hover:    #C4157A
 // Fundo:    #F5F5F7 (cinza-branco Apple-like)
 // Sidebar:  #FFFFFF
@@ -84,7 +83,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
   ];
 
   const stats = [
-    { label: { pt: 'Eventos', en: 'Events', es: 'Eventos' },        value: events.length,       icon: Calendar,     gradient: 'from-qm-magenta to-[#FF6BB5]' },
+    { label: { pt: 'Eventos', en: 'Events', es: 'Eventos' },        value: events.length,       icon: Calendar,     gradient: 'from-admin-accent to-[#FF6BB5]' },
     { label: { pt: 'Produtos', en: 'Products', es: 'Productos' },   value: products.length,     icon: ShoppingBag,  gradient: 'from-[#7C3AED] to-[#A78BFA]' },
     { label: { pt: 'Álbuns', en: 'Albums', es: 'Álbumes' },         value: galleryAlbums.length, icon: Image,        gradient: 'from-[#0EA5E9] to-[#38BDF8]' },
     { label: { pt: 'DJs', en: 'DJs', es: 'DJs' },                   value: djs.length,          icon: Music,        gradient: 'from-[#F59E0B] to-[#FCD34D]' },
@@ -125,12 +124,6 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
         {/* Logo */}
         <div className="px-6 py-6 border-b" style={{ borderColor: '#E8E8ED' }}>
           <div className="flex items-center gap-2">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg, var(--primary-color), #FF6BB5)' }}
-            >
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
             <div>
               <img 
                 src="/LOGOQUEROMAIS_PRETA.svg" 
@@ -153,13 +146,13 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all text-sm font-medium"
                 style={{
                   background: isActive ? '#FCE7F3' : 'transparent',
-                  color: isActive ? 'var(--primary-color)' : '#6B7280',
-                  borderLeft: isActive ? '3px solid var(--primary-color)' : '3px solid transparent',
+                  color: isActive ? '#E91E8C' : '#6B7280',
+                  borderLeft: isActive ? '3px solid #E91E8C' : '3px solid transparent',
                 }}
                 onMouseEnter={e => {
                   if (!isActive) {
                     (e.currentTarget as HTMLElement).style.background = '#FDF2F8';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--primary-color)';
+                    (e.currentTarget as HTMLElement).style.color = '#E91E8C';
                   }
                 }}
                 onMouseLeave={e => {
@@ -181,7 +174,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
           <div className="flex items-center gap-3 px-3 py-2">
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, var(--primary-color), #FF6BB5)' }}
+              style={{ background: 'linear-gradient(135deg, #E91E8C, #FF6BB5)' }}
             >
               <Users className="w-4 h-4 text-white" />
             </div>
@@ -274,7 +267,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
                       className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                       style={{ background: '#FCE7F3' }}
                     >
-                      <action.icon className="w-4 h-4" style={{ color: 'var(--primary-color)' }} />
+                      <action.icon className="w-4 h-4" style={{ color: '#E91E8C' }} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>{t(action.label)}</p>
@@ -316,7 +309,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
                 className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center"
                 style={{ background: '#FCE7F3' }}
               >
-                <Settings className="w-8 h-8" style={{ color: 'var(--primary-color)' }} />
+                <Settings className="w-8 h-8" style={{ color: '#E91E8C' }} />
               </div>
               <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1A2E' }}>
                 {t({ pt: 'Em Desenvolvimento', en: 'Under Development', es: 'En Desarrollo' })}

@@ -18,8 +18,8 @@ const TABS: { id: Tab; label: string }[] = [
 ];
 
 const fieldStyle = {
-  input: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-qm-magenta transition-colors',
-  textarea: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-qm-magenta transition-colors resize-none',
+  input: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-admin-accent transition-colors',
+  textarea: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-admin-accent transition-colors resize-none',
   label: 'block text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider mb-1',
 };
 
@@ -81,7 +81,7 @@ function ImageField({ label, value, onChange, folder = 'storytelling' }: { label
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg border border-qm-magenta text-qm-magenta text-sm font-semibold hover:bg-qm-magenta hover:text-white transition-colors disabled:opacity-50"
+            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg border border-admin-accent text-admin-accent text-sm font-semibold hover:bg-admin-accent hover:text-white transition-colors disabled:opacity-50"
             title="Fazer upload do computador"
           >
             {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
@@ -153,8 +153,8 @@ export function AdminSobre() {
         {stats.map((stat, idx) => (
           <div key={stat.id} className="flex gap-3 items-start rounded-xl border border-[#E8E8ED] p-4 bg-white">
             <div className="flex flex-col gap-1">
-              <button onClick={() => move(idx, -1)} className="p-1 hover:text-qm-magenta text-[#9CA3AF]"><ChevronUp className="w-4 h-4" /></button>
-              <button onClick={() => move(idx, 1)} className="p-1 hover:text-qm-magenta text-[#9CA3AF]"><ChevronDown className="w-4 h-4" /></button>
+              <button onClick={() => move(idx, -1)} className="p-1 hover:text-admin-accent text-[#9CA3AF]"><ChevronUp className="w-4 h-4" /></button>
+              <button onClick={() => move(idx, 1)} className="p-1 hover:text-admin-accent text-[#9CA3AF]"><ChevronDown className="w-4 h-4" /></button>
             </div>
             <div className="flex-1 grid grid-cols-2 gap-3">
               <div>
@@ -169,7 +169,7 @@ export function AdminSobre() {
             <button onClick={() => remove(stat.id)} className="p-1 text-[#9CA3AF] hover:text-red-500 mt-1"><Trash2 className="w-4 h-4" /></button>
           </div>
         ))}
-        <button onClick={add} className="flex items-center gap-2 text-sm text-qm-magenta font-semibold hover:underline">
+        <button onClick={add} className="flex items-center gap-2 text-sm text-admin-accent font-semibold hover:underline">
           <Plus className="w-4 h-4" /> Adicionar stat
         </button>
         <SaveButton onClick={() => save({ stats })} />
@@ -237,7 +237,7 @@ export function AdminSobre() {
           <label className={fieldStyle.label}>Tags / Palavras-chave</label>
           <div className="flex gap-2 mb-2 flex-wrap">
             {tags.map(t => (
-              <span key={t} className="flex items-center gap-1 px-3 py-1 bg-[#FCE7F3] text-qm-magenta text-xs font-semibold rounded-full">
+              <span key={t} className="flex items-center gap-1 px-3 py-1 bg-[#FCE7F3] text-admin-accent text-xs font-semibold rounded-full">
                 {t}
                 <button onClick={() => removeTag(t)} className="hover:opacity-70">×</button>
               </span>
@@ -245,7 +245,7 @@ export function AdminSobre() {
           </div>
           <div className="flex gap-2">
             <input className={fieldStyle.input} value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTag()} placeholder="Nova tag (Enter para adicionar)" />
-            <button onClick={addTag} className="px-3 py-2 rounded-lg bg-[#FCE7F3] text-qm-magenta text-sm font-semibold hover:bg-qm-magenta hover:text-white transition-colors"><Plus className="w-4 h-4" /></button>
+            <button onClick={addTag} className="px-3 py-2 rounded-lg bg-[#FCE7F3] text-admin-accent text-sm font-semibold hover:bg-admin-accent hover:text-white transition-colors"><Plus className="w-4 h-4" /></button>
           </div>
         </div>
         <ImageField label="Imagem" value={essenciaImage} onChange={setEssenciaImage} />
@@ -320,15 +320,15 @@ export function AdminSobre() {
               <div key={item.id} className="rounded-xl border border-[#E8E8ED] bg-white overflow-hidden">
                 <div className="flex items-center gap-3 px-4 py-3">
                   <div className="flex flex-col gap-0.5">
-                    <button onClick={() => move(idx, -1)} className="p-0.5 hover:text-qm-magenta text-[#9CA3AF]"><ChevronUp className="w-3.5 h-3.5" /></button>
-                    <button onClick={() => move(idx, 1)} className="p-0.5 hover:text-qm-magenta text-[#9CA3AF]"><ChevronDown className="w-3.5 h-3.5" /></button>
+                    <button onClick={() => move(idx, -1)} className="p-0.5 hover:text-admin-accent text-[#9CA3AF]"><ChevronUp className="w-3.5 h-3.5" /></button>
+                    <button onClick={() => move(idx, 1)} className="p-0.5 hover:text-admin-accent text-[#9CA3AF]"><ChevronDown className="w-3.5 h-3.5" /></button>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-[#1A1A2E] truncate">{item.title || 'Novo marco'}</p>
                     {item.year && <p className="text-xs text-[#9CA3AF]">{item.year}</p>}
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => setEditing(editing === item.id ? null : item.id)} className="text-xs text-qm-magenta font-semibold hover:underline">
+                    <button onClick={() => setEditing(editing === item.id ? null : item.id)} className="text-xs text-admin-accent font-semibold hover:underline">
                       {editing === item.id ? 'Fechar' : 'Editar'}
                     </button>
                     <button onClick={() => remove(item.id)} className="p-1 text-[#9CA3AF] hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></button>
@@ -355,7 +355,7 @@ export function AdminSobre() {
               </div>
             ))}
           </div>
-          <button onClick={add} className="mt-3 flex items-center gap-2 text-sm text-qm-magenta font-semibold hover:underline">
+          <button onClick={add} className="mt-3 flex items-center gap-2 text-sm text-admin-accent font-semibold hover:underline">
             <Plus className="w-4 h-4" /> Adicionar marco
           </button>
         </div>
@@ -423,7 +423,7 @@ export function AdminSobre() {
       <button
         onClick={onClick}
         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors"
-        style={{ background: saved ? '#10B981' : 'var(--primary-color)' }}
+        style={{ background: saved ? '#10B981' : '#E91E8C' }}
       >
         <Save className="w-4 h-4" />
         {saved ? 'Salvo!' : 'Salvar'}
@@ -459,8 +459,8 @@ export function AdminSobre() {
             onClick={() => setActiveTab(tab.id)}
             className="px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors"
             style={{
-              color: activeTab === tab.id ? 'var(--primary-color)' : '#9CA3AF',
-              borderBottom: activeTab === tab.id ? '2px solid var(--primary-color)' : '2px solid transparent',
+              color: activeTab === tab.id ? '#E91E8C' : '#9CA3AF',
+              borderBottom: activeTab === tab.id ? '2px solid #E91E8C' : '2px solid transparent',
               background: 'transparent',
             }}
           >
