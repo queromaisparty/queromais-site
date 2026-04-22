@@ -77,14 +77,25 @@ function SiteEngine() {
 }
 
 function App() {
-  const [currentView, setCurrentView] = useState<View>('website');
-  const [adminSection, setAdminSection] = useState<AdminSection>('dashboard');
+  const [currentView, setCurrentView] = useState<View>(() => {
+    return (localStorage.getItem('@QueroMais:view') as View) || 'website';
+  });
+  const [adminSection, setAdminSection] = useState<AdminSection>(() => {
+    return (localStorage.getItem('@QueroMais:adminSection') as AdminSection) || 'dashboard';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('@QueroMais:view', currentView);
+  }, [currentView]);
+
+  useEffect(() => {
+    localStorage.setItem('@QueroMais:adminSection', adminSection);
+  }, [adminSection]);
 
   useEffect(() => {
     if (window.location.pathname === '/admin') {
       window.history.replaceState(null, '', '/');
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCurrentView('admin-login');
+      setCurrentView(prev => prev === 'admin-dashboard' ? 'admin-dashboard' : 'admin-login');
     }
   }, []);
 

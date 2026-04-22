@@ -49,10 +49,17 @@ interface AdminDashboardProps {
 }
 
 export function AdminDashboard({ currentSection, onSectionChange, onLogout }: AdminDashboardProps) {
-  const { user, logout } = useAuth();
+  const { user, logout, isAuthenticated, isLoading } = useAuth();
   const { t } = useLanguage();
   const { events, products, galleryAlbums, djs } = useData();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Se o AuthContext disser que a sessão não existe (ou expirou), force o logout
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      onLogout();
+    }
+  }, [isLoading, isAuthenticated, onLogout]);
 
   const handleLogout = () => {
     logout();

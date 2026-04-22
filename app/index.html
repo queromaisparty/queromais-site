@@ -7,6 +7,17 @@
     <link rel="icon" type="image/svg+xml" href="/FAVICON48X48.svg" />
   </head>
   <body>
+    <!-- Aplica cores salvas antes do React renderizar — elimina flash -->
+    <script>
+      (function () {
+        try {
+          var pc = localStorage.getItem('@QueroMais:primaryColor');
+          var sc = localStorage.getItem('@QueroMais:secondaryColor');
+          if (pc) document.documentElement.style.setProperty('--primary-color', pc);
+          if (sc) document.documentElement.style.setProperty('--secondary-color', sc);
+        } catch (e) {}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
