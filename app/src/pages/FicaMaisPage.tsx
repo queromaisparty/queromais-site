@@ -3,14 +3,14 @@ import { useData } from '@/context/DataContext';
 
 export function FicaMaisPage() {
   const { djs } = useData();
-  const residentes = djs.filter(dj => dj.resident === true);
+  const residentes = djs.filter(dj => dj.category === 'resident');
 
   return (
-    <main className="pt-24 pb-20 min-h-screen bg-white">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <main className="pt-24 min-h-screen bg-white">
 
-        {/* Manifesto Fica Mais */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-[#E91E8C]/10 via-white to-orange-50 border border-gray-100 mb-20">
+      {/* Manifesto Fica Mais */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#E91E8C]/10 via-white to-orange-50 w-full mb-12">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">
            <div className="absolute top-0 right-0 p-12 opacity-10">
               <Sunrise className="w-64 h-64 text-[#E91E8C]" />
            </div>
@@ -20,7 +20,7 @@ export function FicaMaisPage() {
                <span className="w-8 h-px bg-[#E91E8C]" />
                O After Oficial
              </div>
-             <h1 className="font-sans font-black text-6xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-8">
+             <h1 className="font-black text-6xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-8">
                A pista <br/> não <span className="text-[#E91E8C]">para.</span>
              </h1>
              <p className="text-xl sm:text-2xl text-gray-600 font-medium leading-relaxed mb-12">
@@ -32,9 +32,11 @@ export function FicaMaisPage() {
              </button>
            </div>
         </div>
+      </section>
 
-        {/* Os Residentes */}
-        <div className="mb-20">
+      {/* Os Residentes */}
+      <section className="w-full bg-white mb-20">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tight mb-2">Trilha da Alvorada</h2>
             <p className="text-gray-500 font-medium max-w-2xl mx-auto">
@@ -71,12 +73,14 @@ export function FicaMaisPage() {
             )}
           </div>
         </div>
+      </section>
 
-        {/* Galeria VIBES / AM */}
-        <div className="border border-gray-200 bg-[#F2F2F2] p-8 sm:p-12">
+      {/* Galeria VIBES / AM */}
+      <section className="w-full bg-[#F2F2F2] py-20">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 border-b border-gray-300 pb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight">Vibes / AM</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight">Galeria Fica Mais</h2>
               <p className="text-gray-600 mt-1">A fotografia de um público que não quer ir embora.</p>
             </div>
             <a href="/vocenaqm" className="text-[#E91E8C] font-bold uppercase text-sm tracking-wider hover:text-[#D81B80] transition-colors flex items-center gap-2">
@@ -91,8 +95,7 @@ export function FicaMaisPage() {
              <div className="aspect-square bg-gray-200 overflow-hidden"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=500&q=80" alt="Vibes AM" className="w-full h-full object-cover" /></div>
           </div>
         </div>
-
-      </div>
+      </section>
     </main>
   );
 }

@@ -24,7 +24,7 @@ export function VoceNaQMPage() {
                <p className="text-[#E91E8C] text-sm font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
                  <Camera className="w-5 h-5" /> Momentos Eternizados
                </p>
-               <h1 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
+               <h1 className="font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
                  VOCÊ NA <span className="text-[#E91E8C]">QUERO MAIS.</span>
                </h1>
                <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">

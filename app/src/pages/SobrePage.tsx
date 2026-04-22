@@ -10,11 +10,11 @@ export function SobrePage() {
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-white overflow-hidden">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-
+      
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* BLOCO 1 — Hero */}
         <div className="text-center mt-8 mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <h1 className="font-sans font-black text-5xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-6">
+          <h1 className="font-black text-5xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-6">
             {s.heroTitle.split(' ').map((word, i, arr) =>
               i === arr.length - 1
                 ? <span key={i} className="text-[#E91E8C]"> {word}</span>
@@ -63,9 +63,11 @@ export function SobrePage() {
             )}
           </div>
         </div>
+      </section>
 
-        {/* BLOCO 4 — Essência da Marca */}
-        <div className="bg-[#3D4246] rounded-3xl p-10 sm:p-16 mb-24">
+      {/* BLOCO 4 — Essência da Marca */}
+      <section className="w-full bg-[#3D4246] py-20 mb-24">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E91E8C] mb-5">
               {s.essenciaTitle}
@@ -89,7 +91,9 @@ export function SobrePage() {
             )}
           </div>
         </div>
+      </section>
 
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* BLOCO 5 — O Símbolo: A Borboleta */}
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -161,8 +165,7 @@ export function SobrePage() {
             {s.ctaButtonLabel}
           </Link>
         </div>
-
-      </div>
+      </section>
     </main>
   );
 }

@@ -52,11 +52,11 @@ export function Footer({ onAdminClick }: FooterProps) {
                 className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105"
               />
             </Link>
-            <p className="text-white/60 text-sm max-w-sm font-sans leading-relaxed">
+            <p className="text-white/60 text-sm max-w-sm leading-relaxed">
               {t({
-                pt: 'Experiências que marcam. Música, atmosfera, comunidade e energia que transformam noites em memórias.',
-                en: 'Experiences that mark. Music, atmosphere, community and energy that turn nights into memories.',
-                es: 'Experiencias que marcan. Música, atmósfera, comunidad y energía que transforman noches en recuerdos.',
+                pt: 'Quero Mais Day Party. Onde o dia se transforma em experiência.',
+                en: 'Quero Mais Day Party. Where the day turns into an experience.',
+                es: 'Quero Mais Day Party. Donde el día se transforma en una experiencia.',
               })}
             </p>
             {/* Redes Sociais */}
@@ -88,7 +88,7 @@ export function Footer({ onAdminClick }: FooterProps) {
 
           {/* Navegação */}
           <div>
-            <h3 className="font-sans font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
+            <h3 className="font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
               {t({ pt: 'Navegação', en: 'Navigation', es: 'Navegación' })}
             </h3>
             <ul className="space-y-3">
@@ -96,7 +96,7 @@ export function Footer({ onAdminClick }: FooterProps) {
                 <li key={link.href}>
                   <Link
                     to={link.href}
-                    className="text-white/50 hover:text-[#C2185B] transition-colors text-sm font-sans flex items-center gap-1 group"
+                    className="text-white/50 hover:text-[#C2185B] transition-colors text-sm flex items-center gap-1 group"
                   >
                     <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -ml-3 group-hover:ml-0 transition-all" />
                     {t(link.label)}

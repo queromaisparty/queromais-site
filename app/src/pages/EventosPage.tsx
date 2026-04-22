@@ -56,7 +56,7 @@ export function EventosPage() {
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 mt-8">
             <div className="mb-12 border-b border-gray-300 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
-                <h1 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
+                <h1 className="font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
                   Próximos <span className="text-[#E91E8C]">Eventos</span>
                 </h1>
                 <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">

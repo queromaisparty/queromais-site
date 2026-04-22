@@ -118,7 +118,7 @@ export function ShopSection() {
         {/* Painel do Carrinho */}
         {showCart && (
           <div className="mb-12 bg-[#1A1A1A] rounded-none p-6 md:p-8">
-            <h3 className="font-sans font-black text-2xl text-white mb-6 uppercase">
+            <h3 className="font-black text-2xl text-white mb-6 uppercase">
               {t(translations.shop.cart)}
             </h3>
             
@@ -137,7 +137,7 @@ export function ShopSection() {
                         className="w-20 h-20 object-cover rounded-none bg-black"
                       />
                       <div className="flex-1 w-full">
-                        <h4 className="font-sans font-black text-white text-lg uppercase mb-1">{item.name}</h4>
+                        <h4 className="font-black text-white text-lg uppercase mb-1">{item.name}</h4>
                         <p className="text-[#C2185B] font-bold text-lg">{formatPrice(item.price)}</p>
                       </div>
                       <div className="flex items-center gap-4 self-end sm:self-center">
@@ -227,7 +227,7 @@ export function ShopSection() {
                       )}
                     </div>
                     <div className="p-6">
-                      <h3 className="font-sans font-black text-xl text-white mb-2 uppercase">{t(product.name)}</h3>
+                      <h3 className="font-black text-xl text-white mb-2 uppercase">{t(product.name)}</h3>
                       <p className="text-white/50 text-sm line-clamp-2 mb-6">
                         {t(product.description)}
                       </p>
@@ -242,12 +242,18 @@ export function ShopSection() {
                             </p>
                           )}
                         </div>
-                        <button
-                          onClick={() => addToCart(product)}
-                          className="w-12 h-12 flex items-center justify-center bg-white text-black rounded-none hover:bg-[#E91E8C] hover:text-white transition-colors"
-                        >
-                          <Plus className="w-6 h-6" />
-                        </button>
+                        {product.status === 'out_of_stock' || product.stock <= 0 ? (
+                          <div className="flex items-center justify-center px-4 py-2 bg-gray-800 text-white/50 text-xs font-bold uppercase rounded-none border border-gray-700 cursor-not-allowed">
+                            Esgotado
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => addToCart(product)}
+                            className="w-12 h-12 flex items-center justify-center bg-white text-black rounded-none hover:bg-[#E91E8C] hover:text-white transition-colors"
+                          >
+                            <Plus className="w-6 h-6" />
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -255,7 +261,7 @@ export function ShopSection() {
               ) : (
                 <div className="col-span-full py-16 flex flex-col items-center justify-center border border-white/10 rounded-none border-dashed">
                   <ShoppingBag className="w-12 h-12 text-white/20 mb-4" />
-                  <h3 className="text-white font-sans font-black text-xl uppercase mb-2">Coleção em Breve</h3>
+                  <h3 className="text-white font-black text-xl uppercase mb-2">Coleção em Breve</h3>
                   <p className="text-white/50 text-center max-w-sm">
                     Nossa linha exclusiva está ganhando forma. Fique ligado para novidades.
                   </p>
@@ -287,7 +293,7 @@ export function ShopSection() {
                       <p className="text-[#C2185B] font-bold text-sm tracking-widest mb-2">
                         {new Date(event.date).toLocaleDateString()}
                       </p>
-                      <h3 className="font-sans font-black text-2xl text-white mb-6 uppercase">{t(event.title)}</h3>
+                      <h3 className="font-black text-2xl text-white mb-6 uppercase">{t(event.title)}</h3>
                       
                       {event.ticketLink && (
                         <a
@@ -306,7 +312,7 @@ export function ShopSection() {
               ) : (
                 <div className="col-span-full bg-[#1A1A1A] rounded-none py-24 text-center">
                   <Ticket className="w-16 h-16 text-white/10 mx-auto mb-6" />
-                  <p className="font-sans font-black text-white/40 text-2xl uppercase tracking-widest">
+                  <p className="font-black text-white/40 text-2xl uppercase tracking-widest">
                     {t({ 
                       pt: 'Nenhum ingresso disponível no momento.',
                       en: 'No tickets available at the moment.',

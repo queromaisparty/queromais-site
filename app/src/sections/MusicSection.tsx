@@ -15,10 +15,10 @@ export function MusicSection() {
         
         {/* Header da Seção */}
         <div className="text-center mb-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-3 font-sans">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#C2185B] mb-3">
             {t({ pt: 'Sons que marcam', en: 'Sounds that leave a mark', es: 'Sonidos que marcan' })}
           </p>
-          <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight">
+          <h2 className="font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight">
             QM MUSIC
           </h2>
           <p className="text-black/60 text-lg max-w-2xl mx-auto mt-4 font-medium">
@@ -63,6 +63,7 @@ export function MusicSection() {
                           src={dj.image}
                           alt={dj.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x400/111/444?text=DJ'; e.currentTarget.onerror = null; }}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gray-200">
@@ -71,7 +72,7 @@ export function MusicSection() {
                       )}
                     </div>
                     <div className="p-6">
-                      <h3 className="font-sans font-black text-xl text-black mb-2 uppercase">{dj.name}</h3>
+                      <h3 className="font-black text-xl text-black mb-2 uppercase">{dj.name}</h3>
                       <p className="text-black/60 text-sm line-clamp-3 mb-4">
                         {t(dj.bio)}
                       </p>
@@ -96,7 +97,7 @@ export function MusicSection() {
               ) : (
                 <div className="col-span-full py-12 text-center flex flex-col items-center justify-center bg-[#F2F2F2] rounded-none border border-dashed border-gray-300">
                   <Headphones className="w-12 h-12 text-gray-300 mb-3" />
-                  <h3 className="font-sans font-black text-xl text-black uppercase">Cast em Breve</h3>
+                  <h3 className="font-black text-xl text-black uppercase">Cast em Breve</h3>
                   <p className="text-black/50 text-sm mt-1">Nosso catálogo de residentes está sendo atualizado.</p>
                 </div>
               )}
@@ -115,6 +116,7 @@ export function MusicSection() {
                           src={set.coverImage}
                           alt={t(set.title)}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x225/111/444?text=DJ+Set'; e.currentTarget.onerror = null; }}
                         />
                       ) : (
                         <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -130,7 +132,7 @@ export function MusicSection() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="font-sans font-black text-xl text-black mb-2 uppercase">{t(set.title)}</h3>
+                      <h3 className="font-black text-xl text-black mb-2 uppercase">{t(set.title)}</h3>
                       <p className="text-black/60 text-sm line-clamp-2 mb-4">
                         {t(set.description)}
                       </p>
@@ -151,7 +153,7 @@ export function MusicSection() {
               ) : (
                 <div className="col-span-full py-12 text-center flex flex-col items-center justify-center bg-[#F2F2F2] rounded-none border border-dashed border-gray-300">
                   <Disc className="w-12 h-12 text-gray-300 mb-3" />
-                  <h3 className="font-sans font-black text-xl text-black uppercase">Sets em Breve</h3>
+                  <h3 className="font-black text-xl text-black uppercase">Sets em Breve</h3>
                   <p className="text-black/50 text-sm mt-1">Novos sets sendo processados na nossa base.</p>
                 </div>
               )}
@@ -170,6 +172,7 @@ export function MusicSection() {
                           src={playlist.coverImage}
                           alt={t(playlist.title)}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                          onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x400/111/444?text=Playlist'; e.currentTarget.onerror = null; }}
                         />
                       ) : (
                         <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center">
@@ -179,7 +182,7 @@ export function MusicSection() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                       
                       <div className="absolute bottom-6 left-6 right-6">
-                        <h3 className="font-sans font-black text-white text-3xl mb-1 uppercase">{t(playlist.title)}</h3>
+                        <h3 className="font-black text-white text-3xl mb-1 uppercase">{t(playlist.title)}</h3>
                         <p className="text-[#C2185B] font-bold text-sm tracking-widest">{playlist.tracks.length} TRACKS</p>
                       </div>
                     </div>

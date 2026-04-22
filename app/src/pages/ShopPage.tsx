@@ -98,7 +98,7 @@ export function ShopPage() {
              <div className="w-16 h-16 rounded-full bg-[#E91E8C]/10 flex items-center justify-center mb-6">
                 <ShoppingBag className="w-8 h-8 text-[#E91E8C]" />
              </div>
-             <h1 className="font-sans font-black text-5xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-none mb-4">
+             <h1 className="font-black text-5xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-none mb-4">
                 QM <span className="text-[#E91E8C]">STORE</span>
              </h1>
              <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
@@ -111,7 +111,7 @@ export function ShopPage() {
         {showCart && (
           <div className="mb-12 bg-gray-50 border border-gray-200 rounded-3xl p-6 md:p-8 shadow-xl animate-in fade-in slide-in-from-top-4">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="font-sans font-black text-2xl text-black uppercase">Seu Carrinho</h3>
+              <h3 className="font-black text-2xl text-black uppercase">Seu Carrinho</h3>
               <button 
                 title="Fechar Carrinho"
                 onClick={() => setShowCart(false)} 
@@ -283,7 +283,7 @@ export function ShopPage() {
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none mix-blend-overlay" />
            <div className="relative text-left flex-1">
              <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight mb-2">Envio Grátis</h2>
-             <p className="text-white/90 font-medium text-lg">Em compras acima de R$ 300,00 para todo o Brasil.</p>
+             <p className="text-white/90 font-medium text-lg">Para todo o Brasil.</p>
            </div>
            <button title="Regulamento" className="relative bg-white text-black font-black uppercase tracking-wider px-8 py-4 rounded-none hover:scale-105 transition-transform flex items-center gap-2 shrink-0 shadow-lg">
              Ver Regulamento <ArrowRight className="w-5 h-5" />

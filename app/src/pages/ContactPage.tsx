@@ -35,7 +35,7 @@ export function ContactPage() {
     setIsSubmitting(false);
   };
 
-  const getTitle = (content: any) => typeof content === 'string' ? content : content?.pt || '';
+  const getTitle = (content: string | { pt: string }) => typeof content === 'string' ? content : content?.pt || '';
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
@@ -46,7 +46,7 @@ export function ContactPage() {
           <p className="text-[#E91E8C] text-sm font-bold uppercase tracking-widest mb-3 flex items-center justify-center gap-2">
              <MessageSquare className="w-5 h-5" /> Atendimento Oficial
           </p>
-          <h1 className="font-sans font-black text-5xl sm:text-6xl text-black uppercase tracking-tight leading-none mb-6">
+          <h1 className="font-black text-5xl sm:text-6xl text-black uppercase tracking-tight leading-none mb-6">
             Fale com a <br className="sm:hidden" /> <span className="text-[#E91E8C]">Quero Mais</span>
           </h1>
         </div>

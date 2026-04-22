@@ -188,7 +188,7 @@ export function AdminMusic() {
                       <td className="py-4 text-white/70 capitalize">{dj.category}</td>
                       <td className="py-4 text-white/70">{dj.musicStyle}</td>
                       <td className="py-4 text-center">
-                        <button onClick={() => toggleFeatureDJ(dj)} className={`p-2 rounded-lg transition-colors inline-block ${dj.featured ? 'text-[#E91E8C] bg-[#E91E8C]/10' : 'text-white/20 hover:text-white/60'}`}>
+                        <button title="Destaque" onClick={() => toggleFeatureDJ(dj)} className={`p-2 rounded-lg transition-colors inline-block ${dj.featured ? 'text-[#E91E8C] bg-[#E91E8C]/10' : 'text-white/20 hover:text-white/60'}`}>
                           <Star className={`w-4 h-4 ${dj.featured ? 'fill-current' : ''}`} />
                         </button>
                       </td>
@@ -238,8 +238,8 @@ export function AdminMusic() {
                     <p className="text-[#1DB954] text-xs font-bold uppercase shrink-0 mt-1 flex items-center gap-1">Spotify</p>
                   </div>
                   <div className="flex flex-col gap-2 shrink-0">
-                    <button onClick={() => handleEditPlaylist(pl)} className="text-white/40 hover:text-white bg-white/5 p-2 rounded-lg"><Edit2 className="w-4 h-4" /></button>
-                    <button onClick={() => handleDeletePlaylist(pl.id)} className="text-white/40 hover:text-red-500 bg-white/5 p-2 rounded-lg"><Trash2 className="w-4 h-4" /></button>
+                    <button title="Editar Playlist" onClick={() => handleEditPlaylist(pl)} className="text-white/40 hover:text-white bg-white/5 p-2 rounded-lg"><Edit2 className="w-4 h-4" /></button>
+                    <button title="Excluir Playlist" onClick={() => handleDeletePlaylist(pl.id)} className="text-white/40 hover:text-red-500 bg-white/5 p-2 rounded-lg"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 </div>
               ))}
@@ -256,7 +256,7 @@ export function AdminMusic() {
                activeTab === 'sets' ? (currentSet.id ? 'EDITAR SET' : 'NOVO SET') :
                (currentPlaylist.id ? 'EDITAR PLAYLIST' : 'NOVA PLAYLIST')}
             </h3>
-            <button onClick={closeForm} className="text-white/50 hover:text-white p-2">
+            <button title="Fechar Formulário" onClick={closeForm} className="text-white/50 hover:text-white p-2">
               <X className="w-5 h-5" />
             </button>
           </div>

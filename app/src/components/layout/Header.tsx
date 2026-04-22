@@ -154,48 +154,47 @@ export function Header() {
 
       {/* Drawer mobile */}
       <div
-        className={`fixed top-0 left-0 bottom-0 z-[70] w-[78vw] max-w-[320px] bg-[#111111] border-r border-[#333] shadow-2xl
+        className={`fixed top-0 left-0 bottom-0 z-[70] w-[85vw] max-w-[400px] bg-[#F4F4F4] shadow-2xl
                     flex flex-col transition-transform duration-300 ease-in-out ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
-          <img 
-            src="/LOGOQUEROMAIS_BRANCAMAGENTA.svg" 
-            alt="Quero Mais" 
-            className="h-5 w-auto"
-          />
+        <div className="flex items-start justify-start px-6 pt-10 pb-4">
           <button
             type="button"
             onClick={() => setMenuOpen(false)}
             aria-label="Fechar menu"
-            className="p-1.5 text-white/50 hover:text-white transition-colors rounded-lg hover:bg-white/10"
+            className="text-gray-900 hover:text-gray-600 transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-8 h-8" strokeWidth={1} />
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              onClick={() => setMenuOpen(false)}
-              className="block w-full text-left px-3 py-3 text-sm font-semibold text-white/80 hover:text-[#E91E8C] hover:bg-white/5 rounded-lg transition-all mb-0.5 font-sans"
-            >
-              {t(item.label)}
-            </Link>
-          ))}
+        <nav className="flex-1 overflow-y-auto px-8 py-6 flex flex-col gap-6">
+          {navItems.map((item) => {
+            const isHome = item.href === '/';
+            return (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={() => setMenuOpen(false)}
+                className={`block w-full text-left text-[22px] tracking-tight transition-all font-medium ${
+                  isHome ? 'text-[#3EBC50] font-medium' : 'text-[#222222] hover:text-[#E91E8C]'
+                }`}
+              >
+                {t(item.label)}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="px-4 pb-8 pt-4 border-t border-white/10 space-y-2.5">
+        <div className="px-8 pb-8 pt-4 space-y-2.5">
           <Link
             to="/eventos"
             onClick={() => setMenuOpen(false)}
-            className="flex items-center justify-center gap-2 w-full py-3 bg-[#E91E8C] hover:bg-[#D81B80] text-white rounded-md text-sm font-semibold transition-all font-sans"
+            className="flex items-center justify-center gap-2 w-full py-4 bg-[#E91E8C] hover:bg-[#D81B80] text-white rounded-md text-lg font-bold transition-all uppercase tracking-tight"
           >
             {t({ pt: 'Comprar Ingressos', en: 'Buy Tickets', es: 'Comprar Entradas' })}
-            <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
