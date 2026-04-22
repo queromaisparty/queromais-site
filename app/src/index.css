@@ -56,9 +56,13 @@
     --sidebar-border: 0 0% 15%;
     --sidebar-ring: 98 52% 52%;
 
-    /* === TOKENS QM ESPECÃFICOS === */
-    --qm-magenta: var(--primary-color);            /* Magenta marca */
-    --qm-magenta-dark: var(--secondary-color);       /* Magenta escuro hover */
+    /* === CORES DINÂMICAS — valores iniciais (sobrescritos pelo Supabase) === */
+    --primary-color: #E91E8C;       /* Rosa Quero Mais — padrão antes do Supabase responder */
+    --secondary-color: #D81B80;     /* Rosa escuro hover */
+
+    /* === TOKENS QM ESPECÍFICOS === */
+    --qm-magenta: var(--primary-color, #E91E8C);    /* Magenta marca */
+    --qm-magenta-dark: var(--secondary-color, #D81B80); /* Magenta escuro hover */
     --qm-dark: #0A0A0A;             /* Hero, footer, overlays */
     --qm-charcoal: #3D4246;         /* Blocos institucionais carvão */
     --qm-gray-bg: #F2F2F2;          /* Fundo seção Eventos */
