@@ -2,7 +2,7 @@ import { Play, Headphones, Disc, ExternalLink, ArrowRight } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 
 export function MusicPage() {
-  const { djs, djSets, playlists } = useData();
+  const { djs, djSets, playlists, siteConfig } = useData();
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
@@ -24,12 +24,19 @@ export function MusicPage() {
             </div>
             
             <div className="flex gap-4">
-              <a href="#" className="flex items-center gap-2 bg-[#1DB954]/10 hover:bg-[#1DB954]/20 text-[#1DB954] border border-[#1DB954]/30 px-4 py-2 rounded-lg font-bold transition-colors shadow-sm">
-                Spotify <ExternalLink className="w-4 h-4" />
-              </a>
-              <a href="#" className="flex items-center gap-2 bg-[#FF5500]/10 hover:bg-[#FF5500]/20 text-[#FF5500] border border-[#FF5500]/30 px-4 py-2 rounded-lg font-bold transition-colors shadow-sm">
-                SoundCloud <ExternalLink className="w-4 h-4" />
-              </a>
+              {siteConfig.socialLinks?.map((link, i) => {
+                if (link.platform.toLowerCase() === 'spotify') return (
+                  <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#1DB954]/10 hover:bg-[#1DB954]/20 text-[#1DB954] border border-[#1DB954]/30 px-4 py-2 rounded-lg font-bold transition-colors shadow-sm">
+                    Spotify <ExternalLink className="w-4 h-4" />
+                  </a>
+                );
+                if (link.platform.toLowerCase() === 'soundcloud') return (
+                  <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#FF5500]/10 hover:bg-[#FF5500]/20 text-[#FF5500] border border-[#FF5500]/30 px-4 py-2 rounded-lg font-bold transition-colors shadow-sm">
+                    SoundCloud <ExternalLink className="w-4 h-4" />
+                  </a>
+                );
+                return null;
+              })}
             </div>
           </div>
         </div>
@@ -147,7 +154,7 @@ export function MusicPage() {
                         <h4 className="text-black font-bold uppercase group-hover:text-[#E91E8C] transition-colors">
                           {dj.name}
                         </h4>
-                        <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{'Open Format'}</p>
+                        <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{dj.musicStyle || 'Open Format'}</p>
                       </div>
                       <button className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-[#E91E8C] flex items-center justify-center transition-colors">
                         <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white" />

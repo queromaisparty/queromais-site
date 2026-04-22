@@ -47,6 +47,9 @@ interface DataContextType {
   addDJSet: (set: Omit<DJSet, 'id' | 'createdAt'>) => void;
   updateDJSet: (id: string, set: Partial<DJSet>) => void;
   deleteDJSet: (id: string) => void;
+  addPlaylist: (playlist: Omit<Playlist, 'id' | 'createdAt'>) => void;
+  updatePlaylist: (id: string, playlist: Partial<Playlist>) => void;
+  deletePlaylist: (id: string) => void;
   
   // Galeria
   galleryAlbums: GalleryAlbum[];
@@ -272,7 +275,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const crudEvents = useOptimisticCRUD('events', setEvents);
   const crudDjs = useOptimisticCRUD('djs', setDJs);
   const crudDjSets = useOptimisticCRUD('dj_sets', setDJSets);
-  // const crudPlaylists = useOptimisticCRUD('playlists', setPlaylists);
+  const crudPlaylists = useOptimisticCRUD('playlists', setPlaylists);
   const crudGallery = useOptimisticCRUD('gallery_albums', setGalleryAlbums);
   const crudProducts = useOptimisticCRUD('products', setProducts);
   // const crudTickets = useOptimisticCRUD('tickets', setTickets);
@@ -331,7 +334,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       events, addEvent: crudEvents.add, updateEvent: crudEvents.update, deleteEvent: crudEvents.del, getFeaturedEvents, getUpcomingEvents,
       ficaMaisParty, updateFicaMaisParty,
       storytelling, updateStorytelling,
-      djs, djSets, playlists, addDJ: crudDjs.add, updateDJ: crudDjs.update, deleteDJ: crudDjs.del, addDJSet: crudDjSets.add, updateDJSet: crudDjSets.update, deleteDJSet: crudDjSets.del,
+      djs, djSets, playlists, addDJ: crudDjs.add, updateDJ: crudDjs.update, deleteDJ: crudDjs.del, addDJSet: crudDjSets.add, updateDJSet: crudDjSets.update, deleteDJSet: crudDjSets.del, addPlaylist: crudPlaylists.add, updatePlaylist: crudPlaylists.update, deletePlaylist: crudPlaylists.del,
       galleryAlbums, addGalleryAlbum: crudGallery.add, updateGalleryAlbum: crudGallery.update, deleteGalleryAlbum: crudGallery.del,
       products, tickets, addProduct: crudProducts.add, updateProduct: crudProducts.update, deleteProduct: crudProducts.del,
       faqs, addFAQ: crudFaqs.add, updateFAQ: crudFaqs.update, deleteFAQ: crudFaqs.del,

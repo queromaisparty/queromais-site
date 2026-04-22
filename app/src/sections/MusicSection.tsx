@@ -94,18 +94,11 @@ export function MusicSection() {
                   </div>
                 ))
               ) : (
-                /* MOCK DJs */
-                ['DJ Alpha', 'DJ Beta', 'DJ Gamma', 'DJ Delta'].map((name, i) => (
-                  <div key={i} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
-                    <div className="aspect-square bg-gray-200 flex items-center justify-center overflow-hidden">
-                      <Headphones className="w-16 h-16 text-gray-400 group-hover:scale-110 transition-transform duration-500" />
-                    </div>
-                    <div className="p-6">
-                      <h3 className="font-sans font-black text-xl text-black mb-1 uppercase">{name}</h3>
-                      <p className="text-[#C2185B] font-bold text-sm uppercase">House / Techno</p>
-                    </div>
-                  </div>
-                ))
+                <div className="col-span-full py-12 text-center flex flex-col items-center justify-center bg-[#F2F2F2] rounded-none border border-dashed border-gray-300">
+                  <Headphones className="w-12 h-12 text-gray-300 mb-3" />
+                  <h3 className="font-sans font-black text-xl text-black uppercase">Cast em Breve</h3>
+                  <p className="text-black/50 text-sm mt-1">Nosso catálogo de residentes está sendo atualizado.</p>
+                </div>
               )}
             </div>
           )}
@@ -156,23 +149,11 @@ export function MusicSection() {
                   </div>
                 ))
               ) : (
-                /* MOCK SETS */
-                ['Live Set @ Quero Mais 2024', 'Summer Vibes Mix', 'Underground Sessions'].map((title, i) => (
-                  <div key={i} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
-                    <div className="relative aspect-video bg-gray-200 flex items-center justify-center overflow-hidden">
-                      <Disc className="w-12 h-12 text-gray-400 group-hover:scale-110 transition-transform" />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="w-16 h-16 bg-[#E91E8C] rounded-none flex items-center justify-center hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 text-white ml-1" />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="p-6">
-                      <h3 className="font-sans font-black text-xl text-black mb-1 uppercase">{title}</h3>
-                      <p className="text-[#C2185B] font-bold text-sm">2:30:00</p>
-                    </div>
-                  </div>
-                ))
+                <div className="col-span-full py-12 text-center flex flex-col items-center justify-center bg-[#F2F2F2] rounded-none border border-dashed border-gray-300">
+                  <Disc className="w-12 h-12 text-gray-300 mb-3" />
+                  <h3 className="font-sans font-black text-xl text-black uppercase">Sets em Breve</h3>
+                  <p className="text-black/50 text-sm mt-1">Novos sets sendo processados na nossa base.</p>
+                </div>
               )}
             </div>
           )}
@@ -221,26 +202,11 @@ export function MusicSection() {
                   </div>
                 ))
               ) : (
-                /* MOCK PLAYLISTS */
-                ['Quero Mais Official', 'Pre-Party Vibes', 'After Hours'].map((title, i) => (
-                  <div key={i} className="group bg-[#3D4246] rounded-none overflow-hidden relative">
-                    <div className="relative aspect-square overflow-hidden bg-[#1A1A1A] flex items-center justify-center">
-                      <Music className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                      
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <h3 className="font-sans font-black text-white text-3xl mb-1 uppercase">{title}</h3>
-                        <p className="text-[#C2185B] font-bold text-sm tracking-widest">+50 TRACKS</p>
-                      </div>
-                    </div>
-                    <div className="p-6 absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center">
-                      <button className="inline-flex items-center gap-2 px-6 py-3 bg-[#E91E8C] text-white font-bold rounded-none hover:bg-[#5aa83b] transition-colors uppercase text-sm">
-                        <Play className="w-4 h-4 fill-current" />
-                        {t(translations.buttons.play)}
-                      </button>
-                    </div>
-                  </div>
-                ))
+                <div className="col-span-full py-12 px-6 text-center flex flex-col items-center justify-center bg-[#3D4246] rounded-none border border-dashed border-gray-600">
+                  <Music className="w-12 h-12 text-white/20 mb-3" />
+                  <h3 className="font-sans font-black text-xl text-white uppercase">Playlists Ocultas</h3>
+                  <p className="text-white/50 text-sm mt-1">Ainda não definimos as vibrações oficias da semana.</p>
+                </div>
               )}
             </div>
           )}

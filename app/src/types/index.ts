@@ -176,21 +176,30 @@ export interface Storytelling {
 export interface DJ {
   id: string;
   name: string;
-  bio: TranslatableContent;
+  bio: TranslatableContent; // Texto Curto p/ Cards
+  fullBio?: TranslatableContent; // Bio longa pra página individual se existir
   image: string;
-  resident: boolean;
+  category: 'resident' | 'guest' | 'special';
+  musicStyle: string; // Ex: "Open Format", "Techno"
   socialLinks: SocialLink[];
+  status: 'active' | 'inactive';
+  featured: boolean; // Aparece na Home ou em Destaque
+  orderIndex: number;
+  createdAt: string;
 }
 
 export interface DJSet {
   id: string;
-  djId: string;
+  djId?: string; // Link direto ao DJ do Cast
   title: TranslatableContent;
   description: TranslatableContent;
   coverImage: string;
   audioUrl?: string;
   externalLink?: string;
   playlistUrl?: string;
+  status: 'active' | 'inactive';
+  featured: boolean;
+  orderIndex: number;
   createdAt: string;
 }
 
@@ -201,6 +210,10 @@ export interface Playlist {
   coverImage: string;
   tracks: Track[];
   externalUrl?: string;
+  status: 'active' | 'inactive';
+  featured: boolean;
+  orderIndex: number;
+  createdAt: string;
 }
 
 export interface Track {
