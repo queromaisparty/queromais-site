@@ -26,6 +26,7 @@ import { AdminSobre } from './AdminSobre';
 import { AdminFicaMais } from './AdminFicaMais';
 import { AdminContact } from './AdminContact';
 import { AdminNewsletter } from './AdminNewsletter';
+import { AdminFAQ } from './AdminFAQ';
 
 type AdminSection = 
   | 'dashboard'
@@ -273,7 +274,8 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
           currentSection !== 'storytelling' &&
           currentSection !== 'fica-mais' &&
           currentSection !== 'newsletter' &&
-          currentSection !== 'contact' && (
+          currentSection !== 'contact' &&
+          currentSection !== 'faq' && (
           <div className="p-8">
             <div className="mb-8">
               <h2 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>
@@ -349,6 +351,11 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
           <div className="p-8">
             <AdminGallery />
           </div>
+        )}
+
+        {/* FAQ */}
+        {currentSection === 'faq' && (
+          <AdminFAQ />
         )}
       </main>
     </div>

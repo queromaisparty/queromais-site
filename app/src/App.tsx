@@ -14,6 +14,7 @@ import { MusicPage } from '@/pages/MusicPage';
 import { VoceNaQMPage } from '@/pages/VoceNaQMPage';
 import { ShopPage } from '@/pages/ShopPage';
 import { ContactPage } from '@/pages/ContactPage';
+import { FAQPage } from '@/pages/FAQPage';
 
 import { AdminLogin } from '@/admin/components/AdminLogin';
 import { AdminDashboard } from '@/admin/components/AdminDashboard';
@@ -82,6 +83,7 @@ function App() {
               <Route path="/vocenaqm" element={<VoceNaQMPage />} />
               <Route path="/loja" element={<ShopPage />} />
               <Route path="/contato" element={<ContactPage />} />
+              <Route path="/faq" element={<FAQPage />} />
             </Route>
           </Routes>
         </DataProvider>

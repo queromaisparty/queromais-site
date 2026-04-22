@@ -9,19 +9,6 @@ import { MasonryGrid } from '@/components/gallery/MasonryGrid';
 import { useStaggeredReveal } from '@/hooks/useIntersectionObserver';
 import { EASING, DURATION } from '@/lib/animations';
 
-// Demo images for when no albums exist
-const DEMO_IMAGES = [
-  { id: 'd1', url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&h=800&fit=crop', caption: 'DJ Set', downloadAllowed: false, source: 'url' as const },
-  { id: 'd2', url: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=400&fit=crop', caption: 'Crowd Energy', downloadAllowed: false, source: 'url' as const },
-  { id: 'd3', url: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&h=700&fit=crop', caption: 'Light Show', downloadAllowed: false, source: 'url' as const },
-  { id: 'd4', url: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&h=450&fit=crop', caption: 'Dance Floor', downloadAllowed: false, source: 'url' as const },
-  { id: 'd5', url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=900&fit=crop', caption: 'Festival Vibes', downloadAllowed: false, source: 'url' as const },
-  { id: 'd6', url: 'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=600&h=500&fit=crop', caption: 'Stage Lights', downloadAllowed: false, source: 'url' as const },
-  { id: 'd7', url: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=600&h=600&fit=crop', caption: 'Party Night', downloadAllowed: false, source: 'url' as const },
-  { id: 'd8', url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&h=400&fit=crop', caption: 'Celebration', downloadAllowed: false, source: 'url' as const },
-  { id: 'd9', url: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&h=750&fit=crop', caption: 'Music & Lights', downloadAllowed: false, source: 'url' as const },
-];
-
 export function GallerySection() {
   const { t } = useLanguage();
   const { galleryAlbums } = useData();
@@ -30,10 +17,10 @@ export function GallerySection() {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [showDownloadSearch, setShowDownloadSearch] = useState(false);
 
-  // Flatten all images from albums, or use demo
+  // Flatten all images from albums (no more demo images)
   const allImages = useMemo(() => {
-    const real = galleryAlbums
-      .filter(a => a.status === 'active' || !a.status) // backward compat
+    return galleryAlbums
+      .filter(a => a.status === 'active' || !a.status)
       .flatMap(album =>
         album.images.map(img => ({
           ...img,
@@ -41,7 +28,6 @@ export function GallerySection() {
           albumCategory: album.category || 'all',
         }))
       );
-    return real.length > 0 ? real : DEMO_IMAGES.map(d => ({ ...d, albumTitle: 'Demo', albumCategory: 'all' }));
   }, [galleryAlbums, t]);
 
   // Get unique categories
