@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Camera, Download, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { translations } from '@/lib/translations';
@@ -204,6 +205,19 @@ export function GallerySection() {
           )}
         </div>
       </div>
+
+      {/* Link para página completa */}
+      {allImages.length > 0 && (
+        <div className="flex justify-center mt-12 px-4">
+          <Link
+            to="/vocenaqm"
+            className="flex items-center gap-3 px-8 py-4 bg-[#111] hover:bg-[#E91E8C] transition-colors text-white font-bold rounded-none shadow-lg hover:shadow-xl hover:shadow-[#E91E8C]/20 uppercase text-sm tracking-wider"
+          >
+            <Camera className="w-5 h-5" />
+            {t({ pt: 'Ver Todos os Álbuns', en: 'See All Albums', es: 'Ver Todos los Álbumes' })}
+          </Link>
+        </div>
+      )}
 
       {/* Lightbox */}
       <GalleryLightbox

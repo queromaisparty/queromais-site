@@ -57,13 +57,18 @@ export function MusicSection() {
               {djs.length > 0 ? (
                 djs.map((dj) => (
                   <div key={dj.id} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
-                    <div className="aspect-square overflow-hidden relative">
-                      <img
-                        src={dj.image || `https://placehold.co/400x400/1a1a1a/E91E8C?text=${encodeURIComponent(dj.name?.split(' ').map(w => w[0]).join('') || 'DJ')}`}
-                        alt={dj.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => { e.currentTarget.src = `https://placehold.co/400x400/1a1a1a/E91E8C?text=${encodeURIComponent(dj.name?.split(' ').map(w => w[0]).join('') || 'DJ')}`; e.currentTarget.onerror = null; }}
-                      />
+                    <div className="aspect-square overflow-hidden relative bg-[#1A1A2E]">
+                      {dj.image ? (
+                        <img
+                          src={dj.image}
+                          alt={dj.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1A1A2E] to-[#E91E8C]/20">
+                          <Headphones className="w-16 h-16 text-white/20" />
+                        </div>
+                      )}
                     </div>
                     <div className="p-6">
                       <h3 className="font-black text-xl text-black mb-2 uppercase">{dj.name}</h3>
@@ -110,7 +115,6 @@ export function MusicSection() {
                           src={set.coverImage}
                           alt={t(set.title)}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x225/111/444?text=DJ+Set'; e.currentTarget.onerror = null; }}
                         />
                       ) : (
                         <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -166,7 +170,6 @@ export function MusicSection() {
                           src={playlist.coverImage}
                           alt={t(playlist.title)}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
-                          onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x400/111/444?text=Playlist'; e.currentTarget.onerror = null; }}
                         />
                       ) : (
                         <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center">

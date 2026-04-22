@@ -61,8 +61,12 @@ export function MusicPage() {
             ) : (
               djSets.map(set => (
                 <div key={set.id} className="group flex flex-col sm:flex-row items-center gap-6 border-b border-gray-100 pb-6 mb-6 last:border-0 last:pb-0 last:mb-0 transition-all hover:bg-gray-50 p-4 -mx-4 rounded-xl">
-                      <div className="w-32 h-32 rounded-xl overflow-hidden relative shrink-0">
-                        <img src={set.coverImage} alt={typeof set.title === 'string' ? set.title : set.title.pt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x225/111/444?text=DJ+Set'; e.currentTarget.onerror = null; }} />
+                      <div className="w-32 h-32 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
+                        {set.coverImage ? (
+                          <img src={set.coverImage} alt={typeof set.title === 'string' ? set.title : set.title.pt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-200"><Disc className="w-8 h-8 text-gray-400" /></div>
+                        )}
                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                           <div className="w-10 h-10 rounded-full bg-[#E91E8C] flex items-center justify-center">
                             <Play className="w-4 h-4 text-white ml-1" />
@@ -116,7 +120,11 @@ export function MusicPage() {
             ) : (
               playlists.map((pl, i) => (
                  <a key={pl.id || i} href={pl.externalUrl} target="_blank" rel="noopener noreferrer" className="group overflow-hidden aspect-[4/3] relative block bg-[#111]">
-                      <img src={pl.coverImage} alt={typeof pl.title === 'string' ? pl.title : pl.title.pt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x400/111/444?text=Playlist'; e.currentTarget.onerror = null; }} />
+                      {pl.coverImage ? (
+                        <img src={pl.coverImage} alt={typeof pl.title === 'string' ? pl.title : pl.title.pt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-[#222]"><Headphones className="w-12 h-12 text-white/20" /></div>
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                       <div className="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between">
                         <div>
@@ -158,8 +166,12 @@ export function MusicPage() {
             ) : (
               djs.map(dj => (
                 <div key={dj.id} className="flex items-center gap-4 group cursor-pointer bg-white p-4">
-                  <div className="w-16 h-16 overflow-hidden border-2 border-transparent group-hover:border-[#E91E8C] transition-colors shrink-0 grayscale group-hover:grayscale-0 rounded-full">
-                        <img src={dj.image || `https://placehold.co/200x200/1a1a1a/E91E8C?text=${encodeURIComponent(dj.name?.split(' ').map(w => w[0]).join('') || 'DJ')}`} alt={dj.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = `https://placehold.co/200x200/1a1a1a/E91E8C?text=${encodeURIComponent(dj.name?.split(' ').map(w => w[0]).join('') || 'DJ')}`; e.currentTarget.onerror = null; }} />
+                  <div className="w-16 h-16 overflow-hidden border-2 border-transparent group-hover:border-[#E91E8C] transition-colors shrink-0 grayscale group-hover:grayscale-0 rounded-full bg-gray-200">
+                        {dj.image ? (
+                          <img src={dj.image} alt={dj.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-200 to-[#E91E8C]/20"><Headphones className="w-6 h-6 text-gray-400" /></div>
+                        )}
                       </div>
                       <div className="flex-1">
                         <h4 className="text-black font-bold uppercase group-hover:text-[#E91E8C] transition-colors">
