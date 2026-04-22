@@ -94,6 +94,9 @@ export interface Event {
 // ============================================
 
 export interface FicaMaisParty {
+  heroTitle: TranslatableContent;
+  heroCta: TranslatableContent;
+  heroCtaLink: string;
   showInHome: boolean;
   isActivePage: boolean;
   manifestoCurto: TranslatableContent;

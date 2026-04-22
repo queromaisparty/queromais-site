@@ -108,20 +108,6 @@ export function FicaMaisSection() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-[#E91E8C] mb-1">24h</div>
-                      <div className="text-white/50 text-sm">
-                        {t({ pt: 'De Festa', en: 'Of Party', es: 'De Fiesta' })}
-                      </div>
-                    </div>
-                    <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">∞</div>
-                      <div className="text-white/50 text-sm">
-                        {t({ pt: 'Memórias', en: 'Memories', es: 'Recuerdos' })}
-                      </div>
-                    </div>
-                  </div>
                 </div>
               ) : (
                 <div className="space-y-4">
