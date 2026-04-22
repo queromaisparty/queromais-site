@@ -14,43 +14,28 @@ export function HeroSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Inicia o preload completo só após a página terminar de carregar
-  useEffect(() => {
-    const enableFullPreload = () => {
-      if (videoRef.current) {
-        videoRef.current.preload = 'auto';
-        videoRef.current.load();
-        videoRef.current.pause();
-      }
-    };
-    if (document.readyState === 'complete') {
-      enableFullPreload();
-    } else {
-      window.addEventListener('load', enableFullPreload, { once: true });
-    }
-  }, [isMobile]);
-
   useEffect(() => {
     let animationFrameId: number;
 
     if (videoRef.current) {
+      videoRef.current.load();
       videoRef.current.pause();
     }
 
     const handleScroll = () => {
       if (!containerRef.current || !videoRef.current) return;
-      
+
       const { top, height } = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
+
       const scrollDistance = -top;
       const maxScroll = height - windowHeight;
-      
+
       let progress = scrollDistance / maxScroll;
-      
+
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
-      
+
       if (!isNaN(videoRef.current.duration) && videoRef.current.duration > 0) {
         animationFrameId = requestAnimationFrame(() => {
           if (videoRef.current) {
@@ -61,10 +46,10 @@ export function HeroSection() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     const handleLoadedMetadata = () => handleScroll();
     const currentVideo = videoRef.current;
-    
+
     if (currentVideo) {
       currentVideo.addEventListener('loadedmetadata', handleLoadedMetadata);
     }
@@ -78,7 +63,7 @@ export function HeroSection() {
       }
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, [isMobile]); // Re-run scroll setup if video source changes
+  }, [isMobile]);
 
   return (
     <section ref={containerRef} id="home" className="relative w-full h-[200vh] bg-[#050505]">
@@ -91,7 +76,7 @@ export function HeroSection() {
             className="w-full h-full object-cover object-center max-md:scale-[1.25]"
             muted
             playsInline
-            preload="metadata"
+            preload="auto"
           />
         </div>
       </div>
