@@ -1,5 +1,5 @@
 import { useData } from '@/context/DataContext';
-import { Mail, Download, CheckCircle, XCircle, Users } from 'lucide-react';
+import { Mail, Download, CheckCircle, Users } from 'lucide-react';
 import { toast } from 'sonner';
 
 export function AdminNewsletter() {

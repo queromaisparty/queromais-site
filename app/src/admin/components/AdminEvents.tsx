@@ -301,7 +301,7 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
                         type="button"
                         onClick={() => set({ status: key })}
                         className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-bold transition-all ${
-                          isSelected ? `${cfg.bgClass} ${cfg.borderClass} ${cfg.textClass} shadow-sm ring-1 ring-inset ring-${cfg.colorClass?.split('-')[1]}-100` : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
+                          isSelected ? `${cfg.bgClass} ${cfg.borderClass} ${cfg.textClass} shadow-sm shadow-sm` : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
                         }`}
                       >
                         <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isSelected ? cfg.dotClass : 'bg-slate-300'}`} />

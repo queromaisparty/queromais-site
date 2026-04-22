@@ -81,8 +81,6 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
     { label: { pt: 'DJs', en: 'DJs', es: 'DJs' },                   value: djs.length,          icon: Music,        gradient: 'from-amber-500 to-amber-300' },
   ];
 
-  const devSections: AdminSection[] = ['fica-mais', 'storytelling'];
-
   return (
     <div className="min-h-screen flex bg-slate-50 text-slate-900 font-sans">
       {/* ── MOBILE TOPBAR ─────────────────────────── */}
