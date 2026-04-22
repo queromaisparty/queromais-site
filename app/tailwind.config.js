@@ -61,10 +61,10 @@ module.exports = {
           "text-muted": "#666666",
           border: "#E5E5E5",
         },
-        /* === CORES FIXAS DO ADMIN (nunca mudam) === */
+        /* === CORES DO ADMIN (Acompanha o site público) === */
         admin: {
-          accent: "#E91E8C",
-          "accent-dark": "#D81B80",
+          accent: "var(--primary-color, #E91E8C)",
+          "accent-dark": "var(--secondary-color, #D81B80)",
         },
       },
       fontFamily: {
