@@ -83,7 +83,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                     border: '1px solid #E8E8ED',
                     color: '#1A1A2E',
                   }}
-                  onFocus={e => { (e.target as HTMLElement).style.borderColor = '#E91E8C'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
+                  onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
                   onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; (e.target as HTMLElement).style.boxShadow = 'none'; }}
                 />
               </div>
@@ -104,7 +104,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   required
                   className="w-full pl-10 pr-11 py-2.5 text-sm md:text-base rounded-xl outline-none transition-all"
                   style={{ background: '#F9FAFB', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
-                  onFocus={e => { (e.target as HTMLElement).style.borderColor = '#E91E8C'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
+                  onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
                   onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; (e.target as HTMLElement).style.boxShadow = 'none'; }}
                 />
                 <button

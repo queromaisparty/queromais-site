@@ -252,7 +252,7 @@ export function AdminGallery() {
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div className="max-w-[80%]">
-                        <span className="text-[10px] font-bold uppercase tracking-wider mb-1 block" style={{ color: '#E91E8C' }}>
+                        <span className="text-[10px] font-bold uppercase tracking-wider mb-1 block" style={{ color: 'var(--primary-color, #E91E8C)' }}>
                           {album.category || 'Geral'}
                         </span>
                         <h3 className="font-bold text-base truncate" style={{ color: '#1A1A2E' }}>{album.title}</h3>
@@ -402,7 +402,7 @@ export function AdminGallery() {
           <h3 className="text-base font-bold" style={{ color: '#1A1A2E' }}>
             Repositório de Fotos ({formData.images.length})
           </h3>
-          <span className="text-xs font-bold" style={{ color: '#E91E8C' }}>Uploads e Links</span>
+          <span className="text-xs font-bold" style={{ color: 'var(--primary-color, #E91E8C)' }}>Uploads e Links</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -410,10 +410,10 @@ export function AdminGallery() {
           {/* PAINEL ESQUERDO: UPLOADERS */}
           <div className="space-y-4">
             
-            <div className="p-4 rounded-xl border border-dashed" style={{ borderColor: '#E91E8C', background: '#FDF2F8' }}>
+            <div className="p-4 rounded-xl border border-dashed" style={{ borderColor: 'var(--primary-color, #E91E8C)', background: '#FDF2F8' }}>
               <div className="flex items-center gap-2 mb-2">
-                <Upload className="w-4 h-4" style={{ color: '#E91E8C' }} />
-                <span className="text-sm font-bold" style={{ color: '#E91E8C' }}>Upload Local (Direto do PC)</span>
+                <Upload className="w-4 h-4" style={{ color: 'var(--primary-color, #E91E8C)' }} />
+                <span className="text-sm font-bold" style={{ color: 'var(--primary-color, #E91E8C)' }}>Upload Local (Direto do PC)</span>
               </div>
               <input
                 type="file"

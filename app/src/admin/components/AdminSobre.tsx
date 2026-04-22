@@ -423,7 +423,7 @@ export function AdminSobre() {
       <button
         onClick={onClick}
         className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors"
-        style={{ background: saved ? '#10B981' : '#E91E8C' }}
+        style={{ background: saved ? '#10B981' : 'var(--primary-color, #E91E8C)' }}
       >
         <Save className="w-4 h-4" />
         {saved ? 'Salvo!' : 'Salvar'}
@@ -459,7 +459,7 @@ export function AdminSobre() {
             onClick={() => setActiveTab(tab.id)}
             className="px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors"
             style={{
-              color: activeTab === tab.id ? '#E91E8C' : '#9CA3AF',
+              color: activeTab === tab.id ? 'var(--primary-color, #E91E8C)' : '#9CA3AF',
               borderBottom: activeTab === tab.id ? '2px solid #E91E8C' : '2px solid transparent',
               background: 'transparent',
             }}

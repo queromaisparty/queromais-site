@@ -180,8 +180,8 @@ const defaultSiteConfig: SiteConfig = {
   siteDescription: { pt: 'Experiência Imersiva | Estética | Música', en: 'Immersive Experience | Aesthetics | Music', es: 'Experiencia Inmersiva | Estética | Música' }, 
   logo: '/logo.png', 
   favicon: '/favicon.ico', 
-  primaryColor: '#CCFF00', 
-  secondaryColor: '#8B5CF6', 
+  primaryColor: '#E91E8C', 
+  secondaryColor: '#D81B80', 
   socialLinks: [
     { platform: 'instagram', url: 'https://instagram.com/queromaisparty' },
     { platform: 'facebook', url: 'https://facebook.com/queromaisparty' }

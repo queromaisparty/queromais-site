@@ -69,7 +69,7 @@ function SiteEngine() {
 
     // 2. Atualizar CSS Variables Globais (Variáveis de Cor)
     const root = document.documentElement;
-    root.style.setProperty('--primary-color', siteConfig.primaryColor || '#E91E8C');
+    root.style.setProperty('--primary-color', siteConfig.primaryColor || 'var(--primary-color, #E91E8C)');
     root.style.setProperty('--secondary-color', siteConfig.secondaryColor || '#8B5CF6');
   }, [siteConfig]);
 

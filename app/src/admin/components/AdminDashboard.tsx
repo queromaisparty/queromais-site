@@ -146,13 +146,13 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all text-sm font-medium"
                 style={{
                   background: isActive ? '#FCE7F3' : 'transparent',
-                  color: isActive ? '#E91E8C' : '#6B7280',
+                  color: isActive ? 'var(--primary-color, #E91E8C)' : '#6B7280',
                   borderLeft: isActive ? '3px solid #E91E8C' : '3px solid transparent',
                 }}
                 onMouseEnter={e => {
                   if (!isActive) {
                     (e.currentTarget as HTMLElement).style.background = '#FDF2F8';
-                    (e.currentTarget as HTMLElement).style.color = '#E91E8C';
+                    (e.currentTarget as HTMLElement).style.color = 'var(--primary-color, #E91E8C)';
                   }
                 }}
                 onMouseLeave={e => {
@@ -267,7 +267,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
                       className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                       style={{ background: '#FCE7F3' }}
                     >
-                      <action.icon className="w-4 h-4" style={{ color: '#E91E8C' }} />
+                      <action.icon className="w-4 h-4" style={{ color: 'var(--primary-color, #E91E8C)' }} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>{t(action.label)}</p>
@@ -309,7 +309,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
                 className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center"
                 style={{ background: '#FCE7F3' }}
               >
-                <Settings className="w-8 h-8" style={{ color: '#E91E8C' }} />
+                <Settings className="w-8 h-8" style={{ color: 'var(--primary-color, #E91E8C)' }} />
               </div>
               <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1A2E' }}>
                 {t({ pt: 'Em Desenvolvimento', en: 'Under Development', es: 'En Desarrollo' })}

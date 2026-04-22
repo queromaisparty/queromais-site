@@ -186,11 +186,11 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
         }}
       >
         <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: '#FCE7F3' }}>
-          <ImagePlus className="w-6 h-6" style={{ color: '#E91E8C' }} />
+          <ImagePlus className="w-6 h-6" style={{ color: 'var(--primary-color, #E91E8C)' }} />
         </div>
         <div className="text-center">
           <p className="text-sm font-medium" style={{ color: '#374151' }}>
-            Arraste ou <span style={{ color: '#E91E8C' }}>clique para enviar</span>
+            Arraste ou <span style={{ color: 'var(--primary-color, #E91E8C)' }}>clique para enviar</span>
           </p>
           <p className="text-xs mt-1" style={{ color: '#9CA3AF' }}>JPG · PNG · WebP · max 8MB</p>
           <p className="text-xs" style={{ color: '#D1D5DB' }}>Comprimido automaticamente</p>

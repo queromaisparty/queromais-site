@@ -82,7 +82,7 @@ export function AdminFAQ() {
         <button
           onClick={() => { resetForm(); setShowForm(true); }}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors"
-          style={{ background: '#E91E8C' }}
+          style={{ background: 'var(--primary-color, #E91E8C)' }}
         >
           <Plus className="w-4 h-4" /> Nova Pergunta
         </button>
@@ -159,7 +159,7 @@ export function AdminFAQ() {
             onClick={handleSave}
             disabled={!questionPt.trim()}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors disabled:opacity-50"
-            style={{ background: '#E91E8C' }}
+            style={{ background: 'var(--primary-color, #E91E8C)' }}
           >
             <Save className="w-4 h-4" />
             {editingId ? 'Atualizar' : 'Adicionar'}

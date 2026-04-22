@@ -14,7 +14,7 @@ export function AdminSettings() {
   // ── Identidade ──
   const [siteName, setSiteName] = useState(siteConfig.siteName?.pt || '');
   const [siteDesc, setSiteDesc] = useState(siteConfig.siteDescription?.pt || '');
-  const [primaryColor, setPrimaryColor] = useState(siteConfig.primaryColor || '#E91E8C');
+  const [primaryColor, setPrimaryColor] = useState(siteConfig.primaryColor || 'var(--primary-color, #E91E8C)');
   const [secondaryColor, setSecondaryColor] = useState(siteConfig.secondaryColor || '#8B5CF6');
 
   // ── Contato ──
@@ -48,7 +48,7 @@ export function AdminSettings() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSiteName(siteConfig.siteName?.pt || '');
     setSiteDesc(siteConfig.siteDescription?.pt || '');
-    setPrimaryColor(siteConfig.primaryColor || '#E91E8C');
+    setPrimaryColor(siteConfig.primaryColor || 'var(--primary-color, #E91E8C)');
     setSecondaryColor(siteConfig.secondaryColor || '#8B5CF6');
 
     // Contato
@@ -227,7 +227,7 @@ export function AdminSettings() {
                 <label className="block text-sm font-medium text-gray-600 mb-1">Cor Primária</label>
                 <div className="flex items-center gap-3">
                   <input type="color" value={primaryColor} onChange={e => setPrimaryColor(e.target.value)} className="w-10 h-10 rounded-lg border cursor-pointer" style={{ borderColor: '#E8E8ED' }} title="Cor primária" />
-                  <input type="text" value={primaryColor} onChange={e => setPrimaryColor(e.target.value)} className="flex-1 border rounded-xl px-3 py-2 text-sm font-mono" style={{ borderColor: '#E8E8ED' }} placeholder="#E91E8C" />
+                  <input type="text" value={primaryColor} onChange={e => setPrimaryColor(e.target.value)} className="flex-1 border rounded-xl px-3 py-2 text-sm font-mono" style={{ borderColor: '#E8E8ED' }} placeholder="var(--primary-color)" />
                 </div>
               </div>
               <div>
@@ -282,7 +282,7 @@ export function AdminSettings() {
             onClick={handleSaveIdentity}
             disabled={saving}
             className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold text-sm transition-colors disabled:opacity-50"
-            style={{ background: '#E91E8C' }}
+            style={{ background: 'var(--primary-color, #E91E8C)' }}
           >
             {saving ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
             {saving ? 'Salvo!' : 'Salvar Identidade & Contato'}
@@ -353,7 +353,7 @@ export function AdminSettings() {
             onClick={handleSaveSocial}
             disabled={saving}
             className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold text-sm transition-colors disabled:opacity-50"
-            style={{ background: '#E91E8C' }}
+            style={{ background: 'var(--primary-color, #E91E8C)' }}
           >
             {saving ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
             {saving ? 'Salvo!' : 'Salvar Redes Sociais'}
@@ -403,7 +403,7 @@ export function AdminSettings() {
             onClick={handleSaveSeo}
             disabled={saving}
             className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold text-sm transition-colors disabled:opacity-50"
-            style={{ background: '#E91E8C' }}
+            style={{ background: 'var(--primary-color, #E91E8C)' }}
           >
             {saving ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
             {saving ? 'Salvo!' : 'Salvar SEO'}
@@ -509,7 +509,7 @@ export function AdminSettings() {
             onClick={handleSaveHero}
             disabled={saving}
             className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold text-sm transition-colors disabled:opacity-50"
-            style={{ background: '#E91E8C' }}
+            style={{ background: 'var(--primary-color, #E91E8C)' }}
           >
             {saving ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
             {saving ? 'Salvo!' : 'Salvar Hero'}

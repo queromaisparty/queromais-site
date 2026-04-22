@@ -104,7 +104,7 @@ function Input({
   return (
     <div className={half ? '' : ''}>
       <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: '#6B7280' }}>
-        {label}{required && <span style={{ color: '#E91E8C' }}> *</span>}
+        {label}{required && <span style={{ color: 'var(--primary-color, #E91E8C)' }}> *</span>}
       </label>
       <input
         type={type}
@@ -113,7 +113,7 @@ function Input({
         placeholder={placeholder}
         className="w-full px-3.5 py-2.5 text-sm rounded-xl outline-none transition-all"
         style={{ background: '#F9FAFB', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
-        onFocus={e => { (e.target as HTMLElement).style.borderColor = '#E91E8C'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
+        onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
         onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; (e.target as HTMLElement).style.boxShadow = 'none'; }}
       />
     </div>
@@ -129,7 +129,7 @@ function ListsTab({ eventId, eventTitle, onOpenLists }: { eventId: string; event
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: '#F9A8D4', borderTopColor: '#E91E8C' }} />
+        <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: '#F9A8D4', borderTopColor: 'var(--primary-color, #E91E8C)' }} />
       </div>
     );
   }
@@ -161,7 +161,7 @@ function ListsTab({ eventId, eventTitle, onOpenLists }: { eventId: string; event
           type="button"
           onClick={isActive ? deactivateList : activateList}
           className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-          style={{ background: isActive ? '#E91E8C' : '#E5E7EB' }}
+          style={{ background: isActive ? 'var(--primary-color, #E91E8C)' : '#E5E7EB' }}
         >
           <span
             className="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
@@ -176,7 +176,7 @@ function ListsTab({ eventId, eventTitle, onOpenLists }: { eventId: string; event
             <>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#FCE7F3' }}>
-                  <Users className="w-5 h-5" style={{ color: '#E91E8C' }} />
+                  <Users className="w-5 h-5" style={{ color: 'var(--primary-color, #E91E8C)' }} />
                 </div>
                 <div>
                   <p className="text-xl font-black" style={{ color: '#1A1A2E' }}>{entries.length}</p>
@@ -201,7 +201,7 @@ function ListsTab({ eventId, eventTitle, onOpenLists }: { eventId: string; event
             type="button"
             onClick={onOpenLists}
             className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold transition-all"
-            style={{ border: '1px solid #F9A8D4', color: '#E91E8C', background: 'white' }}
+            style={{ border: '1px solid #F9A8D4', color: 'var(--primary-color, #E91E8C)', background: 'white' }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#FCE7F3'; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'white'; }}
           >
@@ -279,7 +279,7 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
               onClick={() => setTab(t.id)}
               className="flex-1 py-3 text-sm font-medium transition-all"
               style={{
-                color: tab === t.id ? '#E91E8C' : '#9CA3AF',
+                color: tab === t.id ? 'var(--primary-color, #E91E8C)' : '#9CA3AF',
                 borderBottom: tab === t.id ? '2px solid #E91E8C' : '2px solid transparent',
               }}
             >
@@ -343,7 +343,7 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
                   checked={form.featuredHome}
                   onChange={e => set({ featuredHome: e.target.checked })}
                   className="w-4 h-4 rounded"
-                  style={{ accentColor: '#E91E8C' }}
+                  style={{ accentColor: 'var(--primary-color, #E91E8C)' }}
                 />
                 <div>
                   <p className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>Destaque na Home</p>
@@ -372,7 +372,7 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
           {tab === 'lists' && !isEdit && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: '#FDF2F8' }}>
-                <AlertTriangle className="w-6 h-6" style={{ color: '#E91E8C' }} />
+                <AlertTriangle className="w-6 h-6" style={{ color: 'var(--primary-color, #E91E8C)' }} />
               </div>
               <p className="text-sm" style={{ color: '#9CA3AF' }}>Salve o evento primeiro para gerenciar a lista.</p>
             </div>
@@ -459,7 +459,7 @@ function EventCard({ event, onEdit, onDelete, onToggleStatus, onOpenLists }: {
               <span className="truncate">{event.venue}{event.city ? ` · ${event.city}` : ''}</span>
             </div>
             {(event.ticketLinks ?? []).length > 0 && (
-              <div className="flex items-center gap-1.5 text-xs" style={{ color: '#E91E8C' }}>
+              <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--primary-color, #E91E8C)' }}>
                 <ChevronRight className="w-3 h-3 flex-shrink-0" />
                 {event.ticketLinks.length} link{event.ticketLinks.length !== 1 ? 's' : ''} de ingresso
               </div>
@@ -472,7 +472,7 @@ function EventCard({ event, onEdit, onDelete, onToggleStatus, onOpenLists }: {
       <div className="flex items-center gap-1 px-3 py-2" style={{ borderTop: '1px solid #F3F4F6' }}>
         {[
           { label: 'Editar', icon: Pencil, onClick: onEdit, color: '#374151' },
-          { label: 'Listas', icon: Users, onClick: onOpenLists, color: '#E91E8C' },
+          { label: 'Listas', icon: Users, onClick: onOpenLists, color: 'var(--primary-color, #E91E8C)' },
           { label: isActive ? 'Desativar' : 'Ativar', icon: isActive ? EyeOff : Eye, onClick: onToggleStatus, color: '#374151' },
         ].map(({ label, icon: Icon, onClick, color }) => (
           <button
@@ -599,7 +599,7 @@ function EventListsScreen({ event, onBack }: { event: Event; onBack: () => void;
                 placeholder={placeholder}
                 className="px-3 py-2 text-sm rounded-xl outline-none transition-all"
                 style={{ background: '#F9FAFB', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
-                onFocus={e => { (e.target as HTMLElement).style.borderColor = '#E91E8C'; }}
+                onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; }}
                 onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; }}
               />
             ))}
@@ -628,7 +628,7 @@ function EventListsScreen({ event, onBack }: { event: Event; onBack: () => void;
       {/* Tabela */}
       {loading ? (
         <div className="flex justify-center py-10">
-          <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: '#F9A8D4', borderTopColor: '#E91E8C' }} />
+          <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: '#F9A8D4', borderTopColor: 'var(--primary-color, #E91E8C)' }} />
         </div>
       ) : entries.length === 0 ? (
         <div className="text-center py-12">
@@ -759,7 +759,7 @@ export function AdminEvents() {
             placeholder="Buscar por nome, local ou cidade..."
             className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl outline-none transition-all"
             style={{ background: '#FFFFFF', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
-            onFocus={e => { (e.target as HTMLElement).style.borderColor = '#E91E8C'; }}
+            onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; }}
             onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; }}
           />
         </div>
@@ -771,7 +771,7 @@ export function AdminEvents() {
               className="px-3 py-2 rounded-xl text-xs font-semibold transition-all"
               style={{
                 background: filter === f.id ? '#FCE7F3' : '#FFFFFF',
-                color: filter === f.id ? '#E91E8C' : '#9CA3AF',
+                color: filter === f.id ? 'var(--primary-color, #E91E8C)' : '#9CA3AF',
                 border: `1px solid ${filter === f.id ? '#FBCFE8' : '#E8E8ED'}`,
               }}
             >
