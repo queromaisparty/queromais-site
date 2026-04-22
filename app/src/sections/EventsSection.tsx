@@ -2,6 +2,7 @@ import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
+import { EventListForm } from '@/components/EventListForm';
 
 export function EventsSection() {
   const { t } = useLanguage();
@@ -121,18 +122,11 @@ export function EventsSection() {
                           <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
                           <ChevronRight className="w-4 h-4 ml-2" />
                         </a>
-
-                        <a
-                          href={event.vipUrl && event.vipUrl !== '#' ? event.vipUrl : '#'}
-                          target={event.vipUrl && event.vipUrl !== '#' ? '_blank' : undefined}
-                          rel={event.vipUrl && event.vipUrl !== '#' ? 'noopener noreferrer' : undefined}
-                          className="flex items-center justify-between w-full max-w-[220px] px-5 py-2.5 bg-[#4A4A4A] hover:bg-[#333] text-white rounded-full text-xs font-bold tracking-[0.1em] transition-colors font-sans"
-                        >
-                          <span>{t({ pt: 'Listas', en: 'Guest List', es: 'Listas' })}</span>
-                          <ChevronRight className="w-4 h-4 ml-2" />
-                        </a>
                       </>
                     )}
+
+                    {/* Lista de desconto — aparece se lista ativa no Supabase */}
+                    <EventListForm eventId={event.id} />
                   </div>
 
                 </div>
