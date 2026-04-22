@@ -14,10 +14,7 @@ export function HeroSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Desktop: scroll-controlled video
   useEffect(() => {
-    if (isMobile) return; // Mobile usa autoplay, não scroll
-
     let animationFrameId: number;
 
     if (videoRef.current) {
@@ -68,35 +65,8 @@ export function HeroSection() {
     };
   }, [isMobile]);
 
-  // Mobile: autoplay com loop
-  useEffect(() => {
-    if (!isMobile) return;
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.load();
-    // Mobile browsers exigem que o play seja chamado
-    const playVideo = () => {
-      video.play().catch(() => {
-        // Fallback: se autoplay bloqueado, fica parado no primeiro frame
-        video.currentTime = 0;
-      });
-    };
-
-    video.addEventListener('loadeddata', playVideo);
-    playVideo();
-
-    return () => {
-      video.removeEventListener('loadeddata', playVideo);
-    };
-  }, [isMobile]);
-
   return (
-    <section
-      ref={containerRef}
-      id="home"
-      className={`relative w-full bg-[#050505] ${isMobile ? 'h-screen' : 'h-[200vh]'}`}
-    >
+    <section ref={containerRef} id="home" className="relative w-full h-[200vh] bg-[#050505]">
       {/* Wrapper travado que gruda na tela */}
       <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
@@ -107,7 +77,6 @@ export function HeroSection() {
             muted
             playsInline
             preload="auto"
-            {...(isMobile ? { autoPlay: true, loop: true } : {})}
           />
         </div>
       </div>
