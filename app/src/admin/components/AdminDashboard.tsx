@@ -18,6 +18,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { toast } from 'sonner';
+import { useState } from 'react';
 import { AdminGallery } from './AdminGallery';
 import { AdminEvents } from './AdminEvents';
 import { AdminShop } from './AdminShop';
@@ -27,6 +28,7 @@ import { AdminFicaMais } from './AdminFicaMais';
 import { AdminContact } from './AdminContact';
 import { AdminNewsletter } from './AdminNewsletter';
 import { AdminFAQ } from './AdminFAQ';
+import { AdminSettings } from './AdminSettings';
 
 type AdminSection = 
   | 'dashboard'
@@ -59,6 +61,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
   const { user, logout } = useAuth();
   const { t } = useLanguage();
   const { events, products, galleryAlbums, djs } = useData();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -90,13 +93,33 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
   return (
     <div className="min-h-screen flex" style={{ background: '#F5F5F7' }}>
 
+      {/* ── MOBILE TOPBAR ─────────────────────────── */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-30 h-14 flex items-center px-4 gap-3" style={{ background: '#FFFFFF', borderBottom: '1px solid #E8E8ED' }}>
+        <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 rounded-lg hover:bg-gray-100" aria-label="Menu">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+        <img src="/LOGOQUEROMAIS_PRETA.svg" alt="QM" className="h-4 w-auto" />
+        <span className="text-xs" style={{ color: '#9CA3AF' }}>Admin</span>
+      </div>
+
+      {/* ── SIDEBAR BACKDROP (mobile) ───────────── */}
+      <div
+        onClick={() => setSidebarOpen(false)}
+        className={`fixed inset-0 z-40 bg-black/40 transition-opacity lg:hidden ${
+          sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      />
+
       {/* ── SIDEBAR ─────────────────────────────── */}
       <aside
-        className="w-64 flex-shrink-0 flex flex-col"
+        className={`fixed lg:sticky top-0 left-0 bottom-0 z-50 w-64 flex-shrink-0 flex flex-col transition-transform lg:translate-x-0 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
         style={{
           background: '#FFFFFF',
           borderRight: '1px solid #E8E8ED',
           boxShadow: '2px 0 20px rgba(0,0,0,0.04)',
+          height: '100dvh',
         }}
       >
         {/* Logo */}
@@ -126,7 +149,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
             return (
               <button
                 key={item.id}
-                onClick={() => onSectionChange(item.id as AdminSection)}
+                onClick={() => { onSectionChange(item.id as AdminSection); setSidebarOpen(false); }}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all text-sm font-medium"
                 style={{
                   background: isActive ? '#FCE7F3' : 'transparent',
@@ -181,7 +204,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
       </aside>
 
       {/* ── MAIN CONTENT ─────────────────────────── */}
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto pt-14 lg:pt-0">
 
         {/* DASHBOARD */}
         {currentSection === 'dashboard' && (
@@ -356,6 +379,11 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
         {/* FAQ */}
         {currentSection === 'faq' && (
           <AdminFAQ />
+        )}
+
+        {/* SETTINGS */}
+        {currentSection === 'settings' && (
+          <AdminSettings />
         )}
       </main>
     </div>
