@@ -152,7 +152,7 @@ export function ShopPage() {
                     <span className="text-gray-500 uppercase text-sm font-bold">Total</span>
                     <p className="text-3xl font-black text-black">{formatPrice(cartTotal)}</p>
                   </div>
-                  <button title="Finalizar" onClick={checkoutWhatsApp} className="w-full md:w-auto mt-4 md:mt-0 flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-black uppercase rounded-xl transition-transform hover:scale-105 shadow-lg shadow-green-500/30">
+                  <button title="Finalizar" onClick={checkoutWhatsApp} className="w-full md:w-auto mt-4 md:mt-0 flex items-center justify-center gap-2 px-8 py-4 bg-[#E91E8C] hover:bg-[#D81B80] text-white font-black uppercase rounded-none transition-transform hover:scale-105 shadow-lg">
                     <CreditCard className="w-5 h-5" />
                     Finalizar via WhatsApp
                   </button>
@@ -164,7 +164,7 @@ export function ShopPage() {
 
         {/* Filtros */}
         <div className="flex justify-center mb-12">
-           <div className="inline-flex bg-white border border-gray-200 shadow-sm rounded-full p-1.5 overflow-x-auto max-w-full hide-scrollbar">
+           <div className="inline-flex bg-white border border-gray-200 shadow-sm rounded-none overflow-x-auto max-w-full hide-scrollbar">
              {[
                { id: 'todos', label: 'Todos os Produtos' },
                { id: 'vestuario', label: 'Vestuário' },
@@ -175,8 +175,8 @@ export function ShopPage() {
                  key={cat.id}
                  title={cat.label}
                  onClick={() => setActiveCategory(cat.id as 'todos' | 'vestuario' | 'acessorios' | 'tickets')}
-                 className={`px-6 py-2.5 rounded-full text-sm font-bold uppercase tracking-wider transition-colors whitespace-nowrap ${
-                   activeCategory === cat.id ? 'bg-[#E91E8C] text-white shadow-md' : 'text-gray-500 hover:text-black hover:bg-gray-100'
+                 className={`px-8 py-3 rounded-none text-sm font-bold uppercase tracking-wider transition-colors whitespace-nowrap border-r border-gray-200 last:border-0 ${
+                   activeCategory === cat.id ? 'bg-[#E91E8C] text-white shadow-md' : 'text-gray-500 hover:text-black hover:bg-gray-50'
                  }`}
                >
                  {cat.label}
@@ -190,7 +190,7 @@ export function ShopPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20 animate-in fade-in duration-1000">
              {upcomingEvents.length > 0 ? (
                 upcomingEvents.map((event) => (
-                  <div key={event.id} className="group bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all">
+                  <div key={event.id} className="group bg-white border border-gray-200 rounded-none overflow-hidden shadow-sm hover:shadow-xl transition-all">
                     <div className="aspect-video overflow-hidden bg-gray-100 relative">
                       {event.coverImage ? (
                         <img src={event.coverImage} alt={t(event.title)} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
@@ -202,7 +202,7 @@ export function ShopPage() {
                       <p className="text-[#E91E8C] font-bold text-sm tracking-widest mb-2">{new Date(event.date).toLocaleDateString()}</p>
                       <h3 className="font-sans font-black text-2xl text-black mb-6 uppercase">{t(event.title)}</h3>
                       {event.ticketLink && (
-                        <a href={event.ticketLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-4 bg-black text-white font-black uppercase tracking-wider rounded-xl hover:bg-[#E91E8C] transition-colors">
+                        <a href={event.ticketLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-full py-4 bg-black text-white font-black uppercase tracking-wider rounded-none hover:bg-[#E91E8C] transition-colors">
                           <Ticket className="w-5 h-5" /> COMPRAR INGRESSO
                         </a>
                       )}
@@ -210,7 +210,7 @@ export function ShopPage() {
                   </div>
                 ))
               ) : (
-                <div className="col-span-full py-20 text-center border border-dashed border-gray-200 rounded-3xl">
+                <div className="col-span-full py-20 text-center border border-dashed border-gray-200 rounded-none">
                   <Ticket className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                   <p className="font-bold text-gray-500 uppercase tracking-widest text-lg">Nenhum evento com ingressos à venda.</p>
                 </div>
@@ -219,15 +219,15 @@ export function ShopPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-20 animate-in fade-in duration-1000">
             {filteredProducts.length === 0 ? (
-              <div className="col-span-full py-20 flex flex-col items-center justify-center border border-gray-200 rounded-3xl border-dashed">
+              <div className="col-span-full py-20 flex flex-col items-center justify-center border border-gray-200 rounded-none border-dashed bg-gray-50/50">
                  <ShoppingBag className="w-12 h-12 text-gray-300 mb-4" />
                  <h3 className="text-black font-bold text-xl uppercase mb-2">Sem produtos nesta categoria</h3>
-                 <p className="text-gray-500">Volte mais tarde ou verifique os outros departamentos.</p>
+                 <p className="text-gray-500 text-center">Nossa coleção oficial estará disponível em breve.</p>
               </div>
             ) : (
               filteredProducts.map((product) => (
-                <div key={product.id} className="group flex flex-col h-full">
-                   <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gray-50 mb-4 border border-gray-200 group-hover:border-[#E91E8C]/30 transition-colors shadow-sm group-hover:shadow-lg">
+                <div key={product.id} className="group flex flex-col h-full bg-white border border-gray-200 rounded-none shadow-sm hover:shadow-xl transition-all">
+                   <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 mb-0 border-b border-gray-100 group-hover:border-[#E91E8C]/30 transition-colors">
                       
                       {product.images && product.images[0] ? (
                         <>
@@ -250,25 +250,25 @@ export function ShopPage() {
   
                       {product.status === 'out_of_stock' && (
                         <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] flex items-center justify-center">
-                           <span className="bg-white border border-gray-300 text-black shadow-sm text-sm font-black uppercase tracking-widest px-6 py-2 rounded-full transform -rotate-12">
+                           <span className="bg-white border border-gray-300 text-black shadow-sm text-sm font-black uppercase tracking-widest px-6 py-2 rounded-none transform -rotate-12">
                              Esgotado
                            </span>
                         </div>
                       )}
   
                       {product.status !== 'out_of_stock' && (
-                        <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                          <button title="Comprar" onClick={() => addToCart(product)} className="w-full bg-[#E91E8C] text-white font-bold uppercase text-xs tracking-wider py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-[#D81B80] transition-colors shadow-lg shadow-[#E91E8C]/20">
-                            <ShoppingCart className="w-4 h-4" /> Comprar
+                        <div className="absolute inset-x-0 bottom-0 p-0 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                          <button title="Comprar" onClick={() => addToCart(product)} className="w-full bg-[#E91E8C] text-white font-bold uppercase text-xs tracking-wider py-4 rounded-none flex items-center justify-center gap-2 hover:bg-[#D81B80] transition-colors">
+                            <ShoppingCart className="w-4 h-4" /> Adicionar ao Carrinho
                           </button>
                         </div>
                       )}
                    </div>
   
-                   <div className="flex flex-col flex-1">
+                   <div className="flex flex-col flex-1 p-5">
                      <h3 className="text-black font-bold text-lg mb-1 group-hover:text-[#E91E8C] transition-colors line-clamp-1">{t(product.name)}</h3>
                      <div className="flex items-center justify-between mt-auto">
-                       <span className={`font-semibold ${product.status === 'out_of_stock' ? 'text-gray-400 line-through' : 'text-gray-700'}`}>{formatPrice(product.price)}</span>
+                       <span className={`font-black tracking-tight ${product.status === 'out_of_stock' ? 'text-gray-400 line-through' : 'text-gray-900'}`}>{formatPrice(product.price)}</span>
                        {product.status !== 'out_of_stock' && <Star className="w-4 h-4 text-[#E91E8C] opacity-0 group-hover:opacity-100 transition-opacity" />}
                      </div>
                    </div>
@@ -279,13 +279,13 @@ export function ShopPage() {
         )}
 
         {/* Promo Bar */}
-        <div className="rounded-3xl bg-gradient-to-r from-[#E91E8C] to-[#D81B80] p-8 sm:p-12 text-center relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-8 shadow-xl mt-20">
+        <div className="rounded-none bg-gradient-to-r from-[#E91E8C] to-[#D81B80] p-8 sm:p-12 text-center relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-8 shadow-xl mt-20">
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none mix-blend-overlay" />
            <div className="relative text-left flex-1">
              <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight mb-2">Envio Grátis</h2>
              <p className="text-white/90 font-medium text-lg">Em compras acima de R$ 300,00 para todo o Brasil.</p>
            </div>
-           <button title="Regulamento" className="relative bg-white text-black font-black uppercase tracking-wider px-8 py-4 rounded-xl hover:scale-105 transition-transform flex items-center gap-2 shrink-0 shadow-lg">
+           <button title="Regulamento" className="relative bg-white text-black font-black uppercase tracking-wider px-8 py-4 rounded-none hover:scale-105 transition-transform flex items-center gap-2 shrink-0 shadow-lg">
              Ver Regulamento <ArrowRight className="w-5 h-5" />
            </button>
         </div>

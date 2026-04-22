@@ -314,7 +314,9 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
 
         {/* LOJA */}
         {currentSection === 'shop' && (
-          <AdminShop />
+          <div className="p-8">
+            <AdminShop />
+          </div>
         )}
 
         {/* MUSIC */}

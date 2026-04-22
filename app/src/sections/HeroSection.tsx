@@ -88,7 +88,7 @@ export function HeroSection() {
           <video
             ref={videoRef}
             src={isMobile ? "/videoversaomobile.mp4" : "/hero-scroll.mp4"}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-center max-md:scale-[1.25]"
             muted
             playsInline
             preload="metadata"

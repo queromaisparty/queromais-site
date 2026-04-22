@@ -28,8 +28,7 @@ export function ShopSection() {
   }, [cart]);
 
   const upcomingEvents = getUpcomingEvents();
-  // Pegar os ativos e os originais disponíveis para Preview na home
-  const activeProducts = products.filter(p => p.status === 'active' || p.stock > 0);
+  const activeProducts = products.filter(p => (p.status === 'active' || p.stock > 0) && p.featured);
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -254,37 +253,13 @@ export function ShopSection() {
                   </div>
                 ))
               ) : (
-                /* MOCK Produtos */
-                [
-                  { name: 'Camiseta Quero Mais', price: 89.90, originalPrice: 119.90 },
-                  { name: 'Boné Official', price: 69.90 },
-                  { name: 'Copo Exclusivo', price: 29.90 },
-                  { name: 'Kit Festa', price: 149.90 },
-                ].map((product, index) => (
-                  <div key={index} className="group bg-[#1A1A1A] rounded-none overflow-hidden hover:bg-[#2A2D30] transition-colors">
-                    <div className="aspect-square bg-white flex items-center justify-center overflow-hidden">
-                      <ShoppingBag className="w-16 h-16 text-[#E5E5E5] group-hover:scale-110 transition-transform duration-500" />
-                    </div>
-                    <div className="p-6">
-                      <h3 className="font-sans font-black text-xl text-white mb-6 uppercase">{product.name}</h3>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-[#C2185B] font-black text-xl">
-                            {formatPrice(product.price)}
-                          </p>
-                          {product.originalPrice && (
-                            <p className="text-white/40 text-xs line-through mt-1">
-                              {formatPrice(product.originalPrice)}
-                            </p>
-                          )}
-                        </div>
-                        <button className="w-12 h-12 bg-white text-black rounded-none flex items-center justify-center hover:bg-[#E91E8C] hover:text-white transition-colors">
-                          <Plus className="w-6 h-6" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))
+                <div className="col-span-full py-16 flex flex-col items-center justify-center border border-white/10 rounded-none border-dashed">
+                  <ShoppingBag className="w-12 h-12 text-white/20 mb-4" />
+                  <h3 className="text-white font-sans font-black text-xl uppercase mb-2">Coleção em Breve</h3>
+                  <p className="text-white/50 text-center max-w-sm">
+                    Nossa linha exclusiva está ganhando forma. Fique ligado para novidades.
+                  </p>
+                </div>
               )}
             </div>
           )}

@@ -274,6 +274,9 @@ export interface Product {
   category: string;
   stock: number;
   status: 'active' | 'inactive' | 'out_of_stock';
+  featured: boolean;
+  externalLink?: string;
+  orderIndex: number;
   createdAt: string;
 }
 

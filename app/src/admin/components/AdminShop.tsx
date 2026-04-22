@@ -1,231 +1,406 @@
-import { useState } from 'react';
-import { ShoppingBag, Search, Plus, Edit2, Trash2, Check, X, Image as ImageIcon } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Edit2, Trash2, Save, X, ShoppingBag, Eye, Store, Link as LinkIcon, Star, Check } from 'lucide-react';
 import { useData } from '@/context/DataContext';
-import { toast } from 'sonner';
 import type { Product } from '@/types';
+import { toast } from 'sonner';
 
 export function AdminShop() {
   const { products, addProduct, updateProduct, deleteProduct } = useData();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-
-  const [formData, setFormData] = useState<Partial<Product>>({
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({
     name: { pt: '', en: '', es: '' },
     description: { pt: '', en: '', es: '' },
-    price: 0,
-    originalPrice: undefined,
-    category: 'vestuario',
     images: [],
+    price: 0,
+    category: 'vestuario',
+    stock: 0,
     status: 'active',
-    stock: 0
+    featured: false,
+    orderIndex: 0
   });
 
-  const categories = [
-    { id: 'vestuario', label: 'Vestuário' },
-    { id: 'acessorios', label: 'Acessórios' },
-    { id: 'tickets', label: 'Copos & Outros' }
-  ];
+  const [imageUrlInput, setImageUrlInput] = useState('');
 
-  const filteredProducts = products.filter(p =>
-    (p.name?.pt || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (p.category || '').toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleEdit = (product: Product) => {
-    setFormData(product);
-    setEditingId(product.id);
-    setShowForm(true);
-  };
-
-  const handleCreate = () => {
-    setFormData({
-      name: { pt: '', en: '', es: '' },
-      description: { pt: '', en: '', es: '' },
-      price: 0,
-      originalPrice: undefined,
-      category: 'vestuario',
-      images: [],
-      status: 'active',
-      stock: 0
-    });
-    setEditingId(null);
-    setShowForm(true);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name?.pt) {
-      toast.error('O nome em português é obrigatório.');
+  const handleSave = () => {
+    if (!currentProduct.name?.pt) {
+      toast.error('O nome do produto em Português é obrigatório');
       return;
     }
-    
-    // Garantir en e es sejam strings vazias se undefined
-    const name = {
-      pt: formData.name.pt,
-      en: formData.name.en || '',
-      es: formData.name.es || ''
-    };
-    
-    const description = {
-      pt: formData.description?.pt || '',
-      en: formData.description?.en || '',
-      es: formData.description?.es || ''
-    };
-    
-    const finalData = { ...formData, name, description };
-    
-    if (editingId) {
-      updateProduct(editingId, finalData as Product);
+    if (!currentProduct.price || currentProduct.price <= 0) {
+      toast.error('O preço é obrigatório e deve ser maior que zero');
+      return;
+    }
+
+    if (currentProduct.id) {
+      updateProduct(currentProduct.id, currentProduct);
       toast.success('Produto atualizado com sucesso!');
     } else {
-      addProduct(finalData as Omit<Product, 'id' | 'createdAt'>);
+      addProduct(currentProduct as Omit<Product, 'id' | 'createdAt'>);
       toast.success('Produto criado com sucesso!');
     }
-    setShowForm(false);
+    
+    setIsEditing(false);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setCurrentProduct({
+      name: { pt: '', en: '', es: '' },
+      description: { pt: '', en: '', es: '' },
+      images: [],
+      price: 0,
+      category: 'vestuario',
+      stock: 0,
+      status: 'active',
+      featured: false,
+      orderIndex: 0
+    });
+    setImageUrlInput('');
+  };
+
+  const handleEdit = (product: Product) => {
+    setCurrentProduct(product);
+    setIsEditing(true);
+  };
+
+  const handleDelete = (id: string) => {
+    if (window.confirm('Tem certeza que deseja excluir este produto?')) {
+      deleteProduct(id);
+      toast.success('Produto excluído com sucesso');
+    }
+  };
+
+  const addImage = () => {
+    if (imageUrlInput.trim()) {
+      setCurrentProduct(prev => ({
+        ...prev,
+        images: [...(prev.images || []), imageUrlInput.trim()]
+      }));
+      setImageUrlInput('');
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setCurrentProduct(prev => ({
+      ...prev,
+      images: prev.images?.filter((_, i) => i !== index)
+    }));
+  };
+
+  const toggleFeatured = (product: Product) => {
+    updateProduct(product.id, { featured: !product.featured });
+    toast.success(`Destaque ${!product.featured ? 'ativado' : 'desativado'}`);
+  };
+
+  const toggleStatus = (product: Product) => {
+    const newStatus = product.status === 'active' ? 'inactive' : 'active';
+    updateProduct(product.id, { status: newStatus });
+    toast.success(`Produto marcado como ${newStatus === 'active' ? 'Ativo' : 'Inativo'}`);
   };
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-start mb-8">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>
-            Loja
+          <h2 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-3">
+            <Store className="w-6 h-6 text-[#E91E8C]" /> Gerenciar Loja
           </h2>
-          <p className="text-sm mt-1" style={{ color: '#9CA3AF' }}>
-            Gerencie os produtos da loja oficial.
-          </p>
+          <p className="text-white/60 mt-1">Controle do catálogo de produtos oficiais.</p>
         </div>
-        <button
-          title="Criar Novo"
-          onClick={handleCreate}
-          className="flex items-center gap-2 px-4 py-2 bg-[#E91E8C] text-white rounded-lg hover:bg-[#D81B80] transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-          <span className="font-medium">Novo Produto</span>
-        </button>
+        {!isEditing && (
+          <button
+            onClick={() => { resetForm(); setIsEditing(true); }}
+            className="flex items-center gap-2 bg-[#E91E8C] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#D81B80] transition-colors"
+          >
+            <Plus className="w-5 h-5" /> Novo Produto
+          </button>
+        )}
       </div>
 
-      <div className="mb-6 relative">
-        <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        <input
-          type="text"
-          title="Buscar"
-          placeholder="Buscar produtos por nome ou categoria..."
-          className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#E91E8C]/20 focus:border-[#E91E8C]"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
-      {showForm ? (
-        <div className="bg-white border text-black border-gray-200 rounded-xl p-6 shadow-sm mb-6">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold">{editingId ? 'Editar Produto' : 'Novo Produto'}</h3>
-            <button title="Fechar" onClick={() => setShowForm(false)} className="p-2 hover:bg-gray-100 rounded-lg"><X className="w-5 h-5 text-gray-500" /></button>
+      {isEditing ? (
+        <div className="bg-[#1A1A1A] p-6 rounded-lg border border-white/10">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-bold text-white uppercase">
+              {currentProduct.id ? 'Editar Produto' : 'Novo Produto'}
+            </h3>
+            <button onClick={() => setIsEditing(false)} className="text-white/50 hover:text-white p-2 text-sm uppercase tracking-wider font-bold">
+              Cancelar
+            </button>
           </div>
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium mb-1">Nome (PT)</label>
-                <input required title="Nome PT" type="text" value={formData.name?.pt || ''} onChange={e => setFormData({ ...formData, name: { ...formData.name, pt: e.target.value, en: formData.name?.en||'', es: formData.name?.es||'' } })} className="w-full px-3 py-2 bg-white border border-gray-200 text-black rounded-lg focus:outline-none focus:border-[#E91E8C]" />
+                <label className="block text-sm font-medium text-white/50 mb-2">Nome do Produto (Português)</label>
+                <input
+                  type="text"
+                  value={currentProduct.name?.pt || ''}
+                  onChange={e => setCurrentProduct({ ...currentProduct, name: { ...currentProduct.name!, pt: e.target.value } })}
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors"
+                  placeholder="Ex: Camiseta Quero Mais"
+                />
               </div>
+
               <div>
-                <label className="block text-sm font-medium mb-1">Preço Atual (R$)</label>
-                <input required title="Preço" type="number" step="0.01" value={formData.price || 0} onChange={e => setFormData({ ...formData, price: Number(e.target.value) })} className="w-full px-3 py-2 bg-white border border-gray-200 text-black rounded-lg focus:outline-none focus:border-[#E91E8C]" />
+                <label className="block text-sm font-medium text-white/50 mb-2">Descrição (Português)</label>
+                <textarea
+                  value={currentProduct.description?.pt || ''}
+                  onChange={e => setCurrentProduct({ ...currentProduct, description: { ...currentProduct.description!, pt: e.target.value } })}
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors min-h-[120px]"
+                  placeholder="Descrição completa do produto..."
+                />
               </div>
-              <div className="col-span-full">
-                <label className="block text-sm font-medium mb-1">Descrição Curta (PT)</label>
-                <textarea title="Descrição Curta" rows={2} value={formData.description?.pt || ''} onChange={e => setFormData({ ...formData, description: { ...formData.description, pt: e.target.value, en: formData.description?.en||'', es: formData.description?.es||'' } })} className="w-full px-3 py-2 bg-white border border-gray-200 text-black rounded-lg focus:outline-none focus:border-[#E91E8C] resize-none" />
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white/50 mb-2">Preço (R$)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={currentProduct.price || ''}
+                    onChange={e => setCurrentProduct({ ...currentProduct, price: parseFloat(e.target.value) })}
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/50 mb-2">Preço Antigo (Cortado)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={currentProduct.originalPrice || ''}
+                    onChange={e => setCurrentProduct({ ...currentProduct, originalPrice: parseFloat(e.target.value) })}
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors"
+                    placeholder="Opcional"
+                  />
+                </div>
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-1">Categoria</label>
-                <select title="Categoria" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value as any })} className="w-full px-3 py-2 bg-white border border-gray-200 text-black rounded-lg focus:outline-none focus:border-[#E91E8C]">
-                  {categories.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Status de Disponibilidade</label>
-                <select title="Status" value={formData.status} onChange={e => setFormData({ ...formData, status: e.target.value as any })} className="w-full px-3 py-2 bg-white border border-gray-200 text-black rounded-lg focus:outline-none focus:border-[#E91E8C]">
-                  <option value="active">Ativo (Visível na loja)</option>
-                  <option value="inactive">Inativo (Oculto)</option>
-                  <option value="out_of_stock">Esgotado</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-1">Estoque</label>
-                <input title="Estoque" type="number" value={formData.stock || 0} onChange={e => setFormData({ ...formData, stock: Number(e.target.value) })} className="w-full px-3 py-2 bg-white border border-gray-200 text-black rounded-lg focus:outline-none focus:border-[#E91E8C]" />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-1">Link da Imagem Principal</label>
-                <input title="Imagem" type="url" value={formData.images?.[0] || ''} onChange={e => {
-                  const arr = [...(formData.images || [])];
-                  arr[0] = e.target.value;
-                  setFormData({ ...formData, images: arr });
-                }} className="w-full px-3 py-2 bg-white border border-gray-200 text-black rounded-lg focus:outline-none focus:border-[#E91E8C]" />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-1">Link da Imagem Hover (Secundária)</label>
-                <input title="Imagem Secundária" type="url" value={formData.images?.[1] || ''} onChange={e => {
-                  const arr = [...(formData.images || [])];
-                  arr[1] = e.target.value;
-                  setFormData({ ...formData, images: arr });
-                }} className="w-full px-3 py-2 bg-white border border-gray-200 text-black rounded-lg focus:outline-none focus:border-[#E91E8C]" />
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-white/50 mb-2">Categoria</label>
+                  <select
+                    value={currentProduct.category}
+                    onChange={e => setCurrentProduct({ ...currentProduct, category: e.target.value })}
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors"
+                  >
+                    <option value="vestuario">Vestuário</option>
+                    <option value="acessorios">Acessórios</option>
+                    <option value="tickets">Ingressos Físicos</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/50 mb-2">Estoque (Qtd)</label>
+                  <input
+                    type="number"
+                    value={currentProduct.stock || 0}
+                    onChange={e => setCurrentProduct({ ...currentProduct, stock: parseInt(e.target.value) })}
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors"
+                  />
+                </div>
               </div>
             </div>
-            
-            <div className="flex justify-end gap-3 pt-6 border-t border-gray-100">
-              <button title="Cancelar" type="button" onClick={() => setShowForm(false)} className="px-4 py-2 font-medium text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-                Cancelar
-              </button>
-              <button title="Salvar" type="submit" className="flex items-center gap-2 px-6 py-2 bg-[#E91E8C] text-white font-medium rounded-lg hover:bg-[#D81B80] transition-colors">
-                <Check className="w-4 h-4" />
-                {editingId ? 'Salvar Alterações' : 'Criar Produto'}
-              </button>
+
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-white/50 mb-2">Imagens do Produto (URLs)</label>
+                <div className="flex gap-2 mb-4">
+                  <input
+                    type="url"
+                    value={imageUrlInput}
+                    onChange={e => setImageUrlInput(e.target.value)}
+                    className="flex-1 bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors"
+                    placeholder="https://..."
+                  />
+                  <button
+                    onClick={addImage}
+                    className="px-4 bg-white/[0.05] hover:bg-white/10 text-white rounded-lg transition-colors border border-white/10"
+                  >
+                    Adicionar
+                  </button>
+                </div>
+                {currentProduct.images && currentProduct.images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-3">
+                    {currentProduct.images.map((url, i) => (
+                      <div key={i} className="relative aspect-square rounded-lg overflow-hidden group border border-white/10 bg-black">
+                        <img src={url} alt="" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <button
+                            onClick={() => removeImage(i)}
+                            className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white/50 mb-2">Link Externo (Opcional)</label>
+                <input
+                  type="url"
+                  value={currentProduct.externalLink || ''}
+                  onChange={e => setCurrentProduct({ ...currentProduct, externalLink: e.target.value })}
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors"
+                  placeholder="https://pagseguro..."
+                />
+              </div>
+
+              <div className="pt-4 border-t border-white/10 flex flex-col gap-4">
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-white/[0.02] border border-white/5 rounded-lg hover:bg-white/[0.04] transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={currentProduct.featured}
+                    onChange={e => setCurrentProduct({ ...currentProduct, featured: e.target.checked })}
+                    className="w-5 h-5 accent-[#E91E8C]"
+                  />
+                  <div>
+                    <span className="text-white font-bold block">Destaque na Home</span>
+                    <span className="text-white/50 text-sm">Exibir este produto na seção de resumo (ShopSection).</span>
+                  </div>
+                </label>
+
+                <label className="flex items-center gap-3 cursor-pointer p-4 bg-white/[0.02] border border-white/5 rounded-lg hover:bg-white/[0.04] transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={currentProduct.status === 'active'}
+                    onChange={e => setCurrentProduct({ ...currentProduct, status: e.target.checked ? 'active' : 'inactive' })}
+                    className="w-5 h-5 accent-[#E91E8C]"
+                  />
+                  <div>
+                    <span className="text-white font-bold block">Produto Ativo</span>
+                    <span className="text-white/50 text-sm">Visível publicamente na loja oficial.</span>
+                  </div>
+                </label>
+              </div>
             </div>
-          </form>
+          </div>
+
+          <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-white/10">
+            <button
+              onClick={() => setIsEditing(false)}
+              className="px-6 py-3 rounded-lg font-bold text-white hover:bg-white/5 transition-colors uppercase text-sm tracking-wider"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleSave}
+              className="flex items-center gap-2 bg-[#E91E8C] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#D81B80] transition-colors uppercase text-sm tracking-wider shadow-lg shadow-[#E91E8C]/20"
+            >
+              <Save className="w-5 h-5" /> Salvar Produto
+            </button>
+          </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 text-black">
-          {filteredProducts.map(product => (
-            <div key={product.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
-                <div className="aspect-video bg-gray-50 flex items-center justify-center relative border-b border-gray-100 overflow-hidden">
-                  {product.images && product.images[0] ? (
-                    <img src={product.images[0]} alt={product.name?.pt} className="w-full h-full object-cover" />
-                  ) : (
-                    <ImageIcon className="w-8 h-8 text-gray-300" />
-                  )}
-                  {product.status === 'out_of_stock' && (
-                    <div className="absolute top-2 right-2 bg-black text-white text-[10px] font-bold px-2 py-1 rounded">ESGOTADO</div>
-                  )}
-                  {product.stock > 0 && product.stock <= 5 && (
-                    <div className="absolute top-2 right-2 bg-orange-500 text-white text-[10px] font-bold px-2 py-1 rounded">ULTIMAS PEÇAS</div>
-                  )}
-                </div>
-                <div className="p-5 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <div>
-                      <h4 className="font-bold text-gray-900">{product.name?.pt}</h4>
-                      <p className="text-xs text-gray-500 font-medium">{product.category.toUpperCase()}</p>
-                    </div>
-                  </div>
-                  <p className="font-bold text-[#E91E8C] mt-auto">R$ {product.price?.toFixed(2)}</p>
-                </div>
-                <div className="px-5 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-2">
-                  <button title="Editar" onClick={() => handleEdit(product)} className="p-2 text-gray-500 hover:text-white hover:bg-black rounded-lg transition-colors"><Edit2 className="w-4 h-4" /></button>
-                  <button title="Excluir" onClick={() => { if(window.confirm('Excluir produto?')) deleteProduct(product.id); }} className="p-2 text-red-500 hover:text-white hover:bg-red-500 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
-                </div>
+        <div className="bg-[#1A1A1A] rounded-lg border border-white/10 overflow-hidden">
+          {products.length === 0 ? (
+            <div className="p-12 text-center flex flex-col items-center">
+              <ShoppingBag className="w-16 h-16 text-white/10 mb-4" />
+              <p className="text-white/50 text-lg mb-4">Nenhum produto cadastrado na loja.</p>
+              <button
+                onClick={() => { resetForm(); setIsEditing(true); }}
+                className="bg-white/10 text-white px-6 py-2 rounded-lg hover:bg-white/20 transition-colors uppercase text-sm tracking-wider font-bold"
+              >
+                Cadastrar Primeiro Produto
+              </button>
             </div>
-          ))}
-          {filteredProducts.length === 0 && (
-            <div className="col-span-full py-12 text-center text-gray-500 bg-white border border-dashed border-gray-200 rounded-xl">
-              <ShoppingBag className="w-8 h-8 mx-auto mb-3 opacity-20" />
-              <p>Nenhum produto cadastrado na loja virtual.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead className="bg-[#0A0A0A] border-b border-white/10">
+                  <tr>
+                    <th className="p-4 text-xs tracking-wider text-white/50 uppercase font-bold">Produto</th>
+                    <th className="p-4 text-xs tracking-wider text-white/50 uppercase font-bold">Categoria</th>
+                    <th className="p-4 text-xs tracking-wider text-white/50 uppercase font-bold">Preço</th>
+                    <th className="p-4 text-xs tracking-wider text-white/50 uppercase font-bold text-center">Estoque</th>
+                    <th className="p-4 text-xs tracking-wider text-white/50 uppercase font-bold text-center">Destaque</th>
+                    <th className="p-4 text-xs tracking-wider text-white/50 uppercase font-bold text-center">Status</th>
+                    <th className="p-4 text-xs tracking-wider text-white/50 uppercase font-bold text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {products.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map(product => (
+                    <tr key={product.id} className="hover:bg-white/[0.02] transition-colors group">
+                      <td className="p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-black rounded-md overflow-hidden border border-white/10 shrink-0">
+                            {product.images?.[0] ? (
+                              <img src={product.images[0]} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center"><ShoppingBag className="w-5 h-5 text-white/20" /></div>
+                            )}
+                          </div>
+                          <div>
+                            <span className="font-bold text-white block">{product.name.pt}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-4 text-white/70 capitalize">{product.category}</td>
+                      <td className="p-4 font-bold text-[#E91E8C]">
+                        R$ {product.price.toFixed(2)}
+                      </td>
+                      <td className="p-4 text-center">
+                        <span className={`px-2 py-1 rounded text-xs font-bold ${product.stock > 0 ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
+                          {product.stock}
+                        </span>
+                      </td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={() => toggleFeatured(product)}
+                          className={`p-2 rounded-full transition-colors ${product.featured ? 'text-yellow-400 hover:bg-yellow-400/10' : 'text-white/20 hover:text-white/60 hover:bg-white/5'}`}
+                          title={product.featured ? 'Remover destaque' : 'Destacar na Home'}
+                        >
+                          <Star className="w-5 h-5" fill={product.featured ? 'currentColor' : 'none'} />
+                        </button>
+                      </td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={() => toggleStatus(product)}
+                          className={`flex items-center gap-1 px-3 py-1 text-xs font-bold uppercase rounded-full mx-auto transition-colors ${
+                            product.status === 'active'
+                              ? 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
+                              : 'bg-white/5 text-white/40 hover:bg-white/10'
+                          }`}
+                        >
+                          {product.status === 'active' ? <Check className="w-3 h-3" /> : <X className="w-3 h-3" />}
+                          {product.status === 'active' ? 'Ativo' : 'Inativo'}
+                        </button>
+                      </td>
+                      <td className="p-4">
+                        <div className="flex justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                          {product.externalLink && (
+                            <a 
+                              href={product.externalLink} 
+                              target="_blank" 
+                              rel="noreferrer"
+                              className="p-2 text-white/40 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                              title="Link Externo"
+                            >
+                              <LinkIcon className="w-4 h-4" />
+                            </a>
+                          )}
+                          <button
+                            onClick={() => handleEdit(product)}
+                            className="p-2 text-white/40 hover:text-[#E91E8C] hover:bg-[#E91E8C]/10 rounded-lg transition-colors"
+                            title="Editar"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(product.id)}
+                            className="p-2 text-white/40 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
+                            title="Excluir"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
