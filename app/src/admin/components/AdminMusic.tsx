@@ -1,8 +1,79 @@
-import { useState } from 'react';
-import { Plus, Edit2, Trash2, Save, X, Headphones, Disc, Music, Star } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Plus, Edit2, Trash2, Save, X, Headphones, Disc, Music, Star, Upload, Loader2, Image as ImageIcon } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import type { DJ, DJSet, Playlist } from '@/types';
 import { toast } from 'sonner';
+import { uploadImage } from '@/lib/supabase';
+
+/* ── Componente de Upload reutilizável (tema escuro) ── */
+function ImageUploadField({ label, value, onChange, folder, aspect = 'square' }: {
+  label: string; value: string; onChange: (v: string) => void; folder: string; aspect?: 'square' | 'video';
+}) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadImage(file, folder);
+      onChange(url);
+      toast.success('Imagem enviada!');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro no upload');
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = '';
+    }
+  };
+
+  return (
+    <div>
+      <label className="block text-sm font-medium text-white/50 mb-1">{label}</label>
+      {/* Preview */}
+      {value ? (
+        <div className={`relative ${aspect === 'video' ? 'aspect-video' : 'w-28 h-28'} rounded-lg overflow-hidden border border-white/10 bg-black mb-2`}>
+          <img src={value} alt="Preview" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="absolute top-1 right-1 w-6 h-6 bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
+            title="Remover imagem"
+          >
+            <X className="w-3 h-3" />
+          </button>
+        </div>
+      ) : (
+        <div className={`${aspect === 'video' ? 'aspect-video' : 'w-28 h-28'} rounded-lg border-2 border-dashed border-white/10 flex flex-col items-center justify-center gap-1 bg-black/30 text-white/30 mb-2`}>
+          <ImageIcon className="w-6 h-6" />
+          <span className="text-[10px]">Sem imagem</span>
+        </div>
+      )}
+      {/* URL + Upload button */}
+      <div className="flex gap-2">
+        <input
+          type="url"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          placeholder="Colar URL ou fazer upload..."
+          className="flex-1 bg-[#0A0A0A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-[#E91E8C] outline-none"
+        />
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          disabled={uploading}
+          className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#E91E8C] text-[#E91E8C] text-sm font-semibold hover:bg-[#E91E8C] hover:text-white transition-colors disabled:opacity-50"
+          title="Fazer upload do computador"
+        >
+          {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+          {uploading ? 'Enviando…' : 'Upload'}
+        </button>
+        <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+      </div>
+    </div>
+  );
+}
 
 export function AdminMusic() {
   const { 
@@ -178,7 +249,7 @@ export function AdminMusic() {
                     <tr key={dj.id} className="border-b border-white/5 hover:bg-white/5">
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
-                          <img src={dj.image || 'https://via.placeholder.com/50'} alt={dj.name} className="w-10 h-10 rounded-full object-cover bg-gray-800 shrink-0" />
+                          {dj.image ? <img src={dj.image} alt={dj.name} className="w-10 h-10 rounded-full object-cover bg-gray-800 shrink-0" /> : <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center shrink-0"><Headphones className="w-4 h-4 text-white/30" /></div>}
                           <div>
                             <p className="text-white font-bold">{dj.name}</p>
                             <p className="text-white/50 text-xs">{(dj.socialLinks || []).length} redes</p>
@@ -232,7 +303,7 @@ export function AdminMusic() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {playlists.map(pl => (
                 <div key={pl.id} className="bg-[#1A1A1A] border border-white/10 rounded-xl p-4 flex items-center gap-4">
-                  <img src={pl.coverImage || 'https://via.placeholder.com/100'} className="w-16 h-16 rounded-lg object-cover bg-gray-800 shrink-0" alt="" />
+                  {pl.coverImage ? <img src={pl.coverImage} className="w-16 h-16 rounded-lg object-cover bg-gray-800 shrink-0" alt="" /> : <div className="w-16 h-16 rounded-lg bg-gray-800 flex items-center justify-center shrink-0"><Music className="w-6 h-6 text-white/20" /></div>}
                   <div className="flex-1 min-w-0">
                     <h3 className="text-white font-bold truncate">{pl.title?.pt}</h3>
                     <p className="text-[#1DB954] text-xs font-bold uppercase shrink-0 mt-1 flex items-center gap-1">Spotify</p>
@@ -295,11 +366,13 @@ export function AdminMusic() {
                 </div>
               </div>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-white/50 mb-1">URL da Foto (Quadrado para melhor exibição)</label>
-                  <input type="url" value={currentDJ.image || ''} onChange={e => setCurrentDJ({...currentDJ, image: e.target.value})} placeholder="https://..." className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-2 text-white focus:border-[#E91E8C] outline-none mb-2" />
-                  {currentDJ.image && <img src={currentDJ.image} alt="Preview" className="w-24 h-24 object-cover rounded-lg border border-white/10" />}
-                </div>
+                <ImageUploadField
+                  label="Foto do DJ (Quadrado para melhor exibição)"
+                  value={currentDJ.image || ''}
+                  onChange={v => setCurrentDJ({...currentDJ, image: v})}
+                  folder="djs"
+                  aspect="square"
+                />
                 <div>
                   <label className="block text-sm font-medium text-white/50 mb-1">Link Instagram</label>
                   <input type="url" value={currentDJ.socialLinks?.[0]?.url || ''} onChange={e => setCurrentDJ({...currentDJ, socialLinks: [{platform: 'instagram', url: e.target.value}]})} className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-2 text-white focus:border-[#E91E8C] outline-none" />
@@ -328,11 +401,13 @@ export function AdminMusic() {
                 </div>
               </div>
               <div className="space-y-4">
-                 <div>
-                  <label className="block text-sm font-medium text-white/50 mb-1">URL da Capa do Set (16:9)</label>
-                  <input type="url" value={currentSet.coverImage || ''} onChange={e => setCurrentSet({...currentSet, coverImage: e.target.value})} className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-2 text-white focus:border-[#E91E8C] outline-none mb-2" />
-                  {currentSet.coverImage && <img src={currentSet.coverImage} alt="Preview" className="w-full aspect-video object-cover rounded-lg border border-white/10" />}
-                 </div>
+                 <ImageUploadField
+                  label="Capa do Set (16:9)"
+                  value={currentSet.coverImage || ''}
+                  onChange={v => setCurrentSet({...currentSet, coverImage: v})}
+                  folder="sets"
+                  aspect="video"
+                />
                  <button onClick={handleSaveSet} className="w-full bg-[#E91E8C] text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-[#D81B80]">
                   <Save className="w-5 h-5" /> Salvar Set
                  </button>
@@ -357,11 +432,13 @@ export function AdminMusic() {
                 </div>
               </div>
               <div className="space-y-4">
-                 <div>
-                  <label className="block text-sm font-medium text-white/50 mb-1">Capa da Playlist (Aspect Square)</label>
-                  <input type="url" value={currentPlaylist.coverImage || ''} onChange={e => setCurrentPlaylist({...currentPlaylist, coverImage: e.target.value})} className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-2 text-white focus:border-[#E91E8C] outline-none mb-2" />
-                  {currentPlaylist.coverImage && <img src={currentPlaylist.coverImage} alt="Preview" className="w-32 h-32 object-cover rounded-lg border border-white/10" />}
-                 </div>
+                 <ImageUploadField
+                  label="Capa da Playlist (Quadrado)"
+                  value={currentPlaylist.coverImage || ''}
+                  onChange={v => setCurrentPlaylist({...currentPlaylist, coverImage: v})}
+                  folder="playlists"
+                  aspect="square"
+                />
                  <button onClick={handleSavePlaylist} className="w-full bg-[#E91E8C] text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-[#D81B80] mt-auto">
                    <Save className="w-5 h-5" /> Salvar Playlist
                  </button>

@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { Plus, Edit2, Trash2, Save, X, ShoppingBag, Store, Link as LinkIcon, Star, Check } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Plus, Edit2, Trash2, Save, X, ShoppingBag, Store, Link as LinkIcon, Star, Check, Upload, Loader2 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import type { Product } from '@/types';
 import { toast } from 'sonner';
+import { uploadImage } from '@/lib/supabase';
 
 export function AdminShop() {
   const { products, addProduct, updateProduct, deleteProduct } = useData();
@@ -85,6 +86,29 @@ export function AdminShop() {
       ...prev,
       images: prev.images?.filter((_, i) => i !== index)
     }));
+  };
+
+  // Upload de arquivo real
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadImage(file, 'produtos');
+      setCurrentProduct(prev => ({
+        ...prev,
+        images: [...(prev.images || []), url]
+      }));
+      toast.success('Imagem enviada!');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro no upload');
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
 
   const toggleFeatured = (product: Product) => {
@@ -202,21 +226,33 @@ export function AdminShop() {
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-white/50 mb-2">Imagens do Produto (URLs)</label>
+                <label className="block text-sm font-medium text-white/50 mb-2">Imagens do Produto</label>
                 <div className="flex gap-2 mb-4">
                   <input
                     type="url"
                     value={imageUrlInput}
                     onChange={e => setImageUrlInput(e.target.value)}
                     className="flex-1 bg-[#0A0A0A] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#E91E8C] transition-colors"
-                    placeholder="https://..."
+                    placeholder="Colar URL ou fazer upload..."
                   />
                   <button
                     onClick={addImage}
                     className="px-4 bg-white/[0.05] hover:bg-white/10 text-white rounded-lg transition-colors border border-white/10"
+                    title="Adicionar via URL"
                   >
                     Adicionar
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    className="shrink-0 flex items-center gap-1.5 px-4 py-3 rounded-lg border border-[#E91E8C] text-[#E91E8C] font-semibold hover:bg-[#E91E8C] hover:text-white transition-colors disabled:opacity-50"
+                    title="Fazer upload do computador"
+                  >
+                    {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                    {uploading ? 'Enviando…' : 'Upload'}
+                  </button>
+                  <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
                 </div>
                 {currentProduct.images && currentProduct.images.length > 0 && (
                   <div className="grid grid-cols-3 gap-3">
