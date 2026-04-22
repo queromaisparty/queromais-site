@@ -52,28 +52,15 @@ export function FicaMaisSection() {
                 {/* Main Image Container */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#8B5CF6] to-[#E91E8C] rounded-none rotate-3 opacity-50" />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a2e] to-black rounded-none -rotate-3 overflow-hidden border border-white/10">
-                  {ficaMaisParty?.homeMedia ? (
-                    <img
-                      src={ficaMaisParty.homeMedia}
-                      alt="Fica Mais Party"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center">
-                      <Moon className="w-24 h-24 text-[#8B5CF6] mb-4" />
-                      <Sparkles className="w-12 h-12 text-[#E91E8C]" />
-                    </div>
-                  )}
+                  <img
+                    src={ficaMaisParty?.homeMedia || '/fica-mais-provisoria.jpg'}
+                    alt="Fica Mais Party"
+                    className="w-full h-full object-cover opacity-90"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 </div>
 
-                {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#E91E8C] rounded-none flex items-center justify-center rotate-12 shadow-lg shadow-[#E91E8C]/30">
-                  <Music className="w-10 h-10 text-black" />
-                </div>
-                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#8B5CF6] rounded-none flex items-center justify-center -rotate-12 shadow-lg shadow-[#8B5CF6]/30">
-                  <Sparkles className="w-8 h-8 text-white" />
-                </div>
+                {/* Floating Elements (Removido por solicitação) */}
               </div>
             </div>
 
