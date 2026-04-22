@@ -53,7 +53,7 @@ export function FicaMaisSection() {
                 <div className="absolute inset-0 bg-gradient-to-br from-[#8B5CF6] to-[#E91E8C] rounded-none rotate-3 opacity-50" />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#1a0a2e] to-black rounded-none -rotate-3 overflow-hidden border border-white/10">
                   <img
-                    src={ficaMaisParty?.homeMedia || '/fica-mais-provisoria.jpg'}
+                    src={'/fica-mais-provisoria.jpg'}
                     alt="Fica Mais Party"
                     className="w-full h-full object-cover opacity-90"
                   />
