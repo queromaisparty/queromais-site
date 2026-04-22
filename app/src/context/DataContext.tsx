@@ -135,9 +135,9 @@ const defaultStorytelling: Storytelling = {
   heroTitle: 'VIVA A METAMORFOSE',
   heroTagline: 'Onde cada edição transforma o dia em uma experiência inesquecível.',
   stats: [
-    { label: 'EDIÇÕES', value: '15+' },
-    { label: 'CIDADES', value: '03' },
-    { label: 'PESSOAS', value: '40K+' }
+    { id: 's1', label: 'EDIÇÕES', value: '15+', order: 1 },
+    { id: 's2', label: 'CIDADES', value: '03', order: 2 },
+    { id: 's3', label: 'PESSOAS', value: '40K+', order: 3 }
   ],
   origemTitle: 'Onde o dia se transforma em experiência',
   origemText1: 'Nascida no pulsar do Rio de Janeiro, a Quero Mais Day Party surgiu com um propósito que transcende a música: criar momentos de transformação real.',
