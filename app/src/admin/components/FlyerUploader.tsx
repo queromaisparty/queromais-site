@@ -1,6 +1,6 @@
 /**
- * FlyerUploader.tsx — Tema branco + magenta
- * Compressão automática via Canvas API. Zero dependências externas.
+ * FlyerUploader.tsx
+ * Tema Premium Light: Fundos claros, bordas sutis. Compressão via Canvas.
  */
 import { useRef, useState } from 'react';
 import { ImagePlus, X, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
@@ -94,28 +94,27 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
   if (value && (stage === 'done' || stage === 'idle')) {
     return (
       <div className="space-y-2">
-        <label className="block text-xs font-semibold uppercase tracking-wide" style={{ color: '#6B7280' }}>Flyer do evento</label>
-        <div className="relative rounded-xl overflow-hidden" style={{ border: '1px solid #E8E8ED' }}>
-          <img src={value} alt="Flyer preview" className="w-full max-h-56 object-contain" style={{ background: '#F9FAFB' }} />
+        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Cartaz / Flyer Principal</label>
+        <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-50 group">
+          <img src={value} alt="Flyer preview" className="w-full max-h-64 object-contain brightness-95 group-hover:brightness-105 transition-all" />
+          
           {info && (
-            <div className="absolute bottom-2 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
-              style={{ background: '#D1FAE5', color: '#059669' }}>
-              <CheckCircle2 className="w-3 h-3" />
+            <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm leading-none">
+              <CheckCircle2 className="w-3.5 h-3.5" />
               {info.originalKB}KB → {info.finalKB}KB ({pctSaved}% menor)
             </div>
           )}
-          <div className="absolute top-2 right-2 flex gap-1.5">
+          
+          <div className="absolute top-3 right-3 flex gap-2">
             <button type="button" onClick={() => inputRef.current?.click()}
-              className="p-1.5 rounded-lg transition-all text-xs"
-              style={{ background: 'rgba(255,255,255,0.9)', color: '#374151', border: '1px solid #E8E8ED' }}
-              title="Substituir">
-              <RefreshCw className="w-3.5 h-3.5" />
+              className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/90 backdrop-blur-sm text-slate-700 border border-slate-200 hover:text-admin-accent hover:border-admin-accent hover:bg-white shadow-sm transition-all"
+              title="Trocar Imagem">
+              <RefreshCw className="w-4 h-4" />
             </button>
             <button type="button" onClick={handleRemove}
-              className="p-1.5 rounded-lg transition-all"
-              style={{ background: 'rgba(255,255,255,0.9)', color: '#EF4444', border: '1px solid #FECACA' }}
-              title="Remover">
-              <X className="w-3.5 h-3.5" />
+              className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/90 backdrop-blur-sm text-red-500 border border-red-100 hover:bg-red-500 hover:text-white hover:border-red-500 shadow-sm transition-all"
+              title="Remover Imagem">
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -128,16 +127,15 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
   if (stage === 'reading' || stage === 'compressing') {
     return (
       <div className="space-y-2">
-        <label className="block text-xs font-semibold uppercase tracking-wide" style={{ color: '#6B7280' }}>Flyer do evento</label>
-        <div className="p-6 rounded-xl space-y-3" style={{ background: '#F9FAFB', border: '1px solid #E8E8ED' }}>
-          <p className="text-sm text-center" style={{ color: '#9CA3AF' }}>
-            {stage === 'reading' ? 'Lendo imagem...' : 'Comprimindo...'}
+        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Cartaz / Flyer Principal</label>
+        <div className="p-8 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center justify-center space-y-4 shadow-sm">
+          <p className="text-sm font-semibold text-admin-accent">
+            {stage === 'reading' ? 'Processando imagem...' : 'Otimizando qualidade e peso...'}
           </p>
-          <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: '#E8E8ED' }}>
-            <div className="h-full rounded-full transition-all duration-200"
-              style={{ width: `${progress}%`, background: 'linear-gradient(90deg, #E91E8C, #FF6BB5)' }} />
+          <div className="w-full max-w-[200px] h-2 rounded-full overflow-hidden bg-slate-200">
+            <div className="h-full rounded-full transition-all duration-300 ease-out bg-admin-accent" style={{ width: `${progress}%` }} />
           </div>
-          <p className="text-xs text-center" style={{ color: '#D1D5DB' }}>{progress}%</p>
+          <p className="text-[10px] font-bold text-slate-400 uppercase">{progress}% concluído</p>
         </div>
       </div>
     );
@@ -147,13 +145,14 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
   if (stage === 'error') {
     return (
       <div className="space-y-2">
-        <label className="block text-xs font-semibold uppercase tracking-wide" style={{ color: '#6B7280' }}>Flyer do evento</label>
-        <div className="p-4 rounded-xl flex items-start gap-3" style={{ background: '#FEF2F2', border: '1px solid #FECACA' }}>
-          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#DC2626' }} />
+        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Cartaz / Flyer Principal</label>
+        <div className="p-5 rounded-xl flex items-start gap-3 bg-red-50 border border-red-200 shadow-sm">
+          <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500" />
           <div>
-            <p className="text-sm" style={{ color: '#DC2626' }}>{errorMsg}</p>
+            <p className="text-sm font-bold text-red-600 mb-1">Falha ao processar o flyer</p>
+            <p className="text-xs text-red-500 mb-2">{errorMsg}</p>
             <button type="button" onClick={() => { setStage('idle'); inputRef.current?.click(); }}
-              className="text-xs mt-1 underline transition-colors" style={{ color: '#9CA3AF' }}>
+              className="text-xs font-bold text-red-600 hover:text-red-700 underline transition-colors">
               Tentar novamente
             </button>
           </div>
@@ -166,7 +165,10 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
   // ── Idle ──────────────────────────────────────────
   return (
     <div className="space-y-2">
-      <label className="block text-xs font-semibold uppercase tracking-wide" style={{ color: '#6B7280' }}>Flyer do evento</label>
+      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+        Cartaz / Flyer Principal
+        <span className="ml-1 text-admin-accent normal-case font-medium">*</span>
+      </label>
       <div
         role="button"
         tabIndex={0}
@@ -174,26 +176,19 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
         onKeyDown={e => e.key === 'Enter' && inputRef.current?.click()}
         onDrop={handleDrop}
         onDragOver={e => e.preventDefault()}
-        className="flex flex-col items-center justify-center gap-3 p-8 rounded-xl cursor-pointer transition-all"
-        style={{ border: '2px dashed #E8E8ED', background: '#F9FAFB' }}
-        onMouseEnter={e => {
-          (e.currentTarget as HTMLElement).style.borderColor = '#F9A8D4';
-          (e.currentTarget as HTMLElement).style.background = '#FDF2F8';
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLElement).style.borderColor = '#E8E8ED';
-          (e.currentTarget as HTMLElement).style.background = '#F9FAFB';
-        }}
+        className="flex flex-col items-center justify-center p-10 rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 cursor-pointer transition-all hover:bg-slate-100 hover:border-admin-accent/50 group"
       >
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: '#FCE7F3' }}>
-          <ImagePlus className="w-6 h-6" style={{ color: 'var(--primary-color, #E91E8C)' }} />
+        <div className="w-14 h-14 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+          <ImagePlus className="w-6 h-6 text-slate-400 group-hover:text-admin-accent transition-colors" />
         </div>
         <div className="text-center">
-          <p className="text-sm font-medium" style={{ color: '#374151' }}>
-            Arraste ou <span style={{ color: 'var(--primary-color, #E91E8C)' }}>clique para enviar</span>
+          <p className="text-sm font-bold text-slate-700 mb-1">
+            Arraste ou <span className="text-admin-accent">clique para selecionar</span>
           </p>
-          <p className="text-xs mt-1" style={{ color: '#9CA3AF' }}>JPG · PNG · WebP · max 8MB</p>
-          <p className="text-xs" style={{ color: '#D1D5DB' }}>Comprimido automaticamente</p>
+          <p className="text-xs text-slate-500">JPG, PNG ou WebP (máx. 8MB)</p>
+          <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-slate-200 rounded-full text-[10px] font-bold uppercase tracking-wider text-slate-400 shadow-sm">
+             ⭐ Otimização automática
+          </div>
         </div>
       </div>
       <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleInputChange} />

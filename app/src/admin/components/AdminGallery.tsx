@@ -57,13 +57,13 @@ export function AdminGallery() {
 
   const handleDelete = (id: string) => {
     deleteGalleryAlbum(id);
-    toast.success('Álbum excluído');
+    toast.success('Álbum excluído com sucesso.');
     setDeleteConfirm(null);
   };
 
   const handleToggleStatus = (album: GalleryAlbum) => {
     updateGalleryAlbum(album.id, { status: album.status === 'active' ? 'inactive' : 'active' });
-    toast.success(album.status === 'active' ? 'Álbum ocultado' : 'Álbum publicado');
+    toast.success(album.status === 'active' ? 'Álbum ocultado do site.' : 'Álbum visível no site.');
   };
 
   const [imageUrlInput, setImageUrlInput] = useState('');
@@ -84,7 +84,7 @@ export function AdminGallery() {
   const addFromGDrive = async () => {
     const folderId = extractFolderId(formData.gdriveLink);
     if (!folderId) {
-      toast.error('Link inválido do Google Drive');
+      toast.error('Link de Drive inválido ou formato desconhecido.');
       return;
     }
     
@@ -93,7 +93,7 @@ export function AdminGallery() {
       const gdriveFiles = await listGDriveImages(folderId);
       
       if (gdriveFiles.length === 0) {
-        toast.warning('Nenhuma imagem encontrada na pasta. Verifique se é pública.');
+        toast.warning('Nenhuma imagem acessível encontrada. A pasta está pública?');
         return;
       }
 
@@ -106,9 +106,9 @@ export function AdminGallery() {
       }));
 
       setFormData(prev => ({ ...prev, images: [...prev.images, ...newImages] }));
-      toast.success(`${newImages.length} imagens sincronizadas com sucesso!`);
+      toast.success(`${newImages.length} fotos lidas do Google Drive.`);
     } catch {
-      toast.error('Erro ao sincronizar pasta. Verifique os logs.');
+      toast.error('G-Drive Recusou. API não liberou os arquivos.');
     } finally {
       setIsSyncing(false);
     }
@@ -147,16 +147,15 @@ export function AdminGallery() {
       reader.readAsDataURL(file);
     });
     e.target.value = '';
-    toast.success('Imagens locais anexadas temporariamente');
+    toast.success(`${files.length} fotos prontas para integrar.`);
   };
 
   const handleSave = () => {
     if (!formData.title.trim()) {
-      toast.error('O Título principal é obrigatório');
+      toast.error('Informe um Título para o Álbum.');
       return;
     }
     
-    // Convert to the exact GalleryAlbum omitting readonly stuff
     const albumData: Omit<GalleryAlbum, 'id' | 'createdAt'> = {
       title: formData.title,
       description: formData.description,
@@ -165,134 +164,127 @@ export function AdminGallery() {
       videos: [],
       category: formData.category || undefined,
       order: galleryAlbums.length,
-      featured: false, // Hidden logic
+      featured: false,
       status: formData.status,
     };
 
     if (editingId) {
       updateGalleryAlbum(editingId, albumData);
-      toast.success('Álbum atualizado e salvo');
+      toast.success('Álbum recarregado com as edições.');
     } else {
       addGalleryAlbum(albumData);
-      toast.success('Novo Álbum publicado com sucesso');
+      toast.success('Álbum construído e publicado na nuvem.');
     }
     resetForm();
     setViewMode('list');
   };
 
-  const inputCls = "w-full px-3 py-2 bg-white border border-[#E8E8ED] rounded-lg text-[#1A1A2E] text-sm placeholder:text-[#9CA3AF] focus:border-admin-accent focus:outline-none transition-colors";
-
+  // ─────────────── LIST VIEW ───────────────
   if (viewMode === 'list') {
     return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="p-6 lg:p-10 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+        
+        {/* Superior */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>
-              Você na Quero Mais (Galeria)
-            </h2>
-            <p className="text-sm mt-1" style={{ color: '#9CA3AF' }}>
-              {galleryAlbums.length} Álbuns Cadastrados
+            <h1 className="text-3xl font-black tracking-tight text-slate-900 flex items-center gap-3">
+              <Camera className="w-8 h-8 text-admin-accent" /> Registros e Coberturas
+            </h1>
+            <p className="text-sm font-medium text-slate-500 mt-1">
+               {galleryAlbums.length} Álbuns e Coberturas Fotográficas em seu site.
             </p>
           </div>
           <button
             onClick={handleNew}
-            className="flex items-center gap-2 px-5 py-2.5 bg-admin-accent text-white font-bold rounded-xl hover:bg-admin-accent-dark transition-colors"
+            className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white rounded-xl bg-admin-accent hover:brightness-110 shadow-sm transition-all active:scale-[0.98] whitespace-nowrap"
           >
-            <Plus className="w-4 h-4" />
-            Novo Álbum
+            <Plus className="w-5 h-5" /> Novo Álbum
           </button>
         </div>
 
         {galleryAlbums.length === 0 ? (
-          <div className="rounded-2xl p-12 text-center" style={{ background: '#FFFFFF', border: '1px solid #E8E8ED' }}>
-            <Camera className="w-16 h-16 mx-auto mb-4" style={{ color: '#D1D5DB' }} />
-            <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A2E' }}>Nenhum álbum ainda</h3>
-            <p className="text-sm mb-6 max-w-sm mx-auto" style={{ color: '#9CA3AF' }}>
-              Crie seu primeiro álbum para liberar a prateleira de fotos do público.
+          <div className="flex flex-col items-center justify-center py-24 text-center bg-white rounded-2xl border border-slate-200 border-dashed shadow-sm">
+            <div className="w-20 h-20 rounded-3xl bg-slate-50 flex items-center justify-center mb-5 border border-slate-100 shadow-inner">
+              <Camera className="w-10 h-10 text-slate-300" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Sem Fotos e Álbuns.</h3>
+            <p className="text-sm font-medium text-slate-500 max-w-sm mb-6">
+              Você ainda não liberou os registros do seu público ou evento na plataforma digital.
             </p>
-            <button onClick={handleNew} className="inline-flex items-center gap-2 px-6 py-3 bg-admin-accent text-white font-bold rounded-xl hover:scale-105 transition-transform">
-              <Plus className="w-4 h-4" />
-              Criar Primeiro Álbum
+            <button onClick={handleNew} className="px-8 py-3 bg-admin-accent text-white font-bold text-sm rounded-xl hover:brightness-110 shadow-sm transition-all">
+              Abrir Primeiro Álbum
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {galleryAlbums
               .sort((a, b) => (a.order || 0) - (b.order || 0))
               .map(album => (
                 <div
                   key={album.id}
-                  className="rounded-xl overflow-hidden transition-all group"
-                  style={{
-                    background: '#FFFFFF',
-                    border: `1px solid ${album.status === 'inactive' ? '#F3F4F6' : '#E8E8ED'}`,
-                    opacity: album.status === 'inactive' ? 0.6 : 1,
-                    boxShadow: '0 1px 8px rgba(0,0,0,0.04)',
-                  }}
+                  className={`rounded-2xl overflow-hidden transition-all group flex flex-col bg-white border shadow-sm hover:shadow-md ${
+                    album.status === 'inactive' ? 'border-slate-100 opacity-60 hover:opacity-100 grayscale-[0.2]' : 'border-slate-200'
+                  }`}
                 >
-                  <div className="aspect-[16/10] overflow-hidden relative" style={{ background: '#F9FAFB' }}>
+                  <div className="aspect-[16/10] overflow-hidden relative bg-slate-100 border-b border-slate-100">
                     {album.coverImage ? (
-                      <img src={album.coverImage} alt={album.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={album.coverImage} alt={album.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <ImageIcon className="w-10 h-10" style={{ color: '#D1D5DB' }} />
+                        <ImageIcon className="w-12 h-12 text-slate-300" />
                       </div>
                     )}
-                    <div className="absolute top-2 right-2 flex gap-1.5">
-                      <button
+                    
+                    {/* Botão de Toggle de Visibilidade (Eye) */}
+                    <div className="absolute top-3 right-3 flex gap-2">
+                       <button
                         onClick={() => handleToggleStatus(album)}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center backdrop-blur-md transition-colors"
-                        style={{ background: album.status === 'active' ? 'rgba(16, 185, 129, 0.9)' : 'rgba(0,0,0,0.5)', color: '#FFF' }}
-                        title={album.status === 'active' ? 'Ocultar' : 'Publicar'}
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center backdrop-blur-md transition-colors shadow-sm border ${
+                           album.status === 'active' ? 'bg-emerald-500/90 text-white border-emerald-400' : 'bg-slate-900/60 text-white border-white/20'
+                        }`}
+                        title={album.status === 'active' ? 'Ocultar Álbum (Desativar)' : 'Publicar Álbum (Ativar)'}
                       >
                         {album.status === 'active' ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                       </button>
                     </div>
+                    {/* Tag de Categoria */}
+                    {album.category && (
+                       <div className="absolute bottom-3 left-3 bg-slate-900/60 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded-md text-[10px] font-bold text-white uppercase tracking-wider">
+                         {album.category}
+                       </div>
+                    )}
                   </div>
-                  <div className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="max-w-[80%]">
-                        <span className="text-[10px] font-bold uppercase tracking-wider mb-1 block" style={{ color: 'var(--primary-color, #E91E8C)' }}>
-                          {album.category || 'Geral'}
-                        </span>
-                        <h3 className="font-bold text-base truncate" style={{ color: '#1A1A2E' }}>{album.title}</h3>
-                        <p className="text-xs truncate" style={{ color: '#9CA3AF' }}>{album.description || '-'}</p>
-                      </div>
-                    </div>
+                  
+                  <div className="p-5 flex-1 flex flex-col relative bg-white">
+                     
+                    <h3 className="font-black text-lg text-slate-900 mb-1 leading-tight group-hover:text-admin-accent transition-colors truncate pr-2">{album.title}</h3>
+                    <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed flex-1">{album.description || 'Sem descrição.'}</p>
                     
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="text-xs font-medium" style={{ color: '#6B7280' }}>
-                        {album.images.length} Fotos
+                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-slate-100">
+                      <div className="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                        <ImageIcon className="w-3.5 h-3.5 text-slate-400" />
+                        {album.images.length} Registros
                       </div>
-                      <div className="flex items-center gap-1">
+                      
+                      <div className="flex items-center gap-1.5 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => handleEdit(album)}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
-                          style={{ background: '#F3F4F6', color: '#4B5563' }}
+                          className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white border border-slate-200 text-slate-500 hover:text-admin-accent hover:border-admin-accent shadow-sm"
+                          title="Editar Fotos/Detalhes"
                         >
                           <Edit3 className="w-4 h-4" />
                         </button>
                         
                         {deleteConfirm === album.id ? (
-                          <div className="flex bg-red-50 rounded-lg overflow-hidden border border-red-100">
-                            <button
-                              onClick={() => setDeleteConfirm(null)}
-                              className="px-2 py-1.5 text-xs font-semibold text-gray-500 hover:bg-red-100 transition-colors"
-                            >
-                              Cancelar
-                            </button>
-                            <button
-                              onClick={() => handleDelete(album.id)}
-                              className="px-3 py-1.5 text-xs font-bold text-white bg-red-500 hover:bg-red-600 transition-colors"
-                            >
-                              Sim, excluir
-                            </button>
+                          <div className="flex animate-in fade-in zoom-in duration-200 bg-red-50 rounded-lg overflow-hidden border border-red-200">
+                            <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 text-[10px] font-bold uppercase text-slate-600 bg-white hover:bg-slate-50 transition-colors">Abortar</button>
+                            <button onClick={() => handleDelete(album.id)} className="px-3 py-1 text-[10px] font-bold uppercase text-white bg-red-600 hover:bg-red-700 transition-colors">RIP</button>
                           </div>
                         ) : (
                           <button
                             onClick={() => setDeleteConfirm(album.id)}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-red-50 hover:text-red-500"
-                            style={{ color: '#9CA3AF' }}
+                            className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white border border-slate-200 text-slate-400 hover:bg-red-50 hover:text-red-500 hover:border-red-200 shadow-sm"
+                            title="Apagar Álbum Totalmente"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -310,201 +302,161 @@ export function AdminGallery() {
 
   // ─────────────── FORM VIEW ───────────────
   return (
-    <div className="max-w-4xl space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>
-          {editingId ? 'Editar Álbum' : 'Novo Álbum'}
-        </h2>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setViewMode('list')}
-            className="px-4 py-2 text-sm font-semibold rounded-lg hover:bg-gray-100 transition-colors"
-            style={{ color: '#4B5563' }}
-          >
-            Cancelar
+    <div className="p-6 lg:p-10 max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-2 duration-300">
+      
+      {/* Header Fixo */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div>
+           <p className="text-[10px] font-bold uppercase tracking-wider text-admin-accent mb-1 flex items-center gap-1.5"><Camera className="w-3.5 h-3.5" /> Setor Criativo</p>
+           <h2 className="text-2xl font-black text-slate-900 leading-tight">
+             {editingId ? 'Editando Álbum' : 'Publicar Novo Álbum'}
+           </h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <button onClick={() => setViewMode('list')} className="px-5 py-2.5 text-sm font-bold bg-slate-50 border border-slate-200 text-slate-600 rounded-xl hover:text-slate-900 hover:bg-slate-100 transition-colors shadow-sm">
+            Recuar
           </button>
-          <button
-            onClick={handleSave}
-            className="px-6 py-2 text-sm font-bold bg-admin-accent text-white rounded-lg hover:bg-admin-accent-dark transition-colors"
-          >
-            {editingId ? 'Salvar Alterações' : 'Publicar Álbum'}
+          <button onClick={handleSave} className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold bg-admin-accent text-white rounded-xl hover:brightness-110 transition-all shadow-sm active:scale-[0.98]">
+            <Plus className="w-4 h-4" />
+            {editingId ? 'Salvar Tudo' : 'Publicar'}
           </button>
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl" style={{ border: '1px solid #E8E8ED', boxShadow: '0 1px 12px rgba(0,0,0,0.03)' }}>
-        <h3 className="text-base font-bold mb-4 border-b pb-2" style={{ color: '#1A1A2E', borderColor: '#F3F4F6' }}>
-          Informações Básicas
-        </h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-xs font-semibold mb-1" style={{ color: '#4B5563' }}>Título do Álbum (PT-BR) *</label>
-            <input
-              type="text"
-              value={formData.title}
-              onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
-              placeholder="Ex: Mainstage Quero Mais 2026"
-              className={inputCls}
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-semibold mb-1" style={{ color: '#4B5563' }}>Categoria ou Evento Associado</label>
-            <input
-              type="text"
-              value={formData.category}
-              onChange={e => setFormData(prev => ({ ...prev, category: e.target.value }))}
-              placeholder="Ex: Fica Mais Party"
-              className={inputCls}
-            />
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-xs font-semibold mb-1" style={{ color: '#4B5563' }}>Descrição Curta (Opcional)</label>
-          <input
-            type="text"
-            value={formData.description}
-            onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
-            placeholder="Um breve texto para o álbum"
-            className={inputCls}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-xs font-semibold mb-1" style={{ color: '#4B5563' }}>Status de Visibilidade</label>
-            <select
-              value={formData.status}
-              onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' }))}
-              className={inputCls}
-            >
-              <option value="active">Ativado (Público)</option>
-              <option value="inactive">Desativado (Rascunho / Oculto)</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-semibold mb-1" style={{ color: '#4B5563' }}>URL da Imagem de Capa (Opcional)</label>
-            <input
-              type="text"
-              value={formData.coverImage}
-              onChange={e => setFormData(prev => ({ ...prev, coverImage: e.target.value }))}
-              placeholder="https://..."
-              className={inputCls}
-            />
-            <p className="text-[10px] mt-1" style={{ color: '#9CA3AF' }}>Se vazio, usa a primeira foto do álbum.</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-2xl mt-6" style={{ border: '1px solid #E8E8ED', boxShadow: '0 1px 12px rgba(0,0,0,0.03)' }}>
-        <div className="flex items-center justify-between mb-4 border-b pb-2" style={{ borderColor: '#F3F4F6' }}>
-          <h3 className="text-base font-bold" style={{ color: '#1A1A2E' }}>
-            Repositório de Fotos ({formData.images.length})
+      <div className="space-y-6">
+         {/* Detalhes do Album */}
+        <div className="bg-white p-6 lg:p-8 rounded-2xl border border-slate-200 shadow-sm">
+          <h3 className="text-sm font-black uppercase tracking-wider text-slate-800 mb-6 border-b border-slate-100 pb-3 flex items-center gap-2">
+            Identidade do Álbum
           </h3>
-          <span className="text-xs font-bold" style={{ color: 'var(--primary-color, #E91E8C)' }}>Uploads e Links</span>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Título do Álbum (PT-BR) <span className="text-admin-accent">*</span></label>
+              <input type="text" value={formData.title} onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))} placeholder="Ex: Baile do Havaí 2026" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all placeholder:text-slate-400" />
+            </div>
+            <div>
+               <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Tag / Categoria</label>
+               <input type="text" value={formData.category} onChange={e => setFormData(prev => ({ ...prev, category: e.target.value }))} placeholder="Ex: After, Pool Party..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all placeholder:text-slate-400" />
+            </div>
+          </div>
+
+          <div className="mb-6">
+             <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Release Opcional (Subtítulo)</label>
+             <input type="text" value={formData.description} onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))} placeholder="Texto para gerar expectativa..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all placeholder:text-slate-400" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+               <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Comportamento Geral</label>
+               <select value={formData.status} onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' }))} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm font-bold focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all cursor-pointer">
+                 <option value="active">Roteado ao Público (On)</option>
+                 <option value="inactive">Retido (Off)</option>
+               </select>
+            </div>
+            <div>
+               <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Custom Cover URL (Opcional)</label>
+               <input type="url" value={formData.coverImage} onChange={e => setFormData(prev => ({ ...prev, coverImage: e.target.value }))} placeholder="https://..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all placeholder:text-slate-400" />
+               <p className="text-[10px] font-bold text-slate-400 mt-1.5 pl-1 uppercase tracking-wider">A 1º foto servirá de capa se estiver vazio.</p>
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* PAINEL ESQUERDO: UPLOADERS */}
-          <div className="space-y-4">
-            
-            <div className="p-4 rounded-xl border border-dashed" style={{ borderColor: 'var(--primary-color, #E91E8C)', background: '#FDF2F8' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <Upload className="w-4 h-4" style={{ color: 'var(--primary-color, #E91E8C)' }} />
-                <span className="text-sm font-bold" style={{ color: 'var(--primary-color, #E91E8C)' }}>Upload Local (Direto do PC)</span>
-              </div>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleFileUpload}
-                className="w-full text-xs file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-admin-accent file:text-white hover:file:bg-admin-accent-dark cursor-pointer"
-              />
-            </div>
-            
-            <div className="p-4 rounded-xl" style={{ background: '#F9FAFB', border: '1px solid #E8E8ED' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <Link2 className="w-4 h-4" style={{ color: '#6B7280' }} />
-                <span className="text-sm font-bold" style={{ color: '#4B5563' }}>Adicionar por URL Pública</span>
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="https://sua-imagem.jpg"
-                  className={inputCls}
-                  value={imageUrlInput}
-                  onChange={e => setImageUrlInput(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && addImageByUrl()}
-                />
-                <button onClick={addImageByUrl} className="px-3 bg-gray-200 text-black text-sm rounded-lg hover:bg-gray-300 font-bold">+</button>
-              </div>
-            </div>
+        {/* Gerência de Mídia */}
+        <div className="bg-white p-6 lg:p-8 rounded-2xl border border-slate-200 shadow-sm mt-6">
+           <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-3">
+             <h3 className="text-sm font-black uppercase tracking-wider text-slate-800 flex items-center gap-2">
+               Central de Fotos
+             </h3>
+             <span className="px-3 py-1 bg-pink-50 border border-pink-200 text-admin-accent text-xs font-bold rounded-lg shadow-sm">
+                Volume: {formData.images.length}
+             </span>
+           </div>
 
-            <div className="p-4 rounded-xl" style={{ background: '#F9FAFB', border: '1px solid #E8E8ED' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <FolderOpen className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-bold text-blue-800">Sincronizar Google Drive</span>
-              </div>
-              <div className="flex gap-2 mb-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            
+            {/* PAINEL ESQUERDO: UPLOADERS (FERRAMENTAS) */}
+            <div className="space-y-4">
+              
+              {/* UPLOAD LOCAL DIRETO */}
+              <div className="p-5 rounded-xl border-2 border-dashed bg-slate-50/50 hover:bg-slate-50 transition-colors border-slate-200 hover:border-admin-accent/50 group">
+                <div className="flex items-center gap-2 mb-3">
+                  <Upload className="w-5 h-5 text-admin-accent" />
+                  <span className="text-sm font-bold text-slate-800">Carga Massiva (Do PC)</span>
+                </div>
                 <input
-                  type="text"
-                  placeholder="URL da Pasta do Drive"
-                  className={inputCls}
-                  value={formData.gdriveLink}
-                  onChange={e => setFormData(prev => ({ ...prev, gdriveLink: e.target.value }))}
+                  type="file" multiple accept="image/*" onChange={handleFileUpload}
+                  className="w-full text-xs font-bold file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-admin-accent file:text-white hover:file:brightness-110 cursor-pointer text-slate-500"
                 />
-                <button 
-                  onClick={addFromGDrive} 
-                  disabled={isSyncing}
-                  className={`px-3 ${isSyncing ? 'bg-gray-200 text-gray-500' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'} text-sm rounded-lg font-bold items-center flex`}
-                >
-                  {isSyncing ? 'Lendo...' : 'Sync'}
-                </button>
               </div>
               
-              {extractFolderId(formData.gdriveLink) && (
-                <div className="flex gap-2 border-t pt-2 border-gray-200 mt-2">
-                  <input
-                    type="text"
-                    placeholder="ID ou URL da Imagem exata"
-                    className={inputCls}
-                    value={gdriveFileId}
-                    onChange={e => setGdriveFileId(e.target.value)}
-                  />
-                  <button onClick={addSingleGDriveFile} className="px-3 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 font-bold">+</button>
+              {/* GOOGLE DRIVE SYNC */}
+              <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm relative overflow-hidden">
+                 <div className="absolute top-0 right-0 p-2"><FolderOpen className="w-20 h-20 text-blue-50/50 opacity-50 -rotate-12" /></div>
+                 <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-3">
+                      <FolderOpen className="w-5 h-5 text-blue-600" />
+                      <span className="text-sm font-bold text-slate-900">Sugar de Pasta Google Drive</span>
+                    </div>
+                    <div className="flex gap-2 mb-3">
+                      <input type="text" placeholder="Cole o link da pasta..." className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none text-slate-900 focus:border-blue-500 transition-colors" value={formData.gdriveLink} onChange={e => setFormData(prev => ({ ...prev, gdriveLink: e.target.value }))} />
+                      <button onClick={addFromGDrive} disabled={isSyncing} className={`px-4 flex items-center justify-center rounded-xl text-sm font-bold border transition-colors ${isSyncing ? 'bg-slate-100 text-slate-400 border-slate-200' : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white'}`}>
+                        {isSyncing ? 'Buscando...' : 'SYNC'}
+                      </button>
+                    </div>
+                    {/* Inject Individual */}
+                    {extractFolderId(formData.gdriveLink) && (
+                      <div className="flex gap-2 mt-3 pt-3 border-t border-slate-100 animate-in fade-in zoom-in duration-300">
+                        <input type="text" placeholder="ID da Img / View Link" className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm outline-none text-slate-900 focus:border-blue-500 transition-colors" value={gdriveFileId} onChange={e => setGdriveFileId(e.target.value)} />
+                        <button onClick={addSingleGDriveFile} className="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-xl hover:bg-blue-700 shadow-sm"><Plus className="w-4 h-4" /></button>
+                      </div>
+                    )}
+                 </div>
+              </div>
+
+               {/* INDIVIDUAL URL */}
+              <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <Link2 className="w-5 h-5 text-slate-400" />
+                  <span className="text-sm font-bold text-slate-800">Injeção por URL Web</span>
+                </div>
+                <div className="flex gap-2">
+                  <input type="url" placeholder="https://... .jpg" className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none text-slate-900 focus:border-slate-400 transition-colors" value={imageUrlInput} onChange={e => setImageUrlInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addImageByUrl()} />
+                  <button onClick={addImageByUrl} className="w-11 h-11 shrink-0 bg-slate-800 text-white flex items-center justify-center rounded-xl font-bold hover:bg-admin-accent transition-colors shadow"><Plus className="w-4 h-4" /></button>
+                </div>
+              </div>
+
+            </div>
+
+            {/* PAINEL DIREITO: GRID DE PREVIEW IN-FORM */}
+            <div className="flex flex-col h-full bg-slate-50/50 rounded-2xl border border-slate-100 p-2">
+              {formData.images.length === 0 ? (
+                <div className="flex-1 min-h-[300px] flex flex-col items-center justify-center text-slate-400 p-8 text-center border-2 border-dashed border-slate-200 rounded-xl m-2">
+                  <ImageIcon className="w-12 h-12 mb-3 text-slate-300" />
+                  <span className="text-sm font-bold text-slate-500 mb-1">Aparecerão aqui!</span>
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Jogue suas fotos ao lado.</span>
+                </div>
+              ) : (
+                <div className="flex-1 p-2">
+                   <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar pb-2">
+                    {formData.images.map((img, i) => (
+                      <div key={img.id || i} className="aspect-square relative rounded-xl overflow-hidden group shadow-sm bg-slate-100 border border-slate-200">
+                        <img src={img.url} alt={`IMG_${i}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/40 transition-colors opacity-0 group-hover:opacity-100" />
+                        <button
+                          onClick={() => setFormData(prev => ({ ...prev, images: prev.images.filter(x => x.id !== img.id) }))}
+                          className="absolute top-1.5 right-1.5 w-7 h-7 bg-white/90 backdrop-blur-sm text-red-500 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white border border-red-100/50 shadow-sm"
+                          title="Remover Desse Lote"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
-            
-          </div>
 
-          {/* PAINEL DIREITO: GRID DE PREVIEW */}
-          <div>
-            {formData.images.length === 0 ? (
-              <div className="h-full min-h-[250px] flex flex-col items-center justify-center p-8 rounded-xl border border-dashed border-gray-200 bg-gray-50 text-gray-400">
-                <ImageIcon className="w-10 h-10 mb-2 opacity-50" />
-                <span className="text-sm font-medium">Nenhuma foto no álbum.</span>
-              </div>
-            ) : (
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                {formData.images.map((img, i) => (
-                  <div key={img.id || i} className="aspect-square relative rounded-lg overflow-hidden group border border-gray-200">
-                    <img src={img.url} alt="Foto" className="w-full h-full object-cover" />
-                    <button
-                      onClick={() => setFormData(prev => ({ ...prev, images: prev.images.filter(x => x.id !== img.id) }))}
-                      className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-            <p className="text-right text-xs text-gray-500 mt-2">
-              Total: {formData.images.length} fotos anexadas.
-            </p>
           </div>
         </div>
       </div>

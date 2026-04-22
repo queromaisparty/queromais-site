@@ -1,7 +1,3 @@
-/**
- * AdminEvents.tsx — Módulo de gestão de eventos
- * Tema: branco + magenta (#E91E8C)
- */
 import { useState } from 'react';
 import {
   Plus, Search, Calendar, MapPin, Eye, EyeOff,
@@ -84,10 +80,10 @@ function formToEvent(f: FormData): Omit<Event, 'id' | 'createdAt' | 'updatedAt'>
 }
 
 // ─── Config de status ────────────────────────────────
-const STATUS_CONFIG: Record<EventStatus, { label: string; color: string; bg: string; dot: string }> = {
-  active:    { label: 'Ativo',     color: '#059669', bg: '#D1FAE5',              dot: '#10B981' },
-  inactive:  { label: 'Inativo',   color: '#6B7280', bg: '#F9FAFB',              dot: '#9CA3AF' },
-  sold_out:  { label: 'Esgotado', color: '#7C3AED', bg: '#EDE9FE',              dot: '#8B5CF6' },
+const STATUS_CONFIG: Record<EventStatus, { label: string; textClass: string; bgClass: string; borderClass: string; dotClass: string }> = {
+  active:    { label: 'Ativo',    textClass: 'text-emerald-700', bgClass: 'bg-emerald-50', borderClass: 'border-emerald-200', dotClass: 'bg-emerald-500' },
+  inactive:  { label: 'Inativo',  textClass: 'text-slate-600',   bgClass: 'bg-slate-50',   borderClass: 'border-slate-200',   dotClass: 'bg-slate-400' },
+  sold_out:  { label: 'Esgotado', textClass: 'text-violet-700',  bgClass: 'bg-violet-50',  borderClass: 'border-violet-200',  dotClass: 'bg-violet-500' },
 };
 
 function fmtDate(d: string) {
@@ -96,25 +92,22 @@ function fmtDate(d: string) {
 
 // ── Input padronizado ────────────────────────────────
 function Input({
-  label, value, onChange, placeholder, type = 'text', required, half,
+  label, value, onChange, placeholder, type = 'text', required
 }: {
   label: string; value: string; onChange: (v: string) => void;
-  placeholder?: string; type?: string; required?: boolean; half?: boolean;
+  placeholder?: string; type?: string; required?: boolean;
 }) {
   return (
-    <div className={half ? '' : ''}>
-      <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: '#6B7280' }}>
-        {label}{required && <span style={{ color: 'var(--primary-color, #E91E8C)' }}> *</span>}
+    <div>
+      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">
+        {label}{required && <span className="text-admin-accent ml-1">*</span>}
       </label>
       <input
         type={type}
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-3.5 py-2.5 text-sm rounded-xl outline-none transition-all"
-        style={{ background: '#F9FAFB', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
-        onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}
-        onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; (e.target as HTMLElement).style.boxShadow = 'none'; }}
+        className="w-full px-4 py-2.5 text-sm rounded-lg outline-none transition-all bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20"
       />
     </div>
   );
@@ -129,17 +122,17 @@ function ListsTab({ eventId, eventTitle, onOpenLists }: { eventId: string; event
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: '#F9A8D4', borderTopColor: 'var(--primary-color, #E91E8C)' }} />
+        <div className="w-6 h-6 border-2 border-admin-accent/30 border-t-admin-accent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-4 rounded-xl text-sm" style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#DC2626' }}>
+      <div className="p-4 rounded-xl text-sm bg-red-50 border border-red-200 text-red-600">
         <strong>Erro ao carregar lista:</strong> {error}
-        <p className="mt-1 text-xs" style={{ color: '#991B1B' }}>
-          Verifique se as tabelas <code>events_meta</code> e <code>event_discount_lists</code> foram criadas no Supabase.
+        <p className="mt-1 text-[11px] text-red-500">
+          Verifique se as configurações de banco de dados e APIs do Supabase estão ativas.
         </p>
       </div>
     );
@@ -150,71 +143,66 @@ function ListsTab({ eventId, eventTitle, onOpenLists }: { eventId: string; event
   return (
     <div className="space-y-4">
       {/* Toggle */}
-      <div className="flex items-center justify-between p-4 rounded-xl" style={{ background: '#F9FAFB', border: '1px solid #E8E8ED' }}>
+      <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200">
         <div>
-          <p className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>Lista de desconto</p>
-          <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>
-            {isActive ? `${entries.length} inscrito${entries.length !== 1 ? 's' : ''}` : 'Desativada'}
+          <p className="text-sm font-bold text-slate-900">Lista VIP / Desconto</p>
+          <p className="text-xs mt-0.5 text-slate-500">
+            {isActive ? `${entries.length} inscrito${entries.length !== 1 ? 's' : ''}` : 'Atualmente inativa'}
           </p>
         </div>
         <button
           type="button"
           onClick={isActive ? deactivateList : activateList}
-          className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-          style={{ background: isActive ? 'var(--primary-color, #E91E8C)' : '#E5E7EB' }}
+          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${isActive ? 'bg-admin-accent' : 'bg-slate-300'}`}
         >
           <span
-            className="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
-            style={{ transform: isActive ? 'translateX(24px)' : 'translateX(4px)' }}
+            className={`inline-block h-4 w-4 transform rounded-full bg-white shadow py-0 transition-transform ${isActive ? 'translate-x-6' : 'translate-x-[4px]'}`}
           />
         </button>
       </div>
 
       {isActive && (
-        <div className="p-4 rounded-xl space-y-4" style={{ background: '#FDF2F8', border: '1px solid #FBCFE8' }}>
+        <div className="p-5 rounded-xl space-y-4 bg-pink-50/50 border border-pink-100">
           {entries.length > 0 ? (
             <>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#FCE7F3' }}>
-                  <Users className="w-5 h-5" style={{ color: 'var(--primary-color, #E91E8C)' }} />
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-white shadow-sm border border-pink-100">
+                  <Users className="w-6 h-6 text-admin-accent" />
                 </div>
                 <div>
-                  <p className="text-xl font-black" style={{ color: '#1A1A2E' }}>{entries.length}</p>
-                  <p className="text-xs" style={{ color: '#9CA3AF' }}>inscritos</p>
+                  <p className="text-2xl font-black text-slate-900 leading-tight">{entries.length}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-500">inscritos</p>
                 </div>
               </div>
-              <div className="pt-3" style={{ borderTop: '1px solid #FBCFE8' }}>
-                <p className="text-xs mb-1" style={{ color: '#9CA3AF' }}>Última entrada</p>
-                <p className="text-sm font-medium" style={{ color: '#1A1A2E' }}>
-                  {entries[entries.length - 1]?.name} ·{' '}
+              <div className="pt-4 border-t border-pink-200/50 mt-4">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Última entrada</p>
+                <p className="text-sm font-medium text-slate-700">
+                  <span className="font-bold">{entries[entries.length - 1]?.name}</span> ·{' '}
                   {new Date(entries[entries.length - 1]?.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
             </>
           ) : (
-            <div className="text-center py-4">
-              <Users className="w-8 h-8 mx-auto mb-2" style={{ color: '#F9A8D4' }} />
-              <p className="text-sm" style={{ color: '#9CA3AF' }}>Nenhum inscrito ainda</p>
+            <div className="text-center py-6">
+              <Users className="w-8 h-8 mx-auto mb-3 text-pink-300" />
+              <p className="text-sm font-medium text-slate-500">Nenhum inscrito ainda</p>
             </div>
           )}
           <button
             type="button"
             onClick={onOpenLists}
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold transition-all"
-            style={{ border: '1px solid #F9A8D4', color: 'var(--primary-color, #E91E8C)', background: 'white' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#FCE7F3'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'white'; }}
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-lg text-sm font-bold transition-all bg-white text-admin-accent border border-pink-200 hover:bg-pink-50 shadow-sm"
           >
             <List className="w-4 h-4" />
-            Abrir lista completa
+            Gerenciar Lista Completa
             <ExternalLink className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
 
       {!isActive && (
-        <div className="p-4 rounded-xl text-center" style={{ border: '2px dashed #E8E8ED' }}>
-          <p className="text-sm" style={{ color: '#9CA3AF' }}>Ative a lista para gerenciar inscritos deste evento.</p>
+        <div className="p-8 rounded-xl text-center border-2 border-dashed border-slate-200 bg-slate-50/50">
+          <p className="text-sm text-slate-500">Ative o botão acima para começar a receber nomes para este evento.</p>
         </div>
       )}
     </div>
@@ -241,47 +229,42 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
   };
 
   const tabs: { id: TabId; label: string }[] = [
-    { id: 'event', label: 'Evento' },
-    { id: 'tickets', label: 'Ingressos' },
-    { id: 'lists', label: 'Listas' },
+    { id: 'event', label: 'Evento Global' },
+    { id: 'tickets', label: 'Vendas de Ingressos' },
+    { id: 'lists', label: 'Lista VIP' },
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
       {/* Backdrop */}
-      <div className="absolute inset-0 backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.35)' }} onClick={onClose} />
+      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onClick={onClose} />
 
-      {/* Dialog centralizado */}
-      <div
-        className="relative w-full max-w-lg flex flex-col shadow-2xl rounded-2xl overflow-hidden"
-        style={{ background: '#FFFFFF', border: '1px solid #E8E8ED', maxHeight: '90vh' }}
-      >
+      {/* Dialog */}
+      <div className="relative w-full max-w-xl flex flex-col bg-white shadow-2xl rounded-2xl overflow-hidden border border-slate-200 max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 flex-shrink-0" style={{ borderBottom: '1px solid #E8E8ED' }}>
+        <div className="flex items-center justify-between px-6 py-5 flex-shrink-0 bg-slate-50 border-b border-slate-100">
           <div>
-            <h2 className="font-bold text-base" style={{ color: '#1A1A2E' }}>
-              {isEdit ? 'Editar evento' : 'Novo evento'}
+            <h2 className="font-bold text-lg text-slate-900">
+              {isEdit ? 'Editar Evento' : 'Novo Evento'}
             </h2>
-            {form.title && <p className="text-xs mt-0.5 truncate max-w-[280px]" style={{ color: '#9CA3AF' }}>{form.title}</p>}
+            {form.title && <p className="text-sm mt-0.5 text-slate-500 truncate max-w-[300px]">{form.title}</p>}
           </div>
-          <button onClick={onClose} className="p-1 rounded-lg transition-colors" style={{ color: '#9CA3AF' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#F3F4F6'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+          <button onClick={onClose} className="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex flex-shrink-0" style={{ borderBottom: '1px solid #E8E8ED' }}>
+        <div className="flex flex-shrink-0 px-2 pt-2 bg-slate-50/50 border-b border-slate-200 overflow-x-auto custom-scrollbar">
           {tabs.map(t => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className="flex-1 py-3 text-sm font-medium transition-all"
-              style={{
-                color: tab === t.id ? 'var(--primary-color, #E91E8C)' : '#9CA3AF',
-                borderBottom: tab === t.id ? '2px solid #E91E8C' : '2px solid transparent',
-              }}
+              className={`px-5 py-3 text-sm font-bold transition-all border-b-2 whitespace-nowrap ${
+                tab === t.id
+                  ? 'border-admin-accent text-admin-accent'
+                  : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+              }`}
             >
               {t.label}
             </button>
@@ -289,25 +272,27 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
         </div>
 
         {/* Corpo */}
-        <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4">
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
 
           {/* ABA EVENTO */}
           {tab === 'event' && (
-            <>
-              <Input label="Título do evento" value={form.title} onChange={v => set({ title: v })} placeholder="Ex: Green Valley Open Air" required />
+            <div className="space-y-6 animate-in fade-in slide-in-from-right-2 duration-300">
+              <Input label="Título do Evento" value={form.title} onChange={v => set({ title: v })} placeholder="Ex: Baile da Quero Mais" required />
 
-              <div className="grid grid-cols-2 gap-3">
-                <Input label="Data" value={form.date} onChange={v => set({ date: v })} type="date" required />
-                <Input label="Horário" value={form.time} onChange={v => set({ time: v })} type="time" />
+              <div className="grid grid-cols-2 gap-4">
+                <Input label="Data de Início" value={form.date} onChange={v => set({ date: v })} type="date" required />
+                <Input label="Abertura Portões" value={form.time} onChange={v => set({ time: v })} type="time" />
               </div>
 
-              <Input label="Local / Casa noturna" value={form.venue} onChange={v => set({ venue: v })} placeholder="Ex: Green Valley, Warung..." required />
-              <Input label="Cidade" value={form.city} onChange={v => set({ city: v })} placeholder="Ex: Balneário Camboriú" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Input label="Local / Casa" value={form.venue} onChange={v => set({ venue: v })} placeholder="Ex: Privilège, Hub..." required />
+                <Input label="Cidade/UF" value={form.city} onChange={v => set({ city: v })} placeholder="Ex: Rio de Janeiro" />
+              </div>
 
               {/* Status */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: '#6B7280' }}>Status</label>
-                <div className="grid grid-cols-2 gap-2">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2 pl-1">Status de Disponibilidade</label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {(Object.entries(STATUS_CONFIG) as [EventStatus, typeof STATUS_CONFIG[EventStatus]][]).map(([key, cfg]) => {
                     const isSelected = form.status === key;
                     return (
@@ -315,16 +300,13 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
                         key={key}
                         type="button"
                         onClick={() => set({ status: key })}
-                        className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-left transition-all"
-                        style={{
-                          background: isSelected ? cfg.bg : '#F9FAFB',
-                          border: `1px solid ${isSelected ? cfg.dot : '#E8E8ED'}`,
-                          color: isSelected ? cfg.color : '#9CA3AF',
-                        }}
+                        className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-bold transition-all ${
+                          isSelected ? `${cfg.bgClass} ${cfg.borderClass} ${cfg.textClass} shadow-sm ring-1 ring-inset ring-${cfg.colorClass?.split('-')[1]}-100` : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100'
+                        }`}
                       >
-                        <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: isSelected ? cfg.dot : '#D1D5DB' }} />
+                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isSelected ? cfg.dotClass : 'bg-slate-300'}`} />
                         {cfg.label}
-                        {isSelected && <Check className="w-3.5 h-3.5 ml-auto" />}
+                        {isSelected && <Check className="w-4 h-4 ml-auto" />}
                       </button>
                     );
                   })}
@@ -333,69 +315,69 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
 
               {/* Destaque home */}
               <label
-                className="flex items-center gap-3 p-3.5 rounded-xl cursor-pointer transition-all"
-                style={{ background: '#F9FAFB', border: '1px solid #E8E8ED' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#F9A8D4'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#E8E8ED'; }}
+                className={`flex items-start sm:items-center gap-3 p-4 rounded-xl cursor-pointer transition-all border ${
+                  form.featuredHome ? 'bg-pink-50 border-pink-200 shadow-sm' : 'bg-slate-50 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
+                }`}
               >
-                <input
-                  type="checkbox"
-                  checked={form.featuredHome}
-                  onChange={e => set({ featuredHome: e.target.checked })}
-                  className="w-4 h-4 rounded"
-                  style={{ accentColor: 'var(--primary-color, #E91E8C)' }}
-                />
+                <div className="relative flex items-center shrink-0 mt-0.5 sm:mt-0">
+                  <input
+                    type="checkbox"
+                    checked={form.featuredHome}
+                    onChange={e => set({ featuredHome: e.target.checked })}
+                    className="w-5 h-5 rounded border-slate-300 text-admin-accent focus:ring-admin-accent focus:ring-offset-0 cursor-pointer"
+                  />
+                </div>
                 <div>
-                  <p className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>Destaque na Home</p>
-                  <p className="text-xs" style={{ color: '#9CA3AF' }}>Aparece no card principal da página inicial</p>
+                  <p className={`text-sm font-bold ${form.featuredHome ? 'text-admin-accent' : 'text-slate-900'}`}>Fixar no Topo da Home</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Exibe este evento em destaque massivo na seção inicial do site.</p>
                 </div>
               </label>
 
               {/* Flyer */}
               <FlyerUploader value={form.flyer} onChange={v => set({ flyer: v })} />
-            </>
+            </div>
           )}
 
           {/* ABA INGRESSOS */}
           {tab === 'tickets' && (
-            <TicketLinkManager links={form.ticketLinks} onChange={links => set({ ticketLinks: links })} />
+             <div className="animate-in fade-in slide-in-from-right-2 duration-300">
+               <TicketLinkManager links={form.ticketLinks} onChange={links => set({ ticketLinks: links })} />
+             </div>
           )}
 
           {/* ABA LISTAS */}
           {tab === 'lists' && isEdit && eventId && (
-            <ListsTab
-              eventId={eventId}
-              eventTitle={form.title || 'Evento'}
-              onOpenLists={() => { onClose(); onOpenLists?.(); }}
-            />
+            <div className="animate-in fade-in slide-in-from-right-2 duration-300">
+              <ListsTab
+                eventId={eventId}
+                eventTitle={form.title || 'Evento'}
+                onOpenLists={() => { onClose(); onOpenLists?.(); }}
+              />
+            </div>
           )}
           {tab === 'lists' && !isEdit && (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: '#FDF2F8' }}>
-                <AlertTriangle className="w-6 h-6" style={{ color: 'var(--primary-color, #E91E8C)' }} />
+            <div className="flex flex-col items-center justify-center py-16 text-center animate-in fade-in slide-in-from-right-2 duration-300">
+              <div className="w-14 h-14 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center mb-4">
+                <AlertTriangle className="w-6 h-6 text-slate-400" />
               </div>
-              <p className="text-sm" style={{ color: '#9CA3AF' }}>Salve o evento primeiro para gerenciar a lista.</p>
+              <p className="text-sm font-medium text-slate-900 mb-1">Crie o evento primeiro</p>
+              <p className="text-xs text-slate-500 max-w-[200px]">Você precisa salvar o evento antes de poder habilitar a lista de desconto.</p>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-5 py-4 flex-shrink-0" style={{ borderTop: '1px solid #E8E8ED', background: '#FFFFFF' }}>
-          <button type="button" onClick={onClose} className="px-4 py-2 text-sm font-medium transition-colors" style={{ color: '#9CA3AF' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#374151'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9CA3AF'; }}>
-            Cancelar
+        <div className="flex items-center justify-end gap-3 px-6 py-4 flex-shrink-0 bg-slate-50 border-t border-slate-200">
+          <button type="button" onClick={onClose} className="px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-200 rounded-lg transition-colors">
+            Cancelar Operação
           </button>
           <button
             type="button"
             onClick={handleSave}
-            className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white rounded-xl transition-all"
-            style={{ background: 'linear-gradient(135deg, #E91E8C, #FF6BB5)', boxShadow: '0 4px 12px rgba(233,30,140,0.25)' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 16px rgba(233,30,140,0.35)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 12px rgba(233,30,140,0.25)'; }}
+            className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white rounded-lg bg-admin-accent hover:brightness-110 transition-all shadow-sm active:scale-95"
           >
             <Save className="w-4 h-4" />
-            {isEdit ? 'Salvar alterações' : 'Criar evento'}
+            {isEdit ? 'Atualizar Evento' : 'Publicar Evento'}
           </button>
         </div>
       </div>
@@ -415,95 +397,94 @@ function EventCard({ event, onEdit, onDelete, onToggleStatus, onOpenLists }: {
   const isActive = event.status === 'active';
 
   return (
-    <div
-      className="rounded-2xl overflow-hidden transition-all"
-      style={{ background: '#FFFFFF', border: '1px solid #E8E8ED', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 16px rgba(233,30,140,0.08)'; (e.currentTarget as HTMLElement).style.borderColor = '#FBCFE8'; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = '#E8E8ED'; }}
-    >
-      <div className="flex">
+    <div className="rounded-xl overflow-hidden bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
+      <div className="flex flex-1">
         {/* Flyer thumbnail */}
-        <div className="w-24 sm:w-28 flex-shrink-0 relative overflow-hidden" style={{ background: '#F9FAFB' }}>
+        <div className="w-28 sm:w-32 flex-shrink-0 relative overflow-hidden bg-slate-50 border-r border-slate-100">
           {event.flyer || event.coverImage ? (
-            <img src={event.flyer || event.coverImage} alt={event.title.pt} className="w-full h-full object-cover" />
+            <img src={event.flyer || event.coverImage} alt={event.title.pt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center min-h-[110px]">
-              <Calendar className="w-7 h-7" style={{ color: '#D1D5DB' }} />
+            <div className="w-full h-full flex items-center justify-center">
+              <Calendar className="w-8 h-8 text-slate-300" />
             </div>
           )}
         </div>
 
         {/* Info */}
-        <div className="flex-1 p-4 min-w-0">
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold" style={{ background: cfg.bg, color: cfg.color }}>
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: cfg.dot }} />
+        <div className="flex-1 p-4 sm:p-5 min-w-0 flex flex-col justify-center">
+          <div className="flex items-center gap-2 mb-2.5 flex-wrap">
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${cfg.bgClass} ${cfg.textClass} border ${cfg.borderClass}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${cfg.dotClass}`} />
               {cfg.label}
             </span>
             {event.featuredHome && (
-              <span className="px-2 py-0.5 rounded-full text-xs font-semibold" style={{ background: '#FEF3C7', color: '#D97706' }}>★ Home</span>
+              <span className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-700 border border-amber-200">
+                ★ Presilha Home
+              </span>
             )}
           </div>
 
-          <h3 className="font-bold text-sm leading-tight truncate mb-2" style={{ color: '#1A1A2E' }}>
+          <h3 className="font-black text-slate-900 text-base leading-tight truncate mb-2.5 group-hover:text-admin-accent transition-colors">
             {event.title.pt}
           </h3>
 
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs" style={{ color: '#9CA3AF' }}>
-              <Calendar className="w-3 h-3 flex-shrink-0" />
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+              <Calendar className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
               {fmtDate(event.date)} · {event.time}
             </div>
-            <div className="flex items-center gap-1.5 text-xs" style={{ color: '#9CA3AF' }}>
-              <MapPin className="w-3 h-3 flex-shrink-0" />
+            <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
+              <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
               <span className="truncate">{event.venue}{event.city ? ` · ${event.city}` : ''}</span>
             </div>
             {(event.ticketLinks ?? []).length > 0 && (
-              <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--primary-color, #E91E8C)' }}>
-                <ChevronRight className="w-3 h-3 flex-shrink-0" />
-                {event.ticketLinks.length} link{event.ticketLinks.length !== 1 ? 's' : ''} de ingresso
-              </div>
+               <div className="flex items-center gap-2 text-[11px] font-bold text-admin-accent mt-2 pt-2 border-t border-slate-100">
+                 <ChevronRight className="w-3 h-3 flex-shrink-0" />
+                 {event.ticketLinks.length} Ponto{event.ticketLinks.length !== 1 ? 's' : ''} de Venda
+               </div>
             )}
           </div>
         </div>
       </div>
 
       {/* Ações */}
-      <div className="flex items-center gap-1 px-3 py-2" style={{ borderTop: '1px solid #F3F4F6' }}>
-        {[
-          { label: 'Editar', icon: Pencil, onClick: onEdit, color: '#374151' },
-          { label: 'Listas', icon: Users, onClick: onOpenLists, color: 'var(--primary-color, #E91E8C)' },
-          { label: isActive ? 'Desativar' : 'Ativar', icon: isActive ? EyeOff : Eye, onClick: onToggleStatus, color: '#374151' },
-        ].map(({ label, icon: Icon, onClick, color }) => (
-          <button
-            key={label}
-            onClick={onClick}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all"
-            style={{ color }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#F9FAFB'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-          >
-            <Icon className="w-3.5 h-3.5" />
-            {label}
-          </button>
-        ))}
+      <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 border-t border-slate-100 mt-auto">
+        <button
+          onClick={onEdit}
+          className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 bg-white border border-slate-200 hover:text-admin-accent hover:border-admin-accent transition-colors shadow-sm"
+        >
+          <Pencil className="w-3.5 h-3.5" />
+          Editar
+        </button>
+        <button
+          onClick={onOpenLists}
+          className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-admin-accent bg-pink-50 border border-pink-100 hover:bg-admin-accent hover:text-white transition-colors shadow-sm"
+        >
+          <Users className="w-3.5 h-3.5" />
+          Listas VIP
+        </button>
+        <button
+          onClick={onToggleStatus}
+          className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 bg-white border border-slate-200 hover:bg-slate-100 hover:text-slate-700 transition-colors shadow-sm ms-auto sm:ms-0"
+          title={isActive ? 'Desativar Visibilidade' : 'Ativar Visibilidade'}
+        >
+          {isActive ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+        </button>
 
-        <div className="ml-auto">
+        <div className="ml-0 sm:ml-auto flex items-center">
           {confirmDelete ? (
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs font-medium" style={{ color: '#DC2626' }}>Confirmar?</span>
-              <button onClick={onDelete} className="px-2.5 py-1 text-xs font-bold text-white rounded-lg" style={{ background: '#EF4444' }}>Sim</button>
-              <button onClick={() => setConfirmDelete(false)} className="px-2.5 py-1 text-xs rounded-lg" style={{ background: '#F3F4F6', color: '#6B7280' }}>Não</button>
+            <div className="flex items-center gap-2 animate-in fade-in zoom-in duration-200 bg-red-50 p-1 rounded-lg border border-red-100">
+              <span className="text-[10px] font-bold uppercase text-red-600 px-1">Excluir?</span>
+              <button onClick={onDelete} className="px-3 py-1 text-xs font-bold text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors">Sim</button>
+              <button onClick={() => setConfirmDelete(false)} className="px-3 py-1 text-xs font-bold text-slate-600 bg-white border border-slate-300 rounded-md hover:bg-slate-100 transition-colors">Não</button>
             </div>
           ) : (
             <button
               onClick={() => setConfirmDelete(true)}
-              className="p-1.5 rounded-lg transition-all"
-              style={{ color: '#D1D5DB' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#EF4444'; (e.currentTarget as HTMLElement).style.background = '#FEE2E2'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#D1D5DB'; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border hover:border-red-100 transition-all ml-2"
+              title="Apagar Evento"
             >
-              <Trash2 className="w-3.5 h-3.5" />
+               <Trash2 className="w-4 h-4" />
             </button>
           )}
         </div>
@@ -526,150 +507,175 @@ function EventListsScreen({ event, onBack }: { event: Event; onBack: () => void;
     if (!newName.trim()) { toast.error('Nome é obrigatório.'); return; }
     const result = await addEntry({ name: newName.trim(), phone: newPhone.trim(), guests: newGuests, status: 'ok', notes: '' });
     if (result) { setNewName(''); setNewPhone(''); setNewGuests(0); toast.success('Inscrito adicionado.'); }
-    else { toast.error('Erro ao adicionar. Verifique a conexão.'); }
+    else { toast.error('Erro ao adicionar. Verifique a conexão com o banco.'); }
   };
 
   const handleExportPDF = async () => {
-    const { default: jsPDF } = await import('jspdf');
-    const { default: autoTable } = await import('jspdf-autotable');
-    const doc = new jsPDF();
-    doc.text(`Lista — ${event.title.pt}`, 14, 16);
-    autoTable(doc, {
-      head: [['#', 'Nome', 'Telefone', 'Acomp.', 'Cadastro', 'Status']],
-      body: entries.map((e, i) => [i + 1, e.name, e.phone ?? '-', e.guests, new Date(e.created_at).toLocaleString('pt-BR'), e.status]),
-      startY: 24, styles: { fontSize: 9 },
-    });
-    doc.save(`lista-${event.title.pt.toLowerCase().replace(/\s+/g, '-')}.pdf`);
+    try {
+      const { default: jsPDF } = await import('jspdf');
+      const { default: autoTable } = await import('jspdf-autotable');
+      const doc = new jsPDF();
+      doc.text(`Lista Vip — ${event.title.pt}`, 14, 16);
+      autoTable(doc, {
+        head: [['#', 'Nome', 'Telefone', 'Acomp.', 'Cadastro', 'Status']],
+        body: entries.map((e, i) => [i + 1, e.name, e.phone ?? '-', e.guests, new Date(e.created_at).toLocaleString('pt-BR'), e.status]),
+        startY: 24, styles: { fontSize: 9 },
+      });
+      doc.save(`lista-VIP-${event.title.pt.toLowerCase().replace(/\s+/g, '-')}.pdf`);
+      toast.success('PDF Gerado.');
+    } catch {
+      toast.error('Erro ao gerar PDF.');
+    }
   };
 
   const handleExportExcel = async () => {
-    const XLSX = await import('xlsx');
-    const ws = XLSX.utils.json_to_sheet(entries.map((e, i) => ({
-      '#': i + 1, Nome: e.name, Telefone: e.phone ?? '', Acompanhantes: e.guests,
-      Cadastro: new Date(e.created_at).toLocaleString('pt-BR'), Status: e.status, Observação: e.notes ?? '',
-    })));
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Lista');
-    XLSX.writeFile(wb, `lista-${event.title.pt.toLowerCase().replace(/\s+/g, '-')}.xlsx`);
+    try {
+      const XLSX = await import('xlsx');
+      const ws = XLSX.utils.json_to_sheet(entries.map((e, i) => ({
+        '#': i + 1, Nome: e.name, Telefone: e.phone ?? '', Acompanhantes: e.guests,
+        Cadastro: new Date(e.created_at).toLocaleString('pt-BR'), Status: e.status, Observação: e.notes ?? '',
+      })));
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Lista VIP');
+      XLSX.writeFile(wb, `lista-VIP-${event.title.pt.toLowerCase().replace(/\s+/g, '-')}.xlsx`);
+      toast.success('Excel Gerado.');
+    } catch {
+      toast.error('Erro ao gerar Planilha.');
+    }
   };
 
-  const statusStyle: Record<string, { bg: string; color: string }> = {
-    ok:        { bg: '#D1FAE5', color: '#059669' },
-    usado:     { bg: '#DBEAFE', color: '#2563EB' },
-    cancelado: { bg: '#FEE2E2', color: '#DC2626' },
+  const statusStyle: Record<string, { bgClass: string; textClass: string }> = {
+    ok:        { bgClass: 'bg-emerald-50', textClass: 'text-emerald-700' },
+    usado:     { bgClass: 'bg-blue-50',    textClass: 'text-blue-700' },
+    cancelado: { bgClass: 'bg-slate-100',  textClass: 'text-slate-500' },
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <button onClick={onBack} className="p-2 rounded-xl transition-all" style={{ color: '#9CA3AF' }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#F3F4F6'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
-          <ChevronRight className="w-4 h-4 rotate-180" />
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <button onClick={onBack} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-all shrink-0">
+          <ChevronRight className="w-5 h-5 rotate-180" />
         </button>
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-base truncate" style={{ color: '#1A1A2E' }}>{event.title.pt}</h3>
-          <p className="text-xs" style={{ color: '#9CA3AF' }}>{fmtDate(event.date)} · {event.venue}</p>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-admin-accent mb-1">Painel de Listas VIP</p>
+          <h3 className="font-black text-2xl truncate text-slate-900 leading-tight">{event.title.pt}</h3>
+          <p className="text-sm font-medium text-slate-500 mt-1">{fmtDate(event.date)} · {event.venue}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full sm:w-auto">
           <button onClick={handleExportPDF} disabled={entries.length === 0}
-            className="px-3 py-1.5 text-xs font-bold rounded-lg disabled:opacity-30 transition-all"
-            style={{ background: '#FEE2E2', color: '#DC2626' }}>PDF</button>
+            className="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold rounded-lg disabled:opacity-50 transition-all border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 shadow-sm">
+            Gerar PDF
+          </button>
           <button onClick={handleExportExcel} disabled={entries.length === 0}
-            className="px-3 py-1.5 text-xs font-bold rounded-lg disabled:opacity-30 transition-all"
-            style={{ background: '#D1FAE5', color: '#059669' }}>Excel</button>
+            className="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold rounded-lg disabled:opacity-50 transition-all border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 shadow-sm">
+            Baixar Planilha
+          </button>
         </div>
       </div>
 
       {/* Form adicionar */}
       {list?.active && (
-        <div className="p-4 rounded-xl space-y-3" style={{ background: '#FFFFFF', border: '1px solid #E8E8ED' }}>
-          <p className="text-xs font-bold uppercase tracking-wide" style={{ color: '#9CA3AF' }}>Adicionar inscrito</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {[
-              { val: newName, set: setNewName, placeholder: 'Nome *', type: 'text' },
-              { val: newPhone, set: setNewPhone, placeholder: 'Telefone', type: 'tel' },
-            ].map(({ val, set: setFn, placeholder, type }) => (
-              <input
-                key={placeholder}
-                type={type}
-                value={val}
-                onChange={e => setFn(e.target.value)}
-                placeholder={placeholder}
-                className="px-3 py-2 text-sm rounded-xl outline-none transition-all"
-                style={{ background: '#F9FAFB', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
-                onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; }}
-                onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; }}
-              />
-            ))}
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-xs" style={{ color: '#9CA3AF' }}>
-              Acompanhantes:
-              <select value={newGuests} onChange={e => setNewGuests(Number(e.target.value))}
-                className="px-2 py-1 rounded-lg text-sm outline-none" style={{ background: '#F9FAFB', border: '1px solid #E8E8ED', color: '#1A1A2E' }}>
-                {[0,1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
-              </select>
-            </label>
-            <button
-              onClick={() => { setAdding(true); handleAdd().finally(() => setAdding(false)); }}
-              disabled={adding}
-              className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold text-white rounded-lg ml-auto disabled:opacity-50"
-              style={{ background: 'linear-gradient(135deg, #E91E8C, #FF6BB5)' }}
-            >
-              <Plus className="w-3.5 h-3.5" />
-              Adicionar
-            </button>
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
+            <Plus className="w-4 h-4 text-admin-accent" /> Lançamento de Nome Avulso / Convidado Especial
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <div className="md:col-span-4">
+              <input type="text" value={newName} onChange={e => setNewName(e.target.value)} placeholder="Nome Completo *" 
+                className="w-full px-4 py-2.5 text-sm rounded-xl outline-none bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 transition-all" />
+            </div>
+            <div className="md:col-span-3">
+              <input type="tel" value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="WhatsApp Secundário (opc)" 
+                className="w-full px-4 py-2.5 text-sm rounded-xl outline-none bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 transition-all" />
+            </div>
+            <div className="md:col-span-3">
+              <div className="flex items-center h-full px-4 py-1.5 bg-slate-50 border border-slate-200 rounded-xl gap-3">
+                <label className="text-xs font-bold uppercase text-slate-500 whitespace-nowrap">Acompanhantes</label>
+                <select value={newGuests} onChange={e => setNewGuests(Number(e.target.value))} className="flex-1 bg-transparent text-sm font-bold text-slate-900 outline-none">
+                  {[0,1,2,3,4,5,6,7,8,9,10].map(n => <option key={n} value={n}>+{n}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="md:col-span-2">
+              <button
+                onClick={() => { setAdding(true); handleAdd().finally(() => setAdding(false)); }}
+                disabled={adding}
+                className="w-full h-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-white rounded-xl bg-slate-900 hover:bg-admin-accent shadow-sm transition-all disabled:opacity-50"
+              >
+                Injetar
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Tabela */}
-      {loading ? (
-        <div className="flex justify-center py-10">
-          <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: '#F9A8D4', borderTopColor: 'var(--primary-color, #E91E8C)' }} />
-        </div>
-      ) : entries.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="w-12 h-12 rounded-2xl mx-auto mb-3 flex items-center justify-center" style={{ background: '#FDF2F8' }}>
-            <Users className="w-6 h-6" style={{ color: '#F9A8D4' }} />
+      {/* Tabela de nomes presentes*/}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="w-8 h-8 border-4 border-admin-accent/30 border-t-admin-accent rounded-full animate-spin" />
           </div>
-          <p className="text-sm" style={{ color: '#9CA3AF' }}>Nenhum inscrito ainda.</p>
-        </div>
-      ) : (
-        <div className="space-y-2">
-          <p className="text-xs font-medium" style={{ color: '#9CA3AF' }}>{entries.length} inscrito{entries.length !== 1 ? 's' : ''}</p>
-          {entries.map((entry, i) => (
-            <div key={entry.id} className="flex items-center gap-3 p-3 rounded-xl transition-all"
-              style={{ background: '#FFFFFF', border: '1px solid #E8E8ED' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#FBCFE8'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = '#E8E8ED'; }}>
-              <span className="w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0"
-                style={{ background: '#F3F4F6', color: '#9CA3AF' }}>{i + 1}</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate" style={{ color: '#1A1A2E' }}>{entry.name}</p>
-                <p className="text-xs" style={{ color: '#9CA3AF' }}>
-                  {entry.phone || '—'}{entry.guests > 0 && ` · +${entry.guests} acomp.`}
-                </p>
-              </div>
-              <select value={entry.status}
-                onChange={e => updateEntryStatus(entry.id, e.target.value as 'ok' | 'usado' | 'cancelado')}
-                className="px-2 py-1 rounded-lg text-xs font-semibold border-0 outline-none cursor-pointer"
-                style={{ background: statusStyle[entry.status]?.bg, color: statusStyle[entry.status]?.color }}>
-                <option value="ok">OK</option>
-                <option value="usado">Usado</option>
-                <option value="cancelado">Cancelado</option>
-              </select>
-              <button onClick={() => removeEntry(entry.id)} className="p-1 rounded transition-all" style={{ color: '#D1D5DB' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#EF4444'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#D1D5DB'; }}>
-                <X className="w-3.5 h-3.5" />
-              </button>
+        ) : entries.length === 0 ? (
+          <div className="text-center py-20 px-4">
+            <div className="w-16 h-16 rounded-3xl mx-auto mb-4 flex items-center justify-center bg-slate-50 border border-slate-100 shadow-inner">
+              <Users className="w-8 h-8 text-slate-300" />
             </div>
-          ))}
-        </div>
-      )}
+            <p className="text-lg font-bold text-slate-900 mb-1">A Lista está Vazia</p>
+            <p className="text-sm text-slate-500">Divulgue o site para que o público garanta sua presença.</p>
+          </div>
+        ) : (
+          <div>
+            <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Tabela de Nomes</p>
+              <span className="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-bold text-admin-accent shadow-sm">
+                Total: {entries.length} pessoa{entries.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+            <div className="divide-y divide-slate-100">
+              {entries.map((entry, i) => (
+                <div key={entry.id} className="flex items-center gap-4 p-4 lg:px-6 hover:bg-slate-50/50 transition-colors group">
+                  <span className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-100 text-slate-500 flex-shrink-0 border border-slate-200">
+                    {i + 1}
+                  </span>
+                  
+                  <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                      <p className="text-sm font-bold text-slate-900 truncate">{entry.name}</p>
+                      <p className="text-xs font-medium text-slate-500 flex items-center gap-1.5 mt-0.5">
+                        {entry.phone || 'Sem celular'}
+                        {entry.guests > 0 && (
+                          <span className="px-2 py-0.5 rounded uppercase text-[9px] bg-slate-200 text-slate-700 tracking-wider">
+                            +{entry.guests} Acompanhante{entry.guests > 1 ? 's' : ''}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex sm:items-center justify-start sm:justify-end text-[11px] font-medium text-slate-400">
+                      Entrada às {new Date(entry.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 border-l border-slate-100 pl-4 ml-2">
+                    <select value={entry.status}
+                      onChange={e => updateEntryStatus(entry.id, e.target.value as 'ok' | 'usado' | 'cancelado')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold border border-transparent outline-none cursor-pointer transition-all appearance-none text-center min-w-[90px] shadow-sm ${statusStyle[entry.status].bgClass} ${statusStyle[entry.status].textClass}`}>
+                      <option value="ok">Validado</option>
+                      <option value="usado">Entrou ✓</option>
+                      <option value="cancelado">Recusado</option>
+                    </select>
+                    
+                    <button onClick={() => { if(confirm('Quer mesmo remover esse nome da lista?')) removeEntry(entry.id) }} 
+                      className="p-2 w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 transition-all shadow-sm opacity-0 group-hover:opacity-100 focus:opacity-100" title="Apagar Registro">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -700,80 +706,76 @@ export function AdminEvents() {
 
   const handleSave = (data: FormData) => {
     const eventData = formToEvent(data);
-    if (modal?.event) { updateEvent(modal.event.id, eventData); toast.success('Evento atualizado!'); }
-    else { addEvent(eventData); toast.success('Evento criado!'); }
+    if (modal?.event) { updateEvent(modal.event.id, eventData); toast.success('Evento atualizado eficientemente!'); }
+    else { addEvent(eventData); toast.success('Novo evento publicado na agenda!'); }
     setModal(null);
   };
 
   const handleToggleStatus = (event: Event) => {
     const isActive = event.status === 'active';
     updateEvent(event.id, { status: isActive ? 'inactive' : 'active' });
-    toast.success(isActive ? 'Evento desativado.' : 'Evento ativado!');
+    toast.success(isActive ? 'Evento temporariamente oculto.' : 'Evento visível e ativo!');
   };
 
   const FILTERS: { id: Filter; label: string }[] = [
-    { id: 'all', label: 'Todos' },
-    { id: 'active', label: 'Ativos' },
-    { id: 'sold_out', label: 'Esgotados' },
+    { id: 'all', label: 'Toda Agenda' },
+    { id: 'active', label: 'Próximos (Ativos)' },
+    { id: 'sold_out', label: 'Sold Out (Esgotados)' },
   ];
 
-  // Tela de listas
+  // Tela isolada de gerência de listas (full screen context inside module)
   if (listsEvent) {
     return (
-      <div className="p-6">
+      <div className="p-6 lg:p-10 max-w-7xl mx-auto">
         <EventListsScreen event={listsEvent} onBack={() => setListsEvent(null)} />
       </div>
     );
   }
 
+  // Dashboard de Eventos
   return (
-    <div className="p-6 space-y-5">
-      {/* Header */}
-      <div className="flex items-center justify-between gap-4">
+    <div className="p-6 lg:p-10 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+      
+      {/* Header Title Section */}
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold" style={{ color: '#1A1A2E' }}>Eventos</h2>
-          <p className="text-sm" style={{ color: '#9CA3AF' }}>
-            {events.length} evento{events.length !== 1 ? 's' : ''} cadastrado{events.length !== 1 ? 's' : ''}
+          <h1 className="text-3xl font-black tracking-tight text-slate-900">Agenda de Eventos</h1>
+          <p className="text-sm font-medium text-slate-500 mt-1">
+            Total de {events.length} evento{events.length !== 1 ? 's' : ''} em sua base de dados central.
           </p>
         </div>
         <button
           onClick={() => setModal({ open: true })}
-          className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-white rounded-xl transition-all flex-shrink-0"
-          style={{ background: 'linear-gradient(135deg, #E91E8C, #FF6BB5)', boxShadow: '0 4px 12px rgba(233,30,140,0.25)' }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 16px rgba(233,30,140,0.35)'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 12px rgba(233,30,140,0.25)'; }}
+          className="flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white rounded-xl bg-admin-accent hover:brightness-110 shadow-sm transition-all active:scale-[0.98]"
         >
-          <Plus className="w-4 h-4" />
-          Novo evento
+          <Plus className="w-5 h-5" />
+          Cadastrar Novo Evento
         </button>
       </div>
 
-      {/* Busca + filtros */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      {/* Control Bar: Busca + Filtros */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8 bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#D1D5DB' }} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <input
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Buscar por nome, local ou cidade..."
-            className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl outline-none transition-all"
-            style={{ background: '#FFFFFF', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
-            onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; }}
-            onBlur={e => { (e.target as HTMLElement).style.borderColor = '#E8E8ED'; }}
+            placeholder="Pesquisar por The Week, Boiler Room..."
+            className="w-full pl-11 pr-4 py-3 text-sm rounded-lg outline-none bg-transparent font-medium text-slate-900 placeholder:text-slate-400"
           />
         </div>
-        <div className="flex gap-1.5">
+        <div className="hidden md:block w-px bg-slate-100 my-2" />
+        <div className="flex gap-2 min-w-max px-2 md:px-0 mt-2 md:mt-0 flex-wrap pb-2 md:pb-0 items-center">
           {FILTERS.map(f => (
             <button
               key={f.id}
               onClick={() => setFilter(f.id)}
-              className="px-3 py-2 rounded-xl text-xs font-semibold transition-all"
-              style={{
-                background: filter === f.id ? '#FCE7F3' : '#FFFFFF',
-                color: filter === f.id ? 'var(--primary-color, #E91E8C)' : '#9CA3AF',
-                border: `1px solid ${filter === f.id ? '#FBCFE8' : '#E8E8ED'}`,
-              }}
+              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                filter === f.id
+                  ? 'bg-admin-accent text-white shadow-sm'
+                  : 'bg-transparent text-slate-500 hover:bg-slate-100'
+              }`}
             >
               {f.label}
             </button>
@@ -781,34 +783,35 @@ export function AdminEvents() {
         </div>
       </div>
 
-      {/* Lista */}
+      {/* Tabela/Grid de Eventos */}
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4" style={{ background: '#F9FAFB', border: '1px solid #E8E8ED' }}>
-            <Calendar className="w-8 h-8" style={{ color: '#D1D5DB' }} />
+        <div className="flex flex-col items-center justify-center py-24 text-center bg-white rounded-2xl border border-slate-200 border-dashed shadow-sm">
+          <div className="w-20 h-20 rounded-3xl bg-slate-50 flex items-center justify-center mb-5 border border-slate-100 shadow-inner">
+            <Calendar className="w-10 h-10 text-slate-300" />
           </div>
-          <p className="font-medium" style={{ color: '#9CA3AF' }}>
-            {search ? 'Nenhum resultado encontrado.' : 'Nenhum evento cadastrado.'}
+          <p className="text-xl font-bold text-slate-900 mb-2">
+            {search ? 'Agenda Limpa' : 'Nada por aqui'}
+          </p>
+          <p className="text-sm font-medium text-slate-500 max-w-sm mb-6">
+            {search ? 'Nenhum evento corresponde aos seus critérios de busca.' : 'Você ainda não possui eventos. Que tal começar publicando sua primeira festa na agenda?'}
           </p>
           {!search && (
             <button
               onClick={() => setModal({ open: true })}
-              className="mt-4 flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-xl"
-              style={{ background: 'linear-gradient(135deg, #E91E8C, #FF6BB5)' }}
+              className="px-8 py-3 text-sm font-bold text-admin-accent bg-pink-50 border border-pink-100 rounded-xl hover:bg-pink-100 transition-colors shadow-sm"
             >
-              <Plus className="w-4 h-4" />
-              Criar primeiro evento
+              Iniciar Cadastro de Evento
             </button>
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filtered.map(event => (
             <EventCard
               key={event.id}
               event={event}
               onEdit={() => setModal({ open: true, event })}
-              onDelete={() => { deleteEvent(event.id); toast.success('Evento excluído.'); }}
+              onDelete={() => { deleteEvent(event.id); toast.success('Evento deletado da base.'); }}
               onToggleStatus={() => handleToggleStatus(event)}
               onOpenLists={() => setListsEvent(event)}
             />
@@ -816,7 +819,7 @@ export function AdminEvents() {
         </div>
       )}
 
-      {/* Modal */}
+      {/* Modal Edição/Criação */}
       {modal?.open && (
         <EventModal
           initial={modal.event ? eventToForm(modal.event) : EMPTY_FORM}

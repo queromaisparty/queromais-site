@@ -48,14 +48,6 @@ interface AdminDashboardProps {
   onLogout: () => void;
 }
 
-// ── Paleta magenta ──────────────────────────────────
-// Primária: #E91E8C (magenta vibrante)
-// Hover:    #C4157A
-// Fundo:    #F5F5F7 (cinza-branco Apple-like)
-// Sidebar:  #FFFFFF
-// Border:   #E8E8ED
-// Texto:    #1A1A2E
-
 export function AdminDashboard({ currentSection, onSectionChange, onLogout }: AdminDashboardProps) {
   const { user, logout } = useAuth();
   const { t } = useLanguage();
@@ -84,85 +76,67 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
 
   const stats = [
     { label: { pt: 'Eventos', en: 'Events', es: 'Eventos' },        value: events.length,       icon: Calendar,     gradient: 'from-admin-accent to-[#FF6BB5]' },
-    { label: { pt: 'Produtos', en: 'Products', es: 'Productos' },   value: products.length,     icon: ShoppingBag,  gradient: 'from-[#7C3AED] to-[#A78BFA]' },
-    { label: { pt: 'Álbuns', en: 'Albums', es: 'Álbumes' },         value: galleryAlbums.length, icon: Image,        gradient: 'from-[#0EA5E9] to-[#38BDF8]' },
-    { label: { pt: 'DJs', en: 'DJs', es: 'DJs' },                   value: djs.length,          icon: Music,        gradient: 'from-[#F59E0B] to-[#FCD34D]' },
+    { label: { pt: 'Produtos', en: 'Products', es: 'Productos' },   value: products.length,     icon: ShoppingBag,  gradient: 'from-purple-600 to-purple-400' },
+    { label: { pt: 'Álbuns', en: 'Albums', es: 'Álbumes' },         value: galleryAlbums.length, icon: Image,        gradient: 'from-sky-500 to-sky-400' },
+    { label: { pt: 'DJs', en: 'DJs', es: 'DJs' },                   value: djs.length,          icon: Music,        gradient: 'from-amber-500 to-amber-300' },
   ];
 
-  return (
-    <div className="min-h-screen flex" style={{ background: '#F5F5F7' }}>
+  const devSections: AdminSection[] = ['fica-mais', 'storytelling'];
 
+  return (
+    <div className="min-h-screen flex bg-slate-50 text-slate-900 font-sans">
       {/* ── MOBILE TOPBAR ─────────────────────────── */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-30 h-14 flex items-center px-4 gap-3" style={{ background: '#FFFFFF', borderBottom: '1px solid #E8E8ED' }}>
-        <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 rounded-lg hover:bg-gray-100" aria-label="Menu">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-30 h-16 flex items-center px-4 gap-4 bg-white border-b border-slate-200">
+        <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors" aria-label="Menu">
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
         <img src="/LOGOQUEROMAIS_PRETA.svg" alt="QM" className="h-4 w-auto" />
-        <span className="text-xs" style={{ color: '#9CA3AF' }}>Admin</span>
+        <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Admin</span>
       </div>
 
       {/* ── SIDEBAR BACKDROP (mobile) ───────────── */}
       <div
         onClick={() => setSidebarOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/40 transition-opacity lg:hidden ${
+        className={`fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm transition-opacity lg:hidden ${
           sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
 
       {/* ── SIDEBAR ─────────────────────────────── */}
       <aside
-        className={`fixed lg:sticky top-0 left-0 bottom-0 z-50 w-64 flex-shrink-0 flex flex-col transition-transform lg:translate-x-0 ${
+        className={`fixed lg:sticky top-0 left-0 bottom-0 z-50 w-64 flex-shrink-0 flex flex-col bg-white border-r border-slate-200 transition-transform lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-        style={{
-          background: '#FFFFFF',
-          borderRight: '1px solid #E8E8ED',
-          boxShadow: '2px 0 20px rgba(0,0,0,0.04)',
-          height: '100dvh',
-        }}
+        } shadow-sm h-[100dvh]`}
       >
         {/* Logo */}
-        <div className="px-6 py-6 border-b" style={{ borderColor: '#E8E8ED' }}>
+        <div className="px-6 py-6 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <div>
               <img 
                 src="/LOGOQUEROMAIS_PRETA.svg" 
                 alt="Quero Mais" 
-                className="h-4 w-auto mb-1"
+                className="h-4 w-auto mb-1.5"
               />
-              <p className="text-xs" style={{ color: '#9CA3AF' }}>Admin Panel</p>
+              <p className="text-[11px] font-bold tracking-widest uppercase text-slate-400">Admin Panel</p>
             </div>
           </div>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
           {menuItems.map((item) => {
             const isActive = currentSection === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => { onSectionChange(item.id as AdminSection); setSidebarOpen(false); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all text-sm font-medium"
-                style={{
-                  background: isActive ? '#FCE7F3' : 'transparent',
-                  color: isActive ? 'var(--primary-color, #E91E8C)' : '#6B7280',
-                  borderLeft: isActive ? '3px solid #E91E8C' : '3px solid transparent',
-                }}
-                onMouseEnter={e => {
-                  if (!isActive) {
-                    (e.currentTarget as HTMLElement).style.background = '#FDF2F8';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--primary-color, #E91E8C)';
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!isActive) {
-                    (e.currentTarget as HTMLElement).style.background = 'transparent';
-                    (e.currentTarget as HTMLElement).style.color = '#6B7280';
-                  }
-                }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all text-sm font-medium border-l-4 ${
+                  isActive 
+                    ? 'bg-slate-50 text-admin-accent border-admin-accent' 
+                    : 'border-transparent text-slate-600 hover:bg-slate-50 hover:text-slate-900 lg:border-none'
+                }`}
               >
-                <item.icon className="w-4 h-4 flex-shrink-0" />
+                <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-admin-accent' : 'text-slate-400 group-hover:text-slate-600 transition-colors'}`} />
                 <span>{t(item.label)}</span>
               </button>
             );
@@ -170,110 +144,86 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
         </nav>
 
         {/* User + Logout */}
-        <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: '#E8E8ED' }}>
-          <div className="flex items-center gap-3 px-3 py-2">
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, #E91E8C, #FF6BB5)' }}
-            >
-              <Users className="w-4 h-4 text-white" />
+        <div className="p-4 border-t border-slate-100 bg-slate-50/50">
+          <div className="flex items-center gap-3 px-2 py-2 mb-2">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-admin-accent to-[#FF6BB5] text-white shadow-sm">
+              <Users className="w-4 h-4" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold truncate" style={{ color: '#1A1A2E' }}>{user?.name}</p>
-              <p className="text-xs truncate" style={{ color: '#9CA3AF' }}>{user?.email}</p>
+              <p className="text-sm font-semibold text-slate-900 truncate">{user?.name}</p>
+              <p className="text-xs text-slate-500 truncate">{user?.email}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all"
-            style={{ color: '#EF4444' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#FEF2F2'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-red-600 bg-red-50 hover:bg-red-100"
           >
             <LogOut className="w-4 h-4" />
-            <span>{t({ pt: 'Sair', en: 'Logout', es: 'Salir' })}</span>
+            <span>{t({ pt: 'Encerrar Sessão', en: 'Logout', es: 'Salir' })}</span>
           </button>
         </div>
       </aside>
 
       {/* ── MAIN CONTENT ─────────────────────────── */}
-      <main className="flex-1 overflow-auto pt-14 lg:pt-0">
-
+      <main className="flex-1 h-[100dvh] overflow-x-hidden overflow-y-auto pt-16 lg:pt-0 scroll-smooth">
+        
         {/* DASHBOARD */}
         {currentSection === 'dashboard' && (
-          <div className="p-8 max-w-6xl">
+          <div className="p-6 lg:p-10 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Header */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-900">
                 {t({ pt: 'Bom dia', en: 'Good morning', es: 'Buenos días' })} 👋
-              </h2>
-              <p className="text-sm mt-1" style={{ color: '#9CA3AF' }}>
-                {t({ pt: 'Visão geral do seu site', en: 'Overview of your website', es: 'Visión general de tu sitio' })}
+              </h1>
+              <p className="text-sm md:text-base text-slate-500 mt-1">
+                {t({ pt: 'Visão geral do sistema e atalhos rápidos', en: 'System overview and shortcuts', es: 'Visión general del sistema y atajos' })}
               </p>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
               {stats.map((stat, i) => (
                 <div
                   key={i}
-                  className="rounded-2xl p-5"
-                  style={{
-                    background: '#FFFFFF',
-                    border: '1px solid #E8E8ED',
-                    boxShadow: '0 1px 8px rgba(0,0,0,0.04)',
-                  }}
+                  className="rounded-xl p-6 bg-white border border-slate-200 shadow-sm transition-all hover:shadow-md"
                 >
-                  <div
-                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center mb-4`}
-                  >
-                    <stat.icon className="w-5 h-5 text-white" />
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-sm`}>
+                      <stat.icon className="w-6 h-6 text-white" />
+                    </div>
                   </div>
-                  <p className="text-2xl font-black" style={{ color: '#1A1A2E' }}>{stat.value}</p>
-                  <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>{t(stat.label)}</p>
+                  <div>
+                    <h3 className="text-3xl font-bold text-slate-900">{stat.value}</h3>
+                    <p className="text-sm font-medium text-slate-500 tracking-wide mt-1 uppercase">{t(stat.label)}</p>
+                  </div>
                 </div>
               ))}
             </div>
 
             {/* Quick Actions */}
-            <div
-              className="rounded-2xl p-6"
-              style={{ background: '#FFFFFF', border: '1px solid #E8E8ED', boxShadow: '0 1px 8px rgba(0,0,0,0.04)' }}
-            >
-              <h3 className="text-base font-bold mb-5" style={{ color: '#1A1A2E' }}>
-                {t({ pt: 'Ações Rápidas', en: 'Quick Actions', es: 'Acciones Rápidas' })}
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="rounded-xl p-6 md:p-8 bg-white border border-slate-200 shadow-sm">
+              <h2 className="text-lg font-bold text-slate-900 mb-6">
+                {t({ pt: 'Ações Frequentes', en: 'Quick Actions', es: 'Acciones Rápidas' })}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-slate-100 pt-6">
                 {[
-                  { section: 'events',  label: { pt: 'Novo Evento',    en: 'New Event',    es: 'Nuevo Evento'   }, desc: { pt: 'Criar e publicar evento', en: 'Create and publish event', es: 'Crear y publicar evento' }, icon: Calendar },
-                  { section: 'gallery', label: { pt: 'Upload de Fotos', en: 'Upload Photos', es: 'Subir Fotos'  }, desc: { pt: 'Adicionar à galeria',     en: 'Add to gallery',           es: 'Agregar a la galería'   }, icon: Image },
-                  { section: 'shop',    label: { pt: 'Novo Produto',    en: 'New Product',  es: 'Nuevo Producto' }, desc: { pt: 'Cadastrar na loja',       en: 'Register in store',        es: 'Registrar en tienda'    }, icon: ShoppingBag },
+                  { section: 'events',  label: { pt: 'Novo Evento',    en: 'New Event',    es: 'Nuevo Evento'   }, desc: { pt: 'Publicar e gerenciar ingressos', en: 'Publish and manage tickets', es: 'Publicar y gestionar entradas' }, icon: Calendar },
+                  { section: 'gallery', label: { pt: 'Upload de Fotos', en: 'Upload Photos', es: 'Subir Fotos'  }, desc: { pt: 'Adicionar álbuns à galeria',     en: 'Add albums to gallery',           es: 'Agregar álbumes a la galería'   }, icon: Image },
+                  { section: 'shop',    label: { pt: 'Novo Produto',    en: 'New Product',  es: 'Nuevo Producto' }, desc: { pt: 'Cadastrar na loja boutique',       en: 'Register in boutique',        es: 'Registrar en boutique'    }, icon: ShoppingBag },
                 ].map((action) => (
                   <button
                     key={action.section}
                     onClick={() => onSectionChange(action.section as AdminSection)}
-                    className="flex items-center gap-4 p-4 rounded-xl text-left transition-all group"
-                    style={{ background: '#F9FAFB', border: '1px solid #E8E8ED' }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.background = '#FDF2F8';
-                      (e.currentTarget as HTMLElement).style.borderColor = '#F9A8D4';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.background = '#F9FAFB';
-                      (e.currentTarget as HTMLElement).style.borderColor = '#E8E8ED';
-                    }}
+                    className="flex items-center gap-4 p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-admin-accent hover:shadow-sm transition-all group text-left"
                   >
-                    <div
-                      className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: '#FCE7F3' }}
-                    >
-                      <action.icon className="w-4 h-4" style={{ color: 'var(--primary-color, #E91E8C)' }} />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-white border border-slate-100 group-hover:bg-pink-50 transition-colors">
+                      <action.icon className="w-5 h-5 text-slate-400 group-hover:text-admin-accent transition-colors" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>{t(action.label)}</p>
-                      <p className="text-xs" style={{ color: '#9CA3AF' }}>{t(action.desc)}</p>
+                      <p className="text-sm font-semibold text-slate-900">{t(action.label)}</p>
+                      <p className="text-xs text-slate-500 truncate">{t(action.desc)}</p>
                     </div>
-                    <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: '#D1D5DB' }} />
+                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-admin-accent transition-colors" />
                   </button>
                 ))}
               </div>
@@ -281,103 +231,18 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
           </div>
         )}
 
-        {/* SECÇÕES EM DESENVOLVIMENTO (Restantes) */}
-        {currentSection !== 'dashboard' &&
-          currentSection !== 'gallery' &&
-          currentSection !== 'events' &&
-          currentSection !== 'shop' &&
-          currentSection !== 'music' &&
-          currentSection !== 'storytelling' &&
-          currentSection !== 'fica-mais' &&
-          currentSection !== 'newsletter' &&
-          currentSection !== 'contact' &&
-          currentSection !== 'faq' && (
-          <div className="p-8">
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>
-                {t(menuItems.find(i => i.id === currentSection)?.label || { pt: 'Seção', en: 'Section', es: 'Sección' })}
-              </h2>
-              <p className="text-sm mt-1" style={{ color: '#9CA3AF' }}>
-                {t({ pt: 'Gerencie esta seção do site', en: 'Manage this section', es: 'Gestiona esta sección' })}
-              </p>
-            </div>
-            <div
-              className="rounded-2xl p-12 text-center"
-              style={{ background: '#FFFFFF', border: '1px solid #E8E8ED' }}
-            >
-              <div
-                className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center"
-                style={{ background: '#FCE7F3' }}
-              >
-                <Settings className="w-8 h-8" style={{ color: 'var(--primary-color, #E91E8C)' }} />
-              </div>
-              <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1A2E' }}>
-                {t({ pt: 'Em Desenvolvimento', en: 'Under Development', es: 'En Desarrollo' })}
-              </h3>
-              <p className="text-sm max-w-sm mx-auto" style={{ color: '#9CA3AF' }}>
-                {t({
-                  pt: 'Esta funcionalidade está sendo implementada e em breve estará disponível.',
-                  en: 'This feature is being implemented and will be available soon.',
-                  es: 'Esta funcionalidad está siendo implementada y estará disponible pronto.',
-                })}
-              </p>
-            </div>
-          </div>
-        )}
+        {/* SEÇÕES */}
+        {currentSection === 'events' && <AdminEvents />}
+        {currentSection === 'shop' && <div className="p-6 lg:p-10 max-w-7xl mx-auto"><AdminShop /></div>}
+        {currentSection === 'music' && <AdminMusic />}
+        {currentSection === 'storytelling' && <AdminSobre />}
+        {currentSection === 'fica-mais' && <AdminFicaMais />}
+        {currentSection === 'contact' && <AdminContact />}
+        {currentSection === 'newsletter' && <AdminNewsletter />}
+        {currentSection === 'gallery' && <div className="p-6 lg:p-10 max-w-7xl mx-auto"><AdminGallery /></div>}
+        {currentSection === 'faq' && <AdminFAQ />}
+        {currentSection === 'settings' && <AdminSettings />}
 
-        {/* EVENTOS */}
-        {currentSection === 'events' && (
-          <AdminEvents />
-        )}
-
-        {/* LOJA */}
-        {currentSection === 'shop' && (
-          <div className="p-8">
-            <AdminShop />
-          </div>
-        )}
-
-        {/* MUSIC */}
-        {currentSection === 'music' && (
-          <AdminMusic />
-        )}
-
-        {/* SOBRE / STORYTELLING */}
-        {currentSection === 'storytelling' && (
-          <AdminSobre />
-        )}
-
-        {/* FICA MAIS */}
-        {currentSection === 'fica-mais' && (
-          <AdminFicaMais />
-        )}
-
-        {/* CONTACT / FAQ */}
-        {currentSection === 'contact' && (
-          <AdminContact />
-        )}
-
-        {/* NEWSLETTER */}
-        {currentSection === 'newsletter' && (
-          <AdminNewsletter />
-        )}
-
-        {/* GALERIA */}
-        {currentSection === 'gallery' && (
-          <div className="p-8">
-            <AdminGallery />
-          </div>
-        )}
-
-        {/* FAQ */}
-        {currentSection === 'faq' && (
-          <AdminFAQ />
-        )}
-
-        {/* SETTINGS */}
-        {currentSection === 'settings' && (
-          <AdminSettings />
-        )}
       </main>
     </div>
   );

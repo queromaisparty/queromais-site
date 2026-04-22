@@ -1,38 +1,38 @@
 import { useState, useRef } from 'react';
 import { useData } from '@/context/DataContext';
 import type { PartyDate } from '@/types';
-import { Plus, Trash2, Save, Image, Upload, X, Loader2, Calendar, MapPin, Link as LinkIcon } from 'lucide-react';
+import { Plus, Trash2, Save, Image, Upload, X, Loader2, Calendar, MapPin, Link as LinkIcon, Info } from 'lucide-react';
 import { uploadImage } from '@/lib/supabase';
+import { toast } from 'sonner';
 
 type Tab = 'manifesto' | 'dates' | 'media';
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'manifesto', label: 'Manifesto' },
-  { id: 'dates',     label: 'Próximas Datas' },
-  { id: 'media',     label: 'Mídia' },
+  { id: 'manifesto', label: 'Cultura & Texto' },
+  { id: 'dates',     label: 'Agenda e Rotas' },
+  { id: 'media',     label: 'Arquivos Locais' },
 ];
 
 const fieldStyle = {
-  input: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-admin-accent transition-colors',
-  textarea: 'w-full px-3 py-2 rounded-lg border border-[#E8E8ED] text-sm text-[#1A1A2E] focus:outline-none focus:border-admin-accent transition-colors resize-none',
-  label: 'block text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider mb-1',
+  input: 'w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all placeholder:text-slate-400',
+  textarea: 'w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all custom-scrollbar resize-y placeholder:text-slate-400',
+  label: 'block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1',
 };
 
 function ImageField({ label, value, onChange, folder = 'fica-mais' }: { label: string; value: string; onChange: (v: string) => void; folder?: string }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState('');
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
-    setError('');
     try {
       const url = await uploadImage(file, folder);
       onChange(url);
+      toast.success('Material de mídia processado.');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro no upload');
+      toast.error(err instanceof Error ? err.message : 'Falha na inserção visual.');
     } finally {
       setUploading(false);
       if (fileRef.current) fileRef.current.value = '';
@@ -40,48 +40,49 @@ function ImageField({ label, value, onChange, folder = 'fica-mais' }: { label: s
   };
 
   return (
-    <div>
+    <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
       <label className={fieldStyle.label}>{label}</label>
-      <div className="space-y-2">
+      <div className="space-y-4 pt-1">
+        
         {value ? (
-          <div className="relative w-full aspect-video max-h-48 rounded-lg overflow-hidden border border-[#E8E8ED] bg-gray-50">
-            <img src={value} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <div className="relative w-full aspect-[21/9] rounded-xl overflow-hidden border border-slate-200 bg-slate-100 group shadow-sm">
+            <img src={value} alt="Preview Fica Mais" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+            <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/30 transition-colors" />
             <button
               type="button"
               onClick={() => onChange('')}
-              className="absolute top-2 right-2 w-7 h-7 bg-black/60 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors"
-              title="Remover imagem"
+              className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm text-red-500 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white border border-red-100/50 shadow-sm"
+              title="Remover Arte"
             >
-              <X className="w-3.5 h-3.5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         ) : (
-          <div className="w-full aspect-video max-h-48 rounded-lg border-2 border-dashed border-[#E8E8ED] flex flex-col items-center justify-center gap-2 bg-gray-50 text-[#9CA3AF]">
-            <Image className="w-8 h-8" />
-            <span className="text-xs">Nenhuma imagem</span>
+          <div className="w-full aspect-[21/9] rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 bg-white text-slate-400">
+            <Image className="w-10 h-10 text-slate-300" />
+            <span className="text-[10px] font-bold uppercase tracking-wider">Ausência de Mídia Principal</span>
           </div>
         )}
+        
         <div className="flex gap-2">
           <input
-            type="text"
+            type="url"
             className={fieldStyle.input}
             value={value}
             onChange={e => onChange(e.target.value)}
-            placeholder="Colar URL da imagem..."
+            placeholder="Forneça ligação URL direto, ou suba do PC..."
           />
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg border border-admin-accent text-admin-accent text-sm font-semibold hover:bg-admin-accent hover:text-white transition-colors disabled:opacity-50"
-            title="Fazer upload do computador"
+            className="shrink-0 flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 text-sm font-bold hover:text-admin-accent hover:border-admin-accent transition-all shadow-sm disabled:opacity-50 min-w-[130px]"
           >
-            {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-            {uploading ? 'Enviando…' : 'Upload'}
+            {uploading ? <Loader2 className="w-4 h-4 animate-spin text-admin-accent" /> : <Upload className="w-4 h-4" />}
+            {uploading ? 'Codificando' : 'Trazer Arquivo'}
           </button>
           <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
         </div>
-        {error && <p className="text-xs text-red-500">{error}</p>}
       </div>
     </div>
   );
@@ -90,12 +91,10 @@ function ImageField({ label, value, onChange, folder = 'fica-mais' }: { label: s
 export function AdminFicaMais() {
   const { ficaMaisParty, updateFicaMaisParty } = useData();
   const [activeTab, setActiveTab] = useState<Tab>('manifesto');
-  const [saved, setSaved] = useState(false);
 
   const save = (data: Parameters<typeof updateFicaMaisParty>[0]) => {
     updateFicaMaisParty(data);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    toast.success('Configurações do selo Fica Mais injetadas.');
   };
 
   // ── Tab: Manifesto ──────────────────────────────────────
@@ -110,74 +109,85 @@ export function AdminFicaMais() {
     const [isActivePage, setIsActivePage] = useState(ficaMaisParty?.isActivePage ?? true);
 
     return (
-      <div className="space-y-6">
-        {/* Switches */}
-        <div className="grid grid-cols-2 gap-4">
-          <label className="flex items-center gap-3 p-4 rounded-xl border border-[#E8E8ED] bg-white cursor-pointer">
-            <input
-              type="checkbox"
-              checked={showInHome}
-              onChange={e => setShowInHome(e.target.checked)}
-              className="w-4 h-4 accent-admin-accent"
-            />
+      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+        
+        {/* Toggle Controls */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label className={`flex items-center gap-4 p-5 rounded-2xl border transition-all cursor-pointer shadow-sm ${showInHome ? 'bg-admin-accent/5 border-admin-accent/20' : 'bg-white border-slate-200'}`}>
+             <div className="relative inline-block w-11 h-6 shrink-0 rounded-full bg-slate-200 transition-colors duration-200 ease-in-out">
+                <input type="checkbox" checked={showInHome} onChange={e => setShowInHome(e.target.checked)} className="peer sr-only" />
+                <div className={`absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${showInHome ? 'translate-x-5 bg-admin-accent' : ''}`}></div>
+             </div>
             <div>
-              <span className="text-sm font-semibold text-[#1A1A2E]">Exibir na Home</span>
-              <p className="text-xs text-[#9CA3AF]">Mostra a seção Fica Mais na página principal</p>
+              <span className={`text-sm font-black ${showInHome ? 'text-admin-accent' : 'text-slate-800'}`}>Widget na Home</span>
+              <p className="text-[11px] font-medium text-slate-500 leading-tight block mt-0.5">Mostra fita de chamada no root do site</p>
             </div>
           </label>
-          <label className="flex items-center gap-3 p-4 rounded-xl border border-[#E8E8ED] bg-white cursor-pointer">
-            <input
-              type="checkbox"
-              checked={isActivePage}
-              onChange={e => setIsActivePage(e.target.checked)}
-              className="w-4 h-4 accent-admin-accent"
-            />
+          
+          <label className={`flex items-center gap-4 p-5 rounded-2xl border transition-all cursor-pointer shadow-sm ${isActivePage ? 'bg-admin-accent/5 border-admin-accent/20' : 'bg-white border-slate-200'}`}>
+             <div className="relative inline-block w-11 h-6 shrink-0 rounded-full bg-slate-200 transition-colors duration-200 ease-in-out">
+                <input type="checkbox" checked={isActivePage} onChange={e => setIsActivePage(e.target.checked)} className="peer sr-only" />
+                <div className={`absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${isActivePage ? 'translate-x-5 bg-admin-accent' : ''}`}></div>
+             </div>
             <div>
-              <span className="text-sm font-semibold text-[#1A1A2E]">Página Ativa</span>
-              <p className="text-xs text-[#9CA3AF]">Ativa a página /fica-mais no menu</p>
+               <span className={`text-sm font-black ${isActivePage ? 'text-admin-accent' : 'text-slate-800'}`}>Navegação /fica-mais</span>
+              <p className="text-[11px] font-medium text-slate-500 leading-tight block mt-0.5">Destrava e abre URL na estrutura superior</p>
             </div>
           </label>
         </div>
 
-        {/* Manifesto Curto (PT / EN / ES) */}
-        <div className="rounded-xl border border-[#E8E8ED] p-5 bg-white space-y-4">
-          <h4 className="text-sm font-bold text-[#1A1A2E]">Manifesto Curto (Home)</h4>
-          <p className="text-xs text-[#9CA3AF]">Texto exibido na seção da Home e no início da página /fica-mais.</p>
-          <div>
-            <label className={fieldStyle.label}>Português</label>
-            <textarea className={fieldStyle.textarea} rows={3} value={manifestoCurtoPt} onChange={e => setManifestoCurtoPt(e.target.value)} placeholder="A Fica Mais Party é o after oficial da Quero Mais..." />
+        {/* Short Text Container */}
+        <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-6">
+          <div className="border-b border-slate-200 pb-3">
+             <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Expressão Resumida (Widget/Home)</h4>
+             <p className="text-[11px] font-medium text-slate-500 mt-1">Sintetize a energia central em textos que sirvam como pílulas no bloco da aba raiz.</p>
           </div>
-          <div>
-            <label className={fieldStyle.label}>English</label>
-            <textarea className={fieldStyle.textarea} rows={3} value={manifestoCurtoEn} onChange={e => setManifestoCurtoEn(e.target.value)} placeholder="Fica Mais Party is the official Quero Mais after party..." />
-          </div>
-          <div>
-            <label className={fieldStyle.label}>Español</label>
-            <textarea className={fieldStyle.textarea} rows={3} value={manifestoCurtoEs} onChange={e => setManifestoCurtoEs(e.target.value)} placeholder="Fica Mais Party es el after oficial de Quero Más..." />
+          
+          <div className="grid grid-cols-1 gap-5">
+            <div>
+              <label className={fieldStyle.label}>Nativo (PT-BR) <span className="text-admin-accent">*</span></label>
+              <textarea className={`${fieldStyle.textarea} min-h-[90px]`} value={manifestoCurtoPt} onChange={e => setManifestoCurtoPt(e.target.value)} />
+            </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-3 border-t border-slate-100">
+               <div>
+                 <label className={fieldStyle.label}>Global (EN)</label>
+                 <textarea className={`${fieldStyle.textarea} min-h-[80px] bg-white`} value={manifestoCurtoEn} onChange={e => setManifestoCurtoEn(e.target.value)} />
+               </div>
+               <div>
+                 <label className={fieldStyle.label}>Latino (ES)</label>
+                 <textarea className={`${fieldStyle.textarea} min-h-[80px] bg-white`} value={manifestoCurtoEs} onChange={e => setManifestoCurtoEs(e.target.value)} />
+               </div>
+             </div>
           </div>
         </div>
 
-        {/* Manifesto Completo (PT / EN / ES) */}
-        <div className="rounded-xl border border-[#E8E8ED] p-5 bg-white space-y-4">
-          <h4 className="text-sm font-bold text-[#1A1A2E]">Manifesto Completo (Página)</h4>
-          <p className="text-xs text-[#9CA3AF]">Texto completo exibido na página /fica-mais.</p>
-          <div>
-            <label className={fieldStyle.label}>Português</label>
-            <textarea className={fieldStyle.textarea} rows={4} value={manifestoCompletoPt} onChange={e => setManifestoCompletoPt(e.target.value)} placeholder="Quando a noite termina para a maioria, a nossa verdadeira jornada começa..." />
+        {/* Full Text Container */}
+        <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-6">
+          <div className="border-b border-slate-200 pb-3">
+             <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Escopo Profundo (Page)</h4>
+             <p className="text-[11px] font-medium text-slate-500 mt-1">O corpo total redacional exposto do After, focado em fechar desejo intenso na Landing particular.</p>
           </div>
-          <div>
-            <label className={fieldStyle.label}>English</label>
-            <textarea className={fieldStyle.textarea} rows={4} value={manifestoCompletoEn} onChange={e => setManifestoCompletoEn(e.target.value)} />
-          </div>
-          <div>
-            <label className={fieldStyle.label}>Español</label>
-            <textarea className={fieldStyle.textarea} rows={4} value={manifestoCompletoEs} onChange={e => setManifestoCompletoEs(e.target.value)} />
+          
+          <div className="grid grid-cols-1 gap-5">
+            <div>
+              <label className={fieldStyle.label}>Nativo (PT-BR) <span className="text-admin-accent">*</span></label>
+              <textarea className={`${fieldStyle.textarea} min-h-[140px]`} value={manifestoCompletoPt} onChange={e => setManifestoCompletoPt(e.target.value)} />
+            </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-3 border-t border-slate-100">
+               <div>
+                 <label className={fieldStyle.label}>Global (EN)</label>
+                 <textarea className={`${fieldStyle.textarea} min-h-[120px] bg-white`} value={manifestoCompletoEn} onChange={e => setManifestoCompletoEn(e.target.value)} />
+               </div>
+               <div>
+                 <label className={fieldStyle.label}>Latino (ES)</label>
+                 <textarea className={`${fieldStyle.textarea} min-h-[120px] bg-white`} value={manifestoCompletoEs} onChange={e => setManifestoCompletoEs(e.target.value)} />
+               </div>
+             </div>
           </div>
         </div>
 
         <SaveButton onClick={() => save({
-          showInHome,
-          isActivePage,
+          showInHome, isActivePage,
           manifestoCurto: { pt: manifestoCurtoPt, en: manifestoCurtoEn, es: manifestoCurtoEs },
           manifestoCompleto: { pt: manifestoCompletoPt, en: manifestoCompletoEn, es: manifestoCompletoEs },
         })} />
@@ -199,81 +209,75 @@ export function AdminFicaMais() {
       }]);
     };
 
-    const remove = (id: string) => setDates(prev => prev.filter(d => d.id !== id));
+    const remove = (id: string) => {
+      if(window.confirm('Exterminar compromisso na agenda do Fica Mais?')) {
+        setDates(prev => prev.filter(d => d.id !== id));
+      }
+    }
 
     const update = (id: string, field: keyof PartyDate, val: string) =>
       setDates(prev => prev.map(d => d.id === id ? { ...d, [field]: val } : d));
 
     return (
-      <div className="space-y-4">
-        <p className="text-xs text-[#9CA3AF]">Adicione as próximas datas da Fica Mais Party. Elas aparecem na aba "Próximas Datas" da home e na página.</p>
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-orange-50 border border-orange-100 mb-2">
+           <Info className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
+           <p className="text-sm font-medium text-orange-800">
+             Tabela específica para braço "Fica Mais Party". Modificações aqui não interferem na Main Event List global do sistema. Use links Sympla independentes se os ingressos forem separados.
+           </p>
+        </div>
 
         {dates.length === 0 && (
-          <div className="rounded-lg border border-dashed border-[#E8E8ED] p-8 text-center text-sm text-[#9CA3AF]">
-            Nenhuma data adicionada. A aba "Próximas Datas" exibirá "Nenhuma data programada".
+          <div className="rounded-2xl border-2 border-dashed border-slate-200 py-16 text-center text-sm font-bold text-slate-400">
+            Nenhum compromisso engatilhado. <br/>A página esconderá as grids informativas temporais.
           </div>
         )}
 
-        {dates.map(d => (
-          <div key={d.id} className="rounded-xl border border-[#E8E8ED] p-5 bg-white space-y-3">
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className={fieldStyle.label}>
-                  <Calendar className="w-3 h-3 inline mr-1" />Data
-                </label>
-                <input
-                  type="date"
-                  className={fieldStyle.input}
-                  value={d.date}
-                  onChange={e => update(d.id, 'date', e.target.value)}
-                />
+        <div className="space-y-4">
+          {dates.map((d, index) => (
+            <div key={d.id} className="rounded-2xl border border-slate-200 p-6 bg-white shadow-sm hover:border-admin-accent/30 transition-colors relative group">
+              <div className="absolute -left-3 -top-3 w-8 h-8 rounded-full bg-slate-900 text-white font-black flex items-center justify-center border-4 border-white shadow-sm z-10 text-xs">
+                {String(index + 1).padStart(2, '0')}
               </div>
-              <div>
-                <label className={fieldStyle.label}>Horário</label>
-                <input
-                  type="time"
-                  className={fieldStyle.input}
-                  value={d.time}
-                  onChange={e => update(d.id, 'time', e.target.value)}
-                />
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+                
+                <div className="md:col-span-4 space-y-4 border-b md:border-b-0 md:border-r border-slate-100 pb-4 md:pb-0 md:pr-5">
+                  <div>
+                    <label className={fieldStyle.label}><Calendar className="w-3 h-3 inline mr-1" />Cronologia (Data)</label>
+                    <input type="date" className={fieldStyle.input} value={d.date} onChange={e => update(d.id, 'date', e.target.value)} />
+                  </div>
+                  <div>
+                    <label className={fieldStyle.label}>Fuso (Hora Inicial)</label>
+                    <input type="time" className={fieldStyle.input} value={d.time} onChange={e => update(d.id, 'time', e.target.value)} />
+                  </div>
+                </div>
+                
+                <div className="md:col-span-8 flex flex-col justify-between space-y-4">
+                  <div>
+                    <label className={fieldStyle.label}><MapPin className="w-3 h-3 inline mr-1" />Arena / GPS Ponto Geográfico</label>
+                    <input className={fieldStyle.input} value={d.location} onChange={e => update(d.id, 'location', e.target.value)} placeholder="Ex: HIGH CLUB - Zona Norte" />
+                  </div>
+                  <div>
+                    <label className={fieldStyle.label}><LinkIcon className="w-3 h-3 inline mr-1" />Atalho de Vendas (External Checkout)</label>
+                    <input className={fieldStyle.input} value={d.ticketLink || ''} onChange={e => update(d.id, 'ticketLink', e.target.value)} placeholder="https://..." />
+                  </div>
+                </div>
               </div>
+              
+              <button onClick={() => remove(d.id)} className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-sm">
+                <Trash2 className="w-4 h-4" />
+              </button>
             </div>
-            <div>
-              <label className={fieldStyle.label}>
-                <MapPin className="w-3 h-3 inline mr-1" />Local
-              </label>
-              <input
-                className={fieldStyle.input}
-                value={d.location}
-                onChange={e => update(d.id, 'location', e.target.value)}
-                placeholder="Ex: HIGH CLUB | São Paulo"
-              />
-            </div>
-            <div>
-              <label className={fieldStyle.label}>
-                <LinkIcon className="w-3 h-3 inline mr-1" />Link do Ingresso (opcional)
-              </label>
-              <input
-                className={fieldStyle.input}
-                value={d.ticketLink || ''}
-                onChange={e => update(d.id, 'ticketLink', e.target.value)}
-                placeholder="https://sympla.com.br/..."
-              />
-            </div>
-            <button
-              onClick={() => remove(d.id)}
-              className="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 font-semibold"
-            >
-              <Trash2 className="w-3.5 h-3.5" /> Remover data
-            </button>
-          </div>
-        ))}
+          ))}
+        </div>
 
-        <button onClick={add} className="flex items-center gap-2 text-sm text-admin-accent font-semibold hover:underline">
-          <Plus className="w-4 h-4" /> Adicionar data
+        <button onClick={add} className="flex items-center justify-center gap-2 w-full py-4 text-sm font-bold text-slate-600 bg-slate-50 border-2 border-slate-200 rounded-xl hover:bg-slate-100 hover:text-admin-accent hover:border-admin-accent transition-colors border-dashed mt-4">
+          <Plus className="w-4 h-4" /> Alocar Nova Data de After
         </button>
 
-        <SaveButton onClick={() => save({ upcomingDates: dates })} />
+        <div className="pt-6 border-t border-slate-100 mt-6">
+          <SaveButton onClick={() => save({ upcomingDates: dates })} />
+        </div>
       </div>
     );
   }
@@ -284,31 +288,38 @@ export function AdminFicaMais() {
     const [pageMedia, setPageMedia] = useState(ficaMaisParty?.pageMedia || '');
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+         <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-50 border border-blue-100">
+           <Info className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
+           <p className="text-sm font-medium text-blue-800">
+             Cenografia Digital. Estas imagens envelopam as caídas do braço. Alta qualidade retangular (paisagem) sugerida.
+           </p>
+        </div>
         <ImageField
-          label="Imagem da Home (seção Fica Mais)"
+          label="Cobertura para Módulo Inferior da Home"
           value={homeMedia}
           onChange={setHomeMedia}
         />
         <ImageField
-          label="Imagem da Página /fica-mais (hero)"
+          label="Pano de Fundo Fullscreen (Hero /fica-mais)"
           value={pageMedia}
           onChange={setPageMedia}
         />
-        <SaveButton onClick={() => save({ homeMedia, pageMedia })} />
+        <div className="pt-2 border-t border-slate-100">
+           <SaveButton onClick={() => save({ homeMedia, pageMedia })} />
+        </div>
       </div>
     );
   }
 
   function SaveButton({ onClick }: { onClick: () => void }) {
     return (
-      <button
+       <button
         onClick={onClick}
-        className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-colors"
-        style={{ background: saved ? '#10B981' : 'var(--primary-color, #E91E8C)' }}
+        className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 rounded-xl text-sm font-bold text-white bg-admin-accent hover:brightness-110 shadow-sm transition-all active:scale-[0.98]"
       >
         <Save className="w-4 h-4" />
-        {saved ? 'Salvo!' : 'Salvar'}
+        Processar Injeções
       </button>
     );
   }
@@ -320,35 +331,46 @@ export function AdminFicaMais() {
   };
 
   return (
-    <div className="p-6 lg:p-8 max-w-3xl">
+    <div className="p-6 lg:p-10 max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>Fica Mais Party</h2>
-        <p className="text-sm mt-1" style={{ color: '#9CA3AF' }}>
-          Gerencie o manifesto, datas e mídia da Fica Mais Party — after oficial da Quero Mais.
+        <h1 className="text-3xl font-black tracking-tight text-slate-900">After Fica Mais</h1>
+        <p className="text-sm font-medium text-slate-500 mt-1">
+          Configuração do eixo de ramificação (Afterparty/Label).
         </p>
       </div>
 
-      {/* Tabs */}
-      <div className="flex flex-wrap gap-1 mb-8 border-b border-[#E8E8ED]">
-        {TABS.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className="px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors"
-            style={{
-              color: activeTab === tab.id ? 'var(--primary-color, #E91E8C)' : '#9CA3AF',
-              borderBottom: activeTab === tab.id ? '2px solid #E91E8C' : '2px solid transparent',
-              background: 'transparent',
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+       {/* Tabs Layout Modificadas (Vertical in LG +) */}
+       <div className="flex flex-col lg:flex-row gap-8">
+        
+        {/* Navigation Sidebar */}
+        <div className="w-full lg:w-64 shrink-0 rounded-2xl bg-white border border-slate-200 shadow-sm p-2 h-fit">
+          <div className="flex overflow-x-auto lg:flex-col lg:overflow-visible gap-1 pb-1 lg:pb-0 custom-scrollbar">
+             {TABS.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex-shrink-0 px-4 py-3 text-sm font-bold text-left rounded-xl transition-all ${
+                  activeTab === tab.id
+                    ? 'bg-admin-accent/10 text-admin-accent'
+                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      {/* Conteúdo da tab */}
-      <div key={activeTab}>
-        {tabContent[activeTab]}
+        {/* Dynamic Content Panel */}
+        <div className="flex-1 bg-white border border-slate-200 shadow-sm rounded-2xl p-6 lg:p-8">
+          <div className="mb-6 pb-4 border-b border-slate-100">
+             <h2 className="text-lg font-black text-slate-800 uppercase tracking-tight">
+               {TABS.find(t => t.id === activeTab)?.label}
+            </h2>
+          </div>
+          {tabContent[activeTab]}
+        </div>
+
       </div>
     </div>
   );

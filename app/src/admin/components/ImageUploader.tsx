@@ -37,9 +37,9 @@ export function ImageUploader({
     }
 
     const maxBytes = maxSizeMB * 1024 * 1024;
-    if (file.size > maxBytes * 3) {
-      // Bloqueia apenas arquivos muito grandes (> 3x o limite)
-      setError(`Imagem muito grande. Máximo recomendado: ${maxSizeMB}MB. Sua imagem: ${(file.size / 1024 / 1024).toFixed(1)}MB`);
+    // Bloqueia apenas arquivos muito grandes (> 3x o limite sugerido para processamento seguro via canvas)
+    if (file.size > maxBytes * 4) {
+      setError(`Imagem absurdamente grande. Máximo suportado é ${maxSizeMB * 4}MB para não travar o navegador. Suba uma versão menor.`);
       return;
     }
 
@@ -52,7 +52,7 @@ export function ImageUploader({
         const canvas = document.createElement('canvas');
         let { width, height } = img;
 
-        // Redimensionar se necessário
+        // Redimensionamento Inteligente
         if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
           if (width > height) {
             height = Math.round((height / width) * MAX_DIMENSION);
@@ -68,7 +68,7 @@ export function ImageUploader({
         const ctx = canvas.getContext('2d');
         ctx?.drawImage(img, 0, 0, width, height);
 
-        // Qualidade adaptativa
+        // Qualidade adaptativa para respeitar limite sem estourar o banco
         const quality = file.size > 1024 * 1024 ? 0.75 : 0.85;
         const compressed = canvas.toDataURL('image/jpeg', quality);
         onChange(compressed);
@@ -110,20 +110,23 @@ export function ImageUploader({
   return (
     <div className={`space-y-2 ${className}`}>
       {label && (
-        <label className="text-white/70 text-sm font-medium block">
+        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
           {label}
-          {aspectHint && <span className="text-white/30 text-xs ml-2">({aspectHint})</span>}
+          {aspectHint && <span className="text-slate-400 capitalize normal-case text-xs ml-1 font-medium">({aspectHint})</span>}
         </label>
       )}
 
       <div
+        role="button"
+        tabIndex={0}
         onClick={handleClick}
+        onKeyDown={e => e.key === 'Enter' && handleClick()}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`
-          relative rounded-xl border-2 border-dashed cursor-pointer transition-all overflow-hidden
-          ${isDragging ? 'border-admin-accent bg-admin-accent/5' : 'border-white/15 hover:border-white/30 bg-white/3'}
+          relative rounded-xl border-2 border-dashed cursor-pointer transition-all overflow-hidden bg-slate-50
+          ${isDragging ? 'border-admin-accent bg-pink-50' : 'border-slate-200 hover:border-admin-accent/50 hover:bg-slate-100'}
           ${value ? 'min-h-[160px]' : 'min-h-[120px]'}
         `}
       >
@@ -137,57 +140,60 @@ export function ImageUploader({
 
         {/* Preview */}
         {value && (
-          <>
+          <div className="relative group p-1">
             <img
               src={value}
               alt="Preview"
-              className="w-full h-auto max-h-[300px] object-cover block"
+              className="w-full h-auto max-h-[300px] object-cover rounded-lg shadow-sm"
             />
-            <div className="absolute inset-0 bg-black/0 hover:bg-black/30 transition-colors flex items-center justify-center opacity-0 hover:opacity-100">
-              <span className="text-white text-sm font-medium bg-black/60 px-3 py-1 rounded-full">
-                Trocar imagem
+            <div className="absolute inset-1 bg-slate-900/0 group-hover:bg-slate-900/40 rounded-lg transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+              <span className="text-white text-xs font-bold leading-none uppercase tracking-wider bg-black/60 px-4 py-2 rounded-lg backdrop-blur-sm shadow-sm">
+                Trocar Imagem
               </span>
             </div>
             {/* Botão remover */}
             <button
               onClick={handleClear}
-              className="absolute top-2 right-2 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+              className="absolute top-3 right-3 w-8 h-8 bg-white text-red-500 rounded-lg flex items-center justify-center hover:bg-red-500 hover:text-white hover:border-red-500 transition-all shadow-md z-10"
               title="Remover imagem"
             >
-              <X className="w-4 h-4 text-white" />
+              <X className="w-4 h-4" />
             </button>
-          </>
+          </div>
         )}
 
         {/* Estado vazio */}
         {!value && !isProcessing && (
           <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
-            <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-3">
-              <Upload className="w-6 h-6 text-white/40" />
+            <div className="w-12 h-12 rounded-full border border-slate-200 bg-white shadow-sm flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
+              <Upload className="w-5 h-5 text-slate-400" />
             </div>
-            <p className="text-white/60 text-sm font-medium">
-              Clique ou arraste uma imagem aqui
+            <p className="text-slate-700 text-sm font-bold mb-1">
+              Arraste ou <span className="text-admin-accent">selecione uma foto</span>
             </p>
-            <p className="text-white/30 text-xs mt-1">
-              JPG, PNG, WEBP — máx. {maxSizeMB}MB recomendado
+            <p className="text-slate-500 text-xs mt-1">
+              JPG, PNG ou WebP (máx recomendado: {maxSizeMB}MB)
             </p>
+            <div className="mt-4 px-3 py-1 rounded-full border border-slate-200 bg-white text-[10px] font-bold text-slate-400 shadow-sm uppercase tracking-wider">
+               Redimensionamento Automático
+            </div>
           </div>
         )}
 
         {/* Processando */}
         {isProcessing && (
-          <div className="flex flex-col items-center justify-center py-8">
-            <div className="w-8 h-8 border-2 border-admin-accent border-t-transparent rounded-full animate-spin mb-3" />
-            <p className="text-white/60 text-sm">Processando...</p>
+          <div className="flex flex-col items-center justify-center py-10 bg-slate-50 border-t border-slate-200 mt-[-2px]">
+            <div className="w-8 h-8 border-2 border-admin-accent border-t-transparent rounded-full animate-spin mb-3 shadow-sm" />
+            <p className="text-admin-accent text-sm font-bold">Ajustando qualidade...</p>
           </div>
         )}
       </div>
 
       {/* Erro */}
       {error && (
-        <div className="flex items-start gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-          <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-          <p className="text-red-400 text-xs">{error}</p>
+        <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-xl shadow-sm">
+          <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+          <p className="text-red-600 text-xs font-medium">{error}</p>
         </div>
       )}
 
@@ -196,8 +202,8 @@ export function ImageUploader({
         <div className="flex gap-2">
           <input
             type="url"
-            placeholder="Ou cole uma URL de imagem..."
-            className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-xs placeholder:text-white/25 focus:outline-none focus:border-admin-accent/50"
+            placeholder="Ou cole uma URL externa da imagem..."
+            className="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-admin-accent focus:ring-1 focus:ring-admin-accent/50 transition-all placeholder:text-slate-400"
             onBlur={(e) => {
               const url = e.target.value.trim();
               if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
@@ -215,7 +221,7 @@ export function ImageUploader({
               }
             }}
           />
-          <div className="w-9 h-9 flex items-center justify-center text-white/30">
+          <div className="w-10 h-10 flex border border-slate-200 bg-slate-50 rounded-lg items-center justify-center text-slate-400 shrink-0 shadow-sm">
             <ImageIcon className="w-4 h-4" />
           </div>
         </div>
