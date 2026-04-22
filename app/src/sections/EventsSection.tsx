@@ -54,11 +54,17 @@ export function EventsSection() {
 
                 {/* Imagem do artista — lado esquerdo */}
                 <div className="w-[160px] sm:w-[240px] flex-shrink-0">
-                  <img
-                    src={event.coverImage || 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=85'}
-                    alt={t(event.title)}
-                    className="w-full h-full object-cover"
-                  />
+                  {event.coverImage ? (
+                    <img
+                      src={event.coverImage}
+                      alt={t(event.title)}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <ChevronRight className="w-8 h-8 text-gray-300" />
+                    </div>
+                  )}
                 </div>
 
                 {/* Informações — lado direito */}

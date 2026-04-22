@@ -146,11 +146,17 @@ export function EventosPage() {
                     >
                       {/* Imagem — lado esquerdo */}
                       <div className="w-[140px] sm:w-[220px] flex-shrink-0 relative overflow-hidden">
-                        <img
-                          src={e.coverImage || 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=85'}
-                          alt={getTitle(e.title)}
-                          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isPast ? 'grayscale' : ''}`}
-                        />
+                        {e.coverImage ? (
+                          <img
+                            src={e.coverImage}
+                            alt={getTitle(e.title)}
+                            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isPast ? 'grayscale' : ''}`}
+                          />
+                        ) : (
+                          <div className={`w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center ${isPast ? 'grayscale' : ''}`}>
+                            <Calendar className="w-8 h-8 text-gray-300" />
+                          </div>
+                        )}
                         <div className="absolute top-3 right-3">
                           <div className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-white ${isPast ? 'bg-[#4A4A4A]' : 'bg-[#E91E8C]'}`}>
                             {new Date(e.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
