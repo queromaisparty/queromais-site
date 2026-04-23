@@ -183,7 +183,7 @@ export function Footer({ onAdminClick }: FooterProps) {
             onClick={onAdminClick}
             className="text-white/25 hover:text-[var(--primary-color)] text-xs transition-colors font-sans"
           >
-            {t({ pt: 'Ãrea Administrativa', en: 'Admin Area', es: 'Ãrea Administrativa' })}
+            {t({ pt: 'Área Administrativa', en: 'Admin Area', es: 'Área Administrativa' })}
           </button>
         </div>
       </div>

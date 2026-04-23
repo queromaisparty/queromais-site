@@ -50,12 +50,12 @@ export function EventsSection() {
 
         {/* Grid de eventos — 2 colunas no desktop */}
         {activeEvents.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {activeEvents.map((event) => (
-              <div key={event.id} className="bg-[#FAFAFA] flex flex-col sm:flex-row hover:opacity-95 transition-opacity duration-300">
+              <div key={event.id} className="bg-[#FAFAFA] flex flex-col hover:opacity-95 transition-opacity duration-300">
 
-                {/* Imagem do artista */}
-                <Link to={`/eventos/${event.slug}`} className="block w-full sm:w-[280px] h-[200px] sm:h-[340px] flex-shrink-0 relative overflow-hidden group">
+                {/* Imagem do artista (Formato Retrato 3:4) */}
+                <Link to={`/eventos/${event.slug}`} className="block w-full aspect-[3/4] relative overflow-hidden group">
                   {event.coverImage || event.flyer ? (
                     <img
                       src={event.flyer || event.coverImage}
@@ -75,7 +75,7 @@ export function EventsSection() {
                 </Link>
 
                 {/* Informações */}
-                <div className="flex-1 p-4 sm:p-8 flex flex-col justify-center min-w-0">
+                <div className="p-5 sm:p-6 flex flex-col justify-between flex-1">
 
                   {/* Data + horário */}
                   <div className="mb-5">
@@ -133,12 +133,12 @@ export function EventsSection() {
                       </>
                     )}
 
-                    {/* Lista de desconto — aparece se lista ativa no Supabase */}
-                    <div className="flex items-center gap-3 w-full">
+                    {/* Lista de desconto */}
+                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
                       <EventListForm eventId={event.id} />
                       <Link 
                         to={`/eventos/${event.slug}`}
-                        className="flex items-center justify-center px-5 py-2.5 bg-white border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#F5F5F5] rounded-sm text-xs font-bold tracking-[0.1em] transition-colors font-sans flex-1 max-w-[150px]"
+                        className="flex items-center justify-center w-full sm:flex-1 px-5 py-2.5 bg-white border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#F5F5F5] rounded-sm text-xs font-bold tracking-[0.1em] transition-colors font-sans"
                       >
                         Ver Detalhes
                       </Link>

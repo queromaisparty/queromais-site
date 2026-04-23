@@ -128,7 +128,7 @@ export function EventListForm({ eventId }: EventListFormProps) {
       {!showForm && !success && (
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center justify-between w-full max-w-[220px] px-5 py-2.5 text-white rounded-full text-xs font-bold tracking-[0.1em] transition-all font-sans"
+          className="flex items-center justify-between w-full sm:flex-1 px-5 py-2.5 text-white rounded-sm text-xs font-bold tracking-[0.1em] transition-all font-sans"
           style={{
             background: 'var(--primary-color, #E91E8C)',
           }}
