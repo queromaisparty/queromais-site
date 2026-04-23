@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Moon, Calendar, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -116,7 +116,7 @@ export function FicaMaisSection() {
                       </div>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">âË†Å¾</div>
+                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">&infin;</div>
                       <div className="text-white/50 text-sm">
                         {t({ pt: 'Memórias', en: 'Memories', es: 'Recuerdos' })}
                       </div>
