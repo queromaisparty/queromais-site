@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 
 export function SobreSection() {
@@ -15,7 +15,7 @@ export function SobreSection() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-6 font-sans">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60 mb-6 font-sans">
                 Quem somos
               </p>
               <h2 className="font-sans font-black text-white uppercase leading-none tracking-tighter"
@@ -34,7 +34,7 @@ export function SobreSection() {
               </p>
               <Link
                 to="/sobre"
-                className="inline-block text-qm-magenta font-sans font-bold uppercase tracking-wide text-sm hover:underline"
+                className="inline-block text-white/70 hover:text-white font-sans font-bold uppercase tracking-wide text-sm hover:underline transition-colors"
               >
                 {s.homeCTA} â†’
               </Link>
