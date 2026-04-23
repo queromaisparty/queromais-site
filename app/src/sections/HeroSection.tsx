@@ -23,9 +23,8 @@ export function HeroSection() {
   const mobileVideo = '/steampunk.mp4';
   const videoSrc = isMobile ? mobileVideo : desktopVideo;
 
-  // ── DESKTOP: scroll-controlled video (lerp) ──
+  // ── SCROLL-CONTROLLED VIDEO (Mobile e Desktop) ──
   useEffect(() => {
-    if (isMobile) return; // No mobile, o vídeo dá autoplay normal
 
     let animationFrameId: number;
     let targetProgress = 0;
@@ -90,29 +89,7 @@ export function HeroSection() {
   if (hero && hero.active === false) return null;
 
   // ═══════════════════════════════════════════════════════
-  // MOBILE: vídeo normal, autoplay, sem scroll-control
-  // Suporta qualquer aspect ratio (1920x1080 ou 1080x1920)
-  // O vídeo se ajusta automaticamente à largura da tela
-  // ═══════════════════════════════════════════════════════
-  if (isMobile) {
-    return (
-      <section id="home" className="relative w-full bg-[#050505] overflow-hidden">
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          className="w-full h-auto block"
-          muted
-          autoPlay
-          loop
-          playsInline
-          preload="auto"
-        />
-      </section>
-    );
-  }
-
-  // ═══════════════════════════════════════════════════════
-  // DESKTOP: vídeo controlado pelo scroll (sticky + lerp)
+  // RENDERIZAÇÃO DO VÍDEO
   // ═══════════════════════════════════════════════════════
   return (
     <section ref={containerRef} id="home" className="relative w-full h-[250vh] bg-[#050505]">
@@ -122,7 +99,7 @@ export function HeroSection() {
           <video
             ref={videoRef}
             src={videoSrc}
-            className="w-full h-full object-cover object-center"
+            className={`w-full h-full ${isMobile ? 'object-contain' : 'object-cover'} object-center`}
             muted
             playsInline
             preload="auto"
