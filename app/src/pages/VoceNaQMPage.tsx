@@ -32,7 +32,7 @@ export function VoceNaQMPage() {
                <p className="text-qm-magenta text-sm font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
                  <Camera className="w-5 h-5" /> Momentos Eternizados
                </p>
-               <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
+               <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tighter leading-none mb-4">
                  VOCÃŠ NA <span className="text-qm-magenta">QUERO MAIS</span>
                </h1>
                 <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
@@ -98,7 +98,7 @@ export function VoceNaQMPage() {
                           )}
                       </div>
                       <div className="p-6 sm:p-8 flex-1 flex flex-col">
-                          <h3 className="text-xl sm:text-2xl font-bold text-black uppercase tracking-tight mb-2 group-hover:text-qm-magenta transition-colors">{album.title}</h3>
+                          <h3 className="text-xl sm:text-2xl font-bold text-black uppercase tracking-tighter mb-2 group-hover:text-qm-magenta transition-colors">{album.title}</h3>
                           <div className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-4 mt-auto">
                              <Calendar className="w-4 h-4 text-qm-magenta" />
                              {new Date(album.createdAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
@@ -141,7 +141,7 @@ export function VoceNaQMPage() {
                         )}
                       </div>
                       <div className="py-4 px-2">
-                        <h3 className="text-lg font-black text-black uppercase tracking-tight group-hover:text-red-700 transition-colors">{video.title.pt}</h3>
+                        <h3 className="text-lg font-black text-black uppercase tracking-tighter group-hover:text-red-700 transition-colors">{video.title.pt}</h3>
                         <p className="text-gray-400 text-[10px] font-bold uppercase mt-1 flex items-center gap-2">
                           <Youtube className="w-3 h-3" /> Ver no YouTube
                         </p>
@@ -166,7 +166,7 @@ export function VoceNaQMPage() {
               </button>
               
               <div className="text-right">
-                <h1 className="text-2xl sm:text-4xl font-black text-black uppercase tracking-tight">{selectedAlbum.title}</h1>
+                <h1 className="text-2xl sm:text-4xl font-black text-black uppercase tracking-tighter">{selectedAlbum.title}</h1>
                 <p className="text-gray-500 text-sm font-semibold mt-1">
                   {new Date(selectedAlbum.createdAt).toLocaleDateString('pt-BR')} â€¢ {selectedAlbum.images.length} Fotos Oficiais
                 </p>
@@ -238,3 +238,4 @@ export function VoceNaQMPage() {
     </main>
   );
 }
+

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { useData } from '@/context/DataContext';
 
 // Detecta mobile antes do primeiro render para evitar double-loading
@@ -18,12 +18,12 @@ export function HeroSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Puxando o vídeo novo diretamente
+  // Puxando o vÃ­deo novo diretamente
   const desktopVideo = '/steampunk.mp4';
   const mobileVideo = '/steampunk.mp4';
   const videoSrc = isMobile ? mobileVideo : desktopVideo;
 
-  // ── SCROLL-CONTROLLED VIDEO (Mobile e Desktop) ──
+  // â”€â”€ SCROLL-CONTROLLED VIDEO (Mobile e Desktop) â”€â”€
   useEffect(() => {
 
     let animationFrameId: number;
@@ -88,9 +88,9 @@ export function HeroSection() {
 
   if (hero && hero.active === false) return null;
 
-  // ═══════════════════════════════════════════════════════
-  // RENDERIZAÇÃO DO VÍDEO
-  // ═══════════════════════════════════════════════════════
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // RENDERIZAÃ‡ÃƒO DO VÃDEO
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   return (
     <section ref={containerRef} id="home" className="relative w-full h-[250vh] bg-[#050505]">
       {/* Wrapper travado que gruda na tela */}
@@ -109,3 +109,4 @@ export function HeroSection() {
     </section>
   );
 }
+

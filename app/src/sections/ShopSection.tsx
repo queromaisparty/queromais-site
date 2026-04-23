@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { ShoppingBag, Ticket, Plus, Minus, Trash2, CreditCard } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -75,7 +75,7 @@ export function ShopSection() {
       text += `${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}%0A`;
     });
     text += `%0A*TOTAL: R$ ${cartTotal.toFixed(2)}*%0A%0A`;
-    text += `Olá! Gostaria de finalizar o meu pedido.`;
+    text += `OlÃ¡! Gostaria de finalizar o meu pedido.`;
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   };
 
@@ -90,13 +90,13 @@ export function ShopSection() {
     <section id="shop" className="py-10 sm:py-20 lg:py-32 bg-[#0A0A0A]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header da Seção & Cart Button */}
+        {/* Header da SeÃ§Ã£o & Cart Button */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 border-b border-white/10 pb-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3 font-sans">
               {t({ pt: 'Loja Oficial', en: 'Official Store', es: 'Tienda Oficial' })}
             </p>
-            <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-6xl text-white uppercase tracking-tight">
+            <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-6xl text-white uppercase tracking-tighter">
               {t(translations.shop.title)}
             </h2>
           </div>
@@ -126,7 +126,7 @@ export function ShopSection() {
             
             {cart.length === 0 ? (
               <p className="text-white/50 text-center py-12 text-lg">
-                {t({ pt: 'Seu carrinho está vazio', en: 'Your cart is empty', es: 'Tu carrito está vacío' })}
+                {t({ pt: 'Seu carrinho estÃ¡ vazio', en: 'Your cart is empty', es: 'Tu carrito estÃ¡ vacÃ­o' })}
               </p>
             ) : (
               <>
@@ -263,9 +263,9 @@ export function ShopSection() {
               ) : (
                 <div className="col-span-full py-16 flex flex-col items-center justify-center border border-white/10 rounded-none border-dashed">
                   <ShoppingBag className="w-12 h-12 text-white/20 mb-4" />
-                  <h3 className="text-white font-black text-xl uppercase mb-2">Coleção em Breve</h3>
+                  <h3 className="text-white font-black text-xl uppercase mb-2">ColeÃ§Ã£o em Breve</h3>
                   <p className="text-white/50 text-center max-w-sm">
-                    Nossa linha exclusiva está ganhando forma. Fique ligado para novidades.
+                    Nossa linha exclusiva estÃ¡ ganhando forma. Fique ligado para novidades.
                   </p>
                 </div>
               )}
@@ -316,7 +316,7 @@ export function ShopSection() {
                   <Ticket className="w-16 h-16 text-white/10 mx-auto mb-6" />
                   <p className="font-black text-white/40 text-2xl uppercase tracking-widest">
                     {t({ 
-                      pt: 'Nenhum ingresso disponível no momento.',
+                      pt: 'Nenhum ingresso disponÃ­vel no momento.',
                       en: 'No tickets available at the moment.',
                       es: 'No hay entradas disponibles en este momento.'
                     })}
@@ -331,3 +331,4 @@ export function ShopSection() {
     </section>
   );
 }
+

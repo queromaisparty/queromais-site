@@ -35,7 +35,7 @@ export function FicaMaisSection() {
                 {t({ pt: 'After Party', en: 'After Party', es: 'After Party' })}
               </span>
             </div>
-            <h2 className="text-xl sm:text-3xl lg:text-6xl font-black text-white mt-4 mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-3xl lg:text-6xl font-black text-white uppercase tracking-tighter mt-4 mb-4 sm:mb-6">
               <span className="text-[#8B5CF6]">FICA</span> MAIS{' '}
               <span className="text-qm-magenta">PARTY</span>
             </h2>
@@ -95,14 +95,14 @@ export function FicaMaisSection() {
                 <div className="space-y-6">
                   <div className="bg-white/5 border border-white/10 rounded-none p-6">
                     <h3 className="text-white text-xl font-bold mb-4">
-                      {t({ pt: 'O que é a Fica Mais Party?', en: 'What is Fica Mais Party?', es: '¿Qué es Fica Mais Party?' })}
+                      {t({ pt: 'O que Ã© a Fica Mais Party?', en: 'What is Fica Mais Party?', es: 'Â¿QuÃ© es Fica Mais Party?' })}
                     </h3>
                     <p className="text-white/60 leading-relaxed">
                       {ficaMaisParty?.manifestoCurto?.pt ||
                         t({ 
-                          pt: 'A Fica Mais Party é o after oficial da Quero Mais. Um espaço onde a festa continua quando o sol nasce, criando momentos únicos e memoráveis para quem não quer que a noite acabe. Música, energia e uma vibe exclusiva que só quem viveu conhece.',
+                          pt: 'A Fica Mais Party Ã© o after oficial da Quero Mais. Um espaÃ§o onde a festa continua quando o sol nasce, criando momentos Ãºnicos e memorÃ¡veis para quem nÃ£o quer que a noite acabe. MÃºsica, energia e uma vibe exclusiva que sÃ³ quem viveu conhece.',
                           en: 'Fica Mais Party is the official Quero Mais after party. A space where the party continues when the sun rises, creating unique and memorable moments for those who don\'t want the night to end.',
-                          es: 'Fica Mais Party es el after oficial de Quero Más. Un espacio donde la fiesta continúa cuando sale el sol, creando momentos únicos y memorables para quienes no quieren que la noche termine.'
+                          es: 'Fica Mais Party es el after oficial de Quero MÃ¡s. Un espacio donde la fiesta continÃºa cuando sale el sol, creando momentos Ãºnicos y memorables para quienes no quieren que la noche termine.'
                         })
                       }
                     </p>
@@ -116,9 +116,9 @@ export function FicaMaisSection() {
                       </div>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">∞</div>
+                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">âˆž</div>
                       <div className="text-white/50 text-sm">
-                        {t({ pt: 'Memórias', en: 'Memories', es: 'Recuerdos' })}
+                        {t({ pt: 'MemÃ³rias', en: 'Memories', es: 'Recuerdos' })}
                       </div>
                     </div>
                   </div>
@@ -182,3 +182,4 @@ export function FicaMaisSection() {
     </section>
   );
 }
+

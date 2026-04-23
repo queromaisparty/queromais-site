@@ -29,7 +29,7 @@ export function GallerySection() {
       .sort((a, b) => (a.order || 0) - (b.order || 0) || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [galleryAlbums]);
 
-  // Pool de fotos (Apenas de álbuns internos)
+  // Pool de fotos (Apenas de Ã¡lbuns internos)
   const allImages = useMemo(() => {
     return filteredAlbums
       .filter(album => album.type === 'internal' && album.images?.length > 0)
@@ -103,7 +103,7 @@ export function GallerySection() {
 
           {/* Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-[#111] leading-[0.95] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-[#111] uppercase leading-[0.95] tracking-tighter">
               {t(translations.gallery.title)}
             </h2>
             <p className="text-gray-400 font-medium text-base mt-4 max-w-lg mx-auto">
@@ -127,7 +127,7 @@ export function GallerySection() {
               </button>
             ))}
 
-            {/* Vídeos Tab */}
+            {/* VÃ­deos Tab */}
             <button
               onClick={() => { setIsVideosActive(v => { if (v) setIsHeroPlaying(false); return !v; }); setSelectedFilter('all'); }}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-none text-sm font-semibold transition-all duration-200 ${
@@ -137,7 +137,7 @@ export function GallerySection() {
               }`}
             >
               <Youtube className="w-4 h-4" />
-              {t({ pt: 'Você Não Quer Mais', en: 'You Don\'t Want More', es: 'No Quieres Más' })}
+              {t({ pt: 'VocÃª NÃ£o Quer Mais', en: 'You Don\'t Want More', es: 'No Quieres MÃ¡s' })}
             </button>
 
             {/* Download search toggle */}
@@ -151,7 +151,7 @@ export function GallerySection() {
                 }`}
               >
                 <Download className="w-3.5 h-3.5" />
-                {t({ pt: 'Pegue sua foto', en: 'Get your photo', es: 'Obtén tu foto' })}
+                {t({ pt: 'Pegue sua foto', en: 'Get your photo', es: 'ObtÃ©n tu foto' })}
               </button>
             )}
           </div>
@@ -175,15 +175,15 @@ export function GallerySection() {
               </div>
               <p className="text-gray-400 text-sm mb-4">
                 {t({
-                  pt: 'Digite seu nome ou código do evento para buscar suas fotos.',
+                  pt: 'Digite seu nome ou cÃ³digo do evento para buscar suas fotos.',
                   en: 'Enter your name or event code to find your photos.',
-                  es: 'Ingresa tu nombre o código del evento para buscar tus fotos.'
+                  es: 'Ingresa tu nombre o cÃ³digo del evento para buscar tus fotos.'
                 })}
               </p>
               <div className="flex gap-3">
                 <input
                   type="text"
-                  placeholder={t({ pt: 'Nome ou código...', en: 'Name or code...', es: 'Nombre o código...' })}
+                  placeholder={t({ pt: 'Nome ou cÃ³digo...', en: 'Name or code...', es: 'Nombre o cÃ³digo...' })}
                   className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-qm-magenta focus:ring-1 focus:ring-qm-magenta transition-colors"
                 />
                 <button className="px-5 py-2.5 bg-[#111] text-white font-semibold text-sm rounded-none hover:bg-[#222] transition-colors">
@@ -221,14 +221,14 @@ export function GallerySection() {
                         className="w-full h-full"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
-                        title={`${t({ pt: 'Vídeo After Movie', en: 'After Movie Video', es: 'Video After Movie' })} - ${t(videosData.featured.title)}`}
+                        title={`${t({ pt: 'VÃ­deo After Movie', en: 'After Movie Video', es: 'Video After Movie' })} - ${t(videosData.featured.title)}`}
                       />
                     ) : (
                       <button
                         type="button"
                         className="w-full h-full relative group"
                         onClick={() => setIsHeroPlaying(true)}
-                        aria-label="Reproduzir vídeo"
+                        aria-label="Reproduzir vÃ­deo"
                       >
                         <img
                           src={`https://img.youtube.com/vi/${videosData.featured.youtubeId}/hqdefault.jpg`}
@@ -244,7 +244,7 @@ export function GallerySection() {
                     )}
                   </div>
                   <div className="mt-4 text-center">
-                    <h3 className="text-[#111] font-black text-xl uppercase tracking-tight">{t(videosData.featured.title)}</h3>
+                    <h3 className="text-[#111] font-black text-xl uppercase tracking-tighter">{t(videosData.featured.title)}</h3>
                     {videosData.featured.eventDate && (
                       <p className="text-gray-400 text-xs font-bold uppercase mt-1">{new Date(videosData.featured.eventDate).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}</p>
                     )}
@@ -274,7 +274,7 @@ export function GallerySection() {
                         </div>
                       </div>
                       <div className="mt-3">
-                        <h4 className="text-[#111] font-bold text-sm uppercase tracking-tight group-hover:text-qm-magenta transition-colors">{t(video.title)}</h4>
+                        <h4 className="text-[#111] font-bold text-sm uppercase tracking-tighter group-hover:text-qm-magenta transition-colors">{t(video.title)}</h4>
                         <p className="text-gray-400 text-[10px] font-bold uppercase mt-1">VER AFTER MOVIE</p>
                       </div>
                     </div>
@@ -287,8 +287,8 @@ export function GallerySection() {
           {/* Albums row (if real albums exist) */}
           {filteredAlbums.length > 0 && (
             <div className="mt-16">
-              <h3 className="text-[#111] text-xl font-bold mb-6 tracking-tight">
-                {t({ pt: 'Álbuns', en: 'Albums', es: 'Álbumes' })}
+              <h3 className="text-[#111] text-xl font-bold mb-6 tracking-tighter">
+                {t({ pt: 'Ãlbuns', en: 'Albums', es: 'Ãlbumes' })}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {filteredAlbums.map((album) => (
@@ -298,7 +298,7 @@ export function GallerySection() {
                         if (album.type === 'external' && album.externalLink) {
                           window.open(album.externalLink, '_blank');
                         } else {
-                          window.location.href = '/vocenaqm'; // O DataContext lida com a navegação se selecionado, mas aqui redirecionamos para a página
+                          window.location.href = '/vocenaqm'; // O DataContext lida com a navegaÃ§Ã£o se selecionado, mas aqui redirecionamos para a pÃ¡gina
                         }
                       }}
                       className="group bg-white border border-gray-100 rounded-none overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer relative"
@@ -323,10 +323,10 @@ export function GallerySection() {
                         )}
                       </div>
                       <div className="p-4">
-                        <h4 className="text-[#111] font-bold text-sm uppercase tracking-tight">{t(album.title)}</h4>
+                        <h4 className="text-[#111] font-bold text-sm uppercase tracking-tighter">{t(album.title)}</h4>
                         <p className="text-gray-400 text-[10px] font-bold uppercase mt-1">
                           {album.type === 'external' ? (
-                            <span className="text-blue-600">Álbum Externo</span>
+                            <span className="text-blue-600">Ãlbum Externo</span>
                           ) : (
                             <>
                               {album.images.length} {t({ pt: 'fotos', en: 'photos', es: 'fotos' })}
@@ -342,7 +342,7 @@ export function GallerySection() {
         </div>
       </div>
 
-      {/* Link para página completa */}
+      {/* Link para pÃ¡gina completa */}
       {allImages.length > 0 && (
         <div className="flex justify-center mt-12 px-4">
           <Link
@@ -350,7 +350,7 @@ export function GallerySection() {
             className="flex items-center gap-3 px-8 py-4 bg-[#111] hover:bg-qm-magenta transition-colors text-white font-bold rounded-none shadow-lg hover:shadow-xl hover:shadow-qm-magenta/20 uppercase text-sm tracking-wider"
           >
             <Camera className="w-5 h-5" />
-            {t({ pt: 'Ver Todos os Álbuns', en: 'See All Albums', es: 'Ver Todos los Álbumes' })}
+            {t({ pt: 'Ver Todos os Ãlbuns', en: 'See All Albums', es: 'Ver Todos los Ãlbumes' })}
           </Link>
         </div>
       )}
@@ -374,7 +374,7 @@ export function GallerySection() {
             <button 
               onClick={() => setActiveVideo(null)}
               className="absolute -top-12 right-0 md:-right-12 md:top-0 p-2 text-white hover:text-qm-magenta transition-colors"
-              title={t({ pt: 'Fechar vídeo', en: 'Close video', es: 'Cerrar video' })}
+              title={t({ pt: 'Fechar vÃ­deo', en: 'Close video', es: 'Cerrar video' })}
             >
               <X className="w-8 h-8" />
             </button>
@@ -391,3 +391,4 @@ export function GallerySection() {
     </section>
   );
 }
+

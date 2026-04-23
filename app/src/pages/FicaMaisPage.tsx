@@ -32,7 +32,7 @@ export function FicaMaisPage() {
                   <span className="w-8 h-px bg-qm-magenta" />
                   O After Oficial
                 </div>
-                <h1 className="font-black text-4xl sm:text-6xl lg:text-8xl text-white uppercase tracking-tighter leading-[0.9] mb-6 sm:mb-8">
+                <h1 className="font-black text-4xl sm:text-6xl lg:text-6xl text-white uppercase tracking-tighter leading-[0.9] mb-6 sm:mb-8">
                   FICA MAIS <span className="text-qm-magenta">PARTY</span>
                 </h1>
                 <p className="text-xl sm:text-2xl text-white/80 font-medium leading-relaxed mb-12 max-w-2xl">
@@ -52,7 +52,7 @@ export function FicaMaisPage() {
                   <span className="w-8 h-px bg-qm-magenta" />
                   O After Oficial
                 </div>
-                <h1 className="font-black text-6xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-8">
+                <h1 className="font-black text-6xl sm:text-6xl lg:text-6xl text-black uppercase tracking-tighter leading-[0.9] mb-8">
                   FICA MAIS <span className="text-qm-magenta">PARTY</span>
                 </h1>
                 <p className="text-xl sm:text-2xl text-gray-600 font-medium leading-relaxed mb-12">
@@ -68,7 +68,7 @@ export function FicaMaisPage() {
       <section className="w-full bg-white mb-20">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tight mb-2">Trilha da Alvorada</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tighter mb-2">Trilha da Alvorada</h2>
             <p className="text-gray-500 font-medium max-w-2xl mx-auto">
               ConheÃ§a os residentes oficiais que comandam nossa cabine quando o sol nasce.
             </p>
@@ -88,7 +88,7 @@ export function FicaMaisPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-8 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
                     <div className="text-qm-magenta text-xs font-bold uppercase tracking-widest mb-1">Residente Oficial</div>
-                    <h3 className="text-3xl font-black text-white uppercase tracking-tight mb-3">{dj.name}</h3>
+                    <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-3">{dj.name}</h3>
                     <div className="flex gap-2">
                       {dj.socialLinks?.find(l => l.platform === 'soundcloud')?.url && (
                         <a href={dj.socialLinks.find(l => l.platform === 'soundcloud')?.url} title={`${dj.name} no SoundCloud`} className="w-10 h-10 bg-[#FF5500] text-white flex items-center justify-center hover:scale-110 transition-transform">
@@ -114,7 +114,7 @@ export function FicaMaisPage() {
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 border-b border-gray-300 pb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight">Galeria Fica Mais</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tighter">Galeria Fica Mais</h2>
               <p className="text-gray-600 mt-1">A fotografia de um pÃºblico que nÃ£o quer ir embora.</p>
             </div>
             <a href="/vocenaqm" className="text-qm-magenta font-bold uppercase text-sm tracking-wider hover:text-qm-magenta-dark transition-colors flex items-center gap-2">
@@ -141,3 +141,4 @@ export function FicaMaisPage() {
     </main>
   );
 }
+

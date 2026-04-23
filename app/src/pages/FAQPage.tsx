@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -57,17 +57,17 @@ export function FAQPage() {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FCE7F3] rounded-full mb-6">
             <HelpCircle className="w-4 h-4 text-qm-magenta" />
             <span className="text-qm-magenta text-sm font-bold uppercase tracking-wider">
-              {t({ pt: 'Tire suas dúvidas', en: 'Get answers', es: 'Resuelve tus dudas' })}
+              {t({ pt: 'Tire suas dÃºvidas', en: 'Get answers', es: 'Resuelve tus dudas' })}
             </span>
           </div>
-          <h1 className="font-black text-4xl sm:text-5xl text-black uppercase tracking-tight mb-4">
+          <h1 className="font-black text-4xl sm:text-5xl text-black uppercase tracking-tighter mb-4">
             {t({ pt: 'Perguntas Frequentes', en: 'FAQ', es: 'Preguntas Frecuentes' })}
           </h1>
           <p className="text-gray-500 max-w-xl mx-auto">
             {t({
               pt: 'Encontre respostas para as perguntas mais comuns sobre nossos eventos, ingressos e muito mais.',
               en: 'Find answers to the most common questions about our events, tickets and more.',
-              es: 'Encuentre respuestas a las preguntas más comunes sobre nuestros eventos, entradas y más.',
+              es: 'Encuentre respuestas a las preguntas mÃ¡s comunes sobre nuestros eventos, entradas y mÃ¡s.',
             })}
           </p>
         </div>
@@ -77,13 +77,13 @@ export function FAQPage() {
           <div className="text-center py-20">
             <HelpCircle className="w-16 h-16 text-gray-200 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-400 mb-2">
-              {t({ pt: 'Em breve!', en: 'Coming soon!', es: '¡Próximamente!' })}
+              {t({ pt: 'Em breve!', en: 'Coming soon!', es: 'Â¡PrÃ³ximamente!' })}
             </h3>
             <p className="text-gray-400 text-sm">
               {t({
-                pt: 'Estamos preparando o conteúdo desta seção.',
+                pt: 'Estamos preparando o conteÃºdo desta seÃ§Ã£o.',
                 en: 'We are preparing the content for this section.',
-                es: 'Estamos preparando el contenido de esta sección.',
+                es: 'Estamos preparando el contenido de esta secciÃ³n.',
               })}
             </p>
           </div>
@@ -121,3 +121,4 @@ export function FAQPage() {
     </main>
   );
 }
+

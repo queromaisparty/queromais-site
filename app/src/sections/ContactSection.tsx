@@ -1,4 +1,4 @@
-import { Mail, MessageCircle, Instagram, ArrowRight } from 'lucide-react';
+﻿import { Mail, MessageCircle, Instagram, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { Link } from 'react-router-dom';
@@ -10,14 +10,14 @@ export function ContactSection() {
   return (
     <section id="contact" className="py-10 sm:py-16 lg:py-24 bg-white relative z-10 border-t border-gray-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-black uppercase tracking-tight mb-4">
-          {t({ pt: 'Fale Conosco', en: 'Get in Touch', es: 'Contáctenos' })}
+        <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-black uppercase tracking-tighter mb-4">
+          {t({ pt: 'Fale Conosco', en: 'Get in Touch', es: 'ContÃ¡ctenos' })}
         </h2>
         <p className="text-gray-500 text-sm sm:text-base mb-8 max-w-lg mx-auto">
           {t({ 
-            pt: 'Canais oficiais de informações e suporte da Quero Mais.',
+            pt: 'Canais oficiais de informaÃ§Ãµes e suporte da Quero Mais.',
             en: 'Official information and support channels for Quero Mais.',
-            es: 'Canales oficiales de información y soporte de Quero Mais.'
+            es: 'Canales oficiales de informaciÃ³n y soporte de Quero Mais.'
           })}
         </p>
 
@@ -59,10 +59,11 @@ export function ContactSection() {
           to="/contato"
           className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-qm-magenta text-white font-bold uppercase tracking-wider hover:bg-qm-magenta-dark transition-colors rounded-none text-sm"
         >
-          {t({ pt: 'Fale Direto', en: 'Contact Us', es: 'Contáctenos' })}
+          {t({ pt: 'Fale Direto', en: 'Contact Us', es: 'ContÃ¡ctenos' })}
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
     </section>
   );
 }
+

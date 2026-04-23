@@ -16,7 +16,7 @@ export function MusicPage() {
               <p className="text-qm-magenta text-sm font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
                 <Headphones className="w-4 h-4" /> Som Oficial
               </p>
-              <h1 className="font-black text-3xl sm:text-5xl lg:text-7xl text-black uppercase tracking-tighter leading-none mb-4">
+              <h1 className="font-black text-3xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tighter leading-none mb-4">
                 QM <span className="text-qm-magenta">MUSIC</span>
               </h1>
               <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
@@ -47,7 +47,7 @@ export function MusicPage() {
       {/* Live Sets / Podcasts */}
       <section className="w-full py-20 bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tight mb-12 flex items-center gap-3">
+          <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tighter mb-12 flex items-center gap-3">
             <Disc className="w-8 h-8 text-qm-magenta" /> Live Sets Originais
           </h2>
           
@@ -108,7 +108,7 @@ export function MusicPage() {
       {/* Playlists de Esquenta */}
       <section className="w-full py-20 bg-black">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight mb-12 flex items-center gap-3">
+          <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter mb-12 flex items-center gap-3">
             <Headphones className="w-8 h-8 text-[#1DB954]" /> Playlists Oficiais
           </h2>
 
@@ -149,7 +149,7 @@ export function MusicPage() {
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tighter">
                 Nosso Cast Oficial
               </h2>
             </div>
@@ -197,3 +197,4 @@ export function MusicPage() {
     </main>
   );
 }
+

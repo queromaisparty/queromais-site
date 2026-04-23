@@ -1,4 +1,4 @@
-import { ChevronRight } from 'lucide-react';
+﻿import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -19,30 +19,30 @@ export function EventsSection() {
     <section id="eventos" className="py-14 sm:py-20 lg:py-32 bg-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header da seção */}
+        {/* Header da seÃ§Ã£o */}
         <div className="text-center mb-10 sm:mb-16">
-          <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-5xl text-[#555555] tracking-tight capitalize">
-            {t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
+          <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-5xl text-[#555555] tracking-tighter uppercase">
+            {t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero MÃ¡s' })}
           </h2>
         </div>
 
-        {/* Estado vazio — nenhum evento cadastrado */}
+        {/* Estado vazio â€” nenhum evento cadastrado */}
         {activeEvents.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <h3 className="font-sans font-black text-2xl text-black uppercase mb-3">
-              {t({ pt: 'Em breve!', en: 'Coming soon!', es: '¡Próximamente!' })}
+              {t({ pt: 'Em breve!', en: 'Coming soon!', es: 'Â¡PrÃ³ximamente!' })}
             </h3>
             <p className="text-[#666666] text-base max-w-sm">
               {t({
-                pt: 'Estamos preparando novos eventos incríveis. Fique de olho!',
+                pt: 'Estamos preparando novos eventos incrÃ­veis. Fique de olho!',
                 en: 'We are preparing amazing new events. Stay tuned!',
-                es: '¡Estamos preparando nuevos eventos increíbles. ¡Estate atento!',
+                es: 'Â¡Estamos preparando nuevos eventos increÃ­bles. Â¡Estate atento!',
               })}
             </p>
           </div>
         )}
 
-        {/* Grid de eventos — 2 colunas no desktop */}
+        {/* Grid de eventos â€” 2 colunas no desktop */}
         {activeEvents.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {activeEvents.map((event) => (
@@ -51,7 +51,7 @@ export function EventsSection() {
           </div>
         )}
 
-        {/* Ver todos — botão em estilo diferente se houver mais de 2 */}
+        {/* Ver todos â€” botÃ£o em estilo diferente se houver mais de 2 */}
         {activeEvents.length > 2 && (
           <div className="text-center mt-12">
             <Link to="/eventos" className="inline-block px-10 py-3 bg-[#111111] hover:bg-black text-white text-sm font-bold tracking-widest uppercase transition-colors rounded-none">
@@ -64,3 +64,4 @@ export function EventsSection() {
     </section>
   );
 }
+

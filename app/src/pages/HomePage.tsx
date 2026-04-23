@@ -1,4 +1,4 @@
-import { HeroSection } from '@/sections/HeroSection';
+﻿import { HeroSection } from '@/sections/HeroSection';
 import { EventsSection } from '@/sections/EventsSection';
 import { FicaMaisSection } from '@/sections/FicaMaisSection';
 import { SobreSection } from '@/sections/SobreSection';
@@ -21,3 +21,4 @@ export function HomePage() {
     </main>
   );
 }
+

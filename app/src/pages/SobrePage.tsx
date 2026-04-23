@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 
 export function SobrePage() {
@@ -12,9 +12,9 @@ export function SobrePage() {
     <main className="pt-24 pb-20 min-h-screen bg-white overflow-hidden">
       
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* BLOCO 1 — Hero */}
+        {/* BLOCO 1 â€” Hero */}
         <div className="text-center mt-8 mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <h1 className="font-black text-3xl sm:text-5xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-6">
+          <h1 className="font-black text-3xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tighter leading-[0.9] mb-6">
             {s.heroTitle.split(' ').map((word, i, arr) =>
               i === arr.length - 1
                 ? <span key={i} className="text-qm-magenta"> {word}</span>
@@ -26,7 +26,7 @@ export function SobrePage() {
           </p>
         </div>
 
-        {/* BLOCO 2 — Stats (oculto se vazio) */}
+        {/* BLOCO 2 â€” Stats (oculto se vazio) */}
         {stats.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
             {stats.map(stat => (
@@ -38,14 +38,14 @@ export function SobrePage() {
           </div>
         )}
 
-        {/* BLOCO 3 — Origem e Propósito */}
+        {/* BLOCO 3 â€” Origem e PropÃ³sito */}
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5 font-sans">
-                Origem e Propósito
+                Origem e PropÃ³sito
               </p>
-              <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tight mb-6"
+              <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tighter mb-6"
                   style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
                 {s.origemTitle}
               </h2>
@@ -65,7 +65,7 @@ export function SobrePage() {
         </div>
       </section>
 
-      {/* BLOCO 4 — Essência da Marca */}
+      {/* BLOCO 4 â€” EssÃªncia da Marca */}
       <section className="w-full bg-[#3D4246] py-20 mb-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -77,7 +77,7 @@ export function SobrePage() {
             <p className="text-white/60 leading-relaxed text-sm mb-8">{s.essenciaText2}</p>
             {s.essenciaImage && (
               <div className="mb-8 aspect-[16/7] overflow-hidden rounded-none">
-                <img src={s.essenciaImage} alt="Essência da Quero Mais" className="w-full h-full object-cover" />
+                <img src={s.essenciaImage} alt="EssÃªncia da Quero Mais" className="w-full h-full object-cover" />
               </div>
             )}
             {s.tags.length > 0 && (
@@ -94,12 +94,12 @@ export function SobrePage() {
       </section>
 
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* BLOCO 5 — O Símbolo: A Borboleta */}
+        {/* BLOCO 5 â€” O SÃ­mbolo: A Borboleta */}
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {s.simboloImage ? (
               <div className="aspect-square overflow-hidden rounded-none">
-                <img src={s.simboloImage} alt="A borboleta — símbolo da Quero Mais" className="w-full h-full object-cover" />
+                <img src={s.simboloImage} alt="A borboleta â€” sÃ­mbolo da Quero Mais" className="w-full h-full object-cover" />
               </div>
             ) : (
               <div className="aspect-square bg-[#F8F8F8] rounded-none flex items-center justify-center">
@@ -108,9 +108,9 @@ export function SobrePage() {
             )}
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5">
-                O Símbolo
+                O SÃ­mbolo
               </p>
-              <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tight mb-6"
+              <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tighter mb-6"
                   style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
                 {s.simboloTitle}
               </h2>
@@ -120,7 +120,7 @@ export function SobrePage() {
           </div>
         </div>
 
-        {/* BLOCO 6 — Narrativa Contínua */}
+        {/* BLOCO 6 â€” Narrativa ContÃ­nua */}
         {timeline.length > 0 && (
           <div className="mb-24">
             <div className="text-center mb-14">
@@ -155,7 +155,7 @@ export function SobrePage() {
           </div>
         )}
 
-        {/* BLOCO 7 — CTA Final */}
+        {/* BLOCO 7 â€” CTA Final */}
         <div className="text-center border-t border-gray-100 pt-16">
           <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto">{s.ctaText}</p>
           <Link
@@ -169,3 +169,4 @@ export function SobrePage() {
     </main>
   );
 }
+

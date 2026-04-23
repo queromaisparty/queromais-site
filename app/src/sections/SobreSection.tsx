@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 
 export function SobreSection() {
@@ -9,7 +9,7 @@ export function SobreSection() {
   return (
     <section id="sobre" className="bg-white">
 
-      {/* Bloco escuro — resumo institucional */}
+      {/* Bloco escuro â€” resumo institucional */}
       <div className="bg-[#3D4246] py-10 sm:py-16 lg:py-28">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -18,7 +18,7 @@ export function SobreSection() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-6 font-sans">
                 Quem somos
               </p>
-              <h2 className="font-sans font-black text-white uppercase leading-none tracking-tight"
+              <h2 className="font-sans font-black text-white uppercase leading-none tracking-tighter"
                   style={{ fontSize: 'clamp(1.6rem, 5vw, 4rem)' }}>
                 {s.homeTitle}
               </h2>
@@ -36,7 +36,7 @@ export function SobreSection() {
                 to="/sobre"
                 className="inline-block text-qm-magenta font-sans font-bold uppercase tracking-wide text-sm hover:underline"
               >
-                {s.homeCTA} →
+                {s.homeCTA} â†’
               </Link>
             </div>
 
@@ -44,11 +44,11 @@ export function SobreSection() {
         </div>
       </div>
 
-      {/* Bloco branco — stats + essência */}
+      {/* Bloco branco â€” stats + essÃªncia */}
       <div className="py-10 sm:py-16 lg:py-28 bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Stats — só renderiza se houver dados */}
+          {/* Stats â€” sÃ³ renderiza se houver dados */}
           {stats.length > 0 && (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-20">
               {stats.map(stat => (
@@ -60,13 +60,13 @@ export function SobreSection() {
             </div>
           )}
 
-          {/* Imagem + essência */}
+          {/* Imagem + essÃªncia */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {s.essenciaImage ? (
               <div className="overflow-hidden aspect-[4/3]">
                 <img
                   src={s.essenciaImage}
-                  alt="Quero Mais — essência da marca"
+                  alt="Quero Mais â€” essÃªncia da marca"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -104,3 +104,4 @@ export function SobreSection() {
     </section>
   );
 }
+

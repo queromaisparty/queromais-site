@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Music, Play, Headphones, Disc, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -13,12 +13,12 @@ export function MusicSection() {
     <section id="music" className="py-10 sm:py-20 lg:py-32 bg-white">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header da Seção */}
+        {/* Header da SeÃ§Ã£o */}
         <div className="text-center mb-14">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3">
             {t({ pt: 'Sons que marcam', en: 'Sounds that leave a mark', es: 'Sonidos que marcan' })}
           </p>
-          <h2 className="font-black text-xl sm:text-3xl lg:text-6xl text-black uppercase tracking-tight">
+          <h2 className="font-black text-xl sm:text-3xl lg:text-6xl text-black uppercase tracking-tighter">
             QM MUSIC
           </h2>
           <p className="text-black/60 text-lg max-w-2xl mx-auto mt-4 font-medium">
@@ -97,7 +97,7 @@ export function MusicSection() {
                 <div className="col-span-full py-12 text-center flex flex-col items-center justify-center bg-[#F2F2F2] rounded-none border border-dashed border-gray-300">
                   <Headphones className="w-12 h-12 text-gray-300 mb-3" />
                   <h3 className="font-black text-xl text-black uppercase">Cast em Breve</h3>
-                  <p className="text-black/50 text-sm mt-1">Nosso catálogo de residentes está sendo atualizado.</p>
+                  <p className="text-black/50 text-sm mt-1">Nosso catÃ¡logo de residentes estÃ¡ sendo atualizado.</p>
                 </div>
               )}
             </div>
@@ -205,7 +205,7 @@ export function MusicSection() {
                 <div className="col-span-full py-12 px-6 text-center flex flex-col items-center justify-center bg-[#3D4246] rounded-none border border-dashed border-gray-600">
                   <Music className="w-12 h-12 text-white/20 mb-3" />
                   <h3 className="font-sans font-black text-xl text-white uppercase">Playlists Ocultas</h3>
-                  <p className="text-white/50 text-sm mt-1">Ainda não definimos as vibrações oficias da semana.</p>
+                  <p className="text-white/50 text-sm mt-1">Ainda nÃ£o definimos as vibraÃ§Ãµes oficias da semana.</p>
                 </div>
               )}
             </div>
@@ -216,3 +216,4 @@ export function MusicSection() {
     </section>
   );
 }
+

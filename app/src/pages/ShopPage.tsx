@@ -98,7 +98,7 @@ export function ShopPage() {
              <div className="w-16 h-16 rounded-full bg-qm-magenta/10 flex items-center justify-center mb-6">
                 <ShoppingBag className="w-8 h-8 text-qm-magenta" />
              </div>
-             <h1 className="font-black text-3xl sm:text-5xl lg:text-8xl text-black uppercase tracking-tighter leading-none mb-4">
+             <h1 className="font-black text-3xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tighter leading-none mb-4">
                 QM <span className="text-qm-magenta">STORE</span>
              </h1>
              <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
@@ -282,7 +282,7 @@ export function ShopPage() {
         <div className="rounded-none bg-gradient-to-r from-qm-magenta to-qm-magenta-dark p-8 sm:p-12 text-center relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-8 shadow-xl mt-20">
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none mix-blend-overlay" />
            <div className="relative text-left flex-1">
-             <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight mb-2">Envio GrÃ¡tis</h2>
+             <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter mb-2">Envio GrÃ¡tis</h2>
              <p className="text-white/90 font-medium text-lg">Para todo o Brasil.</p>
            </div>
            <button title="Regulamento" className="relative bg-white text-black font-black uppercase tracking-wider px-8 py-4 rounded-none hover:scale-105 transition-transform flex items-center gap-2 shrink-0 shadow-lg">
@@ -294,3 +294,4 @@ export function ShopPage() {
     </main>
   );
 }
+
