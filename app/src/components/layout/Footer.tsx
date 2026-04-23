@@ -11,7 +11,7 @@ interface FooterProps {
 
 const navLinks = [
   { href: '/', label: { pt: 'Home', en: 'Home', es: 'Inicio' } },
-  { href: '/eventos', label: { pt: 'Próximos Eventos', en: 'Events', es: 'Eventos' } },
+  { href: '/eventos', label: { pt: 'Agenda', en: 'Schedule', es: 'Agenda' } },
   { href: '/fica-mais', label: { pt: 'Fica Mais Party', en: 'Fica Mais Party', es: 'Fica Mais Party' } },
   { href: '/sobre', label: { pt: 'Sobre a Quero Mais', en: 'About', es: 'Nosotros' } },
   { href: '/music', label: { pt: 'QM Music', en: 'QM Music', es: 'QM Music' } },

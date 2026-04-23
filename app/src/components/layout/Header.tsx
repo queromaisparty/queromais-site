@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const navItems = [
   { href: '/',          label: { pt: 'Home',              en: 'Home',          es: 'Inicio'    } },
-  { href: '/eventos',   label: { pt: 'Próximos Eventos',  en: 'Upcoming Events', es: 'Próximos Eventos' } },
+  { href: '/eventos',   label: { pt: 'Agenda',  en: 'Schedule', es: 'Agenda' } },
   { href: '/fica-mais', label: { pt: 'Fica Mais Party',   en: 'Fica Mais',     es: 'Fica Mais' } },
   { href: '/sobre',     label: { pt: 'Sobre',             en: 'About',         es: 'Nosotros'  } },
   { href: '/music',     label: { pt: 'QM Music',          en: 'QM Music',      es: 'QM Music'  } },

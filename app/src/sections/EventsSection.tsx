@@ -28,7 +28,7 @@ export function EventsSection() {
         {/* Header da seção */}
         <div className="text-center mb-16">
           <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-5xl text-[#555555] tracking-tight capitalize">
-            {t({ pt: 'Próximos Eventos', en: 'Upcoming Events', es: 'Próximos Eventos' })}
+            {t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
           </h2>
         </div>
 
@@ -140,7 +140,7 @@ export function EventsSection() {
         {activeEvents.length > 2 && (
           <div className="text-center mt-12">
             <Link to="/eventos" className="inline-block px-10 py-3 bg-[#111111] hover:bg-black text-white text-sm font-bold tracking-widest uppercase transition-colors rounded-none">
-              {t({ pt: 'Ver todos os eventos', en: 'See all events', es: 'Ver todos los eventos' })}
+              {t({ pt: 'Ver Agenda Completa', en: 'See Full Schedule', es: 'Ver Agenda Completa' })}
             </Link>
           </div>
         )}

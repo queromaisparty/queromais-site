@@ -8,6 +8,7 @@ import { DataProvider, useData } from '@/context/DataContext';
 import { WebsiteLayout } from '@/components/layout/WebsiteLayout';
 import { HomePage } from '@/pages/HomePage';
 import { EventosPage } from '@/pages/EventosPage';
+import { EventoDetalhePage } from '@/pages/EventoDetalhePage';
 import { FicaMaisPage } from '@/pages/FicaMaisPage';
 import { SobrePage } from '@/pages/SobrePage';
 import { MusicPage } from '@/pages/MusicPage';
@@ -117,6 +118,7 @@ function App() {
             <Route element={<WebsiteLayout onAdminClick={handleAdminClick} />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/eventos" element={<EventosPage />} />
+              <Route path="/eventos/:slug" element={<EventoDetalhePage />} />
               <Route path="/fica-mais" element={<FicaMaisPage />} />
               <Route path="/sobre" element={<SobrePage />} />
               <Route path="/music" element={<MusicPage />} />

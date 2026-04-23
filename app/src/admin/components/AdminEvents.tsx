@@ -18,24 +18,32 @@ type Filter = 'all' | 'active' | 'sold_out';
 
 interface FormData {
   title: string;
+  shortDescription: string;
+  description: string;
   date: string;
   time: string;
   venue: string;
   city: string;
+  address: string;
   status: EventStatus;
   flyer: string;
+  detailCoverImage: string;
   ticketLinks: TicketLink[];
   featuredHome: boolean;
 }
 
 const EMPTY_FORM: FormData = {
   title: '',
+  shortDescription: '',
+  description: '',
   date: '',
   time: '23:00',
   venue: '',
   city: '',
+  address: '',
   status: 'active',
   flyer: '',
+  detailCoverImage: '',
   ticketLinks: [],
   featuredHome: false,
 };
@@ -43,12 +51,16 @@ const EMPTY_FORM: FormData = {
 function eventToForm(e: Event): FormData {
   return {
     title: e.title.pt,
+    shortDescription: e.shortDescription?.pt ?? '',
+    description: e.description?.pt ?? '',
     date: e.date,
     time: e.time,
     venue: e.venue,
     city: e.city ?? '',
+    address: e.address ?? '',
     status: e.status as EventStatus,
     flyer: e.flyer ?? '',
+    detailCoverImage: e.detailCoverImage ?? '',
     ticketLinks: e.ticketLinks ?? [],
     featuredHome: e.featuredHome ?? false,
   };
@@ -56,13 +68,16 @@ function eventToForm(e: Event): FormData {
 
 function formToEvent(f: FormData): Omit<Event, 'id' | 'createdAt' | 'updatedAt'> {
   const title = { pt: f.title, en: f.title, es: f.title };
+  const shortDescription = { pt: f.shortDescription, en: f.shortDescription, es: f.shortDescription };
+  const description = { pt: f.description, en: f.description, es: f.description };
   return {
     slug: f.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-'),
     title,
-    shortDescription: { pt: '', en: '', es: '' },
-    description: { pt: '', en: '', es: '' },
+    shortDescription,
+    description,
     coverImage: f.flyer || '',
     flyer: f.flyer,
+    detailCoverImage: f.detailCoverImage || '',
     gallery: [],
     date: f.date,
     time: f.time,
@@ -70,7 +85,7 @@ function formToEvent(f: FormData): Omit<Event, 'id' | 'createdAt' | 'updatedAt'>
     venue: f.venue,
     city: f.city,
     state: '',
-    address: '',
+    address: f.address,
     ticketLinks: f.ticketLinks,
     status: f.status,
     featured: false,
@@ -290,6 +305,35 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
                 <Input label="Cidade/UF" value={form.city} onChange={v => set({ city: v })} placeholder="Ex: Rio de Janeiro" />
               </div>
 
+              <Input label="Endereço completo" value={form.address} onChange={v => set({ address: v })} placeholder="Ex: Av. das Américas, 3000 - Barra da Tijuca" />
+
+              {/* Descrição curta */}
+              <div>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">
+                  Subtítulo / Descrição curta
+                </label>
+                <input
+                  type="text"
+                  value={form.shortDescription}
+                  onChange={e => set({ shortDescription: e.target.value })}
+                  placeholder="Ex: Uma noite de música eletrônica e arte visual"
+                  className="w-full px-4 py-2.5 text-sm rounded-lg outline-none transition-all bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20"
+                />
+              </div>
+
+              {/* Descrição longa */}
+              <div>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">
+                  Descrição completa
+                </label>
+                <textarea
+                  value={form.description}
+                  onChange={e => set({ description: e.target.value })}
+                  placeholder="Descreva o evento com detalhes..."
+                  rows={4}
+                  className="w-full px-4 py-2.5 text-sm rounded-lg outline-none transition-all bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 resize-none"
+                />
+              </div>
               {/* Status */}
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2 pl-1">Status de Disponibilidade</label>
@@ -334,8 +378,37 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
                 </div>
               </label>
 
-              {/* Flyer */}
+              {/* Flyer padrão */}
               <FlyerUploader value={form.flyer} onChange={v => set({ flyer: v })} />
+
+              {/* Capa da página de detalhe */}
+              <div className="rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 p-4 space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-admin-accent/10 flex items-center justify-center flex-shrink-0">
+                    <Eye className="w-3.5 h-3.5 text-admin-accent" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-900">Capa da Página de Detalhe</p>
+                    <p className="text-[10px] text-slate-400">Exclusiva e única. Recomendado: 1600 × 838 px</p>
+                  </div>
+                  {form.detailCoverImage && (
+                    <button
+                      type="button"
+                      onClick={() => set({ detailCoverImage: '' })}
+                      className="ml-auto flex items-center gap-1 text-[10px] font-bold text-red-400 hover:text-red-600 transition-colors"
+                    >
+                      <X className="w-3 h-3" /> Remover
+                    </button>
+                  )}
+                </div>
+                {form.detailCoverImage ? (
+                  <div className="rounded-lg overflow-hidden border border-slate-200 aspect-[1600/838]">
+                    <img src={form.detailCoverImage} alt="Capa detalhe" className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <FlyerUploader value={form.detailCoverImage} onChange={v => set({ detailCoverImage: v })} />
+                )}
+              </div>
             </div>
           )}
 
@@ -740,7 +813,7 @@ export function AdminEvents() {
       {/* Header Title Section */}
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-slate-900">Agenda de Eventos</h1>
+          <h1 className="text-3xl font-black tracking-tight text-slate-900">Agenda Quero Mais</h1>
           <p className="text-sm font-medium text-slate-500 mt-1">
             Total de {events.length} evento{events.length !== 1 ? 's' : ''} em sua base de dados central.
           </p>

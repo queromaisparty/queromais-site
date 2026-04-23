@@ -52,6 +52,7 @@ export interface Event {
   // Mídia
   coverImage: string;
   flyer?: string;            // imagem de flyer separada da capa
+  detailCoverImage?: string; // capa exclusiva da página de detalhe (1600×838)
   gallery: string[];
 
   // Data e Local

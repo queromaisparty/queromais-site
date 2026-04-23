@@ -118,9 +118,9 @@ export const translations = {
       es: 'Vive momentos únicos e inolvidables con Quero Más. Fiestas, música y energía que transforman tus noches en recuerdos eternos.'
     },
     upcomingEvents: {
-      pt: 'Próximos Eventos',
-      en: 'Upcoming Events',
-      es: 'Próximos Eventos'
+      pt: 'Agenda Quero Mais',
+      en: 'Quero Mais Schedule',
+      es: 'Agenda Quero Más'
     },
     eventsDescription: {
       pt: 'Não perca nossas próximas festas. Experiências únicas esperam por você.',
@@ -132,9 +132,9 @@ export const translations = {
   // Eventos
   events: {
     title: {
-      pt: 'PRÓXIMOS EVENTOS',
-      en: 'UPCOMING EVENTS',
-      es: 'PRÓXIMOS EVENTOS'
+      pt: 'AGENDA QUERO MAIS',
+      en: 'QUERO MAIS SCHEDULE',
+      es: 'AGENDA QUERO MÁS'
     },
     subtitle: {
       pt: 'Fique por dentro de tudo que está por vir',
