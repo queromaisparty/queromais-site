@@ -21,7 +21,7 @@ export function HeroSection() {
   // Puxando o vídeo novo diretamente (ignorando o que foi salvo no painel Admin anteriormente para poder visualizar)
   const desktopVideo = '/steampunk.mp4';
   const mobileVideo = '/steampunk.mp4';
-  const fallback = hero?.fallbackImage || '/hero-poster.jpg';
+  const fallback = ''; // Removendo o poster temporariamente para não mostrar a logo branca
   const videoSrc = isMobile ? mobileVideo : desktopVideo;
 
   useEffect(() => {
@@ -53,14 +53,13 @@ export function HeroSection() {
     const smoothScroll = () => {
       const video = videoRef.current;
       
-      if (video && !isNaN(video.duration) && video.duration > 0 && video.readyState >= 2) {
+      // Removemos a checagem de readyState >= 2 porque no celular o navegador 
+      // bloqueia o download até que se tente reproduzir ou avançar o vídeo (deadlock)
+      if (video && !isNaN(video.duration) && video.duration > 0) {
         // Interpolação Linear (Lerp) para suavizar a transição
-        // Fator 0.08 = mais suave. Quanto maior (ex: 0.2), mais rápido reage.
         currentProgress += (targetProgress - currentProgress) * 0.08;
 
-        // Só atualiza se a diferença for perceptível para poupar CPU
         if (Math.abs(targetProgress - currentProgress) > 0.0001) {
-          // Clamp para evitar erro de passar o tempo total (video tela preta/congelada no fim)
           const maxTime = video.duration - 0.05;
           let newTime = currentProgress * video.duration;
           if (newTime > maxTime) newTime = maxTime;
