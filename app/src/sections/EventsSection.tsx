@@ -50,98 +50,82 @@ export function EventsSection() {
 
         {/* Grid de eventos — 2 colunas no desktop */}
         {activeEvents.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {activeEvents.map((event) => (
-              <div key={event.id} className="bg-[#FAFAFA] flex flex-col hover:opacity-95 transition-opacity duration-300">
+              <div key={event.id} className="flex flex-col sm:flex-row gap-8 items-center lg:items-stretch mb-16 last:mb-0">
 
-                {/* Imagem do artista (Formato Retrato 3:4) */}
-                <Link to={`/eventos/${event.slug}`} className="block w-full aspect-[3/4] relative overflow-hidden group">
+                {/* Imagem do artista (Formato 3:4) */}
+                <Link to={`/eventos/${event.slug}`} className="block w-full sm:w-[320px] lg:w-[400px] aspect-[3/4] flex-shrink-0 relative overflow-hidden">
                   {event.coverImage || event.flyer ? (
                     <img
                       src={event.flyer || event.coverImage}
                       alt={t(event.title)}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                      <ChevronRight className="w-8 h-8 text-gray-300" />
+                    <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                      <ChevronRight className="w-8 h-8 text-gray-400" />
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                     <span className="px-6 py-2 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-widest shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                        Ver Detalhes
-                     </span>
-                  </div>
                 </Link>
 
-                {/* Informações */}
-                <div className="p-5 sm:p-6 flex flex-col justify-between flex-1">
+                {/* Informações (Alinhadas conforme o print) */}
+                <div className="flex-1 flex flex-col justify-center min-w-0 py-4 sm:pl-4">
 
                   {/* Data + horário */}
-                  <div className="mb-5">
-                    <span className="block text-sm sm:text-base font-bold text-[#333333] mb-2">
-                      {formatDate(event.date)} | {event.time}
-                    </span>
+                  <span className="block text-2xl font-bold text-[#333333] mb-4">
+                    {formatDate(event.date)} | {event.time}
+                  </span>
 
-                    {/* Título do Evento */}
-                    <Link to={`/eventos/${event.slug}`} className="hover:text-qm-magenta transition-colors">
-                      <h3 className="font-sans font-black text-xl sm:text-2xl text-[#111111] mb-3 leading-tight uppercase">
-                        {t(event.title)}
-                      </h3>
-                    </Link>
+                  {/* Título / Descrição */}
+                  {event.shortDescription ? (
+                    <p className="text-lg text-[#444444] leading-relaxed mb-4 font-medium">
+                      {t(event.shortDescription)}
+                    </p>
+                  ) : (
+                    <h3 className="text-xl text-[#333333] leading-relaxed mb-4 font-bold">
+                      {t(event.title)}
+                    </h3>
+                  )}
 
-                    {event.shortDescription && (
-                      <p className="text-sm text-[#333333] leading-relaxed line-clamp-3 mb-4">
-                        {t(event.shortDescription)}
-                      </p>
-                    )}
-
-                    <div className="text-sm text-[#333333]">
-                      <span className="truncate">{event.venue}{event.city ? ` | ${event.city}` : ''}</span>
-                    </div>
+                  {/* Local */}
+                  <div className="text-lg text-[#444444] font-medium mb-10">
+                    <span className="truncate">{event.venue}{event.city ? ` | ${event.city}` : ''}</span>
                   </div>
 
-                  {/* Botões CTA — organizados verticalmente */}
-                  <div className="flex flex-col items-start gap-3 mt-2">
+                  {/* Botões CTA — organizados verticalmente como no print */}
+                  <div className="flex flex-col items-start gap-4 w-full">
 
                     {/* Fonte principal: eventos novos criados pelo admin */}
-                    {(event.ticketLinks ?? []).map((link) => (
-                      <a
-                         key={link.id}
-                         href={link.url}
-                         target="_blank"
-                         rel="noopener noreferrer"
-                         className="flex items-center justify-between w-full max-w-[220px] px-5 py-2.5 bg-[#4A4A4A] hover:bg-[#333] text-white rounded-sm text-xs font-bold tracking-[0.1em] transition-colors font-sans"
-                       >
-                         <span>{link.label}</span>
-                         <ChevronRight className="w-4 h-4 ml-2" />
-                       </a>
-                    ))}
-
-                    {/* Fallback: eventos antigos sem configurar ticketLinks no novo admin */}
-                    {(event.ticketLinks ?? []).length === 0 && (
-                      <>
+                    {(event.ticketLinks ?? []).length > 0 ? (
+                      (event.ticketLinks ?? []).map((link) => (
                         <a
-                          href={event.ticketUrl && event.ticketUrl !== '#' ? event.ticketUrl : '#'}
-                          target={event.ticketUrl && event.ticketUrl !== '#' ? '_blank' : undefined}
-                          rel={event.ticketUrl && event.ticketUrl !== '#' ? 'noopener noreferrer' : undefined}
-                          className="flex items-center justify-between w-full max-w-[220px] px-5 py-2.5 bg-[#4A4A4A] hover:bg-[#333] text-white rounded-sm text-xs font-bold tracking-[0.1em] transition-colors font-sans"
-                        >
-                          <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
-                          <ChevronRight className="w-4 h-4 ml-2" />
-                        </a>
-                      </>
+                           key={link.id}
+                           href={link.url}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           className="flex items-center justify-between w-full max-w-[320px] px-8 py-4 bg-[#5D2C45] hover:bg-[#4A1F35] text-white rounded-full text-sm font-bold tracking-[0.2em] uppercase transition-colors font-sans"
+                         >
+                           <span>{link.label}</span>
+                           <ChevronRight className="w-5 h-5 ml-4" />
+                         </a>
+                      ))
+                    ) : (
+                      /* Fallback: eventos antigos sem configurar ticketLinks no novo admin */
+                      <a
+                        href={event.ticketUrl && event.ticketUrl !== '#' ? event.ticketUrl : '#'}
+                        target={event.ticketUrl && event.ticketUrl !== '#' ? '_blank' : undefined}
+                        rel={event.ticketUrl && event.ticketUrl !== '#' ? 'noopener noreferrer' : undefined}
+                        className="flex items-center justify-between w-full max-w-[320px] px-8 py-4 bg-[#5D2C45] hover:bg-[#4A1F35] text-white rounded-full text-sm font-bold tracking-[0.2em] uppercase transition-colors font-sans"
+                      >
+                        <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
+                        <ChevronRight className="w-5 h-5 ml-4" />
+                      </a>
                     )}
 
                     {/* Lista de desconto */}
-                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
+                    <div className="w-full max-w-[320px]">
                       <EventListForm eventId={event.id} />
-                      <Link 
-                        to={`/eventos/${event.slug}`}
-                        className="flex items-center justify-center w-full sm:flex-1 px-5 py-2.5 bg-white border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#F5F5F5] rounded-sm text-xs font-bold tracking-[0.1em] transition-colors font-sans"
-                      >
-                        Ver Detalhes
-                      </Link>
                     </div>
                   </div>
 

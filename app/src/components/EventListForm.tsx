@@ -4,7 +4,7 @@
  */
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Users, Check, X, Loader2 } from 'lucide-react';
+import { Users, Check, X, Loader2, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface EventListFormProps {
@@ -128,17 +128,10 @@ export function EventListForm({ eventId }: EventListFormProps) {
       {!showForm && !success && (
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center justify-between w-full sm:flex-1 px-5 py-2.5 text-white rounded-sm text-xs font-bold tracking-[0.1em] transition-all font-sans"
-          style={{
-            background: 'var(--primary-color, #E91E8C)',
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.9'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
+          className="flex items-center justify-between w-full px-8 py-4 bg-[#3D3D3D] hover:bg-[#2A2A2A] text-white rounded-full text-sm font-bold tracking-[0.2em] uppercase transition-colors font-sans"
         >
-          <span className="flex items-center gap-2">
-            <Users className="w-3.5 h-3.5" />
-            {t({ pt: 'Entrar na Lista', en: 'Join Guest List', es: 'Unirse a la Lista' })}
-          </span>
+          <span>{t({ pt: 'Lista de Desconto', en: 'Guest List', es: 'Lista de Descuento' })}</span>
+          <ChevronRight className="w-5 h-5 ml-4" />
         </button>
       )}
 
