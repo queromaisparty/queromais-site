@@ -18,13 +18,15 @@ export function HeroSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Puxando o vídeo novo diretamente (ignorando o que foi salvo no painel Admin anteriormente para poder visualizar)
+  // Puxando o vídeo novo diretamente
   const desktopVideo = '/steampunk.mp4';
   const mobileVideo = '/steampunk.mp4';
-  const fallback = ''; // Removendo o poster temporariamente para não mostrar a logo branca
   const videoSrc = isMobile ? mobileVideo : desktopVideo;
 
+  // ── DESKTOP: scroll-controlled video (lerp) ──
   useEffect(() => {
+    if (isMobile) return; // No mobile, o vídeo dá autoplay normal
+
     let animationFrameId: number;
     let targetProgress = 0;
     let currentProgress = 0;
@@ -53,10 +55,7 @@ export function HeroSection() {
     const smoothScroll = () => {
       const video = videoRef.current;
       
-      // Removemos a checagem de readyState >= 2 porque no celular o navegador 
-      // bloqueia o download até que se tente reproduzir ou avançar o vídeo (deadlock)
       if (video && !isNaN(video.duration) && video.duration > 0) {
-        // Interpolação Linear (Lerp) para suavizar a transição
         currentProgress += (targetProgress - currentProgress) * 0.08;
 
         if (Math.abs(targetProgress - currentProgress) > 0.0001) {
@@ -72,8 +71,6 @@ export function HeroSection() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Inicia o loop de animação contínuo
     animationFrameId = requestAnimationFrame(smoothScroll);
 
     const handleLoadedMetadata = () => handleScroll();
@@ -96,6 +93,31 @@ export function HeroSection() {
 
   if (hero && hero.active === false) return null;
 
+  // ═══════════════════════════════════════════════════════
+  // MOBILE: vídeo normal, autoplay, sem scroll-control
+  // Suporta qualquer aspect ratio (1920x1080 ou 1080x1920)
+  // O vídeo se ajusta automaticamente à largura da tela
+  // ═══════════════════════════════════════════════════════
+  if (isMobile) {
+    return (
+      <section id="home" className="relative w-full bg-[#050505] overflow-hidden">
+        <video
+          ref={videoRef}
+          src={videoSrc}
+          className="w-full h-auto block"
+          muted
+          autoPlay
+          loop
+          playsInline
+          preload="auto"
+        />
+      </section>
+    );
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // DESKTOP: vídeo controlado pelo scroll (sticky + lerp)
+  // ═══════════════════════════════════════════════════════
   return (
     <section ref={containerRef} id="home" className="relative w-full max-w-[100vw] h-[230vh] bg-[#050505] overflow-x-hidden">
       {/* Wrapper travado que gruda na tela */}
@@ -104,7 +126,6 @@ export function HeroSection() {
           <video
             ref={videoRef}
             src={videoSrc}
-            poster={fallback}
             className="w-full h-full object-cover object-center"
             muted
             playsInline
