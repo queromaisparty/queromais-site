@@ -57,7 +57,7 @@ export function Header() {
             : 'bg-transparent'
         }`}
       >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-14 lg:h-16">
 
             {/* Hambúrguer — mobile */}

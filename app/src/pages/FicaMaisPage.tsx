@@ -1,4 +1,4 @@
-import { Disc3, ArrowRight, Moon, Image as ImageIcon } from 'lucide-react';
+﻿import { Disc3, ArrowRight, Moon, Image as ImageIcon } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -13,7 +13,7 @@ export function FicaMaisPage() {
   const manifesto =
     ficaMaisParty?.manifestoCompleto?.pt ||
     ficaMaisParty?.manifestoCurto?.pt ||
-    'Quando a noite termina para a maioria, a nossa verdadeira jornada começa. Fica Mais Party é o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.';
+    'Quando a noite termina para a maioria, a nossa verdadeira jornada comeÃ§a. Fica Mais Party Ã© o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.';
 
   return (
     <main className="pt-24 min-h-screen bg-white">
@@ -26,7 +26,7 @@ export function FicaMaisPage() {
               <img src={ficaMaisParty.pageMedia} alt="Fica Mais Party" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-white" />
             </div>
-            <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
               <div className="p-6 sm:p-12 lg:p-24 max-w-4xl">
                 <div className="text-sm font-bold uppercase tracking-[0.3em] text-qm-magenta mb-6 flex items-center gap-3">
                   <span className="w-8 h-px bg-qm-magenta" />
@@ -43,7 +43,7 @@ export function FicaMaisPage() {
           </>
         ) : (
           <div className="bg-gradient-to-br from-qm-magenta/10 via-white to-orange-50">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 relative">
               <div className="absolute top-0 right-0 p-12 opacity-10">
                 <Moon className="w-64 h-64 text-qm-magenta" />
               </div>
@@ -66,11 +66,11 @@ export function FicaMaisPage() {
 
       {/* Os Residentes */}
       <section className="w-full bg-white mb-20">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tight mb-2">Trilha da Alvorada</h2>
             <p className="text-gray-500 font-medium max-w-2xl mx-auto">
-              Conheça os residentes oficiais que comandam nossa cabine quando o sol nasce.
+              ConheÃ§a os residentes oficiais que comandam nossa cabine quando o sol nasce.
             </p>
           </div>
 
@@ -111,11 +111,11 @@ export function FicaMaisPage() {
 
       {/* Galeria Fica Mais */}
       <section className="w-full bg-[#F2F2F2] py-20">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 border-b border-gray-300 pb-8">
             <div>
               <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tight">Galeria Fica Mais</h2>
-              <p className="text-gray-600 mt-1">A fotografia de um público que não quer ir embora.</p>
+              <p className="text-gray-600 mt-1">A fotografia de um pÃºblico que nÃ£o quer ir embora.</p>
             </div>
             <a href="/vocenaqm" className="text-qm-magenta font-bold uppercase text-sm tracking-wider hover:text-qm-magenta-dark transition-colors flex items-center gap-2">
               Ver Todas <ArrowRight className="w-4 h-4" />

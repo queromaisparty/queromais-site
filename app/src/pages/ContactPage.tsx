@@ -39,7 +39,7 @@ export function ContactPage() {
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header de Atendimento */}
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 mt-8 mb-16 text-center">

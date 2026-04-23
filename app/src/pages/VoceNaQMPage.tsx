@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { useData } from '@/context/DataContext';
 import { Camera, ImageIcon, ChevronLeft, Calendar, Download, Share2, Link2, Youtube, Play, X } from 'lucide-react';
 import type { GalleryAlbum } from '@/types';
@@ -14,7 +14,7 @@ export function VoceNaQMPage() {
     return galleryVideos.filter(v => v.status === 'published').sort((a, b) => (b.displayOrder || 0) - (a.displayOrder || 0));
   }, [galleryVideos]);
 
-  // Filtrar álbuns ativos e ordenar por ordem -> data (Sincronizado com a Home)
+  // Filtrar Ã¡lbuns ativos e ordenar por ordem -> data (Sincronizado com a Home)
   const filteredAlbums = useMemo(() => {
     return galleryAlbums
       .filter(a => a.status === 'active')
@@ -24,7 +24,7 @@ export function VoceNaQMPage() {
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {!selectedAlbum && (
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 mt-8">
@@ -33,10 +33,10 @@ export function VoceNaQMPage() {
                  <Camera className="w-5 h-5" /> Momentos Eternizados
                </p>
                <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
-                 VOCÊ NA <span className="text-qm-magenta">QUERO MAIS</span>
+                 VOCÃŠ NA <span className="text-qm-magenta">QUERO MAIS</span>
                </h1>
                 <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
-                  Encontre suas fotos, relembre edições passadas e veja tudo o que rolou pelos olhos dos nossos fotógrafos oficiais.
+                  Encontre suas fotos, relembre ediÃ§Ãµes passadas e veja tudo o que rolou pelos olhos dos nossos fotÃ³grafos oficiais.
                 </p>
 
                 <div className="flex gap-4 mt-8">
@@ -64,8 +64,8 @@ export function VoceNaQMPage() {
                 {filteredAlbums.length === 0 ? (
                   <div className="col-span-full py-20 flex flex-col items-center justify-center opacity-50">
                       <ImageIcon className="w-16 h-16 text-gray-400 mb-6" />
-                      <h3 className="text-2xl font-bold text-black mb-2">Sem Álbuns</h3>
-                      <p className="text-gray-500 text-center">Ainda não há fotos publicadas no sistema.</p>
+                      <h3 className="text-2xl font-bold text-black mb-2">Sem Ãlbuns</h3>
+                      <p className="text-gray-500 text-center">Ainda nÃ£o hÃ¡ fotos publicadas no sistema.</p>
                   </div>
                 ) : (
                   filteredAlbums.map(album => (
@@ -113,8 +113,8 @@ export function VoceNaQMPage() {
                 {publishedVideos.length === 0 ? (
                   <div className="col-span-full py-20 flex flex-col items-center justify-center opacity-50 text-center">
                     <Youtube className="w-16 h-16 text-gray-400 mb-6" />
-                    <h3 className="text-2xl font-bold text-black mb-2">Sem Vídeos</h3>
-                    <p className="text-gray-500">Nossa galeria de vídeos está sendo preparada.</p>
+                    <h3 className="text-2xl font-bold text-black mb-2">Sem VÃ­deos</h3>
+                    <p className="text-gray-500">Nossa galeria de vÃ­deos estÃ¡ sendo preparada.</p>
                   </div>
                 ) : (
                   publishedVideos.map(video => (
@@ -162,13 +162,13 @@ export function VoceNaQMPage() {
                 className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors font-semibold group bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-none w-fit shadow-sm"
               >
                 <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                Voltar aos Álbuns
+                Voltar aos Ãlbuns
               </button>
               
               <div className="text-right">
                 <h1 className="text-2xl sm:text-4xl font-black text-black uppercase tracking-tight">{selectedAlbum.title}</h1>
                 <p className="text-gray-500 text-sm font-semibold mt-1">
-                  {new Date(selectedAlbum.createdAt).toLocaleDateString('pt-BR')} • {selectedAlbum.images.length} Fotos Oficiais
+                  {new Date(selectedAlbum.createdAt).toLocaleDateString('pt-BR')} â€¢ {selectedAlbum.images.length} Fotos Oficiais
                 </p>
               </div>
             </div>

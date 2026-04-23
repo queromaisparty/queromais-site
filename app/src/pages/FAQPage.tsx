@@ -50,7 +50,8 @@ export function FAQPage() {
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FCE7F3] rounded-full mb-6">
@@ -115,7 +116,8 @@ export function FAQPage() {
             })}
           </div>
         )}
-      </div>
+        </div>{/* /max-w-3xl */}
+      </div>{/* /max-w-[1280px] */}
     </main>
   );
 }

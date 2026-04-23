@@ -114,7 +114,7 @@ export function EventoDetalhePage() {
 
         {/* Conteúdo sobreposto na capa */}
         <div className="absolute inset-x-0 bottom-0 px-4 sm:px-8 lg:px-16 pb-10 sm:pb-14">
-          <div className="max-w-[1400px] mx-auto">
+          <div className="max-w-[1280px] mx-auto">
             <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-3">
               {isPast ? 'Edição Histórica' : 'Evento Oficial'}
             </div>
@@ -140,7 +140,7 @@ export function EventoDetalhePage() {
       </div>
 
       {/* ── CONTEÚDO PRINCIPAL ────────────────────── */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-16 py-12 sm:py-16">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-12 py-12 sm:py-16">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
 
           {/* ── COLUNA PRINCIPAL ── */}
