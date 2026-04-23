@@ -55,7 +55,7 @@ export function HeroSection() {
     const smoothScroll = () => {
       const video = videoRef.current;
       
-      if (video && !isNaN(video.duration) && video.duration > 0) {
+      if (video && video.readyState >= 2 && !isNaN(video.duration) && video.duration > 0) {
         currentProgress += (targetProgress - currentProgress) * 0.08;
 
         if (Math.abs(targetProgress - currentProgress) > 0.0001) {
