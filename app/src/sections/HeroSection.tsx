@@ -29,11 +29,6 @@ export function HeroSection() {
     let animationFrameId: number;
     let targetProgress = 0;
 
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.pause();
-    }
-
     const handleScroll = () => {
       if (!containerRef.current) return;
       const { top, height } = containerRef.current.getBoundingClientRect();
@@ -78,11 +73,6 @@ export function HeroSection() {
     if (!isMobile) return;
 
     progressRef.current = 0;
-
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.pause();
-    }
 
     // Sensibilidade: quantos px de swipe para completar o vídeo (ajustável)
     const SENSITIVITY = 220;
