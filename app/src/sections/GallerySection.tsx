@@ -21,6 +21,7 @@ export function GallerySection() {
   const { galleryVideos } = useData();
   const [isVideosActive, setIsVideosActive] = useState(false);
   const [activeVideo, setActiveVideo] = useState<GalleryVideoYoutube | null>(null);
+  const [isHeroPlaying, setIsHeroPlaying] = useState(false);
 
   const filteredAlbums = useMemo(() => {
     return galleryAlbums
@@ -68,6 +69,11 @@ export function GallerySection() {
     const shuffled = [...sourceImages].sort(() => Math.random() - 0.5);
     setRandomizedImages(shuffled.slice(0, 12));
   }, [sourceImages]);
+
+  useEffect(() => {
+    document.body.style.overflow = activeVideo ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [activeVideo]);
 
   // Staggered reveal
   const { containerRef, isItemVisible } = useStaggeredReveal(randomizedImages.length, DURATION.stagger);
@@ -123,7 +129,7 @@ export function GallerySection() {
 
             {/* Vídeos Tab */}
             <button
-              onClick={() => { setIsVideosActive(!isVideosActive); setSelectedFilter('all'); }}
+              onClick={() => { setIsVideosActive(v => { if (v) setIsHeroPlaying(false); return !v; }); setSelectedFilter('all'); }}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-none text-sm font-semibold transition-all duration-200 ${
                 isVideosActive
                   ? 'bg-red-600 text-white'
@@ -208,15 +214,34 @@ export function GallerySection() {
               {/* Hero Video */}
               {videosData.featured && (
                 <div className="max-w-4xl mx-auto">
-                  <div className="aspect-video bg-black relative shadow-2xl group border border-white/10">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${videosData.featured.youtubeId}?rel=0&modestbranding=1`}
-                      className="w-full h-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      loading="lazy"
-                      title={`${t({ pt: 'Vídeo After Movie', en: 'After Movie Video', es: 'Video After Movie' })} - ${t(videosData.featured.title)}`}
-                    />
+                  <div className="aspect-video bg-black relative shadow-2xl border border-white/10">
+                    {isHeroPlaying ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${videosData.featured.youtubeId}?rel=0&modestbranding=1&autoplay=1`}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title={`${t({ pt: 'Vídeo After Movie', en: 'After Movie Video', es: 'Video After Movie' })} - ${t(videosData.featured.title)}`}
+                      />
+                    ) : (
+                      <button
+                        type="button"
+                        className="w-full h-full relative group"
+                        onClick={() => setIsHeroPlaying(true)}
+                        aria-label="Reproduzir vídeo"
+                      >
+                        <img
+                          src={`https://img.youtube.com/vi/${videosData.featured.youtubeId}/hqdefault.jpg`}
+                          alt={t(videosData.featured.title)}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                            <Play className="w-8 h-8 fill-white text-white ml-1" />
+                          </div>
+                        </div>
+                      </button>
+                    )}
                   </div>
                   <div className="mt-4 text-center">
                     <h3 className="text-[#111] font-black text-xl uppercase tracking-tight">{t(videosData.featured.title)}</h3>
