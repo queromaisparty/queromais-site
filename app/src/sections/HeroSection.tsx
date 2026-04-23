@@ -107,7 +107,7 @@ export function HeroSection() {
   // RENDERIZAÇÃO DO VÍDEO
   // ════════════════════════════════════════════════════════════════════════════
   return (
-    <section ref={containerRef} id="home" className="relative w-full aspect-square md:aspect-auto md:h-[250vh] bg-[#050505]">
+    <section ref={containerRef} id="home" className="relative w-full aspect-[4/3] sm:aspect-video md:aspect-auto md:h-[250vh] bg-[#050505]">
       {/* Wrapper travado no desktop, mas fluxo normal no mobile */}
       <div className="w-full h-full md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
