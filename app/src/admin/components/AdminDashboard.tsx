@@ -28,6 +28,8 @@ import { AdminContact } from './AdminContact';
 import { AdminNewsletter } from './AdminNewsletter';
 import { AdminFAQ } from './AdminFAQ';
 import { AdminSettings } from './AdminSettings';
+import { AdminGalleryVideos } from './AdminGalleryVideos';
+import { Youtube } from 'lucide-react';
 
 type AdminSection = 
   | 'dashboard'
@@ -36,6 +38,7 @@ type AdminSection =
   | 'storytelling'
   | 'music'
   | 'gallery'
+  | 'gallery-videos'
   | 'shop'
   | 'contact'
   | 'faq'
@@ -73,7 +76,8 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
     { id: 'fica-mais',    label: { pt: 'Fica Mais Party',  en: 'Fica Mais',    es: 'Fica Mais'    }, icon: Moon },
     { id: 'storytelling', label: { pt: 'Storytelling',     en: 'Storytelling', es: 'Storytelling' }, icon: BookOpen },
     { id: 'music',        label: { pt: 'QM Music',         en: 'QM Music',     es: 'QM Music'     }, icon: Music },
-    { id: 'gallery',      label: { pt: 'Você na QM',       en: 'You at QM',    es: 'Usted en QM'  }, icon: Image },
+    { id: 'gallery',      label: { pt: 'Fotos Você na QM', en: 'Photos You at QM', es: 'Fotos Usted en QM' }, icon: Image },
+    { id: 'gallery-videos', label: { pt: 'Vídeos Você na QM', en: 'Videos You at QM', es: 'Videos Usted en QM' }, icon: Youtube },
     { id: 'shop',         label: { pt: 'Loja',             en: 'Shop',         es: 'Tienda'       }, icon: ShoppingBag },
     { id: 'contact',      label: { pt: 'Contato',          en: 'Contact',      es: 'Contacto'     }, icon: Mail },
     { id: 'newsletter',   label: { pt: 'Newsletter',       en: 'Newsletter',   es: 'Boletín'      }, icon: Mail },
@@ -245,6 +249,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
         {currentSection === 'contact' && <AdminContact />}
         {currentSection === 'newsletter' && <AdminNewsletter />}
         {currentSection === 'gallery' && <div className="p-6 lg:p-10 max-w-7xl mx-auto"><AdminGallery /></div>}
+        {currentSection === 'gallery-videos' && <div className="p-6 lg:p-10 max-w-7xl mx-auto"><AdminGalleryVideos /></div>}
         {currentSection === 'faq' && <AdminFAQ />}
         {currentSection === 'settings' && <AdminSettings />}
 

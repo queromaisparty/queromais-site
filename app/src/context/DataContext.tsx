@@ -17,7 +17,8 @@ import type {
   HomeSection,
   SiteConfig,
   ContactMessage,
-  NewsletterSubscriber
+  NewsletterSubscriber,
+  GalleryVideoYoutube
 } from '@/types';
 
 interface DataContextType {
@@ -56,6 +57,12 @@ interface DataContextType {
   addGalleryAlbum: (album: Omit<GalleryAlbum, 'id' | 'createdAt'>) => void;
   updateGalleryAlbum: (id: string, album: Partial<GalleryAlbum>) => void;
   deleteGalleryAlbum: (id: string) => void;
+  
+  // Vídeos (YouTube)
+  galleryVideos: GalleryVideoYoutube[];
+  addGalleryVideo: (video: Omit<GalleryVideoYoutube, 'id' | 'createdAt'>) => void;
+  updateGalleryVideo: (id: string, video: Partial<GalleryVideoYoutube>) => void;
+  deleteGalleryVideo: (id: string) => void;
   
   // Loja
   products: Product[];
@@ -252,6 +259,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [djSets, setDJSets] = useState<DJSet[]>([]);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [galleryAlbums, setGalleryAlbums] = useState<GalleryAlbum[]>([]);
+  const [galleryVideos, setGalleryVideos] = useState<GalleryVideoYoutube[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [faqs, setFaqs] = useState<FAQ[]>([]);
@@ -291,6 +299,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           fetchTable('banners', setBanners),
           fetchTable('contact_messages', setContactMessages),
           fetchTable('newsletter_subscribers', setNewsletterSubscribers),
+          fetchTable('gallery_videos_new', setGalleryVideos),
         ]);
 
         const { data: config } = await supabase.from('site_config').select('*').limit(1).single();
@@ -339,6 +348,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const crudDjSets = useOptimisticCRUD('dj_sets', setDJSets);
   const crudPlaylists = useOptimisticCRUD('playlists', setPlaylists);
   const crudGallery = useOptimisticCRUD('gallery_albums', setGalleryAlbums);
+  const crudVideos = useOptimisticCRUD('gallery_videos_new', setGalleryVideos);
   const crudProducts = useOptimisticCRUD('products', setProducts);
   // const crudTickets = useOptimisticCRUD('tickets', setTickets);
   const crudFaqs = useOptimisticCRUD('faqs', setFaqs);
@@ -421,6 +431,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       storytelling, updateStorytelling,
       djs, djSets, playlists, addDJ: crudDjs.add, updateDJ: crudDjs.update, deleteDJ: crudDjs.del, addDJSet: crudDjSets.add, updateDJSet: crudDjSets.update, deleteDJSet: crudDjSets.del, addPlaylist: crudPlaylists.add, updatePlaylist: crudPlaylists.update, deletePlaylist: crudPlaylists.del,
       galleryAlbums, addGalleryAlbum: crudGallery.add, updateGalleryAlbum: crudGallery.update, deleteGalleryAlbum: crudGallery.del,
+      galleryVideos, addGalleryVideo: crudVideos.add, updateGalleryVideo: crudVideos.update, deleteGalleryVideo: crudVideos.del,
       products, tickets, addProduct: crudProducts.add, updateProduct: crudProducts.update, deleteProduct: crudProducts.del,
       faqs, addFAQ: crudFaqs.add, updateFAQ: crudFaqs.update, deleteFAQ: crudFaqs.del,
       contactInfo, updateContactInfo,

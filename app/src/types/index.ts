@@ -269,6 +269,22 @@ export interface GalleryVideo {
   type: 'reel' | 'video';
 }
 
+// Novo modelo para After Movies (YouTube)
+export interface GalleryVideoYoutube {
+  id: string;
+  title: TranslatableContent;
+  youtubeUrl: string;
+  youtubeId: string;
+  thumbnailUrl: string;
+  category: string;
+  isFeatured: boolean;
+  description?: TranslatableContent;
+  eventDate?: string;
+  status: 'draft' | 'published' | 'scheduled';
+  displayOrder: number;
+  createdAt: string;
+}
+
 export interface GoogleDriveConfig {
   folderId: string;
   folderName: string;
