@@ -13,7 +13,7 @@ export function FicaMaisPage() {
   const manifesto =
     ficaMaisParty?.manifestoCompleto?.pt ||
     ficaMaisParty?.manifestoCurto?.pt ||
-    'Quando a noite termina para a maioria, a nossa verdadeira jornada comeÃ§a. Fica Mais Party Ã© o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.';
+    'Quando a noite termina para a maioria, a nossa verdadeira jornada começa. Fica Mais Party é o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.';
 
   return (
     <main className="pt-24 min-h-screen bg-white">
@@ -70,7 +70,7 @@ export function FicaMaisPage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tighter mb-2">Trilha da Alvorada</h2>
             <p className="text-gray-500 font-medium max-w-2xl mx-auto">
-              ConheÃ§a os residentes oficiais que comandam nossa cabine quando o sol nasce.
+              Conheça os residentes oficiais que comandam nossa cabine quando o sol nasce.
             </p>
           </div>
 
@@ -115,7 +115,7 @@ export function FicaMaisPage() {
           <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 border-b border-gray-300 pb-8">
             <div>
               <h2 className="text-2xl sm:text-3xl font-black text-black uppercase tracking-tighter">Galeria Fica Mais</h2>
-              <p className="text-gray-600 mt-1">A fotografia de um pÃºblico que nÃ£o quer ir embora.</p>
+              <p className="text-gray-600 mt-1">A fotografia de um público que não quer ir embora.</p>
             </div>
             <a href="/vocenaqm" className="text-qm-magenta font-bold uppercase text-sm tracking-wider hover:text-qm-magenta-dark transition-colors flex items-center gap-2">
               Ver Todas <ArrowRight className="w-4 h-4" />

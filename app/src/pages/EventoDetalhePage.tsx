@@ -16,13 +16,13 @@ export function EventoDetalhePage() {
 
   const whatsappNumber = contactInfo?.whatsapp?.replace(/\D/g, '') || '';
   const whatsappUrl = whatsappNumber
-    ? `https://wa.me/55${whatsappNumber}?text=OlÃ¡, gostaria de saber mais sobre reservas e camarotes.`
+    ? `https://wa.me/55${whatsappNumber}?text=Olá, gostaria de saber mais sobre reservas e camarotes.`
     : '#';
 
   const event = events.find(e => e.slug === slug && e.status === 'active');
   const now = new Date();
 
-  // SEO dinÃ¢mico
+  // SEO dinâmico
   useEffect(() => {
     if (event) {
       const title = getTitle(event.title);
@@ -35,7 +35,7 @@ export function EventoDetalhePage() {
     }
     
     return () => {
-      // Opcional: Restaurar tÃ­tulo original ao sair, mas o SiteEngine no App jÃ¡ cuida disso
+      // Opcional: Restaurar título original ao sair, mas o SiteEngine no App já cuida disso
     };
   }, [event]);
 
@@ -43,8 +43,8 @@ export function EventoDetalhePage() {
     return (
       <main className="pt-32 pb-20 min-h-screen bg-[#F2F2F2] flex flex-col items-center justify-center text-center px-4">
         <Calendar className="w-16 h-16 text-gray-300 mb-6" />
-        <h1 className="font-black text-3xl text-black uppercase mb-3">Evento nÃ£o encontrado</h1>
-        <p className="text-gray-500 mb-8">Este evento pode ter sido removido ou nÃ£o estÃ¡ mais disponÃ­vel.</p>
+        <h1 className="font-black text-3xl text-black uppercase mb-3">Evento não encontrado</h1>
+        <p className="text-gray-500 mb-8">Este evento pode ter sido removido ou não está mais disponível.</p>
         <Link
           to="/eventos"
           className="inline-flex items-center gap-2 px-8 py-3 bg-qm-magenta text-white font-bold uppercase tracking-wider text-sm hover:bg-qm-magenta-dark transition-colors"
@@ -65,7 +65,7 @@ export function EventoDetalhePage() {
     .sort((a, b) => {
         const distA = Math.abs(new Date(a.date).getTime() - now.getTime());
         const distB = Math.abs(new Date(b.date).getTime() - now.getTime());
-        return distA - distB; // Mais prÃ³ximos de hoje primeiro
+        return distA - distB; // Mais próximos de hoje primeiro
     })
     .slice(0, 4);
 
@@ -112,11 +112,11 @@ export function EventoDetalhePage() {
           </button>
         </div>
 
-        {/* ConteÃºdo sobreposto na capa */}
+        {/* Conteúdo sobreposto na capa */}
         <div className="absolute inset-x-0 bottom-0 px-4 sm:px-8 lg:px-16 pb-10 sm:pb-14">
           <div className="max-w-[1280px] mx-auto">
             <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-3">
-              {isPast ? 'EdiÃ§Ã£o HistÃ³rica' : 'Evento Oficial'}
+              {isPast ? 'Edição Histórica' : 'Evento Oficial'}
             </div>
             <h1 className="font-sans font-black text-2xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tighter leading-none mb-4 max-w-4xl">
               {getTitle(event.title)}
@@ -139,28 +139,28 @@ export function EventoDetalhePage() {
         </div>
       </div>
 
-      {/* â”€â”€ CONTEÃšDO PRINCIPAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â”€â”€ CONTEÚDO PRINCIPAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-12 py-12">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
 
           {/* â”€â”€ COLUNA PRINCIPAL â”€â”€ */}
           <div className="lg:col-span-7 space-y-8">
 
-            {/* DescriÃ§Ã£o curta */}
+            {/* Descrição curta */}
             {getTitle(event.shortDescription) && (
               <p className="text-xl sm:text-2xl font-semibold text-[#333] leading-relaxed border-l-4 border-qm-magenta pl-5">
                 {getTitle(event.shortDescription)}
               </p>
             )}
 
-            {/* DescriÃ§Ã£o longa */}
+            {/* Descrição longa */}
             {getTitle(event.description) && (
               <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-line">
                 {getTitle(event.description)}
               </div>
             )}
 
-            {/* InformaÃ§Ãµes detalhadas */}
+            {/* Informações detalhadas */}
             <div className="bg-white border border-gray-200 rounded-none shadow-sm divide-y divide-gray-100">
               <div className="flex items-start gap-3 p-4 sm:p-6">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#F2F2F2] flex items-center justify-center flex-shrink-0">
@@ -169,7 +169,7 @@ export function EventoDetalhePage() {
                 <div>
                   <div className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Data e Hora</div>
                   <div className="text-black font-semibold text-lg uppercase">{formatDate(event.date)}</div>
-                  <div className="text-gray-500 text-sm mt-0.5">Abertura das portÃµes: {event.time || '22:00'}</div>
+                  <div className="text-gray-500 text-sm mt-0.5">Abertura das portões: {event.time || '22:00'}</div>
                 </div>
               </div>
 
@@ -178,7 +178,7 @@ export function EventoDetalhePage() {
                   <MapPin className="w-5 h-5 text-qm-magenta" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">LocalizaÃ§Ã£o</div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Localização</div>
                   <div className="text-black font-semibold text-lg">{event.venue || 'A definir'}</div>
                   {(event.address || event.city) && (
                     <div className="text-gray-500 text-sm mt-0.5">
@@ -201,14 +201,14 @@ export function EventoDetalhePage() {
             </div>
           </div>
 
-          {/* â”€â”€ SIDEBAR DE AÃ‡Ã•ES â”€â”€ */}
+          {/* â”€â”€ SIDEBAR DE AÇÕES â”€â”€ */}
           <div className="lg:col-span-5">
             <div className="sticky top-20 sm:top-28 space-y-5">
 
               {/* Card de ingressos */}
               <div className="bg-white border border-gray-200 shadow-sm p-6 space-y-4">
                 <div className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 border-b border-gray-100 pb-3">
-                  {isPast ? 'Evento Encerrado' : 'Garantir PresenÃ§a'}
+                  {isPast ? 'Evento Encerrado' : 'Garantir Presença'}
                 </div>
 
                 {!isPast ? (
@@ -248,7 +248,7 @@ export function EventoDetalhePage() {
                   </>
                 ) : (
                   <div className="text-center py-4">
-                    <p className="text-gray-500 text-sm">Esta ediÃ§Ã£o jÃ¡ aconteceu. Confira a galeria de fotos!</p>
+                    <p className="text-gray-500 text-sm">Esta edição já aconteceu. Confira a galeria de fotos!</p>
                     <Link
                       to="/#galeria"
                       className="mt-3 inline-block text-sm font-bold text-qm-magenta hover:underline"

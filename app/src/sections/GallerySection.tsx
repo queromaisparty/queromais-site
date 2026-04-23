@@ -29,7 +29,7 @@ export function GallerySection() {
       .sort((a, b) => (a.order || 0) - (b.order || 0) || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [galleryAlbums]);
 
-  // Pool de fotos (Apenas de ÃƒÂ¡lbuns internos)
+  // Pool de fotos (Apenas de álbuns internos)
   const allImages = useMemo(() => {
     return filteredAlbums
       .filter(album => album.type === 'internal' && album.images?.length > 0)
@@ -127,7 +127,7 @@ export function GallerySection() {
               </button>
             ))}
 
-            {/* VÃƒÂ­deos Tab */}
+            {/* Vídeos Tab */}
             <button
               onClick={() => { setIsVideosActive(v => { if (v) setIsHeroPlaying(false); return !v; }); setSelectedFilter('all'); }}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-none text-sm font-semibold transition-all duration-200 ${
@@ -137,7 +137,7 @@ export function GallerySection() {
               }`}
             >
               <Youtube className="w-4 h-4" />
-              {t({ pt: 'VocÃƒÂª NÃƒÂ£o Quer Mais', en: 'You Don\'t Want More', es: 'No Quieres MÃƒÂ¡s' })}
+              {t({ pt: 'Você Não Quer Mais', en: 'You Don\'t Want More', es: 'No Quieres Más' })}
             </button>
 
             {/* Download search toggle */}
@@ -151,7 +151,7 @@ export function GallerySection() {
                 }`}
               >
                 <Download className="w-3.5 h-3.5" />
-                {t({ pt: 'Pegue sua foto', en: 'Get your photo', es: 'ObtÃƒÂ©n tu foto' })}
+                {t({ pt: 'Pegue sua foto', en: 'Get your photo', es: 'Obtén tu foto' })}
               </button>
             )}
           </div>
@@ -175,15 +175,15 @@ export function GallerySection() {
               </div>
               <p className="text-gray-400 text-sm mb-4">
                 {t({
-                  pt: 'Digite seu nome ou cÃƒÂ³digo do evento para buscar suas fotos.',
+                  pt: 'Digite seu nome ou código do evento para buscar suas fotos.',
                   en: 'Enter your name or event code to find your photos.',
-                  es: 'Ingresa tu nombre o cÃƒÂ³digo del evento para buscar tus fotos.'
+                  es: 'Ingresa tu nombre o código del evento para buscar tus fotos.'
                 })}
               </p>
               <div className="flex gap-3">
                 <input
                   type="text"
-                  placeholder={t({ pt: 'Nome ou cÃƒÂ³digo...', en: 'Name or code...', es: 'Nombre o cÃƒÂ³digo...' })}
+                  placeholder={t({ pt: 'Nome ou código...', en: 'Name or code...', es: 'Nombre o código...' })}
                   className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-qm-magenta focus:ring-1 focus:ring-qm-magenta transition-colors"
                 />
                 <button className="px-5 py-2.5 bg-[#111] text-white font-semibold text-sm rounded-none hover:bg-[#222] transition-colors">
@@ -221,14 +221,14 @@ export function GallerySection() {
                         className="w-full h-full"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
-                        title={`${t({ pt: 'VÃƒÂ­deo After Movie', en: 'After Movie Video', es: 'Video After Movie' })} - ${t(videosData.featured.title)}`}
+                        title={`${t({ pt: 'Vídeo After Movie', en: 'After Movie Video', es: 'Video After Movie' })} - ${t(videosData.featured.title)}`}
                       />
                     ) : (
                       <button
                         type="button"
                         className="w-full h-full relative group"
                         onClick={() => setIsHeroPlaying(true)}
-                        aria-label="Reproduzir vÃƒÂ­deo"
+                        aria-label="Reproduzir vídeo"
                       >
                         <img
                           src={`https://img.youtube.com/vi/${videosData.featured.youtubeId}/hqdefault.jpg`}
@@ -288,7 +288,7 @@ export function GallerySection() {
           {filteredAlbums.length > 0 && (
             <div className="mt-16">
               <h3 className="text-[#111] text-xl font-bold mb-6 tracking-tighter">
-                {t({ pt: 'ÃƒÂlbuns', en: 'Albums', es: 'ÃƒÂlbumes' })}
+                {t({ pt: 'Álbuns', en: 'Albums', es: 'Álbumes' })}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {filteredAlbums.map((album) => (
@@ -298,7 +298,7 @@ export function GallerySection() {
                         if (album.type === 'external' && album.externalLink) {
                           window.open(album.externalLink, '_blank');
                         } else {
-                          window.location.href = '/vocenaqm'; // O DataContext lida com a navegaÃƒÂ§ÃƒÂ£o se selecionado, mas aqui redirecionamos para a pÃƒÂ¡gina
+                          window.location.href = '/vocenaqm'; // O DataContext lida com a navegação se selecionado, mas aqui redirecionamos para a página
                         }
                       }}
                       className="group bg-white border border-gray-100 rounded-none overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer relative"
@@ -326,7 +326,7 @@ export function GallerySection() {
                         <h4 className="text-[#111] font-bold text-sm uppercase tracking-tighter">{t(album.title)}</h4>
                         <p className="text-gray-400 text-[10px] font-bold uppercase mt-1">
                           {album.type === 'external' ? (
-                            <span className="text-blue-600">ÃƒÂlbum Externo</span>
+                            <span className="text-blue-600">Álbum Externo</span>
                           ) : (
                             <>
                               {album.images.length} {t({ pt: 'fotos', en: 'photos', es: 'fotos' })}
@@ -342,7 +342,7 @@ export function GallerySection() {
         </div>
       </div>
 
-      {/* Link para pÃƒÂ¡gina completa */}
+      {/* Link para página completa */}
       {allImages.length > 0 && (
         <div className="flex justify-center mt-12 px-4">
           <Link
@@ -350,7 +350,7 @@ export function GallerySection() {
             className="flex items-center gap-3 px-8 py-4 bg-[#111] hover:bg-qm-magenta transition-colors text-white font-bold rounded-none shadow-lg hover:shadow-xl hover:shadow-qm-magenta/20 uppercase text-sm tracking-wider"
           >
             <Camera className="w-5 h-5" />
-            {t({ pt: 'Ver Todos os ÃƒÂlbuns', en: 'See All Albums', es: 'Ver Todos los ÃƒÂlbumes' })}
+            {t({ pt: 'Ver Todos os Álbuns', en: 'See All Albums', es: 'Ver Todos los Álbumes' })}
           </Link>
         </div>
       )}
@@ -374,7 +374,7 @@ export function GallerySection() {
             <button 
               onClick={() => setActiveVideo(null)}
               className="absolute -top-12 right-0 md:-right-12 md:top-0 p-2 text-white hover:text-qm-magenta transition-colors"
-              title={t({ pt: 'Fechar vÃƒÂ­deo', en: 'Close video', es: 'Cerrar video' })}
+              title={t({ pt: 'Fechar vídeo', en: 'Close video', es: 'Cerrar video' })}
             >
               <X className="w-8 h-8" />
             </button>

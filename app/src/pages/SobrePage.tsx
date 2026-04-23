@@ -38,12 +38,12 @@ export function SobrePage() {
           </div>
         )}
 
-        {/* BLOCO 3 â€” Origem e PropÃ³sito */}
+        {/* BLOCO 3 â€” Origem e Propósito */}
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5 font-sans">
-                Origem e PropÃ³sito
+                Origem e Propósito
               </p>
               <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tighter mb-6"
                   style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
@@ -65,7 +65,7 @@ export function SobrePage() {
         </div>
       </section>
 
-      {/* BLOCO 4 â€” EssÃªncia da Marca */}
+      {/* BLOCO 4 â€” Essência da Marca */}
       <section className="w-full bg-[#3D4246] py-24 mb-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -77,7 +77,7 @@ export function SobrePage() {
             <p className="text-white/60 leading-relaxed text-sm mb-8">{s.essenciaText2}</p>
             {s.essenciaImage && (
               <div className="mb-8 aspect-[16/7] overflow-hidden rounded-none">
-                <img src={s.essenciaImage} alt="EssÃªncia da Quero Mais" className="w-full h-full object-cover" />
+                <img src={s.essenciaImage} alt="Essência da Quero Mais" className="w-full h-full object-cover" />
               </div>
             )}
             {s.tags.length > 0 && (
@@ -94,12 +94,12 @@ export function SobrePage() {
       </section>
 
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* BLOCO 5 â€” O SÃ­mbolo: A Borboleta */}
+        {/* BLOCO 5 â€” O Símbolo: A Borboleta */}
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {s.simboloImage ? (
               <div className="aspect-square overflow-hidden rounded-none">
-                <img src={s.simboloImage} alt="A borboleta â€” sÃ­mbolo da Quero Mais" className="w-full h-full object-cover" />
+                <img src={s.simboloImage} alt="A borboleta â€” símbolo da Quero Mais" className="w-full h-full object-cover" />
               </div>
             ) : (
               <div className="aspect-square bg-[#F8F8F8] rounded-none flex items-center justify-center">
@@ -108,7 +108,7 @@ export function SobrePage() {
             )}
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5">
-                O SÃ­mbolo
+                O Símbolo
               </p>
               <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tighter mb-6"
                   style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
@@ -120,7 +120,7 @@ export function SobrePage() {
           </div>
         </div>
 
-        {/* BLOCO 6 â€” Narrativa ContÃ­nua */}
+        {/* BLOCO 6 â€” Narrativa Contínua */}
         {timeline.length > 0 && (
           <div className="mb-24">
             <div className="text-center mb-14">

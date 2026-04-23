@@ -30,7 +30,7 @@ export function ContactPage() {
       status: 'nova'
     });
 
-    toast.success('Mensagem enviada com sucesso! Nossa equipe retornarÃ¡ em breve.');
+    toast.success('Mensagem enviada com sucesso! Nossa equipe retornará em breve.');
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     setIsSubmitting(false);
   };
@@ -59,12 +59,12 @@ export function ContactPage() {
                 <div className="w-12 h-12 bg-gray-100 rounded-none flex items-center justify-center shadow-sm">
                   <span className="text-qm-magenta font-black text-xl">?</span>
                 </div>
-                <h2 className="text-3xl font-black text-black uppercase tracking-tighter">DÃºvidas Frequentes</h2>
+                <h2 className="text-3xl font-black text-black uppercase tracking-tighter">Dúvidas Frequentes</h2>
              </div>
 
              <div className="space-y-4">
                {activeFaqs.length === 0 ? (
-                 <p className="text-gray-500">Nenhuma dÃºvida cadastrada no momento.</p>
+                 <p className="text-gray-500">Nenhuma dúvida cadastrada no momento.</p>
                ) : (
                  activeFaqs.map((faq) => (
                    <div 
@@ -96,7 +96,7 @@ export function ContactPage() {
              </div>
           </div>
 
-          {/* Lado Direito - Contatos Diretos e FormulÃ¡rio */}
+          {/* Lado Direito - Contatos Diretos e Formulário */}
           <div className="lg:col-span-6 space-y-8">
             <h2 className="text-3xl font-black text-black uppercase tracking-tighter mb-8 hidden lg:block">Canais Diretos</h2>
 

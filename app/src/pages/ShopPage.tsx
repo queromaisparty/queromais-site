@@ -58,7 +58,7 @@ export function ShopPage() {
       text += `${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}%0A`;
     });
     text += `%0A*TOTAL: R$ ${cartTotal.toFixed(2)}*%0A%0A`;
-    text += `OlÃ¡! Gostaria de finalizar o meu pedido.`;
+    text += `Olá! Gostaria de finalizar o meu pedido.`;
     window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
   };
 
@@ -102,7 +102,7 @@ export function ShopPage() {
                 QM <span className="text-qm-magenta">STORE</span>
              </h1>
              <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
-                Vista a energia. Nossa linha oficial de vestuÃ¡rio e acessÃ³rios para quem respira mÃºsica eletrÃ´nica.
+                Vista a energia. Nossa linha oficial de vestuário e acessórios para quem respira música eletrônica.
              </p>
           </div>
         </div>
@@ -121,7 +121,7 @@ export function ShopPage() {
               </button>
             </div>
             {cart.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">Seu carrinho estÃ¡ vazio.</p>
+              <p className="text-gray-500 text-center py-8">Seu carrinho está vazio.</p>
             ) : (
               <>
                 <div className="space-y-4 mb-8">
@@ -167,8 +167,8 @@ export function ShopPage() {
            <div className="inline-flex bg-white border border-gray-200 shadow-sm rounded-none overflow-x-auto max-w-full hide-scrollbar">
              {[
                { id: 'todos', label: 'Todos os Produtos' },
-               { id: 'vestuario', label: 'VestuÃ¡rio' },
-               { id: 'acessorios', label: 'AcessÃ³rios' },
+               { id: 'vestuario', label: 'Vestuário' },
+               { id: 'acessorios', label: 'Acessórios' },
                { id: 'tickets', label: 'Ingressos' }
              ].map(cat => (
                <button
@@ -212,7 +212,7 @@ export function ShopPage() {
               ) : (
                 <div className="col-span-full py-24 text-center border border-dashed border-gray-200 rounded-none">
                   <Ticket className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                  <p className="font-bold text-gray-500 uppercase tracking-widest text-lg">Nenhum evento com ingressos Ã  venda.</p>
+                  <p className="font-bold text-gray-500 uppercase tracking-widest text-lg">Nenhum evento com ingressos à venda.</p>
                 </div>
               )}
           </div>
@@ -222,7 +222,7 @@ export function ShopPage() {
               <div className="col-span-full py-24 flex flex-col items-center justify-center border border-gray-200 rounded-none border-dashed bg-gray-50/50">
                  <ShoppingBag className="w-12 h-12 text-gray-300 mb-4" />
                  <h3 className="text-black font-bold text-xl uppercase mb-2">Sem produtos nesta categoria</h3>
-                 <p className="text-gray-500 text-center">Nossa coleÃ§Ã£o oficial estarÃ¡ disponÃ­vel em breve.</p>
+                 <p className="text-gray-500 text-center">Nossa coleção oficial estará disponível em breve.</p>
               </div>
             ) : (
               filteredProducts.map((product) => (
@@ -243,7 +243,7 @@ export function ShopPage() {
                       <div className="absolute top-4 left-4 flex flex-col gap-2">
                         {product.stock > 0 && product.stock <= 5 && (
                           <span className="bg-[#FF9800] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-sm">
-                            Ãšltimas {product.stock} PeÃ§as
+                            Últimas {product.stock} Peças
                           </span>
                         )}
                       </div>
@@ -282,7 +282,7 @@ export function ShopPage() {
         <div className="rounded-none bg-gradient-to-r from-qm-magenta to-qm-magenta-dark p-8 sm:p-12 text-center relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-8 shadow-xl mt-20">
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 pointer-events-none mix-blend-overlay" />
            <div className="relative text-left flex-1">
-             <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter mb-2">Envio GrÃ¡tis</h2>
+             <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter mb-2">Envio Grátis</h2>
              <p className="text-white/90 font-medium text-lg">Para todo o Brasil.</p>
            </div>
            <button title="Regulamento" className="relative bg-white text-black font-black uppercase tracking-wider px-8 py-4 rounded-none hover:scale-105 transition-transform flex items-center gap-2 shrink-0 shadow-lg">

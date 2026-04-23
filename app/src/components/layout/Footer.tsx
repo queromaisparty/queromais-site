@@ -15,7 +15,7 @@ const navLinks = [
   { href: '/fica-mais', label: { pt: 'Fica Mais Party', en: 'Fica Mais Party', es: 'Fica Mais Party' } },
   { href: '/sobre', label: { pt: 'Sobre a Quero Mais', en: 'About', es: 'Nosotros' } },
   { href: '/music', label: { pt: 'QM Music', en: 'QM Music', es: 'QM Music' } },
-  { href: '/vocenaqm', label: { pt: 'VocÃª na Quero Mais?', en: 'You at QM', es: 'Usted en QM' } },
+  { href: '/vocenaqm', label: { pt: 'Você na Quero Mais?', en: 'You at QM', es: 'Usted en QM' } },
   { href: '/loja', label: { pt: 'Loja', en: 'Shop', es: 'Tienda' } },
   { href: '/contato', label: { pt: 'Contato', en: 'Contact', es: 'Contacto' } },
 ];
@@ -32,7 +32,7 @@ export function Footer({ onAdminClick }: FooterProps) {
     setIsSubmitting(true);
     await new Promise(resolve => setTimeout(resolve, 600)); // Simulando delay
     addNewsletterSubscriber({ email, active: true });
-    toast.success('InscriÃ§Ã£o confirmada com sucesso!');
+    toast.success('Inscrição confirmada com sucesso!');
     setEmail('');
     setIsSubmitting(false);
   };
@@ -54,9 +54,9 @@ export function Footer({ onAdminClick }: FooterProps) {
             </Link>
             <p className="text-white/60 text-sm max-w-sm leading-relaxed">
               {t({
-                pt: 'Quero Mais Day Party. Onde o dia se transforma em experiÃªncia.',
+                pt: 'Quero Mais Day Party. Onde o dia se transforma em experiência.',
                 en: 'Quero Mais Day Party. Where the day turns into an experience.',
-                es: 'Quero Mais Day Party. Donde el dÃ­a se transforma en una experiencia.',
+                es: 'Quero Mais Day Party. Donde el día se transforma en una experiencia.',
               })}
             </p>
             {/* Redes Sociais */}
@@ -86,10 +86,10 @@ export function Footer({ onAdminClick }: FooterProps) {
             </div>
           </div>
 
-          {/* NavegaÃ§Ã£o */}
+          {/* Navegação */}
           <div>
             <h3 className="font-bold text-white uppercase tracking-[0.1em] text-sm mb-5">
-              {t({ pt: 'NavegaÃ§Ã£o', en: 'Navigation', es: 'NavegaciÃ³n' })}
+              {t({ pt: 'Navegação', en: 'Navigation', es: 'Navegación' })}
             </h3>
             <ul className="space-y-3">
               {navLinks.map((link) => (
@@ -148,7 +148,7 @@ export function Footer({ onAdminClick }: FooterProps) {
               {t({
                 pt: 'Seja o primeiro a saber sobre a nossa AGENDA QUERO MAIS.',
                 en: 'Be the first to know about our QUERO MAIS SCHEDULE.',
-                es: 'SÃ© el primero en saber sobre nuestra AGENDA QUERO MÃS.',
+                es: 'Sé el primero en saber sobre nuestra AGENDA QUERO MÁS.',
               })}
             </p>
             <form className="flex flex-col gap-2" onSubmit={handleSubscribe}>
@@ -177,13 +177,13 @@ export function Footer({ onAdminClick }: FooterProps) {
       <div className="border-t border-white/8">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-white/30 text-xs font-sans">
-            Â© {new Date().getFullYear()} Quero Mais. {t({ pt: 'Todos os direitos reservados.', en: 'All rights reserved.', es: 'Todos los derechos reservados.' })}
+            © {new Date().getFullYear()} Quero Mais. {t({ pt: 'Todos os direitos reservados.', en: 'All rights reserved.', es: 'Todos los derechos reservados.' })}
           </p>
           <button
             onClick={onAdminClick}
             className="text-white/25 hover:text-[var(--primary-color)] text-xs transition-colors font-sans"
           >
-            {t({ pt: 'Ãrea Administrativa', en: 'Admin Area', es: 'Ãrea Administrativa' })}
+            {t({ pt: 'Área Administrativa', en: 'Admin Area', es: 'Área Administrativa' })}
           </button>
         </div>
       </div>

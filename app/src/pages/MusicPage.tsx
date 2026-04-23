@@ -7,7 +7,7 @@ export function MusicPage() {
   return (
     <main className="pt-24 min-h-screen bg-white">
       
-      {/* NÃ­vel 2: Header da SeÃ§Ã£o de MÃºsica */}
+      {/* Nível 2: Header da Seção de Música */}
       <section className="w-full bg-[#F2F2F2] py-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
@@ -20,7 +20,7 @@ export function MusicPage() {
                 QM <span className="text-qm-magenta">MUSIC</span>
               </h1>
               <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
-                Nossa gravadora espiritual. Escute os sets originais dos nossos residentes e reviva as ediÃ§Ãµes atravÃ©s das playlists oficiais.
+                Nossa gravadora espiritual. Escute os sets originais dos nossos residentes e reviva as edições através das playlists oficiais.
               </p>
             </div>
             
@@ -56,7 +56,7 @@ export function MusicPage() {
               <div className="col-span-full py-24 flex flex-col items-center text-center">
                 <Headphones className="w-12 h-12 text-gray-300 mb-4" />
                 <h3 className="text-black font-bold mb-1">Nenhum set cadastrado</h3>
-                <p className="text-gray-500 text-sm">Os administradores ainda nÃ£o disponibilizaram os Ãºltimos sets gravados.</p>
+                <p className="text-gray-500 text-sm">Os administradores ainda não disponibilizaram os últimos sets gravados.</p>
               </div>
             ) : (
               djSets.map(set => (
@@ -117,7 +117,7 @@ export function MusicPage() {
               <div className="col-span-full py-24 flex flex-col items-center text-center">
                 <Disc className="w-12 h-12 text-gray-800 mb-4" />
                 <h3 className="text-white font-bold mb-1">Nenhuma playlist selecionada</h3>
-                <p className="text-gray-400 text-sm">Em breve, nossa seleÃ§Ã£o musical oficial aqui.</p>
+                <p className="text-gray-400 text-sm">Em breve, nossa seleção musical oficial aqui.</p>
               </div>
             ) : (
               playlists.map((pl, i) => (
@@ -166,8 +166,8 @@ export function MusicPage() {
             {djs.length === 0 ? (
               <div className="col-span-full py-12 flex flex-col items-center text-center">
                 <Headphones className="w-10 h-10 text-gray-300 mb-3" />
-                <h3 className="text-black font-bold mb-1">Line-up em construÃ§Ã£o</h3>
-                <p className="text-gray-500 text-sm">Os DJs residentes serÃ£o listados aqui em breve.</p>
+                <h3 className="text-black font-bold mb-1">Line-up em construção</h3>
+                <p className="text-gray-500 text-sm">Os DJs residentes serão listados aqui em breve.</p>
               </div>
             ) : (
               djs.map(dj => (

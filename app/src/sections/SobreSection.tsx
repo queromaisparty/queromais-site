@@ -44,11 +44,11 @@ export function SobreSection() {
         </div>
       </div>
 
-      {/* Bloco branco â€” stats + essÃªncia */}
+      {/* Bloco branco â€” stats + essência */}
       <div className="py-24 bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Stats â€” sÃ³ renderiza se houver dados */}
+          {/* Stats â€” só renderiza se houver dados */}
           {stats.length > 0 && (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-20">
               {stats.map(stat => (
@@ -60,13 +60,13 @@ export function SobreSection() {
             </div>
           )}
 
-          {/* Imagem + essÃªncia */}
+          {/* Imagem + essência */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {s.essenciaImage ? (
               <div className="overflow-hidden aspect-[4/3]">
                 <img
                   src={s.essenciaImage}
-                  alt="Quero Mais â€” essÃªncia da marca"
+                  alt="Quero Mais â€” essência da marca"
                   className="w-full h-full object-cover"
                 />
               </div>

@@ -19,30 +19,30 @@ export function EventsSection() {
     <section id="eventos" className="pt-10 pb-24 md:py-32 bg-[#0A0A0A]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header da seÃ§Ã£o */}
+        {/* Header da seção */}
         <div className="text-center mb-10 sm:mb-16">
           <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-5xl text-white tracking-tighter uppercase">
-            {t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero MÃ¡s' })}
+            {t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
           </h2>
         </div>
 
-        {/* Estado vazio Ã¢â‚¬â€ nenhum evento cadastrado */}
+        {/* Estado vazio ââ‚¬â€ nenhum evento cadastrado */}
         {activeEvents.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <h3 className="font-sans font-black text-2xl text-white uppercase mb-3">
-              {t({ pt: 'Em breve!', en: 'Coming soon!', es: 'Â¡PrÃ³ximamente!' })}
+              {t({ pt: 'Em breve!', en: 'Coming soon!', es: '¡Próximamente!' })}
             </h3>
             <p className="text-gray-400 text-base max-w-sm">
               {t({
-                pt: 'Estamos preparando novos eventos incrÃ­veis. Fique de olho!',
+                pt: 'Estamos preparando novos eventos incríveis. Fique de olho!',
                 en: 'We are preparing amazing new events. Stay tuned!',
-                es: 'Â¡Estamos preparando nuevos eventos increÃ­bles. Â¡Estate atento!',
+                es: '¡Estamos preparando nuevos eventos increíbles. ¡Estate atento!',
               })}
             </p>
           </div>
         )}
 
-        {/* Grid de eventos Ã¢â‚¬â€ 2 colunas no desktop */}
+        {/* Grid de eventos ââ‚¬â€ 2 colunas no desktop */}
         {activeEvents.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {activeEvents.map((event) => (
@@ -51,7 +51,7 @@ export function EventsSection() {
           </div>
         )}
 
-        {/* Ver todos Ã¢â‚¬â€ botÃ£o em estilo diferente se houver mais de 2 */}
+        {/* Ver todos ââ‚¬â€ botão em estilo diferente se houver mais de 2 */}
         {activeEvents.length > 2 && (
           <div className="text-center mt-12">
             <Link to="/eventos" className="inline-block px-10 py-3 bg-[#111111] hover:bg-black text-white text-sm font-bold tracking-widest uppercase transition-colors rounded-none">
