@@ -106,7 +106,7 @@ export function HeroSection() {
             ref={videoRef}
             src={videoSrc}
             poster={fallback}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-contain md:object-cover object-center"
             muted
             playsInline
             preload="auto"
