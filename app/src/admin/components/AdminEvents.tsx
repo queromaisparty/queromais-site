@@ -87,7 +87,8 @@ const STATUS_CONFIG: Record<EventStatus, { label: string; textClass: string; bgC
 };
 
 function fmtDate(d: string) {
-  return new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+  const base = d.includes('T') ? d.slice(0, 10) : d;
+  return new Date(base + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
 // ── Input padronizado ────────────────────────────────

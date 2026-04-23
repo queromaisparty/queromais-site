@@ -22,7 +22,7 @@ export function EventosPage() {
 
   let filteredList = activeEvents.filter(e => {
     // Normaliza para comparar apenas a data (sem horário) e não sumir com o evento no dia
-    const eventDate = new Date(e.date + 'T12:00:00');
+    const eventDate = new Date((e.date.includes('T') ? e.date.slice(0, 10) : e.date) + 'T12:00:00');
     // Para simplificar, vamos remover 24h do "now" para garantir que eventos de hoje fiquem no "upcoming"
     const yesterday = new Date();
     yesterday.setHours(0, 0, 0, 0);
@@ -137,7 +137,8 @@ export function EventosPage() {
                 {filteredList.map(e => {
                   const isPast = new Date(e.date) < now;
                   const formatDate = (dateStr: string) => {
-                    const d = new Date(dateStr + 'T12:00:00');
+                    const base = dateStr.includes('T') ? dateStr.slice(0, 10) : dateStr;
+                    const d = new Date(base + 'T12:00:00');
                     return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
                   };
                   return (

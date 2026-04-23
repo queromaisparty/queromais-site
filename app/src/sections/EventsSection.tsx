@@ -13,7 +13,8 @@ export function EventsSection() {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr + 'T12:00:00');
+    const base = dateStr.includes('T') ? dateStr.slice(0, 10) : dateStr;
+    const date = new Date(base + 'T12:00:00');
     return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: 'long',
