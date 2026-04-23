@@ -26,6 +26,8 @@ export function HeroSection() {
 
   useEffect(() => {
     let animationFrameId: number;
+    let targetProgress = 0;
+    let currentProgress = 0;
 
     if (videoRef.current) {
       videoRef.current.load();
@@ -33,7 +35,7 @@ export function HeroSection() {
     }
 
     const handleScroll = () => {
-      if (!containerRef.current || !videoRef.current) return;
+      if (!containerRef.current) return;
 
       const { top, height } = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
@@ -42,20 +44,30 @@ export function HeroSection() {
       const maxScroll = height - windowHeight;
 
       let progress = scrollDistance / maxScroll;
-
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
 
-      if (!isNaN(videoRef.current.duration) && videoRef.current.duration > 0) {
-        animationFrameId = requestAnimationFrame(() => {
-          if (videoRef.current) {
-            videoRef.current.currentTime = progress * videoRef.current.duration;
-          }
-        });
+      targetProgress = progress;
+    };
+
+    const smoothScroll = () => {
+      if (videoRef.current && !isNaN(videoRef.current.duration) && videoRef.current.duration > 0) {
+        // Interpolação Linear (Lerp) para suavizar a transição
+        // Fator 0.08 = mais suave. Quanto maior (ex: 0.2), mais rápido reage.
+        currentProgress += (targetProgress - currentProgress) * 0.08;
+
+        // Só atualiza se a diferença for perceptível para poupar CPU
+        if (Math.abs(targetProgress - currentProgress) > 0.0001) {
+          videoRef.current.currentTime = currentProgress * videoRef.current.duration;
+        }
       }
+      animationFrameId = requestAnimationFrame(smoothScroll);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Inicia o loop de animação contínuo
+    animationFrameId = requestAnimationFrame(smoothScroll);
 
     const handleLoadedMetadata = () => handleScroll();
     const currentVideo = videoRef.current;
