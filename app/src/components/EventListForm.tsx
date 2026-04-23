@@ -128,7 +128,7 @@ export function EventListForm({ eventId }: EventListFormProps) {
       {!showForm && !success && (
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center justify-between w-full px-6 sm:px-8 py-3 sm:py-4 bg-[#3D3D3D] hover:bg-[#2A2A2A] text-white rounded-full text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.2em] transition-colors font-sans"
+          className="flex items-center justify-between w-full px-6 sm:px-8 py-3.5 sm:py-4 bg-[#555555] hover:bg-[#444444] text-white rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
         >
           <span>{t({ pt: 'Lista de Desconto', en: 'Guest List', es: 'Lista de Descuento' })}</span>
           <ChevronRight className="w-5 h-5 ml-4" />
