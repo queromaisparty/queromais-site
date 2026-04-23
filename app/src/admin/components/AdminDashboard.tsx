@@ -17,7 +17,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { toast } from 'sonner';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AdminGallery } from './AdminGallery';
 import { AdminEvents } from './AdminEvents';
 import { AdminShop } from './AdminShop';
