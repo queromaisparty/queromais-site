@@ -1,4 +1,4 @@
-﻿import { ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -21,7 +21,7 @@ export function EventsSection() {
 
         {/* Header da seção */}
         <div className="text-center mb-10 sm:mb-16">
-          <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-5xl text-[#555555] tracking-tighter uppercase">{t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
+          <h2 className="font-display text-xl sm:text-3xl lg:text-5xl text-[#555555] tracking-tighter uppercase">{t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
           </h2>
         </div>
 
