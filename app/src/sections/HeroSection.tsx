@@ -18,8 +18,8 @@ export function HeroSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const desktopVideo = hero?.desktop?.upload || hero?.desktop?.url || '/hero-scroll.mp4';
-  const mobileVideo = hero?.mobile?.upload || hero?.mobile?.url || '/videoversaomobile.mp4';
+  const desktopVideo = hero?.desktop?.upload || hero?.desktop?.url || '/steampunk.mp4';
+  const mobileVideo = hero?.mobile?.upload || hero?.mobile?.url || '/steampunk.mp4';
   const fallback = hero?.fallbackImage || '/hero-poster.jpg';
   const videoSrc = isMobile ? mobileVideo : desktopVideo;
 
