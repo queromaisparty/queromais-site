@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { EventListForm } from '@/components/EventListForm';
@@ -39,23 +39,23 @@ export function EventCard({ event }: { event: any }) {
       {/* InformaÃ§Ãµes */}
       <div className="flex-1 flex flex-col justify-center min-w-0 py-2 sm:py-4">
         {/* Data + horÃ¡rio */}
-        <span className="block text-sm sm:text-2xl font-bold text-white mb-1 sm:mb-4">
+        <span className="block text-sm sm:text-2xl font-bold text-[#333333] mb-1 sm:mb-4">
           {formatDate(event.date)} | {event.time}
         </span>
 
         {/* TÃ­tulo / DescriÃ§Ã£o */}
         {event.shortDescription ? (
-          <p className="text-sm sm:text-lg text-gray-300 leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-medium line-clamp-2">
+          <p className="text-sm sm:text-lg text-[#444444] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-medium line-clamp-2">
             {t(event.shortDescription)}
           </p>
         ) : (
-          <h3 className="text-base sm:text-xl text-white leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-bold line-clamp-2">
+          <h3 className="text-base sm:text-xl text-[#333333] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-bold line-clamp-2">
             {t(event.title)}
           </h3>
         )}
 
         {/* Local */}
-        <div className="text-xs sm:text-lg text-gray-300 font-medium mb-4 sm:mb-10">
+        <div className="text-xs sm:text-lg text-[#444444] font-medium mb-4 sm:mb-10">
           <span className="truncate block">{event.venue}{event.city ? ` | ${event.city}` : ''}</span>
         </div>
 
