@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { EventListForm } from '@/components/EventListForm';
@@ -36,30 +36,30 @@ export function EventCard({ event }: { event: any }) {
         )}
       </Link>
 
-      {/* Informações */}
+      {/* InformaÃ§Ãµes */}
       <div className="flex-1 flex flex-col justify-center min-w-0 py-2 sm:py-4">
-        {/* Data + horário */}
-        <span className="block text-sm sm:text-2xl font-bold text-[#333333] mb-1 sm:mb-4">
+        {/* Data + horÃ¡rio */}
+        <span className="block text-sm sm:text-2xl font-bold text-white mb-1 sm:mb-4">
           {formatDate(event.date)} | {event.time}
         </span>
 
-        {/* Título / Descrição */}
+        {/* TÃ­tulo / DescriÃ§Ã£o */}
         {event.shortDescription ? (
-          <p className="text-sm sm:text-lg text-[#444444] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-medium line-clamp-2">
+          <p className="text-sm sm:text-lg text-gray-300 leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-medium line-clamp-2">
             {t(event.shortDescription)}
           </p>
         ) : (
-          <h3 className="text-base sm:text-xl text-[#333333] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-bold line-clamp-2">
+          <h3 className="text-base sm:text-xl text-white leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-bold line-clamp-2">
             {t(event.title)}
           </h3>
         )}
 
         {/* Local */}
-        <div className="text-xs sm:text-lg text-[#444444] font-medium mb-4 sm:mb-10">
+        <div className="text-xs sm:text-lg text-gray-300 font-medium mb-4 sm:mb-10">
           <span className="truncate block">{event.venue}{event.city ? ` | ${event.city}` : ''}</span>
         </div>
 
-        {/* Botões CTA */}
+        {/* BotÃµes CTA */}
         <div className="flex flex-col items-start gap-2 sm:gap-4 w-full">
           {hasTicketLinks ? (
             (event.ticketLinks ?? []).map((link: any) => (
@@ -68,7 +68,7 @@ export function EventCard({ event }: { event: any }) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-[#555555] hover:bg-[#444444] text-white rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
+                className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
               >
                 <span>{link.label}</span>
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-4" />
@@ -79,7 +79,7 @@ export function EventCard({ event }: { event: any }) {
               href={event.ticketUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-[#555555] hover:bg-[#444444] text-white rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
+              className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
             >
               <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-4" />
@@ -95,3 +95,4 @@ export function EventCard({ event }: { event: any }) {
     </div>
   );
 }
+

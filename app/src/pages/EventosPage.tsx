@@ -48,18 +48,18 @@ export function EventosPage() {
 
 
   return (
-    <main className="pt-32 pb-24 min-h-screen bg-[#F2F2F2]">
+    <main className="pt-32 pb-24 min-h-screen bg-[#0A0A0A]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 mt-8">
 
           {/* Header */}
           <div className="mb-12 border-b border-gray-300 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tighter leading-none mb-4">
+              <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-white uppercase tracking-tighter leading-none mb-4">
                 Agenda <span className="text-qm-magenta">Quero Mais</span>
               </h1>
               <p className="text-gray-600 text-sm sm:text-lg lg:text-xl max-w-2xl">
-                Programe-se para as prÃ³ximas noites inesquecÃ­veis ou explore nosso histÃ³rico de ediÃ§Ãµes Ã©picas.
+                Programe-se para as próximas noites inesquecíveis ou explore nosso histórico de edições épicas.
               </p>
             </div>
 
@@ -71,25 +71,25 @@ export function EventosPage() {
                   placeholder="Buscar evento..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-none text-black text-sm focus:border-qm-magenta focus:outline-none transition-colors shadow-sm"
+                  className="w-full sm:w-64 pl-9 pr-4 py-3 bg-[#111111] border-gray-800 border border-gray-300 rounded-none text-white text-sm focus:border-qm-magenta focus:outline-none transition-colors shadow-sm"
                 />
               </div>
-              <div className="flex bg-white border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm overflow-x-auto">
+              <div className="flex bg-[#111111] border-gray-800 border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm overflow-x-auto">
                 <button
                   onClick={() => setActiveFilter('upcoming')}
-                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'upcoming' ? 'bg-qm-magenta text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
+                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'upcoming' ? 'bg-qm-magenta text-white' : 'text-gray-500 hover:text-white hover:bg-gray-100'}`}
                 >
-                  PrÃ³ximos
+                  Próximos
                 </button>
                 <button
                   onClick={() => setActiveFilter('past')}
-                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'past' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
+                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'past' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-white hover:bg-gray-100'}`}
                 >
-                  HistÃ³rico
+                  Histórico
                 </button>
                 <button
                   onClick={() => setActiveFilter('all')}
-                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'all' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}
+                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'all' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-white hover:bg-gray-100'}`}
                 >
                   Todos
                 </button>
@@ -100,7 +100,7 @@ export function EventosPage() {
           {/* Featured Event Hero */}
           {activeFilter !== 'past' && !searchQuery && featuredEvent && new Date(featuredEvent.date) >= now && (
             <div className="mb-16">
-              <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-4">PrÃ³xima Grande Parada</div>
+              <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-4">Próxima Grande Parada</div>
               <Link
                 to={`/eventos/${featuredEvent.slug}`}
                 className="group relative rounded-none overflow-hidden aspect-[16/9] md:aspect-[21/9] block border border-transparent hover:border-qm-magenta/50 transition-colors shadow-2xl"
@@ -137,8 +137,8 @@ export function EventosPage() {
           {filteredList.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 opacity-50">
               <Calendar className="w-16 h-16 text-gray-400 mb-6" />
-              <h3 className="text-2xl font-bold text-black mb-2">Sem Eventos</h3>
-              <p className="text-gray-500 text-center">NÃ£o encontramos resultados para este filtro.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Sem Eventos</h3>
+              <p className="text-gray-500 text-center">Não encontramos resultados para este filtro.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -155,6 +155,7 @@ export function EventosPage() {
     </main>
   );
 }
+
 
 
 
