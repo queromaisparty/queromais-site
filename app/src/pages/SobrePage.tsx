@@ -9,7 +9,7 @@ export function SobrePage() {
   const stats = [...s.stats].sort((a, b) => a.order - b.order);
 
   return (
-    <main className="pt-24 pb-20 min-h-screen bg-white overflow-hidden">
+    <main className="pt-32 pb-24 min-h-screen bg-white overflow-hidden">
       
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* BLOCO 1 â€” Hero */}
@@ -66,7 +66,7 @@ export function SobrePage() {
       </section>
 
       {/* BLOCO 4 â€” EssÃªncia da Marca */}
-      <section className="w-full bg-[#3D4246] py-20 mb-24">
+      <section className="w-full bg-[#3D4246] py-24 mb-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5">
@@ -169,4 +169,5 @@ export function SobrePage() {
     </main>
   );
 }
+
 

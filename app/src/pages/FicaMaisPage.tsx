@@ -110,7 +110,7 @@ export function FicaMaisPage() {
       </section>
 
       {/* Galeria Fica Mais */}
-      <section className="w-full bg-[#F2F2F2] py-20">
+      <section className="w-full bg-[#F2F2F2] py-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 border-b border-gray-300 pb-8">
             <div>
@@ -131,7 +131,7 @@ export function FicaMaisPage() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 border border-gray-200 border-dashed">
+            <div className="flex flex-col items-center justify-center py-24 border border-gray-200 border-dashed">
               <ImageIcon className="w-12 h-12 text-gray-300 mb-4" />
               <p className="text-gray-400 font-medium">Fotos em breve.</p>
             </div>
@@ -141,4 +141,5 @@ export function FicaMaisPage() {
     </main>
   );
 }
+
 

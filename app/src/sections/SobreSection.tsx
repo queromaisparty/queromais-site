@@ -10,7 +10,7 @@ export function SobreSection() {
     <section id="sobre" className="bg-white">
 
       {/* Bloco escuro â€” resumo institucional */}
-      <div className="bg-[#3D4246] py-10 sm:py-16 lg:py-28">
+      <div className="bg-[#3D4246] py-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
@@ -45,7 +45,7 @@ export function SobreSection() {
       </div>
 
       {/* Bloco branco â€” stats + essÃªncia */}
-      <div className="py-10 sm:py-16 lg:py-28 bg-white">
+      <div className="py-24 bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Stats â€” sÃ³ renderiza se houver dados */}
@@ -104,4 +104,6 @@ export function SobreSection() {
     </section>
   );
 }
+
+
 

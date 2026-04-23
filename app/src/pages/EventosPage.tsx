@@ -48,7 +48,7 @@ export function EventosPage() {
 
 
   return (
-    <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
+    <main className="pt-32 pb-24 min-h-screen bg-[#F2F2F2]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 mt-8">
 
@@ -135,7 +135,7 @@ export function EventosPage() {
 
           {/* Lista de Eventos */}
           {filteredList.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 opacity-50">
+            <div className="flex flex-col items-center justify-center py-24 opacity-50">
               <Calendar className="w-16 h-16 text-gray-400 mb-6" />
               <h3 className="text-2xl font-bold text-black mb-2">Sem Eventos</h3>
               <p className="text-gray-500 text-center">NÃ£o encontramos resultados para este filtro.</p>
@@ -155,4 +155,5 @@ export function EventosPage() {
     </main>
   );
 }
+
 

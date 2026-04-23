@@ -49,7 +49,7 @@ export function FAQPage() {
   };
 
   return (
-    <main className="pt-24 pb-20 min-h-screen bg-white">
+    <main className="pt-32 pb-24 min-h-screen bg-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
         {/* Header */}
@@ -74,7 +74,7 @@ export function FAQPage() {
 
         {/* FAQ List */}
         {activeFaqs.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="text-center py-24">
             <HelpCircle className="w-16 h-16 text-gray-200 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-400 mb-2">
               {t({ pt: 'Em breve!', en: 'Coming soon!', es: 'Â¡PrÃ³ximamente!' })}
@@ -121,4 +121,5 @@ export function FAQPage() {
     </main>
   );
 }
+
 

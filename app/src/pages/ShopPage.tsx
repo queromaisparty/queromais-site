@@ -75,7 +75,7 @@ export function ShopPage() {
     : availableProducts.filter(p => p.category === activeCategory);
 
   return (
-    <main className="pt-24 pb-20 min-h-screen bg-white overflow-hidden relative">
+    <main className="pt-32 pb-24 min-h-screen bg-white overflow-hidden relative">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header da Loja */}
@@ -210,7 +210,7 @@ export function ShopPage() {
                   </div>
                 ))
               ) : (
-                <div className="col-span-full py-20 text-center border border-dashed border-gray-200 rounded-none">
+                <div className="col-span-full py-24 text-center border border-dashed border-gray-200 rounded-none">
                   <Ticket className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                   <p className="font-bold text-gray-500 uppercase tracking-widest text-lg">Nenhum evento com ingressos Ã  venda.</p>
                 </div>
@@ -219,7 +219,7 @@ export function ShopPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-20 animate-in fade-in duration-1000">
             {filteredProducts.length === 0 ? (
-              <div className="col-span-full py-20 flex flex-col items-center justify-center border border-gray-200 rounded-none border-dashed bg-gray-50/50">
+              <div className="col-span-full py-24 flex flex-col items-center justify-center border border-gray-200 rounded-none border-dashed bg-gray-50/50">
                  <ShoppingBag className="w-12 h-12 text-gray-300 mb-4" />
                  <h3 className="text-black font-bold text-xl uppercase mb-2">Sem produtos nesta categoria</h3>
                  <p className="text-gray-500 text-center">Nossa coleÃ§Ã£o oficial estarÃ¡ disponÃ­vel em breve.</p>
@@ -294,4 +294,5 @@ export function ShopPage() {
     </main>
   );
 }
+
 

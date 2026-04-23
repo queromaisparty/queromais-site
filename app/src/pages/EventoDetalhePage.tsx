@@ -140,7 +140,7 @@ export function EventoDetalhePage() {
       </div>
 
       {/* â”€â”€ CONTEÃšDO PRINCIPAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-12 py-12 sm:py-16">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-12 py-12">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
 
           {/* â”€â”€ COLUNA PRINCIPAL â”€â”€ */}
@@ -331,4 +331,5 @@ export function EventoDetalhePage() {
     </main>
   );
 }
+
 

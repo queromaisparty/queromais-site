@@ -38,7 +38,7 @@ export function ContactPage() {
   const getTitle = (content: string | { pt: string }) => typeof content === 'string' ? content : content?.pt || '';
 
   return (
-    <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
+    <main className="pt-32 pb-24 min-h-screen bg-[#F2F2F2]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header de Atendimento */}
@@ -193,4 +193,5 @@ export function ContactPage() {
     </main>
   );
 }
+
 

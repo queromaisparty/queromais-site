@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Moon, Calendar, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -18,7 +18,7 @@ export function FicaMaisSection() {
   };
 
   return (
-    <section id="fica-mais" className="py-10 sm:py-16 lg:py-32 bg-gradient-to-b from-black via-[#1a0a2e] to-black relative overflow-hidden">
+    <section id="fica-mais" className="py-32 bg-gradient-to-b from-black via-[#1a0a2e] to-black relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#8B5CF6]/20 rounded-full blur-[120px]" />
@@ -95,14 +95,14 @@ export function FicaMaisSection() {
                 <div className="space-y-6">
                   <div className="bg-white/5 border border-white/10 rounded-none p-6">
                     <h3 className="text-white text-xl font-bold mb-4">
-                      {t({ pt: 'O que Ã© a Fica Mais Party?', en: 'What is Fica Mais Party?', es: 'Â¿QuÃ© es Fica Mais Party?' })}
+                      {t({ pt: 'O que ÃƒÂ© a Fica Mais Party?', en: 'What is Fica Mais Party?', es: 'Ã‚Â¿QuÃƒÂ© es Fica Mais Party?' })}
                     </h3>
                     <p className="text-white/60 leading-relaxed">
                       {ficaMaisParty?.manifestoCurto?.pt ||
                         t({ 
-                          pt: 'A Fica Mais Party Ã© o after oficial da Quero Mais. Um espaÃ§o onde a festa continua quando o sol nasce, criando momentos Ãºnicos e memorÃ¡veis para quem nÃ£o quer que a noite acabe. MÃºsica, energia e uma vibe exclusiva que sÃ³ quem viveu conhece.',
+                          pt: 'A Fica Mais Party ÃƒÂ© o after oficial da Quero Mais. Um espaÃƒÂ§o onde a festa continua quando o sol nasce, criando momentos ÃƒÂºnicos e memorÃƒÂ¡veis para quem nÃƒÂ£o quer que a noite acabe. MÃƒÂºsica, energia e uma vibe exclusiva que sÃƒÂ³ quem viveu conhece.',
                           en: 'Fica Mais Party is the official Quero Mais after party. A space where the party continues when the sun rises, creating unique and memorable moments for those who don\'t want the night to end.',
-                          es: 'Fica Mais Party es el after oficial de Quero MÃ¡s. Un espacio donde la fiesta continÃºa cuando sale el sol, creando momentos Ãºnicos y memorables para quienes no quieren que la noche termine.'
+                          es: 'Fica Mais Party es el after oficial de Quero MÃƒÂ¡s. Un espacio donde la fiesta continÃƒÂºa cuando sale el sol, creando momentos ÃƒÂºnicos y memorables para quienes no quieren que la noche termine.'
                         })
                       }
                     </p>
@@ -116,9 +116,9 @@ export function FicaMaisSection() {
                       </div>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">âˆž</div>
+                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">Ã¢Ë†Å¾</div>
                       <div className="text-white/50 text-sm">
-                        {t({ pt: 'MemÃ³rias', en: 'Memories', es: 'Recuerdos' })}
+                        {t({ pt: 'MemÃƒÂ³rias', en: 'Memories', es: 'Recuerdos' })}
                       </div>
                     </div>
                   </div>
@@ -182,4 +182,5 @@ export function FicaMaisSection() {
     </section>
   );
 }
+
 

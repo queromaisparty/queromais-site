@@ -8,7 +8,7 @@ export function ContactSection() {
   const { contactInfo } = useData();
 
   return (
-    <section id="contact" className="py-10 sm:py-16 lg:py-24 bg-white relative z-10 border-t border-gray-100">
+    <section id="contact" className="py-24 bg-white relative z-10 border-t border-gray-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-black uppercase tracking-tighter mb-4">
           {t({ pt: 'Fale Conosco', en: 'Get in Touch', es: 'ContÃ¡ctenos' })}
@@ -66,4 +66,5 @@ export function ContactSection() {
     </section>
   );
 }
+
 

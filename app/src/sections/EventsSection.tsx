@@ -16,7 +16,7 @@ export function EventsSection() {
 
 
   return (
-    <section id="eventos" className="py-14 sm:py-20 lg:py-32 bg-white">
+    <section id="eventos" className="py-32 bg-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header da seÃ§Ã£o */}
@@ -64,4 +64,5 @@ export function EventsSection() {
     </section>
   );
 }
+
 

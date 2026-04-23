@@ -8,7 +8,7 @@ export function MusicPage() {
     <main className="pt-24 min-h-screen bg-white">
       
       {/* NÃ­vel 2: Header da SeÃ§Ã£o de MÃºsica */}
-      <section className="w-full bg-[#F2F2F2] py-16">
+      <section className="w-full bg-[#F2F2F2] py-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-300">
@@ -45,7 +45,7 @@ export function MusicPage() {
       </section>
 
       {/* Live Sets / Podcasts */}
-      <section className="w-full py-20 bg-white">
+      <section className="w-full py-24 bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tighter mb-12 flex items-center gap-3">
             <Disc className="w-8 h-8 text-qm-magenta" /> Live Sets Originais
@@ -53,7 +53,7 @@ export function MusicPage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {djSets.length === 0 ? (
-              <div className="col-span-full py-16 flex flex-col items-center text-center">
+              <div className="col-span-full py-24 flex flex-col items-center text-center">
                 <Headphones className="w-12 h-12 text-gray-300 mb-4" />
                 <h3 className="text-black font-bold mb-1">Nenhum set cadastrado</h3>
                 <p className="text-gray-500 text-sm">Os administradores ainda nÃ£o disponibilizaram os Ãºltimos sets gravados.</p>
@@ -106,7 +106,7 @@ export function MusicPage() {
       </section>
 
       {/* Playlists de Esquenta */}
-      <section className="w-full py-20 bg-black">
+      <section className="w-full py-24 bg-black">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter mb-12 flex items-center gap-3">
             <Headphones className="w-8 h-8 text-[#1DB954]" /> Playlists Oficiais
@@ -114,7 +114,7 @@ export function MusicPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {playlists.length === 0 ? (
-              <div className="col-span-full py-16 flex flex-col items-center text-center">
+              <div className="col-span-full py-24 flex flex-col items-center text-center">
                 <Disc className="w-12 h-12 text-gray-800 mb-4" />
                 <h3 className="text-white font-bold mb-1">Nenhuma playlist selecionada</h3>
                 <p className="text-gray-400 text-sm">Em breve, nossa seleÃ§Ã£o musical oficial aqui.</p>
@@ -145,7 +145,7 @@ export function MusicPage() {
       </section>
 
       {/* PAINEL DIREITO: Curados e Residentes */}
-      <section className="w-full py-20 bg-[#F2F2F2]">
+      <section className="w-full py-24 bg-[#F2F2F2]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
             <div>
@@ -197,4 +197,5 @@ export function MusicPage() {
     </main>
   );
 }
+
 

@@ -23,7 +23,7 @@ export function VoceNaQMPage() {
 
 
   return (
-    <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
+    <main className="pt-32 pb-24 min-h-screen bg-[#F2F2F2]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {!selectedAlbum && (
@@ -62,7 +62,7 @@ export function VoceNaQMPage() {
             {activeTab === 'photos' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {filteredAlbums.length === 0 ? (
-                  <div className="col-span-full py-20 flex flex-col items-center justify-center opacity-50">
+                  <div className="col-span-full py-24 flex flex-col items-center justify-center opacity-50">
                       <ImageIcon className="w-16 h-16 text-gray-400 mb-6" />
                       <h3 className="text-2xl font-bold text-black mb-2">Sem Ãlbuns</h3>
                       <p className="text-gray-500 text-center">Ainda nÃ£o hÃ¡ fotos publicadas no sistema.</p>
@@ -111,7 +111,7 @@ export function VoceNaQMPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
                 {publishedVideos.length === 0 ? (
-                  <div className="col-span-full py-20 flex flex-col items-center justify-center opacity-50 text-center">
+                  <div className="col-span-full py-24 flex flex-col items-center justify-center opacity-50 text-center">
                     <Youtube className="w-16 h-16 text-gray-400 mb-6" />
                     <h3 className="text-2xl font-bold text-black mb-2">Sem VÃ­deos</h3>
                     <p className="text-gray-500">Nossa galeria de vÃ­deos estÃ¡ sendo preparada.</p>
@@ -238,4 +238,5 @@ export function VoceNaQMPage() {
     </main>
   );
 }
+
 
