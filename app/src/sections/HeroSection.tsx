@@ -104,7 +104,7 @@ export function HeroSection() {
   // RENDERIZAÇÃO DO VÍDEO
   // ════════════════════════════════════════════════════════════════════════════
   return (
-    <section ref={containerRef} id="home" className="relative w-full h-[180vh] md:h-[250vh] bg-[#050505]">
+    <section ref={containerRef} id="home" className="relative w-full h-[180vh] md:h-[250vh] bg-white md:bg-[#050505]">
       {/* Mobile: sticky para o vídeo ficar preso enquanto o usuário rola os 180vh */}
       {/* O wrapper NÃO tem altura fixa no mobile — o vídeo mantém seu aspect-[4/3] original */}
       {/* Desktop: sticky com 100dvh — comportamento original inalterado */}
