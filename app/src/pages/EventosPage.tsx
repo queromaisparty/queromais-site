@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 import { Calendar, MapPin, Search, ChevronLeft } from 'lucide-react';
-
-
+import { EventCard } from '@/components/EventCard';
 type FilterState = 'all' | 'upcoming' | 'past';
 
 export function EventosPage() {
@@ -46,11 +45,7 @@ export function EventosPage() {
   const getTitle = (content: string | { pt?: string; en?: string; es?: string } | null | undefined) =>
     typeof content === 'string' ? content : content?.pt || '';
 
-  const formatDate = (dateStr: string) => {
-    const base = dateStr.includes('T') ? dateStr.slice(0, 10) : dateStr;
-    const d = new Date(base + 'T12:00:00');
-    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
-  };
+
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
@@ -150,66 +145,7 @@ export function EventosPage() {
               {filteredList.map(e => {
                 const isPast = new Date(e.date) < now;
                 return (
-                  <Link
-                    key={e.id}
-                    to={`/eventos/${e.slug}`}
-                    className={`group bg-[#FAFAFA] flex hover:opacity-95 hover:shadow-md transition-all duration-300 ${isPast ? 'opacity-75' : ''}`}
-                  >
-                    {/* Imagem */}
-                    <div className="w-[140px] sm:w-[220px] flex-shrink-0 relative overflow-hidden">
-                      {e.coverImage || e.flyer ? (
-                        <img
-                          src={e.flyer || e.coverImage}
-                          alt={getTitle(e.title)}
-                          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isPast ? 'grayscale' : ''}`}
-                        />
-                      ) : (
-                        <div className={`w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center ${isPast ? 'grayscale' : ''}`}>
-                          <Calendar className="w-8 h-8 text-gray-300" />
-                        </div>
-                      )}
-                      <div className="absolute top-3 right-3">
-                        <div className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-none text-white ${isPast ? 'bg-[#4A4A4A]' : 'bg-qm-magenta'}`}>
-                          {new Date(e.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Conteúdo */}
-                    <div className="flex-1 p-5 sm:p-7 flex flex-col justify-center min-w-0">
-                      <div className="mb-4">
-                        <span className="block text-sm font-bold text-[#333333] mb-2">
-                          {formatDate(e.date)} | {e.time || '22:00'}
-                        </span>
-                        <h3 className="font-sans font-black text-lg sm:text-xl text-[#111111] mb-2 leading-tight uppercase line-clamp-2 group-hover:text-qm-magenta transition-colors">
-                          {getTitle(e.title)}
-                        </h3>
-                        <div className="text-xs text-[#666666]">
-                          {e.venue}{e.city ? ` | ${e.city}` : ''}
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col items-start gap-2 mt-auto">
-                        {(e.ticketLinks ?? []).length > 0
-                          ? (e.ticketLinks ?? []).map(link => (
-                              <span
-                                key={link.id}
-                                className="flex items-center justify-between w-full max-w-[200px] px-4 py-2 bg-[#4A4A4A] text-white rounded-none text-xs font-bold tracking-[0.1em] font-sans"
-                              >
-                                <span>{link.label}</span>
-                                <ChevronLeft className="w-3.5 h-3.5 rotate-180 ml-2" />
-                              </span>
-                            ))
-                          : !isPast && (
-                              <span className="flex items-center justify-between w-full max-w-[200px] px-4 py-2 bg-[#4A4A4A] text-white rounded-none text-xs font-bold tracking-[0.1em] font-sans">
-                                <span>Ver detalhes</span>
-                                <ChevronLeft className="w-3.5 h-3.5 rotate-180 ml-2" />
-                              </span>
-                            )
-                        }
-                      </div>
-                    </div>
-                  </Link>
+                  <EventCard key={e.id} event={e} />
                 );
               })}
             </div>
