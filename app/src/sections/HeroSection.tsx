@@ -51,14 +51,22 @@ export function HeroSection() {
     };
 
     const smoothScroll = () => {
-      if (videoRef.current && !isNaN(videoRef.current.duration) && videoRef.current.duration > 0) {
+      const video = videoRef.current;
+      
+      if (video && !isNaN(video.duration) && video.duration > 0 && video.readyState >= 2) {
         // Interpolação Linear (Lerp) para suavizar a transição
         // Fator 0.08 = mais suave. Quanto maior (ex: 0.2), mais rápido reage.
         currentProgress += (targetProgress - currentProgress) * 0.08;
 
         // Só atualiza se a diferença for perceptível para poupar CPU
         if (Math.abs(targetProgress - currentProgress) > 0.0001) {
-          videoRef.current.currentTime = currentProgress * videoRef.current.duration;
+          // Clamp para evitar erro de passar o tempo total (video tela preta/congelada no fim)
+          const maxTime = video.duration - 0.05;
+          let newTime = currentProgress * video.duration;
+          if (newTime > maxTime) newTime = maxTime;
+          if (newTime < 0) newTime = 0;
+          
+          video.currentTime = newTime;
         }
       }
       animationFrameId = requestAnimationFrame(smoothScroll);
