@@ -97,15 +97,15 @@ export function HeroSection() {
   if (hero && hero.active === false) return null;
 
   return (
-    <section ref={containerRef} id="home" className="relative w-full h-[230vh] bg-[#050505]">
+    <section ref={containerRef} id="home" className="relative w-full max-w-[100vw] h-[230vh] bg-[#050505] overflow-x-hidden">
       {/* Wrapper travado que gruda na tela */}
-      <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#050505]">
+      <div className="sticky top-0 w-full max-w-[100vw] h-[100dvh] overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
           <video
             ref={videoRef}
             src={videoSrc}
             poster={fallback}
-            className="w-full h-full object-contain md:object-cover object-center"
+            className="w-full h-full object-cover object-center"
             muted
             playsInline
             preload="auto"
