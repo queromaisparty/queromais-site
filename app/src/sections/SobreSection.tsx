@@ -36,7 +36,7 @@ export function SobreSection() {
                 to="/sobre"
                 className="inline-block text-white/70 hover:text-white font-sans font-bold uppercase tracking-wide text-sm hover:underline transition-colors"
               >
-                {s.homeCTA} â†’
+                {s.homeCTA} &rarr;
               </Link>
             </div>
 
