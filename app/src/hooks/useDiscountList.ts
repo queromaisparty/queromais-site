@@ -81,7 +81,9 @@ export function useDiscountList(eventId: string, eventTitle: string) {
         setEntries([]);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao carregar lista.');
+      const msg = err instanceof Error ? err.message : (err as { message?: string })?.message ?? JSON.stringify(err);
+      console.error('useDiscountList load error:', err);
+      setError(msg);
     } finally {
       setLoading(false);
     }
