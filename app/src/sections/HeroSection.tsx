@@ -98,7 +98,7 @@ export function HeroSection() {
   if (hero && hero.active === false) return null;
 
   return (
-    <section ref={containerRef} id="home" className="relative w-full h-[300vh] bg-[#050505]">
+    <section ref={containerRef} id="home" className="relative w-full h-[270vh] bg-[#050505]">
       {/* Wrapper travado que gruda na tela */}
       <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
