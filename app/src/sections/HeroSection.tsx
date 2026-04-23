@@ -14,13 +14,17 @@ export function HeroSection() {
   // Progresso acumulado do vídeo no mobile (ref para não re-renderizar)
   const progressRef = useRef(0);
 
+  // Vídeo vem do Admin — upload tem prioridade sobre URL
+  const desktopSrc = hero?.desktop?.upload || hero?.desktop?.url || '/steampunk.mp4';
+  const mobileSrc  = hero?.mobile?.upload  || hero?.mobile?.url  || desktopSrc;
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const videoSrc = '/steampunk.mp4';
+  const videoSrc = isMobile ? mobileSrc : desktopSrc;
 
   // ── DESKTOP: scroll-controlled video (comportamento original, inalterado) ──
   useEffect(() => {
