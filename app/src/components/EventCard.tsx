@@ -68,7 +68,7 @@ export function EventCard({ event }: { event: any }) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
+                className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
               >
                 <span>{link.label}</span>
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-4" />
@@ -79,7 +79,7 @@ export function EventCard({ event }: { event: any }) {
               href={event.ticketUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
+              className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
             >
               <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-4" />
@@ -95,4 +95,5 @@ export function EventCard({ event }: { event: any }) {
     </div>
   );
 }
+
 
