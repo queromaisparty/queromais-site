@@ -18,8 +18,9 @@ export function HeroSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const desktopVideo = hero?.desktop?.upload || hero?.desktop?.url || '/steampunk.mp4';
-  const mobileVideo = hero?.mobile?.upload || hero?.mobile?.url || '/steampunk.mp4';
+  // Puxando o vídeo novo diretamente (ignorando o que foi salvo no painel Admin anteriormente para poder visualizar)
+  const desktopVideo = '/steampunk.mp4';
+  const mobileVideo = '/steampunk.mp4';
   const fallback = hero?.fallbackImage || '/hero-poster.jpg';
   const videoSrc = isMobile ? mobileVideo : desktopVideo;
 
@@ -77,7 +78,7 @@ export function HeroSection() {
   if (hero && hero.active === false) return null;
 
   return (
-    <section ref={containerRef} id="home" className="relative w-full h-[250vh] bg-[#050505]">
+    <section ref={containerRef} id="home" className="relative w-full h-[300vh] bg-[#050505]">
       {/* Wrapper travado que gruda na tela */}
       <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
