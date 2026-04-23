@@ -104,7 +104,7 @@ export function EventsSection() {
                            href={link.url}
                            target="_blank"
                            rel="noopener noreferrer"
-                           className="flex items-center justify-between w-full max-w-[320px] px-6 py-3.5 bg-[#4A4A4A] hover:bg-[#333333] text-white rounded-md text-sm font-bold tracking-[0.15em] transition-colors font-sans"
+                           className="flex items-center justify-between w-full max-w-[320px] px-6 sm:px-8 py-3 sm:py-4 bg-[#5D2C45] hover:bg-[#4A1F35] text-white rounded-full text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.2em] transition-colors font-sans"
                          >
                            <span>{link.label}</span>
                            <ChevronRight className="w-5 h-5 ml-4" />
@@ -116,7 +116,7 @@ export function EventsSection() {
                         href={event.ticketUrl && event.ticketUrl !== '#' ? event.ticketUrl : '#'}
                         target={event.ticketUrl && event.ticketUrl !== '#' ? '_blank' : undefined}
                         rel={event.ticketUrl && event.ticketUrl !== '#' ? 'noopener noreferrer' : undefined}
-                        className="flex items-center justify-between w-full max-w-[320px] px-6 py-3.5 bg-[#4A4A4A] hover:bg-[#333333] text-white rounded-md text-sm font-bold tracking-[0.15em] transition-colors font-sans"
+                        className="flex items-center justify-between w-full max-w-[320px] px-6 sm:px-8 py-3 sm:py-4 bg-[#5D2C45] hover:bg-[#4A1F35] text-white rounded-full text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.2em] transition-colors font-sans"
                       >
                         <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
                         <ChevronRight className="w-5 h-5 ml-4" />
