@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Camera, Download, X } from 'lucide-react';
+import { Camera, Download, X, Link2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -20,13 +20,15 @@ export function GallerySection() {
 
   const filteredAlbums = useMemo(() => {
     return galleryAlbums
-      .filter(a => a.status === 'active' && a.images?.length > 0)
+      .filter(a => a.status === 'active')
       .sort((a, b) => (a.order || 0) - (b.order || 0) || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [galleryAlbums]);
 
-  // Flatten all images from albums (no more demo images)
+  // Pool de fotos (Apenas de álbuns internos)
   const allImages = useMemo(() => {
-    return filteredAlbums.flatMap(album =>
+    return filteredAlbums
+      .filter(album => album.type === 'internal' && album.images?.length > 0)
+      .flatMap(album =>
         album.images.map(img => ({
           ...img,
           albumTitle: t(album.title),
@@ -183,8 +185,20 @@ export function GallerySection() {
                 {filteredAlbums.map((album) => (
                     <div
                       key={album.id}
-                      className="group bg-white border border-gray-100 rounded-none overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                      onClick={() => {
+                        if (album.type === 'external' && album.externalLink) {
+                          window.open(album.externalLink, '_blank');
+                        } else {
+                          window.location.href = '/vocenaqm'; // O DataContext lida com a navegação se selecionado, mas aqui redirecionamos para a página
+                        }
+                      }}
+                      className="group bg-white border border-gray-100 rounded-none overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer relative"
                     >
+                      {album.type === 'external' && (
+                        <div className="absolute top-3 right-3 z-20 bg-blue-600 text-white p-1.5 shadow-lg">
+                          <Link2 className="w-4 h-4" />
+                        </div>
+                      )}
                       <div className="aspect-[16/10] overflow-hidden">
                         {album.coverImage ? (
                           <img
@@ -200,10 +214,15 @@ export function GallerySection() {
                         )}
                       </div>
                       <div className="p-4">
-                        <h4 className="text-[#111] font-bold text-sm">{t(album.title)}</h4>
-                        <p className="text-gray-400 text-xs mt-1">
-                          {album.images.length} {t({ pt: 'fotos', en: 'photos', es: 'fotos' })}
-                          {album.videos.length > 0 && ` · ${album.videos.length} ${t({ pt: 'vídeos', en: 'videos', es: 'videos' })}`}
+                        <h4 className="text-[#111] font-bold text-sm uppercase tracking-tight">{t(album.title)}</h4>
+                        <p className="text-gray-400 text-[10px] font-bold uppercase mt-1">
+                          {album.type === 'external' ? (
+                            <span className="text-blue-600">Álbum Externo</span>
+                          ) : (
+                            <>
+                              {album.images.length} {t({ pt: 'fotos', en: 'photos', es: 'fotos' })}
+                            </>
+                          )}
                         </p>
                       </div>
                     </div>

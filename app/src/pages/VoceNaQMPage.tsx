@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useData } from '@/context/DataContext';
-import { Camera, Image as ImageIcon, ChevronLeft, Calendar, Download, Share2 } from 'lucide-react';
+import { Camera, Image as ImageIcon, ChevronLeft, Calendar, Download, Share2, Link2 } from 'lucide-react';
 import type { GalleryAlbum } from '@/types';
 
 export function VoceNaQMPage() {
@@ -11,9 +11,17 @@ export function VoceNaQMPage() {
   // Filtrar álbuns ativos e ordenar por ordem -> data (Sincronizado com a Home)
   const filteredAlbums = useMemo(() => {
     return galleryAlbums
-      .filter(a => a.status === 'active' && a.images?.length > 0)
+      .filter(a => a.status === 'active')
       .sort((a, b) => (a.order || 0) - (b.order || 0) || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [galleryAlbums]);
+
+  // Efeito para tratar álbuns externos (se vier selecionado do contexto)
+  useEffect(() => {
+    if (selectedAlbum?.type === 'external' && selectedAlbum.externalLink) {
+      window.open(selectedAlbum.externalLink, '_blank');
+      setSelectedAlbum(null);
+    }
+  }, [selectedAlbum]);
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
@@ -42,30 +50,44 @@ export function VoceNaQMPage() {
                     <p className="text-gray-500 text-center">Ainda não há fotos publicadas no sistema.</p>
                  </div>
               ) : (
-                filteredAlbums.map(album => (
-                  <div 
-                    key={album.id}
-                    onClick={() => setSelectedAlbum(album)}
-                    className="group cursor-pointer bg-white border border-gray-200 rounded-none overflow-hidden hover:border-qm-magenta/50 transition-colors shadow-sm hover:shadow-xl flex flex-col"
-                  >
-                    <div className="relative aspect-[4/3] overflow-hidden">
-                       <img src={album.coverImage} alt={album.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
-                       
-                       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-none flex items-center gap-2 shadow-lg">
-                          <ImageIcon className="w-3.5 h-3.5 text-qm-magenta" />
-                          <span className="text-xs font-bold text-black">{album.images.length} fotos</span>
+                 filteredAlbums.map(album => (
+                   <div 
+                     key={album.id}
+                     onClick={() => {
+                        if (album.type === 'external' && album.externalLink) {
+                          window.open(album.externalLink, '_blank');
+                        } else {
+                          setSelectedAlbum(album);
+                        }
+                     }}
+                     className="group cursor-pointer bg-white border border-gray-200 rounded-none overflow-hidden hover:border-qm-magenta/50 transition-colors shadow-sm hover:shadow-xl flex flex-col relative"
+                   >
+                     {album.type === 'external' && (
+                       <div className="absolute top-4 left-4 z-20 bg-blue-600 text-white px-3 py-1 flex items-center gap-2 shadow-lg">
+                         <Link2 className="w-4 h-4" />
+                         <span className="text-[10px] font-black uppercase">Externo</span>
                        </div>
-                    </div>
-                    <div className="p-6 sm:p-8 flex-1 flex flex-col">
-                       <h3 className="text-xl sm:text-2xl font-bold text-black uppercase tracking-tight mb-2 group-hover:text-qm-magenta transition-colors">{album.title}</h3>
-                       <div className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-4 mt-auto">
-                          <Calendar className="w-4 h-4 text-qm-magenta" />
-                          {new Date(album.createdAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
-                       </div>
-                    </div>
-                  </div>
-                ))
+                     )}
+                     <div className="relative aspect-[4/3] overflow-hidden">
+                        <img src={album.coverImage} alt={album.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                        
+                        {album.type === 'internal' && (
+                          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-none flex items-center gap-2 shadow-lg">
+                             <ImageIcon className="w-3.5 h-3.5 text-qm-magenta" />
+                             <span className="text-xs font-bold text-black">{album.images?.length || 0} fotos</span>
+                          </div>
+                        )}
+                     </div>
+                     <div className="p-6 sm:p-8 flex-1 flex flex-col">
+                        <h3 className="text-xl sm:text-2xl font-bold text-black uppercase tracking-tight mb-2 group-hover:text-qm-magenta transition-colors">{album.title}</h3>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 font-semibold mb-4 mt-auto">
+                           <Calendar className="w-4 h-4 text-qm-magenta" />
+                           {new Date(album.createdAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                        </div>
+                     </div>
+                   </div>
+                 ))
               )}
             </div>
           </div>

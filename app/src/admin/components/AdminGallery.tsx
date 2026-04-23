@@ -5,8 +5,11 @@ import {
 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 import type { GalleryAlbum, GalleryImage } from '@/types';
-import { extractFolderId, getGDriveImageUrl, listGDriveImages } from '@/services/googleDrive';
+import { extractFolderId, listGDriveImages } from '@/services/googleDrive';
+import { FlyerUploader } from './FlyerUploader';
+import imageCompression from 'browser-image-compression';
 
 type ViewMode = 'list' | 'form';
 
@@ -21,9 +24,10 @@ export function AdminGallery() {
     description: '',
     coverImage: '',
     category: '',
+    type: 'internal' as 'internal' | 'external',
+    externalLink: '',
     status: 'active' as 'active' | 'inactive',
     images: [] as GalleryImage[],
-    gdriveLink: '',
   });
 
   const resetForm = () => {
@@ -32,9 +36,10 @@ export function AdminGallery() {
       description: '',
       coverImage: '', 
       category: '',
+      type: 'internal',
+      externalLink: '',
       status: 'active', 
       images: [], 
-      gdriveLink: '',
     });
     setEditingId(null);
   };
@@ -47,9 +52,10 @@ export function AdminGallery() {
       description: album.description,
       coverImage: album.coverImage,
       category: album.category || '',
+      type: album.type || 'internal',
+      externalLink: album.externalLink || '',
       status: album.status || 'active',
       images: album.images,
-      gdriveLink: '',
     });
     setEditingId(album.id);
     setViewMode('form');
@@ -67,22 +73,10 @@ export function AdminGallery() {
   };
 
   const [imageUrlInput, setImageUrlInput] = useState('');
-  const addImageByUrl = () => {
-    if (!imageUrlInput.trim()) return;
-    const newImg: GalleryImage = {
-      id: Date.now().toString(),
-      url: imageUrlInput.trim(),
-      downloadAllowed: true,
-      source: 'url',
-    };
-    setFormData(prev => ({ ...prev, images: [...prev.images, newImg] }));
-    setImageUrlInput('');
-  };
-
   const [isSyncing, setIsSyncing] = useState(false);
 
   const addFromGDrive = async () => {
-    const folderId = extractFolderId(formData.gdriveLink);
+    const folderId = extractFolderId(formData.externalLink);
     if (!folderId) {
       toast.error('Link de Drive inválido ou formato desconhecido.');
       return;
@@ -114,40 +108,71 @@ export function AdminGallery() {
     }
   };
 
-  const [gdriveFileId, setGdriveFileId] = useState('');
-  const addSingleGDriveFile = () => {
-    if (!gdriveFileId.trim()) return;
-    const url = getGDriveImageUrl(gdriveFileId.trim());
+  const addImageByUrl = () => {
+    if (!imageUrlInput) return;
     const newImg: GalleryImage = {
-      id: Date.now().toString(),
-      url,
+      id: Date.now().toString() + Math.random().toString(),
+      url: imageUrlInput,
       downloadAllowed: true,
-      source: 'gdrive',
-      gdriveId: gdriveFileId.trim(),
+      source: 'url',
     };
     setFormData(prev => ({ ...prev, images: [...prev.images, newImg] }));
-    setGdriveFileId('');
+    setImageUrlInput('');
+    toast.success('Imagem por URL adicionada.');
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files) return;
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64 = event.target?.result as string;
-        const newImg: GalleryImage = {
-          id: Date.now().toString() + Math.random().toString(),
-          url: base64,
-          downloadAllowed: true,
-          source: 'upload',
+    if (!files || files.length === 0) return;
+    
+    setIsUploading(true);
+    const toastId = toast.loading(`Processando ${files.length} fotos...`);
+    
+    try {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        // 1. Otimizar
+        const options = {
+          maxWidthOrHeight: 1600,
+          useWebWorker: true,
+          initialQuality: 0.8
         };
-        setFormData(prev => ({ ...prev, images: [...prev.images, newImg] }));
-      };
-      reader.readAsDataURL(file);
-    });
-    e.target.value = '';
-    toast.success(`${files.length} fotos prontas para integrar.`);
+        const compressedFile = await imageCompression(file, options);
+        
+        // 2. Upload para Storage
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+        const filePath = `albums/${fileName}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('galleries')
+          .upload(filePath, compressedFile);
+          
+        if (uploadError) throw uploadError;
+        
+        const { data: { publicUrl } } = supabase.storage
+          .from('galleries')
+          .getPublicUrl(filePath);
+
+        return {
+          id: Date.now().toString() + Math.random().toString(),
+          url: publicUrl,
+          downloadAllowed: true,
+          source: 'upload' as const,
+        };
+      });
+
+      const uploadedImages = await Promise.all(uploadPromises);
+      setFormData(prev => ({ ...prev, images: [...prev.images, ...uploadedImages] }));
+      toast.success(`${uploadedImages.length} fotos enviadas com sucesso!`, { id: toastId });
+    } catch (error) {
+      console.error(error);
+      toast.error('Erro em alguma das fotos durante o upload.', { id: toastId });
+    } finally {
+      setIsUploading(false);
+      e.target.value = '';
+    }
   };
 
   const handleSave = () => {
@@ -165,6 +190,8 @@ export function AdminGallery() {
       category: formData.category || undefined,
       order: galleryAlbums.length,
       featured: false,
+      type: formData.type,
+      externalLink: formData.externalLink,
       status: formData.status,
     };
 
@@ -348,17 +375,39 @@ export function AdminGallery() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-               <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Comportamento Geral</label>
-               <select value={formData.status} onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' }))} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm font-bold focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all cursor-pointer">
-                 <option value="active">Roteado ao Público (On)</option>
-                 <option value="inactive">Retido (Off)</option>
-               </select>
+               <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Tipo de Álbum</label>
+               <div className="flex gap-4">
+                 <button 
+                  onClick={() => setFormData(p => ({ ...p, type: 'internal' }))}
+                  className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold border transition-all ${formData.type === 'internal' ? 'bg-admin-accent/10 border-admin-accent text-admin-accent' : 'bg-slate-50 border-slate-200 text-slate-500'}`}
+                 >
+                   Interno (Fotos no Site)
+                 </button>
+                 <button 
+                  onClick={() => setFormData(p => ({ ...p, type: 'external' }))}
+                  className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold border transition-all ${formData.type === 'external' ? 'bg-blue-50 border-blue-600 text-blue-600' : 'bg-slate-50 border-slate-200 text-slate-500'}`}
+                 >
+                   Externo (Google Drive)
+                 </button>
+               </div>
             </div>
             <div>
-               <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Custom Cover URL (Opcional)</label>
-               <input type="url" value={formData.coverImage} onChange={e => setFormData(prev => ({ ...prev, coverImage: e.target.value }))} placeholder="https://..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all placeholder:text-slate-400" />
-               <p className="text-[10px] font-bold text-slate-400 mt-1.5 pl-1 uppercase tracking-wider">A 1º foto servirá de capa se estiver vazio.</p>
+               <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">Status e Visibilidade</label>
+               <select value={formData.status} onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as 'active' | 'inactive' }))} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm font-bold focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 outline-none transition-all cursor-pointer">
+                 <option value="active">Público (On)</option>
+                 <option value="inactive">Rascunho (Off)</option>
+               </select>
             </div>
+          </div>
+
+          <div className="mt-6">
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-3 pl-1">Capa do Álbum (1600x838 recomendado)</label>
+            <FlyerUploader 
+              value={formData.coverImage} 
+              onChange={(url) => setFormData(prev => ({ ...prev, coverImage: url }))} 
+              maxW={1600}
+              aspectRatio="1600/838"
+            />
           </div>
         </div>
 
@@ -366,11 +415,13 @@ export function AdminGallery() {
         <div className="bg-white p-6 lg:p-8 rounded-2xl border border-slate-200 shadow-sm mt-6">
            <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-3">
              <h3 className="text-sm font-black uppercase tracking-wider text-slate-800 flex items-center gap-2">
-               Central de Fotos
+               {formData.type === 'internal' ? 'Upload de Fotos' : 'Configuração de Link'}
              </h3>
-             <span className="px-3 py-1 bg-pink-50 border border-pink-200 text-admin-accent text-xs font-bold rounded-lg shadow-sm">
-                Volume: {formData.images.length}
-             </span>
+             {formData.type === 'internal' && (
+               <span className="px-3 py-1 bg-pink-50 border border-pink-200 text-admin-accent text-xs font-bold rounded-lg shadow-sm">
+                  {formData.images.length} Fotos Salvas
+               </span>
+             )}
            </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -378,53 +429,69 @@ export function AdminGallery() {
             {/* PAINEL ESQUERDO: UPLOADERS (FERRAMENTAS) */}
             <div className="space-y-4">
               
-              {/* UPLOAD LOCAL DIRETO */}
-              <div className="p-5 rounded-xl border-2 border-dashed bg-slate-50/50 hover:bg-slate-50 transition-colors border-slate-200 hover:border-admin-accent/50 group">
-                <div className="flex items-center gap-2 mb-3">
-                  <Upload className="w-5 h-5 text-admin-accent" />
-                  <span className="text-sm font-bold text-slate-800">Carga Massiva (Do PC)</span>
-                </div>
-                <input
-                  type="file" multiple accept="image/*" onChange={handleFileUpload}
-                  className="w-full text-xs font-bold file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-admin-accent file:text-white hover:file:brightness-110 cursor-pointer text-slate-500"
-                />
-              </div>
-              
-              {/* GOOGLE DRIVE SYNC */}
-              <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm relative overflow-hidden">
-                 <div className="absolute top-0 right-0 p-2"><FolderOpen className="w-20 h-20 text-blue-50/50 opacity-50 -rotate-12" /></div>
-                 <div className="relative z-10">
-                    <div className="flex items-center gap-2 mb-3">
-                      <FolderOpen className="w-5 h-5 text-blue-600" />
-                      <span className="text-sm font-bold text-slate-900">Sugar de Pasta Google Drive</span>
-                    </div>
-                    <div className="flex gap-2 mb-3">
-                      <input type="text" placeholder="Cole o link da pasta..." className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none text-slate-900 focus:border-blue-500 transition-colors" value={formData.gdriveLink} onChange={e => setFormData(prev => ({ ...prev, gdriveLink: e.target.value }))} />
-                      <button onClick={addFromGDrive} disabled={isSyncing} className={`px-4 flex items-center justify-center rounded-xl text-sm font-bold border transition-colors ${isSyncing ? 'bg-slate-100 text-slate-400 border-slate-200' : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white'}`}>
-                        {isSyncing ? 'Buscando...' : 'SYNC'}
-                      </button>
-                    </div>
-                    {/* Inject Individual */}
-                    {extractFolderId(formData.gdriveLink) && (
-                      <div className="flex gap-2 mt-3 pt-3 border-t border-slate-100 animate-in fade-in zoom-in duration-300">
-                        <input type="text" placeholder="ID da Img / View Link" className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm outline-none text-slate-900 focus:border-blue-500 transition-colors" value={gdriveFileId} onChange={e => setGdriveFileId(e.target.value)} />
-                        <button onClick={addSingleGDriveFile} className="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-xl hover:bg-blue-700 shadow-sm"><Plus className="w-4 h-4" /></button>
+              {formData.type === 'internal' ? (
+                <>
+                  <div className="p-5 rounded-xl border-2 border-dashed bg-slate-50/50 hover:bg-slate-50 transition-colors border-slate-200 hover:border-admin-accent/50 group relative">
+                    {isUploading && (
+                      <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-xl">
+                        <div className="w-8 h-8 border-4 border-admin-accent border-t-transparent rounded-full animate-spin mb-2" />
+                        <span className="text-xs font-bold text-admin-accent">Subindo Fotos...</span>
                       </div>
                     )}
-                 </div>
-              </div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Upload className="w-5 h-5 text-admin-accent" />
+                      <span className="text-sm font-bold text-slate-800">Carga Direta p/ Storage</span>
+                    </div>
+                    <input
+                      type="file" multiple accept="image/*" onChange={handleFileUpload}
+                      className="w-full text-xs font-bold file:mr-4 file:py-2.5 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-admin-accent file:text-white hover:file:brightness-110 cursor-pointer text-slate-500"
+                    />
+                  </div>
 
-               {/* INDIVIDUAL URL */}
-              <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
-                <div className="flex items-center gap-2 mb-3">
-                  <Link2 className="w-5 h-5 text-slate-400" />
-                  <span className="text-sm font-bold text-slate-800">Injeção por URL Web</span>
+                  <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-2 mb-3">
+                          <FolderOpen className="w-5 h-5 text-blue-600" />
+                          <span className="text-sm font-bold text-slate-900">Importar do Google Drive (SYNC)</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <input type="text" placeholder="Link da pasta pública..." className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none text-slate-900 focus:border-blue-500 transition-colors" value={formData.externalLink} onChange={e => setFormData(prev => ({ ...prev, externalLink: e.target.value }))} />
+                          <button onClick={addFromGDrive} disabled={isSyncing} className={`px-4 flex items-center justify-center rounded-xl text-sm font-bold border transition-colors ${isSyncing ? 'bg-slate-100 text-slate-400 border-slate-200' : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white'}`}>
+                            {isSyncing ? 'SY...' : 'SYNC'}
+                          </button>
+                        </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="p-6 rounded-xl bg-blue-50 border border-blue-200 shadow-sm">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Link2 className="w-5 h-5 text-blue-600" />
+                    <span className="text-sm font-bold text-blue-900 font-black">LINK DO ÁLBUM EXTERNO</span>
+                  </div>
+                  <input 
+                    type="url" 
+                    placeholder="Cole aqui o link do Google Drive / iCloud / Fotos" 
+                    className="w-full px-4 py-3 bg-white border border-blue-300 rounded-xl text-slate-900 text-sm outline-none focus:border-blue-500"
+                    value={formData.externalLink}
+                    onChange={e => setFormData(prev => ({ ...prev, externalLink: e.target.value }))}
+                  />
+                  <p className="text-[10px] text-blue-600 font-bold mt-3 uppercase tracking-wider">Ao clicar neste álbum no site, o usuário será levado para este link.</p>
                 </div>
-                <div className="flex gap-2">
-                  <input type="url" placeholder="https://... .jpg" className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none text-slate-900 focus:border-slate-400 transition-colors" value={imageUrlInput} onChange={e => setImageUrlInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addImageByUrl()} />
-                  <button onClick={addImageByUrl} className="w-11 h-11 shrink-0 bg-slate-800 text-white flex items-center justify-center rounded-xl font-bold hover:bg-admin-accent transition-colors shadow"><Plus className="w-4 h-4" /></button>
+              )}
+
+              {formData.type === 'internal' && (
+                <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Link2 className="w-5 h-5 text-slate-400" />
+                    <span className="text-sm font-bold text-slate-800">Injeção por URL Web</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <input type="url" placeholder="https://... .jpg" className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none text-slate-900 focus:border-slate-400 transition-colors" value={imageUrlInput} onChange={e => setImageUrlInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addImageByUrl()} />
+                    <button onClick={addImageByUrl} className="w-11 h-11 shrink-0 bg-slate-800 text-white flex items-center justify-center rounded-xl font-bold hover:bg-admin-accent transition-colors shadow"><Plus className="w-4 h-4" /></button>
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>
 

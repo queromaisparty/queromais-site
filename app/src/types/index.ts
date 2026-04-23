@@ -244,6 +244,8 @@ export interface GalleryAlbum {
   category?: string;
   order: number;
   featured: boolean;
+  type: 'internal' | 'external';
+  externalLink?: string;
   status: 'active' | 'inactive';
   createdAt: string;
 }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 import { Calendar, MapPin, Search, ChevronLeft } from 'lucide-react';
-import type { Event as SiteEvent } from '@/types';
+
 
 type FilterState = 'all' | 'upcoming' | 'past';
 
