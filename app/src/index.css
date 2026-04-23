@@ -148,9 +148,9 @@
     @apply w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Seção espaço padrão */
+  /* Seção espaço padrão — mobile compacto, desktop generoso */
   .qm-section {
-    @apply py-14 sm:py-20 lg:py-32;
+    @apply py-10 sm:py-20 lg:py-32;
   }
 
   /* Label de seção (UPPERCASE, magenta, pequeno) */
@@ -159,16 +159,18 @@
     @apply text-xs font-semibold uppercase tracking-[0.15em] text-qm-magenta mb-3;
   }
 
-  /* Título principal de seção */
+  /* Título principal de seção — mobile menor para não estourar */
   .qm-section-title {
     font-family: 'Vogun', sans-serif;
-    @apply text-3xl sm:text-4xl lg:text-5xl font-medium text-black;
+    @apply text-2xl sm:text-4xl lg:text-5xl font-medium text-black;
+    word-break: break-word;
   }
 
   /* Título de seção invertido (para fundos escuros) */
   .qm-section-title-light {
     font-family: 'Montserrat', sans-serif;
-    @apply text-3xl sm:text-4xl lg:text-5xl font-bold text-white;
+    @apply text-2xl sm:text-4xl lg:text-5xl font-bold text-white;
+    word-break: break-word;
   }
 
   /* Botão pill primário (estilo GV â€” cinza escuro) */
@@ -195,9 +197,9 @@
     font-family: 'Inter', sans-serif;
   }
 
-  /* Card base */
+  /* Card base — cantos retos, sem arredondamento exagerado */
   .qm-card {
-    @apply bg-white border border-[#E5E5E5] rounded-lg overflow-hidden
+    @apply bg-white border border-[#E5E5E5] rounded-sm overflow-hidden
            transition-shadow duration-300 hover:shadow-lg;
   }
 

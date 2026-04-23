@@ -8,7 +8,7 @@ export function ContactSection() {
   const { contactInfo } = useData();
 
   return (
-    <section id="contact" className="py-20 lg:py-24 bg-white relative z-10 border-t border-gray-100">
+    <section id="contact" className="py-10 sm:py-16 lg:py-24 bg-white relative z-10 border-t border-gray-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-black uppercase tracking-tight mb-4">
           {t({ pt: 'Fale Conosco', en: 'Get in Touch', es: 'Contáctenos' })}
@@ -21,7 +21,7 @@ export function ContactSection() {
           })}
         </p>
 
-        <div className="flex flex-wrap justify-center gap-6 mb-12">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 sm:gap-6 mb-8 sm:mb-12">
           {contactInfo.whatsapp && (
             <a
               href={`https://wa.me/${contactInfo.whatsapp.replace(/\D/g, '')}`}

@@ -10,7 +10,7 @@ export function SobreSection() {
     <section id="sobre" className="bg-white">
 
       {/* Bloco escuro — resumo institucional */}
-      <div className="bg-[#3D4246] py-20 lg:py-28">
+      <div className="bg-[#3D4246] py-10 sm:py-16 lg:py-28">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
@@ -45,7 +45,7 @@ export function SobreSection() {
       </div>
 
       {/* Bloco branco — stats + essência */}
-      <div className="py-20 lg:py-28 bg-white">
+      <div className="py-10 sm:py-16 lg:py-28 bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Stats — só renderiza se houver dados */}
@@ -53,7 +53,7 @@ export function SobreSection() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-20">
               {stats.map(stat => (
                 <div key={stat.id} className="text-center">
-                  <p className="font-sans font-black text-4xl lg:text-5xl text-black mb-2">{stat.value}</p>
+                  <p className="font-sans font-black text-2xl sm:text-4xl lg:text-5xl text-black mb-1 sm:mb-2">{stat.value}</p>
                   <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#666666] font-sans">{stat.label}</p>
                 </div>
               ))}

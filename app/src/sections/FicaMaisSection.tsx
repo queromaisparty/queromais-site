@@ -18,7 +18,7 @@ export function FicaMaisSection() {
   };
 
   return (
-    <section id="fica-mais" className="py-20 lg:py-32 bg-gradient-to-b from-black via-[#1a0a2e] to-black relative overflow-hidden">
+    <section id="fica-mais" className="py-10 sm:py-16 lg:py-32 bg-gradient-to-b from-black via-[#1a0a2e] to-black relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#8B5CF6]/20 rounded-full blur-[120px]" />
@@ -35,11 +35,11 @@ export function FicaMaisSection() {
                 {t({ pt: 'After Party', en: 'After Party', es: 'After Party' })}
               </span>
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-white mt-4 mb-6">
+            <h2 className="text-xl sm:text-3xl lg:text-6xl font-black text-white mt-4 mb-4 sm:mb-6">
               <span className="text-[#8B5CF6]">FICA</span> MAIS{' '}
               <span className="text-qm-magenta">PARTY</span>
             </h2>
-            <p className="text-white/60 text-lg max-w-2xl mx-auto">
+            <p className="text-white/60 text-sm sm:text-lg max-w-2xl mx-auto">
               {t(translations.ficaMais.description)}
             </p>
           </div>

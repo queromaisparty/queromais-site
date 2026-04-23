@@ -35,8 +35,6 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Agora TODAS as páginas (incluindo a Home com o vídeo claro)
-  // terão texto escuro (isLight = true) quando estiverem no topo (!scrolled)
   const isLight = !scrolled;
 
   useEffect(() => {
@@ -65,7 +63,7 @@ export function Header() {
             {/* Hambúrguer — mobile */}
             <button
               onClick={() => setMenuOpen(true)}
-              className={`lg:hidden mr-3 p-2 -ml-2 rounded-lg transition-colors ${txt} ${hoverBg}`}
+              className={`lg:hidden mr-3 p-2 -ml-2 rounded-sm transition-colors ${txt} ${hoverBg}`}
               aria-label="Abrir menu"
             >
               <Menu className="w-5 h-5" />
@@ -86,7 +84,7 @@ export function Header() {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-colors rounded-lg whitespace-nowrap font-sans ${hoverBg} ${
+                  className={`px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-colors rounded-sm whitespace-nowrap font-sans ${hoverBg} ${
                     activeSection === item.href ? 'text-qm-magenta' : `${txtMuted} hover:text-qm-magenta`
                   }`}
                 >
@@ -97,7 +95,7 @@ export function Header() {
 
             {/* Direita: idiomas + CTA */}
             <div className="hidden lg:flex items-center gap-2 shrink-0 ml-4">
-              <div className={`flex items-center border rounded-full px-2.5 py-1 gap-1 ${border}`}>
+              <div className={`flex items-center border rounded-sm px-2.5 py-1 gap-1 ${border}`}>
                 {langs.map((lang, i) => (
                   <span key={lang.code} className="flex items-center">
                     <button
@@ -118,20 +116,20 @@ export function Header() {
               <Link
                 to="/eventos"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-1 px-4 py-2 bg-qm-magenta hover:bg-qm-magenta-dark text-white rounded-md text-xs font-semibold uppercase tracking-wide transition-all group font-sans"
+                className="flex items-center gap-1 px-4 py-2 bg-qm-magenta hover:bg-qm-magenta-dark text-white rounded-sm text-xs font-semibold uppercase tracking-wide transition-all group font-sans"
               >
                 {t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}
                 <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
 
-            {/* Mobile: idioma compacto */}
-            <div className="lg:hidden flex items-center ml-auto gap-1">
+            {/* Mobile: idioma compacto — hitbox maior para toque */}
+            <div className="lg:hidden flex items-center ml-auto gap-0">
               {langs.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => setLanguage(lang.code)}
-                  className={`text-[10px] font-bold px-1.5 py-1 rounded transition-colors font-sans ${
+                  className={`text-xs font-bold min-w-[36px] min-h-[36px] flex items-center justify-center rounded-sm transition-colors font-sans ${
                     currentLanguage === lang.code ? 'text-qm-magenta' : `${txtMuted}`
                   }`}
                 >
@@ -147,52 +145,84 @@ export function Header() {
       {/* Backdrop mobile */}
       <div
         onClick={() => setMenuOpen(false)}
-        className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[60] bg-black/40 transition-opacity duration-300 ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
 
-      {/* Drawer mobile */}
+      {/* Drawer mobile — claro, elegante, coerente com o site branco */}
       <div
-        className={`fixed top-0 left-0 bottom-0 z-[70] w-[85vw] max-w-[400px] bg-[#F4F4F4] shadow-2xl
+        className={`fixed top-0 left-0 bottom-0 z-[70] w-[82vw] max-w-[360px] bg-white shadow-2xl
                     flex flex-col transition-transform duration-300 ease-in-out ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-start justify-start px-6 pt-10 pb-4">
+        {/* Header do drawer */}
+        <div className="flex items-center justify-between px-5 pt-6 pb-4 border-b border-gray-100">
+          <img 
+            src="/LOGOQUEROMAIS_PRETA.svg" 
+            alt="Quero Mais" 
+            className="h-5 w-auto"
+          />
           <button
             type="button"
             onClick={() => setMenuOpen(false)}
             aria-label="Fechar menu"
-            className="text-gray-900 hover:text-gray-600 transition-colors"
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-800 transition-colors rounded-sm"
           >
-            <X className="w-8 h-8" strokeWidth={1} />
+            <X className="w-5 h-5" strokeWidth={1.5} />
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-8 py-6 flex flex-col gap-6">
+        {/* Links de navegação */}
+        <nav className="flex-1 overflow-y-auto px-5 py-6 flex flex-col gap-1">
           {navItems.map((item) => {
-            const isHome = item.href === '/';
+            const isActive = activeSection === item.href;
             return (
               <Link
                 key={item.href}
                 to={item.href}
                 onClick={() => setMenuOpen(false)}
-                className={`block w-full text-left text-lg sm:text-xl tracking-tight transition-all font-medium ${
-                  isHome ? 'text-[#3EBC50] font-medium' : 'text-[#222222] hover:text-qm-magenta'
+                className={`flex items-center gap-3 w-full text-left px-3 py-3 text-[15px] font-semibold uppercase tracking-wide transition-all rounded-sm ${
+                  isActive
+                    ? 'text-qm-magenta bg-pink-50/60'
+                    : 'text-[#333] hover:text-qm-magenta hover:bg-gray-50'
                 }`}
               >
+                {isActive && <span className="w-1 h-5 bg-qm-magenta rounded-full flex-shrink-0" />}
                 {t(item.label)}
               </Link>
             );
           })}
         </nav>
 
-        <div className="px-8 pb-8 pt-4 space-y-2.5">
+        {/* Bottom CTA do drawer */}
+        <div className="px-5 pb-6 pt-3 border-t border-gray-100 space-y-3">
+          {/* Idiomas — hitbox generosa */}
+          <div className="flex items-center justify-center gap-1 py-2">
+            {langs.map((lang, i) => (
+              <span key={lang.code} className="flex items-center">
+                <button
+                  onClick={() => setLanguage(lang.code)}
+                  className={`text-xs font-bold min-w-[40px] min-h-[40px] flex items-center justify-center rounded-sm transition-colors font-sans ${
+                    currentLanguage === lang.code
+                      ? 'text-qm-magenta bg-pink-50/60'
+                      : 'text-gray-400 hover:text-gray-700'
+                  }`}
+                >
+                  {lang.label}
+                </button>
+                {i < langs.length - 1 && (
+                  <span className="text-gray-200 text-xs select-none">|</span>
+                )}
+              </span>
+            ))}
+          </div>
+
           <Link
             to="/eventos"
             onClick={() => setMenuOpen(false)}
-            className="flex items-center justify-center gap-2 w-full py-4 bg-qm-magenta hover:bg-qm-magenta-dark text-white rounded-md text-lg font-bold transition-all uppercase tracking-tight"
+            className="flex items-center justify-center gap-2 w-full py-3.5 bg-qm-magenta hover:bg-qm-magenta-dark text-white rounded-sm text-sm font-bold transition-all uppercase tracking-wide"
           >
             {t({ pt: 'Comprar Ingressos', en: 'Buy Tickets', es: 'Comprar Entradas' })}
           </Link>

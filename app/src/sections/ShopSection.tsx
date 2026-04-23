@@ -87,7 +87,7 @@ export function ShopSection() {
   };
 
   return (
-    <section id="shop" className="py-24 lg:py-32 bg-[#0A0A0A]">
+    <section id="shop" className="py-10 sm:py-20 lg:py-32 bg-[#0A0A0A]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header da Seção & Cart Button */}
@@ -96,7 +96,7 @@ export function ShopSection() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3 font-sans">
               {t({ pt: 'Loja Oficial', en: 'Official Store', es: 'Tienda Oficial' })}
             </p>
-            <h2 className="font-sans font-black text-2xl sm:text-4xl lg:text-6xl text-white uppercase tracking-tight">
+            <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-6xl text-white uppercase tracking-tight">
               {t(translations.shop.title)}
             </h2>
           </div>
@@ -228,8 +228,8 @@ export function ShopSection() {
                         <ShoppingBag className="w-12 h-12 text-[#E5E5E5]" />
                       )}
                     </div>
-                    <div className="p-6">
-                      <h3 className="font-black text-xl text-white mb-2 uppercase">{t(product.name)}</h3>
+                    <div className="p-4 sm:p-6">
+                      <h3 className="font-black text-lg sm:text-xl text-white mb-2 uppercase">{t(product.name)}</h3>
                       <p className="text-white/50 text-sm line-clamp-2 mb-6">
                         {t(product.description)}
                       </p>
@@ -291,11 +291,11 @@ export function ShopSection() {
                         </div>
                       )}
                     </div>
-                    <div className="p-6">
+                    <div className="p-4 sm:p-6">
                       <p className="text-[var(--primary-color)] font-bold text-sm tracking-widest mb-2">
                         {new Date(event.date).toLocaleDateString()}
                       </p>
-                      <h3 className="font-black text-2xl text-white mb-6 uppercase">{t(event.title)}</h3>
+                      <h3 className="font-black text-xl sm:text-2xl text-white mb-4 sm:mb-6 uppercase">{t(event.title)}</h3>
                       
                       {event.ticketLink && (
                         <a

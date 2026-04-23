@@ -10,7 +10,7 @@ export function MusicSection() {
   const [activeTab, setActiveTab] = useState<'djs' | 'sets' | 'playlists'>('djs');
 
   return (
-    <section id="music" className="py-24 lg:py-32 bg-white">
+    <section id="music" className="py-10 sm:py-20 lg:py-32 bg-white">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header da Seção */}
@@ -18,7 +18,7 @@ export function MusicSection() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3">
             {t({ pt: 'Sons que marcam', en: 'Sounds that leave a mark', es: 'Sonidos que marcan' })}
           </p>
-          <h2 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tight">
+          <h2 className="font-black text-xl sm:text-3xl lg:text-6xl text-black uppercase tracking-tight">
             QM MUSIC
           </h2>
           <p className="text-black/60 text-lg max-w-2xl mx-auto mt-4 font-medium">
@@ -53,7 +53,7 @@ export function MusicSection() {
           
           {/* DJs */}
           {activeTab === 'djs' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
               {djs.length > 0 ? (
                 djs.map((dj) => (
                   <div key={dj.id} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
@@ -70,9 +70,9 @@ export function MusicSection() {
                         </div>
                       )}
                     </div>
-                    <div className="p-6">
-                      <h3 className="font-black text-xl text-black mb-2 uppercase">{dj.name}</h3>
-                      <p className="text-black/60 text-sm line-clamp-3 mb-4">
+                    <div className="p-3 sm:p-6">
+                      <h3 className="font-black text-sm sm:text-xl text-black mb-1 sm:mb-2 uppercase">{dj.name}</h3>
+                      <p className="text-black/60 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 mb-2 sm:mb-4">
                         {t(dj.bio)}
                       </p>
                       {dj.socialLinks.length > 0 && (

@@ -26,8 +26,8 @@ export function EventsSection() {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header da seção */}
-        <div className="text-center mb-16">
-          <h2 className="font-sans font-black text-2xl sm:text-4xl lg:text-5xl text-[#555555] tracking-tight capitalize">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-5xl text-[#555555] tracking-tight capitalize">
             {t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
           </h2>
         </div>
@@ -52,10 +52,10 @@ export function EventsSection() {
         {activeEvents.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {activeEvents.map((event) => (
-              <div key={event.id} className="bg-[#FAFAFA] flex hover:opacity-95 transition-opacity duration-300">
+              <div key={event.id} className="bg-[#FAFAFA] flex flex-col sm:flex-row hover:opacity-95 transition-opacity duration-300">
 
-                {/* Imagem do artista — lado esquerdo */}
-                <Link to={`/eventos/${event.slug}`} className="block w-full sm:w-[280px] h-[220px] sm:h-[340px] flex-shrink-0 relative overflow-hidden group">
+                {/* Imagem do artista */}
+                <Link to={`/eventos/${event.slug}`} className="block w-full sm:w-[280px] h-[200px] sm:h-[340px] flex-shrink-0 relative overflow-hidden group">
                   {event.coverImage || event.flyer ? (
                     <img
                       src={event.flyer || event.coverImage}
@@ -74,8 +74,8 @@ export function EventsSection() {
                   </div>
                 </Link>
 
-                {/* Informações — lado direito */}
-                <div className="flex-1 p-6 sm:p-8 flex flex-col justify-center min-w-0">
+                {/* Informações */}
+                <div className="flex-1 p-4 sm:p-8 flex flex-col justify-center min-w-0">
 
                   {/* Data + horário */}
                   <div className="mb-5">
@@ -111,7 +111,7 @@ export function EventsSection() {
                          href={link.url}
                          target="_blank"
                          rel="noopener noreferrer"
-                         className="flex items-center justify-between w-full max-w-[220px] px-5 py-2.5 bg-[#4A4A4A] hover:bg-[#333] text-white rounded-full text-xs font-bold tracking-[0.1em] transition-colors font-sans"
+                         className="flex items-center justify-between w-full max-w-[220px] px-5 py-2.5 bg-[#4A4A4A] hover:bg-[#333] text-white rounded-sm text-xs font-bold tracking-[0.1em] transition-colors font-sans"
                        >
                          <span>{link.label}</span>
                          <ChevronRight className="w-4 h-4 ml-2" />
@@ -125,7 +125,7 @@ export function EventsSection() {
                           href={event.ticketUrl && event.ticketUrl !== '#' ? event.ticketUrl : '#'}
                           target={event.ticketUrl && event.ticketUrl !== '#' ? '_blank' : undefined}
                           rel={event.ticketUrl && event.ticketUrl !== '#' ? 'noopener noreferrer' : undefined}
-                          className="flex items-center justify-between w-full max-w-[220px] px-5 py-2.5 bg-[#4A4A4A] hover:bg-[#333] text-white rounded-full text-xs font-bold tracking-[0.1em] transition-colors font-sans"
+                          className="flex items-center justify-between w-full max-w-[220px] px-5 py-2.5 bg-[#4A4A4A] hover:bg-[#333] text-white rounded-sm text-xs font-bold tracking-[0.1em] transition-colors font-sans"
                         >
                           <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
                           <ChevronRight className="w-4 h-4 ml-2" />
@@ -138,7 +138,7 @@ export function EventsSection() {
                       <EventListForm eventId={event.id} />
                       <Link 
                         to={`/eventos/${event.slug}`}
-                        className="flex items-center justify-center px-5 py-2.5 bg-white border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#F5F5F5] rounded-full text-xs font-bold tracking-[0.1em] transition-colors font-sans flex-1 max-w-[150px]"
+                        className="flex items-center justify-center px-5 py-2.5 bg-white border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#F5F5F5] rounded-sm text-xs font-bold tracking-[0.1em] transition-colors font-sans flex-1 max-w-[150px]"
                       >
                         Ver Detalhes
                       </Link>

@@ -40,11 +40,11 @@ export function Footer({ onAdminClick }: FooterProps) {
   return (
     <footer className="bg-[#0A0A0A]">
       {/* Main content */}
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-20">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-8">
 
           {/* Brand */}
-          <div className="mb-8 md:mb-0">
+          <div className="col-span-2 sm:col-span-2 lg:col-span-1 mb-4 md:mb-0">
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-block group mb-6">
               <img 
                 src="/LOGOQUEROMAIS_BRANCAMAGENTA.svg" 
@@ -158,12 +158,12 @@ export function Footer({ onAdminClick }: FooterProps) {
                 required
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t({ pt: 'Seu e-mail', en: 'Your email', es: 'Tu correo' })}
-                className="px-4 py-3 bg-white/5 border border-white/10 rounded-md text-white/80 placeholder:text-white/30 text-sm focus:outline-none focus:border-qm-magenta transition-colors font-sans"
+                className="px-4 py-3 bg-white/5 border border-white/10 rounded-sm text-white/80 placeholder:text-white/30 text-sm focus:outline-none focus:border-qm-magenta transition-colors font-sans"
               />
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-4 py-3 bg-qm-magenta hover:bg-qm-magenta-dark text-white font-semibold rounded-md text-sm transition-colors font-sans disabled:opacity-50"
+                className="w-full px-4 py-3 bg-qm-magenta hover:bg-qm-magenta-dark text-white font-semibold rounded-sm text-sm transition-colors font-sans disabled:opacity-50"
               >
                 {isSubmitting ? '...' : t({ pt: 'Quero receber', en: 'Subscribe', es: 'Suscribirme' })}
               </button>
