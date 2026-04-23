@@ -302,7 +302,19 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           setSiteConfig(mapFromDB(config));
           if (config.fica_mais_party) setFicaMaisParty(mapFromDB(config.fica_mais_party));
           if (config.storytelling) setStorytelling(mapFromDB(config.storytelling));
-          if (config.home_sections) setHomeSections(mapFromDB(config.home_sections));
+          if (config.home_sections) {
+            const mapped = mapFromDB(config.home_sections);
+            if (Array.isArray(mapped)) {
+              mapped.forEach((s: any) => {
+                if (s.type === 'events' && (s.title?.pt === 'PRÓXIMOS EVENTOS' || s.title?.pt === 'Próximos Eventos' || s.title?.pt === 'Agenda Quero Mais')) {
+                  s.title.pt = 'AGENDA QUERO MAIS';
+                  s.title.en = 'QUERO MAIS SCHEDULE';
+                  s.title.es = 'AGENDA QUERO MÁS';
+                }
+              });
+            }
+            setHomeSections(mapped);
+          }
         } else {
           console.warn('⚠️ Nenhuma row encontrada em site_config! Execute a migration SQL.');
         }

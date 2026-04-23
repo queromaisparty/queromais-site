@@ -55,19 +55,24 @@ export function EventsSection() {
               <div key={event.id} className="bg-[#FAFAFA] flex hover:opacity-95 transition-opacity duration-300">
 
                 {/* Imagem do artista — lado esquerdo */}
-                <div className="w-[160px] sm:w-[240px] flex-shrink-0">
-                  {event.coverImage ? (
+                <Link to={`/eventos/${event.slug}`} className="block w-full sm:w-[280px] h-[340px] flex-shrink-0 relative overflow-hidden group">
+                  {event.coverImage || event.flyer ? (
                     <img
-                      src={event.coverImage}
+                      src={event.flyer || event.coverImage}
                       alt={t(event.title)}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                       <ChevronRight className="w-8 h-8 text-gray-300" />
                     </div>
                   )}
-                </div>
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                     <span className="px-6 py-2 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-widest shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                        Ver Detalhes
+                     </span>
+                  </div>
+                </Link>
 
                 {/* Informações — lado direito */}
                 <div className="flex-1 p-6 sm:p-8 flex flex-col justify-center min-w-0">
@@ -79,9 +84,11 @@ export function EventsSection() {
                     </span>
 
                     {/* Título do Evento */}
-                    <h3 className="font-sans font-black text-xl sm:text-2xl text-[#111111] mb-3 leading-tight uppercase">
-                      {t(event.title)}
-                    </h3>
+                    <Link to={`/eventos/${event.slug}`} className="hover:text-qm-magenta transition-colors">
+                      <h3 className="font-sans font-black text-xl sm:text-2xl text-[#111111] mb-3 leading-tight uppercase">
+                        {t(event.title)}
+                      </h3>
+                    </Link>
 
                     {event.shortDescription && (
                       <p className="text-sm text-[#333333] leading-relaxed line-clamp-3 mb-4">
@@ -127,7 +134,15 @@ export function EventsSection() {
                     )}
 
                     {/* Lista de desconto — aparece se lista ativa no Supabase */}
-                    <EventListForm eventId={event.id} />
+                    <div className="flex items-center gap-3 w-full">
+                      <EventListForm eventId={event.id} />
+                      <Link 
+                        to={`/eventos/${event.slug}`}
+                        className="flex items-center justify-center px-5 py-2.5 bg-white border border-[#4A4A4A] text-[#4A4A4A] hover:bg-[#F5F5F5] rounded-full text-xs font-bold tracking-[0.1em] transition-colors font-sans flex-1 max-w-[150px]"
+                      >
+                        Ver Detalhes
+                      </Link>
+                    </div>
                   </div>
 
                 </div>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 import { Calendar, MapPin, Ticket as TicketIcon, ArrowLeft, ArrowRight, Clock, Navigation } from 'lucide-react';
@@ -21,6 +22,23 @@ export function EventoDetalhePage() {
   const event = events.find(e => e.slug === slug && e.status === 'active');
   const now = new Date();
 
+  // SEO dinâmico
+  useEffect(() => {
+    if (event) {
+      const title = getTitle(event.title);
+      document.title = `${title} | Agenda Quero Mais`;
+      
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute('content', getTitle(event.shortDescription) || `Confira os detalhes de ${title} na Quero Mais.`);
+      }
+    }
+    
+    return () => {
+      // Opcional: Restaurar título original ao sair, mas o SiteEngine no App já cuida disso
+    };
+  }, [event]);
+
   if (!event) {
     return (
       <main className="pt-32 pb-20 min-h-screen bg-[#F2F2F2] flex flex-col items-center justify-center text-center px-4">
@@ -40,9 +58,15 @@ export function EventoDetalhePage() {
 
   const isPast = new Date(event.date) < now;
   const heroImage = event.detailCoverImage || event.coverImage || event.flyer || '';
+  
+  // Regra de Outros Eventos: Ativos, Exceto o Atual, Ordenados por Data, Limite 4
   const otherEvents = events
-    .filter(e => e.status === 'active' && e.id !== event.id && new Date(e.date) >= now)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .filter(e => e.status === 'active' && e.id !== event.id) // Incluindo passados ativos ou apenas futuros? User pediu "ativos".
+    .sort((a, b) => {
+        const distA = Math.abs(new Date(a.date).getTime() - now.getTime());
+        const distB = Math.abs(new Date(b.date).getTime() - now.getTime());
+        return distA - distB; // Mais próximos de hoje primeiro
+    })
     .slice(0, 4);
 
   const formatDate = (d: string) => {

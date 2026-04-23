@@ -8,6 +8,9 @@ import { ImagePlus, X, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react
 interface FlyerUploaderProps {
   value: string;
   onChange: (value: string) => void;
+  maxW?: number;
+  aspectRatio?: string;
+  label?: string;
 }
 
 type Stage = 'idle' | 'reading' | 'compressing' | 'done' | 'error';
@@ -41,7 +44,7 @@ async function compressImage(file: File, maxW = 1200, quality = 0.82): Promise<{
   });
 }
 
-export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
+export function FlyerUploader({ value, onChange, maxW = 1200, aspectRatio = "2/3", label = "Cartaz / Flyer Principal" }: FlyerUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [stage, setStage] = useState<Stage>('idle');
   const [progress, setProgress] = useState(0);
@@ -56,7 +59,7 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
     const tick = setInterval(() => setProgress(p => Math.min(p + 15, 80)), 80);
     try {
       setStage('compressing');
-      const result = await compressImage(file);
+      const result = await compressImage(file, maxW);
       clearInterval(tick);
       setProgress(100);
       setInfo({ originalKB: result.originalKB, finalKB: result.finalKB });
@@ -94,9 +97,11 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
   if (value && (stage === 'done' || stage === 'idle')) {
     return (
       <div className="space-y-2">
-        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Cartaz / Flyer Principal</label>
+        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</label>
         <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-50 group">
-          <img src={value} alt="Flyer preview" className="w-full max-h-64 object-contain brightness-95 group-hover:brightness-105 transition-all" />
+          <div className="w-full bg-black/5" style={{ aspectRatio }}>
+            <img src={value} alt="Flyer preview" className="w-full h-full object-contain brightness-95 group-hover:brightness-105 transition-all" />
+          </div>
           
           {info && (
             <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wide uppercase bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm leading-none">
@@ -127,7 +132,7 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
   if (stage === 'reading' || stage === 'compressing') {
     return (
       <div className="space-y-2">
-        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Cartaz / Flyer Principal</label>
+      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</label>
         <div className="p-8 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center justify-center space-y-4 shadow-sm">
           <p className="text-sm font-semibold text-admin-accent">
             {stage === 'reading' ? 'Processando imagem...' : 'Otimizando qualidade e peso...'}
@@ -145,7 +150,7 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
   if (stage === 'error') {
     return (
       <div className="space-y-2">
-        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Cartaz / Flyer Principal</label>
+      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</label>
         <div className="p-5 rounded-xl flex items-start gap-3 bg-red-50 border border-red-200 shadow-sm">
           <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-500" />
           <div>
@@ -166,8 +171,8 @@ export function FlyerUploader({ value, onChange }: FlyerUploaderProps) {
   return (
     <div className="space-y-2">
       <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
-        Cartaz / Flyer Principal
-        <span className="ml-1 text-admin-accent normal-case font-medium">*</span>
+        {label}
+        {label.includes('Principal') && <span className="ml-1 text-admin-accent normal-case font-medium">*</span>}
       </label>
       <div
         role="button"

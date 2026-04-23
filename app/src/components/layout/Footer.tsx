@@ -146,9 +146,9 @@ export function Footer({ onAdminClick }: FooterProps) {
             </h3>
             <p className="text-white/50 text-sm mb-5 font-sans">
               {t({
-                pt: 'Seja o primeiro a saber sobre nossos próximos eventos.',
-                en: 'Be the first to know about our next events.',
-                es: 'Sé el primero en saber sobre nuestros próximos eventos.',
+                pt: 'Seja o primeiro a saber sobre a nossa AGENDA QUERO MAIS.',
+                en: 'Be the first to know about our QUERO MAIS SCHEDULE.',
+                es: 'Sé el primero en saber sobre nuestra AGENDA QUERO MÁS.',
               })}
             </p>
             <form className="flex flex-col gap-2" onSubmit={handleSubscribe}>

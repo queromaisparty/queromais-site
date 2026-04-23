@@ -120,7 +120,7 @@ export const translations = {
     upcomingEvents: {
       pt: 'Agenda Quero Mais',
       en: 'Quero Mais Schedule',
-      es: 'Agenda Quero Más'
+      es: 'Agenda Quero Mais'
     },
     eventsDescription: {
       pt: 'Não perca nossas próximas festas. Experiências únicas esperam por você.',

@@ -402,11 +402,17 @@ function EventModal({ initial, eventId, onSave, onClose, onOpenLists }: {
                   )}
                 </div>
                 {form.detailCoverImage ? (
-                  <div className="rounded-lg overflow-hidden border border-slate-200 aspect-[1600/838]">
+                  <div className="rounded-lg overflow-hidden border border-slate-200" style={{ aspectRatio: '1600/838' }}>
                     <img src={form.detailCoverImage} alt="Capa detalhe" className="w-full h-full object-cover" />
                   </div>
                 ) : (
-                  <FlyerUploader value={form.detailCoverImage} onChange={v => set({ detailCoverImage: v })} />
+                  <FlyerUploader 
+                    label="Enviar Capa Panorama"
+                    value={form.detailCoverImage} 
+                    onChange={v => set({ detailCoverImage: v })} 
+                    maxW={1600}
+                    aspectRatio="1600/838"
+                  />
                 )}
               </div>
             </div>
