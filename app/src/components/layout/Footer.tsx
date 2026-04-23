@@ -1,4 +1,4 @@
-﻿import { Instagram, MessageCircle, Mail, MapPin, ChevronRight } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, MapPin, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { Link } from 'react-router-dom';
@@ -47,7 +47,7 @@ export function Footer({ onAdminClick }: FooterProps) {
           <div className="col-span-2 sm:col-span-2 lg:col-span-1 mb-4 md:mb-0">
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-block group mb-6">
               <img 
-                src="/LOGOQUEROMAIS_BRANCAMAGENTA.svg" 
+                src="/LOGOQUEROMAIS_BRANCA.svg" 
                 alt="Quero Mais" 
                 className="h-8 md:h-10 w-auto transition-transform duration-300 group-hover:scale-105"
               />

@@ -72,7 +72,7 @@ export function Header() {
             {/* Logo */}
             <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center shrink-0 group">
               <img 
-                src={isLight ? '/LOGOQUEROMAIS_PRETA.svg' : '/LOGOQUEROMAIS_BRANCAMAGENTA.svg'} 
+                src={isLight ? '/LOGOQUEROMAIS_PRETA.svg' : '/LOGOQUEROMAIS_BRANCA.svg'} 
                 alt="Quero Mais" 
                 className="h-6 lg:h-8 w-auto transition-transform duration-300 group-hover:scale-105"
               />
