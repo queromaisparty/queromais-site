@@ -56,16 +56,12 @@ export function HeroSection() {
       const video = videoRef.current;
       
       if (video && video.readyState >= 2 && !isNaN(video.duration) && video.duration > 0) {
-        currentProgress += (targetProgress - currentProgress) * 0.08;
-
-        if (Math.abs(targetProgress - currentProgress) > 0.0001) {
-          const maxTime = video.duration - 0.05;
-          let newTime = currentProgress * video.duration;
-          if (newTime > maxTime) newTime = maxTime;
-          if (newTime < 0) newTime = 0;
-          
-          video.currentTime = newTime;
-        }
+        const maxTime = video.duration - 0.05;
+        let newTime = targetProgress * video.duration;
+        if (newTime > maxTime) newTime = maxTime;
+        if (newTime < 0) newTime = 0;
+        
+        video.currentTime = newTime;
       }
       animationFrameId = requestAnimationFrame(smoothScroll);
     };
