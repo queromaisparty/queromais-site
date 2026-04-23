@@ -141,7 +141,7 @@ export function HeroSection() {
     <section
       ref={containerRef}
       id="home"
-      className="relative w-full aspect-[4/3] md:aspect-auto md:h-[250vh] bg-[#050505]"
+      className="relative w-full pt-14 md:pt-0 aspect-[4/3] md:aspect-auto md:h-[250vh] bg-[#050505]"
     >
       {/* Desktop: sticky para o vídeo ficar fixo durante os 250vh de scroll */}
       {/* Mobile: wrapper normal, sem sticky — o touch lock cuida do comportamento */}
