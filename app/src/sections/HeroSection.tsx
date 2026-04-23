@@ -119,9 +119,9 @@ export function HeroSection() {
   // DESKTOP: vídeo controlado pelo scroll (sticky + lerp)
   // ═══════════════════════════════════════════════════════
   return (
-    <section ref={containerRef} id="home" className="relative w-full max-w-[100vw] h-[230vh] bg-[#050505] overflow-x-hidden">
+    <section ref={containerRef} id="home" className="relative w-full h-[230vh] bg-[#050505]">
       {/* Wrapper travado que gruda na tela */}
-      <div className="sticky top-0 w-full max-w-[100vw] h-[100dvh] overflow-hidden bg-[#050505]">
+      <div className="sticky top-0 w-full h-[100dvh] overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
           <video
             ref={videoRef}
