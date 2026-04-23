@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useData } from '@/context/DataContext';
 
 // Detecta mobile antes do primeiro render para evitar double-loading
@@ -18,12 +18,12 @@ export function HeroSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Puxando o vÃ­deo novo diretamente
+  // Puxando o vídeo novo diretamente
   const desktopVideo = '/steampunk.mp4';
   const mobileVideo = '/steampunk.mp4';
   const videoSrc = isMobile ? mobileVideo : desktopVideo;
 
-  // â”€â”€ SCROLL-CONTROLLED VIDEO (Mobile e Desktop) â”€â”€
+  // ── SCROLL-CONTROLLED VIDEO (Mobile e Desktop) ──
   useEffect(() => {
 
     let animationFrameId: number;
@@ -41,10 +41,25 @@ export function HeroSection() {
       const { top, height } = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      const scrollDistance = -top;
-      const maxScroll = height - windowHeight;
+      let progress = 0;
 
-      let progress = scrollDistance / maxScroll;
+      if (isMobile) {
+        // Mobile: container é um quadrado que passa pela tela
+        // Começa a animar quando entra na tela (top = windowHeight)
+        // Termina quando sai da tela (top = -height)
+        const totalScrollArea = windowHeight + height;
+        const currentScroll = windowHeight - top;
+        progress = currentScroll / totalScrollArea;
+        
+        // Ajuste de velocidade: como a área é curta, focar no miolo do vídeo
+        // para dar tempo do usuário ver o frame central
+      } else {
+        // Desktop: container tem 250vh e o vídeo é sticky
+        const scrollDistance = -top;
+        const maxScroll = height - windowHeight;
+        progress = maxScroll > 0 ? scrollDistance / maxScroll : 0;
+      }
+
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
 
@@ -88,18 +103,18 @@ export function HeroSection() {
 
   if (hero && hero.active === false) return null;
 
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-  // RENDERIZAÃ‡ÃƒO DO VÃDEO
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ════════════════════════════════════════════════════════════════════════════
+  // RENDERIZAÇÃO DO VÍDEO
+  // ════════════════════════════════════════════════════════════════════════════
   return (
-    <section ref={containerRef} id="home" className="relative w-full h-[250vh] bg-[#050505]">
-      {/* Wrapper travado que gruda na tela */}
-      <div className="sticky top-0 w-full h-[100dvh] overflow-hidden bg-[#050505]">
+    <section ref={containerRef} id="home" className="relative w-full aspect-square md:aspect-auto md:h-[250vh] bg-[#050505]">
+      {/* Wrapper travado no desktop, mas fluxo normal no mobile */}
+      <div className="w-full h-full md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
           <video
             ref={videoRef}
             src={videoSrc}
-            className={`w-full h-full ${isMobile ? 'object-contain' : 'object-cover'} object-center`}
+            className="w-full h-full object-cover object-center"
             muted
             playsInline
             preload="auto"
