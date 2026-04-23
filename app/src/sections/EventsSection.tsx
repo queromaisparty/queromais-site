@@ -44,7 +44,7 @@ export function EventsSection() {
 
         {/* Grid de eventos â€” 2 colunas no desktop */}
         {activeEvents.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {activeEvents.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
@@ -64,5 +64,6 @@ export function EventsSection() {
     </section>
   );
 }
+
 
 

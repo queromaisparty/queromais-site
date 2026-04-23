@@ -141,7 +141,7 @@ export function EventosPage() {
               <p className="text-gray-500 text-center">NÃ£o encontramos resultados para este filtro.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {filteredList.map(e => {
                 const isPast = new Date(e.date) < now;
                 return (
@@ -155,5 +155,6 @@ export function EventosPage() {
     </main>
   );
 }
+
 
 
