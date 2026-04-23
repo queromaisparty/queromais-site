@@ -16,7 +16,7 @@ export function MusicPage() {
               <p className="text-qm-magenta text-sm font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
                 <Headphones className="w-4 h-4" /> Som Oficial
               </p>
-              <h1 className="font-black text-5xl sm:text-6xl lg:text-7xl text-black uppercase tracking-tighter leading-none mb-4">
+              <h1 className="font-black text-3xl sm:text-5xl lg:text-7xl text-black uppercase tracking-tighter leading-none mb-4">
                 QM <span className="text-qm-magenta">MUSIC</span>
               </h1>
               <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">

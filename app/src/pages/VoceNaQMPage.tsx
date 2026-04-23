@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useData } from '@/context/DataContext';
 import { Camera, ImageIcon, ChevronLeft, Calendar, Download, Share2, Link2, Youtube, Play, X } from 'lucide-react';
 import type { GalleryAlbum } from '@/types';
@@ -8,7 +8,7 @@ export function VoceNaQMPage() {
   const [selectedAlbum, setSelectedAlbum] = useState<GalleryAlbum | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'photos' | 'videos'>('photos');
-  const [selectedVideo, setSelectedVideo] = useState<any>(null);
+  const [selectedVideo, setSelectedVideo] = useState<{ id: string; youtubeId: string; title: { pt?: string; en?: string; es?: string } | string } | null>(null);
 
   const publishedVideos = useMemo(() => {
     return galleryVideos.filter(v => v.status === 'published').sort((a, b) => (b.displayOrder || 0) - (a.displayOrder || 0));
@@ -21,13 +21,6 @@ export function VoceNaQMPage() {
       .sort((a, b) => (a.order || 0) - (b.order || 0) || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }, [galleryAlbums]);
 
-  // Efeito para tratar álbuns externos
-  useEffect(() => {
-    if (selectedAlbum?.type === 'external' && selectedAlbum.externalLink) {
-      window.open(selectedAlbum.externalLink, '_blank');
-      setSelectedAlbum(null);
-    }
-  }, [selectedAlbum]);
 
   return (
     <main className="pt-24 pb-20 min-h-screen bg-[#F2F2F2]">
@@ -39,7 +32,7 @@ export function VoceNaQMPage() {
                <p className="text-qm-magenta text-sm font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
                  <Camera className="w-5 h-5" /> Momentos Eternizados
                </p>
-               <h1 className="font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
+               <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
                  VOCÊ NA <span className="text-qm-magenta">QUERO MAIS</span>
                </h1>
                 <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">

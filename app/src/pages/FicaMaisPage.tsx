@@ -27,12 +27,12 @@ export function FicaMaisPage() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-white" />
             </div>
             <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="p-8 sm:p-16 lg:p-24 max-w-4xl">
+              <div className="p-6 sm:p-12 lg:p-24 max-w-4xl">
                 <div className="text-sm font-bold uppercase tracking-[0.3em] text-qm-magenta mb-6 flex items-center gap-3">
                   <span className="w-8 h-px bg-qm-magenta" />
                   O After Oficial
                 </div>
-                <h1 className="font-black text-6xl sm:text-7xl lg:text-8xl text-white uppercase tracking-tighter leading-[0.9] mb-8">
+                <h1 className="font-black text-4xl sm:text-6xl lg:text-8xl text-white uppercase tracking-tighter leading-[0.9] mb-6 sm:mb-8">
                   FICA MAIS <span className="text-qm-magenta">PARTY</span>
                 </h1>
                 <p className="text-xl sm:text-2xl text-white/80 font-medium leading-relaxed mb-12 max-w-2xl">

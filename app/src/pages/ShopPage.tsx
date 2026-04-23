@@ -98,7 +98,7 @@ export function ShopPage() {
              <div className="w-16 h-16 rounded-full bg-qm-magenta/10 flex items-center justify-center mb-6">
                 <ShoppingBag className="w-8 h-8 text-qm-magenta" />
              </div>
-             <h1 className="font-black text-5xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-none mb-4">
+             <h1 className="font-black text-3xl sm:text-5xl lg:text-8xl text-black uppercase tracking-tighter leading-none mb-4">
                 QM <span className="text-qm-magenta">STORE</span>
              </h1>
              <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
@@ -109,7 +109,7 @@ export function ShopPage() {
 
         {/* Carrinho Modal/Panel Local */}
         {showCart && (
-          <div className="mb-12 bg-gray-50 border border-gray-200 rounded-none p-6 md:p-8 shadow-xl animate-in fade-in slide-in-from-top-4">
+          <div className="mb-8 bg-gray-50 border border-gray-200 rounded-none p-4 sm:p-6 md:p-8 shadow-xl animate-in fade-in slide-in-from-top-4">
             <div className="flex justify-between items-center mb-6">
               <h3 className="font-black text-2xl text-black uppercase">Seu Carrinho</h3>
               <button 

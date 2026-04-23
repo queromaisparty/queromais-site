@@ -118,7 +118,7 @@ export function EventoDetalhePage() {
             <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-3">
               {isPast ? 'Edição Histórica' : 'Evento Oficial'}
             </div>
-            <h1 className="font-sans font-black text-4xl sm:text-6xl lg:text-7xl text-white uppercase tracking-tight leading-none mb-4 max-w-4xl">
+            <h1 className="font-sans font-black text-2xl sm:text-5xl lg:text-7xl text-white uppercase tracking-tight leading-none mb-4 max-w-4xl">
               {getTitle(event.title)}
             </h1>
             <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-gray-200">
@@ -162,8 +162,8 @@ export function EventoDetalhePage() {
 
             {/* Informações detalhadas */}
             <div className="bg-white border border-gray-200 rounded-none shadow-sm divide-y divide-gray-100">
-              <div className="flex items-start gap-4 p-6">
-                <div className="w-12 h-12 bg-[#F2F2F2] flex items-center justify-center flex-shrink-0">
+              <div className="flex items-start gap-3 p-4 sm:p-6">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#F2F2F2] flex items-center justify-center flex-shrink-0">
                   <Calendar className="w-5 h-5 text-qm-magenta" />
                 </div>
                 <div>
@@ -173,8 +173,8 @@ export function EventoDetalhePage() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-6">
-                <div className="w-12 h-12 bg-[#F2F2F2] flex items-center justify-center flex-shrink-0">
+              <div className="flex items-start gap-3 p-4 sm:p-6">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#F2F2F2] flex items-center justify-center flex-shrink-0">
                   <MapPin className="w-5 h-5 text-qm-magenta" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -203,7 +203,7 @@ export function EventoDetalhePage() {
 
           {/* ── SIDEBAR DE AÇÕES ── */}
           <div className="lg:col-span-5">
-            <div className="sticky top-28 space-y-5">
+            <div className="sticky top-20 sm:top-28 space-y-5">
 
               {/* Card de ingressos */}
               <div className="bg-white border border-gray-200 shadow-sm p-6 space-y-4">

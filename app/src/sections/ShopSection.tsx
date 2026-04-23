@@ -96,7 +96,7 @@ export function ShopSection() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3 font-sans">
               {t({ pt: 'Loja Oficial', en: 'Official Store', es: 'Tienda Oficial' })}
             </p>
-            <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight">
+            <h2 className="font-sans font-black text-2xl sm:text-4xl lg:text-6xl text-white uppercase tracking-tight">
               {t(translations.shop.title)}
             </h2>
           </div>

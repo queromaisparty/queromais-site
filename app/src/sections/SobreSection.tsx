@@ -19,7 +19,7 @@ export function SobreSection() {
                 Quem somos
               </p>
               <h2 className="font-sans font-black text-white uppercase leading-none tracking-tight"
-                  style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)' }}>
+                  style={{ fontSize: 'clamp(1.6rem, 5vw, 4rem)' }}>
                 {s.homeTitle}
               </h2>
             </div>
@@ -50,7 +50,7 @@ export function SobreSection() {
 
           {/* Stats — só renderiza se houver dados */}
           {stats.length > 0 && (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-20">
               {stats.map(stat => (
                 <div key={stat.id} className="text-center">
                   <p className="font-sans font-black text-4xl lg:text-5xl text-black mb-2">{stat.value}</p>

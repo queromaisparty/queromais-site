@@ -60,10 +60,10 @@ export function EventosPage() {
           {/* Header */}
           <div className="mb-12 border-b border-gray-300 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
+              <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-4">
                 Agenda <span className="text-qm-magenta">Quero Mais</span>
               </h1>
-              <p className="text-gray-600 text-lg sm:text-xl max-w-2xl">
+              <p className="text-gray-600 text-sm sm:text-lg lg:text-xl max-w-2xl">
                 Programe-se para as próximas noites inesquecíveis ou explore nosso histórico de edições épicas.
               </p>
             </div>
@@ -79,7 +79,7 @@ export function EventosPage() {
                   className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-none text-black text-sm focus:border-qm-magenta focus:outline-none transition-colors shadow-sm"
                 />
               </div>
-              <div className="flex bg-white border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm">
+              <div className="flex bg-white border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm overflow-x-auto">
                 <button
                   onClick={() => setActiveFilter('upcoming')}
                   className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'upcoming' ? 'bg-qm-magenta text-white' : 'text-gray-500 hover:text-black hover:bg-gray-100'}`}

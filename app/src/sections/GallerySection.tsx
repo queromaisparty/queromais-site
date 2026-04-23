@@ -97,7 +97,7 @@ export function GallerySection() {
 
           {/* Header */}
           <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#111] leading-[0.95] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-[#111] leading-[0.95] tracking-tight">
               {t(translations.gallery.title)}
             </h2>
             <p className="text-gray-400 font-medium text-base mt-4 max-w-lg mx-auto">

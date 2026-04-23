@@ -10,7 +10,7 @@ export function ContactSection() {
   return (
     <section id="contact" className="py-20 lg:py-24 bg-white relative z-10 border-t border-gray-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-black text-black uppercase tracking-tight mb-4">
+        <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-black uppercase tracking-tight mb-4">
           {t({ pt: 'Fale Conosco', en: 'Get in Touch', es: 'Contáctenos' })}
         </h2>
         <p className="text-gray-500 text-sm sm:text-base mb-8 max-w-lg mx-auto">

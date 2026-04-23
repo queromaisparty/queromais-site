@@ -14,7 +14,7 @@ export function SobrePage() {
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* BLOCO 1 — Hero */}
         <div className="text-center mt-8 mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <h1 className="font-black text-5xl sm:text-7xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-6">
+          <h1 className="font-black text-3xl sm:text-5xl lg:text-8xl text-black uppercase tracking-tighter leading-[0.9] mb-6">
             {s.heroTitle.split(' ').map((word, i, arr) =>
               i === arr.length - 1
                 ? <span key={i} className="text-qm-magenta"> {word}</span>

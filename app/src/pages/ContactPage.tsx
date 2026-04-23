@@ -46,7 +46,7 @@ export function ContactPage() {
           <p className="text-qm-magenta text-sm font-bold uppercase tracking-widest mb-3 flex items-center justify-center gap-2">
              <MessageSquare className="w-5 h-5" /> Atendimento Oficial
           </p>
-          <h1 className="font-black text-5xl sm:text-6xl text-black uppercase tracking-tight leading-none mb-6">
+          <h1 className="font-black text-3xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight leading-none mb-6">
             Fale com a <br className="sm:hidden" /> <span className="text-qm-magenta">Quero Mais</span>
           </h1>
         </div>

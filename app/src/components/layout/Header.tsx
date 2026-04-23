@@ -178,7 +178,7 @@ export function Header() {
                 key={item.href}
                 to={item.href}
                 onClick={() => setMenuOpen(false)}
-                className={`block w-full text-left text-[22px] tracking-tight transition-all font-medium ${
+                className={`block w-full text-left text-lg sm:text-xl tracking-tight transition-all font-medium ${
                   isHome ? 'text-[#3EBC50] font-medium' : 'text-[#222222] hover:text-qm-magenta'
                 }`}
               >

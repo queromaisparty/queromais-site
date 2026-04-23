@@ -18,7 +18,7 @@ export function MusicSection() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3">
             {t({ pt: 'Sons que marcam', en: 'Sounds that leave a mark', es: 'Sonidos que marcan' })}
           </p>
-          <h2 className="font-black text-4xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tight">
+          <h2 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tight">
             QM MUSIC
           </h2>
           <p className="text-black/60 text-lg max-w-2xl mx-auto mt-4 font-medium">

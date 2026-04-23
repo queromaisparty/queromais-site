@@ -35,7 +35,7 @@ export function FicaMaisSection() {
                 {t({ pt: 'After Party', en: 'After Party', es: 'After Party' })}
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mt-4 mb-6">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-white mt-4 mb-6">
               <span className="text-[#8B5CF6]">FICA</span> MAIS{' '}
               <span className="text-qm-magenta">PARTY</span>
             </h2>

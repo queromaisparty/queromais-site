@@ -22,12 +22,12 @@ export function EventsSection() {
   };
 
   return (
-    <section id="eventos" className="py-24 lg:py-32 bg-white">
+    <section id="eventos" className="py-14 sm:py-20 lg:py-32 bg-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header da seção */}
         <div className="text-center mb-16">
-          <h2 className="font-sans font-black text-4xl sm:text-5xl lg:text-5xl text-[#555555] tracking-tight capitalize">
+          <h2 className="font-sans font-black text-2xl sm:text-4xl lg:text-5xl text-[#555555] tracking-tight capitalize">
             {t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
           </h2>
         </div>
@@ -55,7 +55,7 @@ export function EventsSection() {
               <div key={event.id} className="bg-[#FAFAFA] flex hover:opacity-95 transition-opacity duration-300">
 
                 {/* Imagem do artista — lado esquerdo */}
-                <Link to={`/eventos/${event.slug}`} className="block w-full sm:w-[280px] h-[340px] flex-shrink-0 relative overflow-hidden group">
+                <Link to={`/eventos/${event.slug}`} className="block w-full sm:w-[280px] h-[220px] sm:h-[340px] flex-shrink-0 relative overflow-hidden group">
                   {event.coverImage || event.flyer ? (
                     <img
                       src={event.flyer || event.coverImage}

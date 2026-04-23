@@ -150,7 +150,7 @@
 
   /* Seção espaço padrão */
   .qm-section {
-    @apply py-24 lg:py-32;
+    @apply py-14 sm:py-20 lg:py-32;
   }
 
   /* Label de seção (UPPERCASE, magenta, pequeno) */
