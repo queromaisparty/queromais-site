@@ -105,14 +105,15 @@ export function HeroSection() {
   // ════════════════════════════════════════════════════════════════════════════
   return (
     <section ref={containerRef} id="home" className="relative w-full h-[180vh] md:h-[250vh] bg-[#050505]">
-      {/* Mobile: sticky para o vídeo ficar preso enquanto o usuário rola os 180vh completos */}
-      {/* Desktop: sticky com 250vh — comportamento original inalterado */}
-      <div className="sticky top-0 w-full h-[100dvh] overflow-hidden bg-[#050505]">
-        <div className="absolute inset-0 flex items-center justify-center">
+      {/* Mobile: sticky para o vídeo ficar preso enquanto o usuário rola os 180vh */}
+      {/* O wrapper NÃO tem altura fixa no mobile — o vídeo mantém seu aspect-[4/3] original */}
+      {/* Desktop: sticky com 100dvh — comportamento original inalterado */}
+      <div className="sticky top-0 w-full overflow-hidden bg-[#050505] md:h-[100dvh]">
+        <div className="relative w-full aspect-[4/3] md:aspect-auto md:h-full">
           <video
             ref={videoRef}
             src={videoSrc}
-            className="w-full h-full object-cover object-center"
+            className="absolute inset-0 w-full h-full object-cover object-center"
             muted
             playsInline
             preload="auto"
