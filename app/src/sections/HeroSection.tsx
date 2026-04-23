@@ -44,15 +44,10 @@ export function HeroSection() {
       let progress = 0;
 
       if (isMobile) {
-        // Mobile: container é um quadrado que passa pela tela
-        // Começa a animar quando entra na tela (top = windowHeight)
-        // Termina quando sai da tela (top = -height)
-        const totalScrollArea = windowHeight + height;
-        const currentScroll = windowHeight - top;
-        progress = currentScroll / totalScrollArea;
-        
-        // Ajuste de velocidade: como a área é curta, focar no miolo do vídeo
-        // para dar tempo do usuário ver o frame central
+        // Mobile: container está no topo absoluto da página.
+        // O vídeo começa visível em top = 0 (progress = 0)
+        // E termina exatamente quando sai da tela (top = -height)
+        progress = -top / height;
       } else {
         // Desktop: container tem 250vh e o vídeo é sticky
         const scrollDistance = -top;

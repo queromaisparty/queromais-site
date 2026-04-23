@@ -1,4 +1,4 @@
-﻿import { ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -16,7 +16,7 @@ export function EventsSection() {
 
 
   return (
-    <section id="eventos" className="py-32 bg-white">
+    <section id="eventos" className="pt-10 pb-24 md:py-32 bg-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header da seÃ§Ã£o */}
