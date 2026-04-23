@@ -48,7 +48,7 @@ export function EventosPage() {
 
 
   return (
-    <main className="pt-32 pb-24 min-h-screen bg-[#0A0A0A]">
+    <main className="pt-32 pb-24 min-h-screen bg-[#F2F2F2]">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 mt-8">
 
@@ -71,10 +71,10 @@ export function EventosPage() {
                   placeholder="Buscar evento..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full sm:w-64 pl-9 pr-4 py-3 bg-[#111111] border-gray-800 border border-gray-300 rounded-none text-white text-sm focus:border-qm-magenta focus:outline-none transition-colors shadow-sm"
+                  className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-none text-white text-sm focus:border-qm-magenta focus:outline-none transition-colors shadow-sm"
                 />
               </div>
-              <div className="flex bg-[#111111] border-gray-800 border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm overflow-x-auto">
+              <div className="flex bg-white border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm overflow-x-auto">
                 <button
                   onClick={() => setActiveFilter('upcoming')}
                   className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'upcoming' ? 'bg-qm-magenta text-white' : 'text-gray-500 hover:text-white hover:bg-gray-100'}`}
@@ -155,6 +155,7 @@ export function EventosPage() {
     </main>
   );
 }
+
 
 
 

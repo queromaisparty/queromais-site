@@ -16,23 +16,22 @@ export function EventsSection() {
 
 
   return (
-    <section id="eventos" className="pt-10 pb-24 md:py-32 bg-[#0A0A0A]">
+    <section id="eventos" className="pt-10 pb-24 md:py-32 bg-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header da seção */}
         <div className="text-center mb-10 sm:mb-16">
-          <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-5xl text-white tracking-tighter uppercase">
-            {t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
+          <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-5xl text-[#555555] tracking-tighter uppercase">{t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
           </h2>
         </div>
 
         {/* Estado vazio ââ‚¬â€ nenhum evento cadastrado */}
         {activeEvents.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <h3 className="font-sans font-black text-2xl text-white uppercase mb-3">
+            <h3 className="font-sans font-black text-2xl text-black uppercase mb-3">
               {t({ pt: 'Em breve!', en: 'Coming soon!', es: '¡Próximamente!' })}
             </h3>
-            <p className="text-gray-400 text-base max-w-sm">
+            <p className="text-[#666666] text-base max-w-sm">
               {t({
                 pt: 'Estamos preparando novos eventos incríveis. Fique de olho!',
                 en: 'We are preparing amazing new events. Stay tuned!',
@@ -64,6 +63,7 @@ export function EventsSection() {
     </section>
   );
 }
+
 
 
 
