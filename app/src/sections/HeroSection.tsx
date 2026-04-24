@@ -84,11 +84,11 @@ export function HeroSection() {
     <section
       ref={containerRef}
       id="home"
-      className="relative w-full pt-[calc(3.5rem+env(safe-area-inset-top))] md:pt-0 min-h-[100svh] md:min-h-0 md:h-[250vh] bg-[#050505]"
+      className="relative w-full flex flex-col pt-[calc(3.5rem+env(safe-area-inset-top))] md:block md:pt-0 min-h-[100svh] md:min-h-0 md:h-[250vh] bg-[#050505]"
     >
       {/* Desktop: sticky para o vídeo ficar fixo durante os 250vh de scroll */}
-      {/* Mobile: wrapper normal, ocupando o container com scroll livre */}
-      <div className="relative w-full h-full md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
+      {/* Mobile: wrapper normal, ocupando o container com scroll livre via flex-1 para não zerar a altura */}
+      <div className="relative w-full flex-1 md:flex-none md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
           <video
             ref={videoRef}
