@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 import { Calendar, MapPin, Search, ChevronLeft } from 'lucide-react';
@@ -55,10 +55,10 @@ export function EventosPage() {
           {/* Header */}
           <div className="mb-12 border-b border-gray-300 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-white uppercase tracking-tighter leading-none mb-4">
+              <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tighter leading-none mb-4">
                 Agenda <span className="text-qm-magenta">Quero Mais</span>
               </h1>
-              <p className="text-gray-600 text-sm sm:text-lg lg:text-xl max-w-2xl">
+              <p className="text-[#666666] text-sm sm:text-lg lg:text-xl max-w-2xl">
                 Programe-se para as próximas noites inesquecíveis ou explore nosso histórico de edições épicas.
               </p>
             </div>
@@ -71,25 +71,25 @@ export function EventosPage() {
                   placeholder="Buscar evento..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-none text-white text-sm focus:border-qm-magenta focus:outline-none transition-colors shadow-sm"
+                  className="w-full sm:w-64 pl-9 pr-4 py-3 bg-white border border-gray-300 rounded-none text-black text-sm focus:border-qm-magenta focus:outline-none transition-colors shadow-sm"
                 />
               </div>
               <div className="flex bg-white border border-gray-300 rounded-none p-1 w-full sm:w-auto shadow-sm overflow-x-auto">
                 <button
                   onClick={() => setActiveFilter('upcoming')}
-                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'upcoming' ? 'bg-qm-magenta text-white' : 'text-gray-500 hover:text-white hover:bg-gray-100'}`}
+                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'upcoming' ? 'bg-qm-magenta text-white' : 'text-[#666666] hover:text-black hover:bg-gray-100'}`}
                 >
                   Próximos
                 </button>
                 <button
                   onClick={() => setActiveFilter('past')}
-                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'past' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-white hover:bg-gray-100'}`}
+                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'past' ? 'bg-[#111111] text-white' : 'text-[#666666] hover:text-black hover:bg-gray-100'}`}
                 >
                   Histórico
                 </button>
                 <button
                   onClick={() => setActiveFilter('all')}
-                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'all' ? 'bg-[#4A4A4A] text-white' : 'text-gray-500 hover:text-white hover:bg-gray-100'}`}
+                  className={`flex-1 sm:flex-none px-4 py-2 text-sm font-bold rounded-none transition-colors ${activeFilter === 'all' ? 'bg-[#111111] text-white' : 'text-[#666666] hover:text-black hover:bg-gray-100'}`}
                 >
                   Todos
                 </button>
