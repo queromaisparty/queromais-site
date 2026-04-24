@@ -314,7 +314,10 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
               if (config.secondary_color) localStorage.setItem('@QueroMais:secondaryColor', config.secondary_color);
               setSiteConfig(mapFromDB(config));
               if (config.fica_mais_party) setFicaMaisParty(mapFromDB(config.fica_mais_party));
-              if (config.storytelling) setStorytelling(mapFromDB(config.storytelling));
+              if (config.storytelling) {
+                const dbS = mapFromDB(config.storytelling);
+                setStorytelling({ ...defaultStorytelling, ...dbS });
+              }
               if (config.home_sections) {
                 const mapped = mapFromDB(config.home_sections);
                 if (Array.isArray(mapped)) {
@@ -412,12 +415,15 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const updateStorytelling = useCallback(async (data: Partial<Storytelling>) => {
-    setStorytelling(prev => ({ ...prev, ...data } as any));
-    try {
+    setStorytelling(prev => {
+      const merged = { ...prev, ...data } as Storytelling;
       const configId = siteConfigIdRef.current;
-      if (!configId) return;
-      await supabase.from('site_config').update({ storytelling: data }).eq('id', configId);
-    } catch (e) { console.error(e); }
+      if (configId) {
+        supabase.from('site_config').update({ storytelling: merged }).eq('id', configId)
+          .then(({ error }) => { if (error) console.error('updateStorytelling:', error); });
+      }
+      return merged;
+    });
   }, []);
 
   const updateHomeSection = useCallback(async (id: string, data: Partial<HomeSection>) => {
