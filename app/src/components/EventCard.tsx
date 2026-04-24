@@ -43,16 +43,20 @@ export function EventCard({ event }: { event: any }) {
           {formatDate(event.date)} | {event.time}
         </span>
 
-        {/* TÃ­tulo / DescriÃ§Ã£o */}
-        {event.shortDescription ? (
-          <p className="text-sm sm:text-lg text-[#444444] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-medium line-clamp-2">
-            {t(event.shortDescription)}
-          </p>
-        ) : (
-          <h3 className="text-base sm:text-xl text-[#333333] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-bold line-clamp-2">
-            {t(event.title)}
-          </h3>
-        )}
+        {/* Título / Descrição */}
+        {(() => {
+          const desc = event.shortDescription ? t(event.shortDescription) : '';
+          const title = t(event.title) || '';
+          return desc ? (
+            <p className="text-sm sm:text-lg text-[#444444] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-medium line-clamp-2">
+              {desc}
+            </p>
+          ) : (
+            <h3 className="text-base sm:text-xl text-[#333333] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-bold line-clamp-2">
+              {title}
+            </h3>
+          );
+        })()}
 
         {/* Local */}
         <div className="text-xs sm:text-lg text-[#444444] font-medium mb-4 sm:mb-10">
