@@ -203,6 +203,7 @@ export interface DJSet {
   featured: boolean;
   orderIndex: number;
   createdAt: string;
+  metadata?: Record<string, any>;
 }
 
 export interface Playlist {

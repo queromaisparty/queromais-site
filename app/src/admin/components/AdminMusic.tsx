@@ -1,10 +1,11 @@
 import { useState, useRef } from 'react';
-import { Plus, Edit2, Trash2, Save, X, Headphones, Disc, Star, Upload, Loader2, Image as ImageIcon, Link } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, Headphones, Disc, Star, Upload, Loader2, Image as ImageIcon, Link, ExternalLink } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import type { DJ, DJSet } from '@/types';
 import { toast } from 'sonner';
 import { uploadImage } from '@/lib/supabase';
 import { optimizeImage } from '@/lib/imageProcessor';
+import { fetchSoundCloudOEmbed, sanitizeSoundCloudIframe } from '@/lib/soundcloud';
 
 /* ── Upload de Imagem ── */
 function ImageUploadField({ label, value, onChange, folder, fullWidth = false }: {
@@ -131,6 +132,48 @@ export function AdminMusic() {
   const [isEditing, setIsEditing] = useState(false);
   const [currentDJ, setCurrentDJ] = useState<Partial<DJ>>(DEFAULT_DJ);
   const [currentSet, setCurrentSet] = useState<Partial<DJSet>>(DEFAULT_SET);
+  const [isImportingSC, setIsImportingSC] = useState(false);
+
+  const handleImportSoundCloud = async () => {
+    if (!currentSet.soundcloudUrl) return toast.error('Cole a URL do SoundCloud primeiro.');
+    setIsImportingSC(true);
+    try {
+      const data = await fetchSoundCloudOEmbed(currentSet.soundcloudUrl);
+      setCurrentSet(prev => ({
+        ...prev,
+        title: { ...prev.title!, pt: data.title || prev.title?.pt || '' },
+        description: { ...prev.description!, pt: data.description || prev.description?.pt || '' },
+        coverImage: data.thumbnail_url || prev.coverImage,
+        metadata: {
+          ...prev.metadata,
+          soundcloud: {
+            author_name: data.author_name,
+            author_url: data.author_url,
+            html: data.html,
+            type: data.type,
+            provider_name: data.provider_name,
+            provider_url: data.provider_url
+          }
+        }
+      }));
+      toast.success('Dados importados com sucesso!');
+    } catch (err: any) {
+      toast.error(err.message || 'Erro ao importar dados.');
+    } finally {
+      setIsImportingSC(false);
+    }
+  };
+
+  const handleClearSCData = () => {
+    setCurrentSet(prev => {
+      const { soundcloud, ...restMetadata } = prev.metadata || ({} as any);
+      return {
+        ...prev,
+        soundcloudUrl: '',
+        metadata: restMetadata
+      };
+    });
+  };
 
   /* ── Handlers DJ ── */
   const handleSaveDJ = () => {
@@ -341,9 +384,55 @@ export function AdminMusic() {
                   <Textarea label="Descrição" value={currentSet.description?.pt || ''} onChange={v => setCurrentSet({ ...currentSet, description: { ...currentSet.description!, pt: v } })} placeholder="Detalhes do set, tracklist, data..." />
 
                   {/* Links */}
-                  <div className="space-y-3 bg-[#ff5500]/5 border border-[#ff5500]/20 rounded-xl p-4">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-[#ff5500] pl-1">SoundCloud</label>
-                    <Input label="SoundCloud URL" type="url" value={currentSet.soundcloudUrl || ''} onChange={v => setCurrentSet({ ...currentSet, soundcloudUrl: v })} placeholder="https://soundcloud.com/queromaisparty/..." />
+                  <div className="space-y-4 bg-[#ff5500]/5 border border-[#ff5500]/20 rounded-xl p-5">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-[#ff5500]">Importar do SoundCloud</label>
+                      {currentSet.metadata?.soundcloud && (
+                        <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-[#ff5500]/10 text-[#ff5500] border border-[#ff5500]/20">
+                          Dados Importados
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <div className="flex-1">
+                        <Input label="" type="url" value={currentSet.soundcloudUrl || ''} onChange={v => setCurrentSet({ ...currentSet, soundcloudUrl: v })} placeholder="https://soundcloud.com/queromaisparty/..." />
+                      </div>
+                      <button type="button" onClick={handleImportSoundCloud} disabled={isImportingSC || !currentSet.soundcloudUrl}
+                        className="shrink-0 flex items-center gap-1.5 px-4 py-2 mt-0.5 h-[42px] rounded-lg bg-[#ff5500] text-white text-sm font-bold hover:bg-[#ff5500]/90 transition-all disabled:opacity-50">
+                        {isImportingSC ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link className="w-4 h-4" />}
+                        {isImportingSC ? 'Buscando...' : 'Buscar Dados'}
+                      </button>
+                    </div>
+
+                    {currentSet.metadata?.soundcloud && (
+                      <div className="pt-2 border-t border-[#ff5500]/10">
+                        <div className="flex items-center justify-between mb-3">
+                          <p className="text-xs text-slate-500">Preview do Embed:</p>
+                          <button type="button" onClick={handleClearSCData} className="text-[10px] font-bold uppercase text-red-500 hover:underline">
+                            Limpar Dados Importados
+                          </button>
+                        </div>
+                        {(() => {
+                          const safeHtml = currentSet.metadata.soundcloud.html ? sanitizeSoundCloudIframe(currentSet.metadata.soundcloud.html) : null;
+                          if (safeHtml) {
+                            return (
+                              <div 
+                                className="w-full rounded-lg overflow-hidden border border-[#ff5500]/20 bg-black/5"
+                                dangerouslySetInnerHTML={{ __html: safeHtml }}
+                              />
+                            );
+                          }
+                          return (
+                            <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                              <a href={currentSet.soundcloudUrl} target="_blank" rel="noopener noreferrer" className="text-xs font-bold text-[#ff5500] hover:underline flex items-center gap-1">
+                                <ExternalLink className="w-3 h-3" /> Abrir no SoundCloud
+                              </a>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    )}
                   </div>
 
                   <Input label="Link Externo (YouTube / Outro)" type="url" value={currentSet.externalLink || ''} onChange={v => setCurrentSet({ ...currentSet, externalLink: v })} placeholder="https://youtube.com/..." />

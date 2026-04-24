@@ -1,4 +1,4 @@
-﻿import { Play, Headphones, Disc, ExternalLink, ArrowRight } from 'lucide-react';
+import { Play, Headphones, Disc, ExternalLink, ArrowRight } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 
 export function MusicPage() {
@@ -86,10 +86,10 @@ export function MusicPage() {
                         </p>
                       </div>
                       
-                      {(set.externalLink || set.audioUrl) && (
+                      {(set.externalLink || set.soundcloudUrl || set.audioUrl || set.playlistUrl) && (
                         <div className="shrink-0 w-full sm:w-auto mt-4 sm:mt-0">
                           <a 
-                            href={set.externalLink || set.audioUrl} 
+                            href={set.externalLink || set.soundcloudUrl || set.audioUrl || set.playlistUrl} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="bg-[#4A4A4A] hover:bg-[#333] text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-colors border border-transparent shadow-md w-full"
