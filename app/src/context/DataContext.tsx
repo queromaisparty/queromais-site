@@ -201,8 +201,8 @@ const defaultSiteConfig: SiteConfig = {
   }, 
   hero: { 
     active: true, 
-    desktop: { url: '/hero-scroll.mp4', upload: '' }, 
-    mobile: { url: '/videoversaomobile.mp4', upload: '' }, 
+    desktop: { url: '/steampunk.mp4', upload: '' }, 
+    mobile: { url: '/steampunk.mp4', upload: '' }, 
     fallbackImage: '/hero-poster.jpg' 
   } 
 };
