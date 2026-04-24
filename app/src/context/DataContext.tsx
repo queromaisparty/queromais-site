@@ -29,6 +29,7 @@ interface DataContextType {
   deleteEvent: (id: string) => void;
   getFeaturedEvents: () => Event[];
   getUpcomingEvents: () => Event[];
+  isEventsLoading: boolean;
   
   // Fica Mais Party
   ficaMaisParty: FicaMaisParty | null;
@@ -256,6 +257,7 @@ function useOptimisticCRUD<T extends { id: string }>(table: string, setState: Re
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isEventsLoading, setIsEventsLoading] = useState(true);
   const [events, setEvents] = useState<Event[]>([]);
   const [ficaMaisParty, setFicaMaisParty] = useState<FicaMaisParty | null>(null);
   const [storytelling, setStorytelling] = useState<Storytelling>(defaultStorytelling);
@@ -295,7 +297,11 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         // ─── Carregar tudo em PARALELO (incluindo site_config e contact_info) ───
         await Promise.all([
           // Dados públicos do site
-          fetchTable('events', setEvents),
+          // Eventos carregam primeiro e liberam imediatamente
+          supabase.from('events').select('*').then(({ data }) => {
+            if (data && mounted) setEvents(data.map(mapFromDB));
+            if (mounted) setIsEventsLoading(false);
+          }),
           fetchTable('djs', setDJs),
           fetchTable('dj_sets', setDJSets),
           fetchTable('playlists', setPlaylists),
@@ -451,6 +457,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   return (
     <DataContext.Provider value={{
       isLoading,
+      isEventsLoading,
       events, addEvent: crudEvents.add, updateEvent: crudEvents.update, deleteEvent: crudEvents.del, getFeaturedEvents, getUpcomingEvents,
       ficaMaisParty, updateFicaMaisParty,
       storytelling, updateStorytelling,
