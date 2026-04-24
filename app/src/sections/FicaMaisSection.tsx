@@ -21,7 +21,7 @@ export function FicaMaisSection() {
   if (ficaMaisParty?.showInHome === false) return null;
 
   return (
-    <section id="fica-mais" className="py-32 bg-gradient-to-b from-black via-[#1a0a2e] to-black relative overflow-hidden">
+    <section id="fica-mais" className="py-12 md:py-32 bg-gradient-to-b from-black via-[#1a0a2e] to-black relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#8B5CF6]/20 rounded-full blur-[120px]" />
