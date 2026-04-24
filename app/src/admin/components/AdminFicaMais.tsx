@@ -99,12 +99,8 @@ export function AdminFicaMais() {
 
   // ── Tab: Manifesto ──────────────────────────────────────
   function TabManifesto() {
-    const [manifestoCurtoPt, setManifestoCurtoPt] = useState(ficaMaisParty?.manifestoCurto?.pt || '');
-    const [manifestoCurtoEn, setManifestoCurtoEn] = useState(ficaMaisParty?.manifestoCurto?.en || '');
-    const [manifestoCurtoEs, setManifestoCurtoEs] = useState(ficaMaisParty?.manifestoCurto?.es || '');
-    const [manifestoCompletoPt, setManifestoCompletoPt] = useState(ficaMaisParty?.manifestoCompleto?.pt || '');
-    const [manifestoCompletoEn, setManifestoCompletoEn] = useState(ficaMaisParty?.manifestoCompleto?.en || '');
-    const [manifestoCompletoEs, setManifestoCompletoEs] = useState(ficaMaisParty?.manifestoCompleto?.es || '');
+    const [manifestoCurto, setManifestoCurto] = useState(ficaMaisParty?.manifestoCurto?.pt || '');
+    const [manifestoCompleto, setManifestoCompleto] = useState(ficaMaisParty?.manifestoCompleto?.pt || '');
     const [showInHome, setShowInHome] = useState(ficaMaisParty?.showInHome ?? true);
     const [isActivePage, setIsActivePage] = useState(ficaMaisParty?.isActivePage ?? true);
     // Stats dos cards (24h / ∞)
@@ -141,54 +137,22 @@ export function AdminFicaMais() {
           </label>
         </div>
 
-        {/* Short Text Container */}
-        <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-6">
+        {/* Texto resumido */}
+        <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-4">
           <div className="border-b border-slate-200 pb-3">
-             <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Expressão Resumida (Widget/Home)</h4>
-             <p className="text-[11px] font-medium text-slate-500 mt-1">Sintetize a energia central em textos que sirvam como pílulas no bloco da aba raiz.</p>
+            <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Expressão Resumida (Widget/Home)</h4>
+            <p className="text-[11px] font-medium text-slate-500 mt-1">Aparece no bloco da home. Tradução automática pelo navegador.</p>
           </div>
-          
-          <div className="grid grid-cols-1 gap-5">
-            <div>
-              <label className={fieldStyle.label}>Nativo (PT-BR) <span className="text-admin-accent">*</span></label>
-              <textarea className={`${fieldStyle.textarea} min-h-[90px]`} value={manifestoCurtoPt} onChange={e => setManifestoCurtoPt(e.target.value)} />
-            </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-3 border-t border-slate-100">
-               <div>
-                 <label className={fieldStyle.label}>Global (EN)</label>
-                 <textarea className={`${fieldStyle.textarea} min-h-[80px] bg-white`} value={manifestoCurtoEn} onChange={e => setManifestoCurtoEn(e.target.value)} />
-               </div>
-               <div>
-                 <label className={fieldStyle.label}>Latino (ES)</label>
-                 <textarea className={`${fieldStyle.textarea} min-h-[80px] bg-white`} value={manifestoCurtoEs} onChange={e => setManifestoCurtoEs(e.target.value)} />
-               </div>
-             </div>
-          </div>
+          <textarea className={`${fieldStyle.textarea} min-h-[90px]`} value={manifestoCurto} onChange={e => setManifestoCurto(e.target.value)} placeholder="Ex: A festa continua quando o sol nasce..." />
         </div>
 
-        {/* Full Text Container */}
-        <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-6">
+        {/* Texto completo da página */}
+        <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-4">
           <div className="border-b border-slate-200 pb-3">
-             <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Escopo Profundo (Page)</h4>
-             <p className="text-[11px] font-medium text-slate-500 mt-1">O corpo total redacional exposto do After, focado em fechar desejo intenso na Landing particular.</p>
+            <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Escopo Profundo (Página /fica-mais)</h4>
+            <p className="text-[11px] font-medium text-slate-500 mt-1">Texto principal da landing do After. Tradução automática pelo navegador.</p>
           </div>
-          
-          <div className="grid grid-cols-1 gap-5">
-            <div>
-              <label className={fieldStyle.label}>Nativo (PT-BR) <span className="text-admin-accent">*</span></label>
-              <textarea className={`${fieldStyle.textarea} min-h-[140px]`} value={manifestoCompletoPt} onChange={e => setManifestoCompletoPt(e.target.value)} />
-            </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-3 border-t border-slate-100">
-               <div>
-                 <label className={fieldStyle.label}>Global (EN)</label>
-                 <textarea className={`${fieldStyle.textarea} min-h-[120px] bg-white`} value={manifestoCompletoEn} onChange={e => setManifestoCompletoEn(e.target.value)} />
-               </div>
-               <div>
-                 <label className={fieldStyle.label}>Latino (ES)</label>
-                 <textarea className={`${fieldStyle.textarea} min-h-[120px] bg-white`} value={manifestoCompletoEs} onChange={e => setManifestoCompletoEs(e.target.value)} />
-               </div>
-             </div>
-          </div>
+          <textarea className={`${fieldStyle.textarea} min-h-[140px]`} value={manifestoCompleto} onChange={e => setManifestoCompleto(e.target.value)} placeholder="Ex: Quando a noite termina para a maioria..." />
         </div>
 
         {/* Cards de Stats */}
@@ -215,8 +179,8 @@ export function AdminFicaMais() {
 
         <SaveButton onClick={() => save({
           showInHome, isActivePage,
-          manifestoCurto: { pt: manifestoCurtoPt, en: manifestoCurtoEn, es: manifestoCurtoEs },
-          manifestoCompleto: { pt: manifestoCompletoPt, en: manifestoCompletoEn, es: manifestoCompletoEs },
+          manifestoCurto:    { pt: manifestoCurto,   en: '', es: '' },
+          manifestoCompleto: { pt: manifestoCompleto, en: '', es: '' },
           stat1Value, stat1Label, stat2Value, stat2Label,
         } as any)} />
       </div>
