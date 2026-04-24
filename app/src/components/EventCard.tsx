@@ -42,14 +42,13 @@ export function EventCard({ event }: { event: any }) {
       <div className="flex-1 flex flex-col justify-center min-w-0 py-2 sm:py-4">
 
         {/* Título — vem primeiro, bold, preto, 2pts maior */}
-        {/* Título — vem primeiro, bold, preto, 2pts maior */}
-        <h3 className="text-base sm:text-2xl text-black leading-snug sm:leading-relaxed mb-0 font-black line-clamp-2">
+        <h3 className="text-base sm:text-2xl text-black leading-tight mb-1 font-black line-clamp-2">
           {getTitle(event.title)}
         </h3>
 
         {/* Subtítulo / Descrição Curta */}
         {event.shortDescription && (
-          <p className="text-sm sm:text-base text-black/70 font-bold mb-1 sm:mb-2 line-clamp-1">
+          <p className="text-sm sm:text-base text-black/70 font-bold mb-2 line-clamp-1">
             {getTitle(event.shortDescription)}
           </p>
         )}
