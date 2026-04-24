@@ -148,29 +148,46 @@ export function MusicPage() {
                 <p className="text-gray-500 text-sm">Os DJs residentes serão listados aqui em breve.</p>
               </div>
             ) : (
-              djs.map(dj => (
-                <div key={dj.id} className="flex items-center gap-4 group cursor-pointer bg-white p-4">
-                  <div className="w-16 h-16 overflow-hidden border-2 border-transparent group-hover:border-qm-magenta transition-colors shrink-0 grayscale group-hover:grayscale-0 rounded-full bg-gray-200">
-                        {dj.image ? (
-                          <img src={dj.image} alt={dj.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-200 to-qm-magenta/20"><Headphones className="w-6 h-6 text-gray-400" /></div>
-                        )}
+              djs.map(dj => {
+                const primaryLink = dj.socialLinks && dj.socialLinks.length > 0 ? dj.socialLinks[0].url : undefined;
+                
+                const Wrapper = primaryLink ? 'a' : 'div';
+                const wrapperProps = primaryLink ? {
+                  href: primaryLink,
+                  target: "_blank",
+                  rel: "noopener noreferrer"
+                } : {};
+
+                return (
+                  <Wrapper 
+                    key={dj.id} 
+                    {...wrapperProps}
+                    className={`flex items-center gap-4 group bg-white p-4 ${primaryLink ? 'cursor-pointer hover:shadow-md transition-shadow rounded-xl' : ''}`}
+                  >
+                    <div className="w-16 h-16 overflow-hidden border-2 border-transparent group-hover:border-qm-magenta transition-colors shrink-0 grayscale group-hover:grayscale-0 rounded-full bg-gray-200">
+                      {dj.image ? (
+                        <img src={dj.image} alt={dj.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-200 to-qm-magenta/20"><Headphones className="w-6 h-6 text-gray-400" /></div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-black font-bold uppercase group-hover:text-qm-magenta transition-colors">
+                        {dj.name}
+                      </h4>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-qm-magenta mt-1">
+                        {dj.category === 'resident' ? 'DJ Residente' : dj.category === 'guest' ? 'Convidado Especial' : 'Atração Especial'}
+                        {dj.musicStyle && ` • ${dj.musicStyle}`}
                       </div>
-                      <div className="flex-1">
-                        <h4 className="text-black font-bold uppercase group-hover:text-qm-magenta transition-colors">
-                          {dj.name}
-                        </h4>
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-qm-magenta mt-1">
-                          {dj.category === 'resident' ? 'DJ Residente' : dj.category === 'guest' ? 'Convidado Especial' : 'Atração Especial'}
-                          {dj.musicStyle && ` • ${dj.musicStyle}`}
-                        </div>
-                      </div>
-                      <button title="Ver DJ" className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-qm-magenta flex items-center justify-center transition-colors">
+                    </div>
+                    {primaryLink && (
+                      <button title="Acessar rede social" className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-qm-magenta flex items-center justify-center transition-colors">
                         <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white" />
                       </button>
-                    </div>
-              ))
+                    )}
+                  </Wrapper>
+                );
+              })
             )}
           </div>
         </div>
