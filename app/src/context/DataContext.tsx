@@ -287,7 +287,10 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           const { data } = await supabase.from(table).select('*');
           if (data && mounted) setter(data.map(mapFromDB));
         };
+
+        // ─── Carregar tudo em PARALELO (incluindo site_config e contact_info) ───
         await Promise.all([
+          // Dados públicos do site
           fetchTable('events', setEvents),
           fetchTable('djs', setDJs),
           fetchTable('dj_sets', setDJSets),
@@ -297,43 +300,48 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           fetchTable('tickets', setTickets),
           fetchTable('faqs', setFaqs),
           fetchTable('banners', setBanners),
-          fetchTable('contact_messages', setContactMessages),
-          fetchTable('newsletter_subscribers', setNewsletterSubscribers),
           fetchTable('gallery_videos_new', setGalleryVideos),
+
+          // Config do site (antes rodava SEQUENCIAL depois do Promise.all)
+          supabase.from('site_config').select('*').limit(1).single().then(({ data: config }) => {
+            if (config && mounted) {
+              siteConfigIdRef.current = config.id;
+              if (config.primary_color) localStorage.setItem('@QueroMais:primaryColor', config.primary_color);
+              if (config.secondary_color) localStorage.setItem('@QueroMais:secondaryColor', config.secondary_color);
+              setSiteConfig(mapFromDB(config));
+              if (config.fica_mais_party) setFicaMaisParty(mapFromDB(config.fica_mais_party));
+              if (config.storytelling) setStorytelling(mapFromDB(config.storytelling));
+              if (config.home_sections) {
+                const mapped = mapFromDB(config.home_sections);
+                if (Array.isArray(mapped)) {
+                  mapped.forEach((s: any) => {
+                    if (s.type === 'events' && (s.title?.pt === 'PRÓXIMOS EVENTOS' || s.title?.pt === 'Próximos Eventos' || s.title?.pt === 'Agenda Quero Mais')) {
+                      s.title.pt = 'AGENDA QUERO MAIS';
+                      s.title.en = 'QUERO MAIS SCHEDULE';
+                      s.title.es = 'AGENDA QUERO MÁS';
+                    }
+                  });
+                }
+                setHomeSections(mapped);
+              }
+            }
+          }),
+
+          // Contato (antes rodava SEQUENCIAL depois do site_config)
+          supabase.from('contact_info').select('*').limit(1).single().then(({ data: contact }) => {
+            if (contact && mounted) {
+              contactInfoIdRef.current = contact.id;
+              setContactInfo(mapFromDB(contact));
+            }
+          }),
         ]);
 
-        const { data: config } = await supabase.from('site_config').select('*').limit(1).single();
-        if (config && mounted) {
-          siteConfigIdRef.current = config.id; // Guardar UUID real
-          console.log('✅ site_config carregado, id:', config.id, 'primary_color:', config.primary_color);
-          if (config.primary_color) localStorage.setItem('@QueroMais:primaryColor', config.primary_color);
-          if (config.secondary_color) localStorage.setItem('@QueroMais:secondaryColor', config.secondary_color);
-          setSiteConfig(mapFromDB(config));
-          if (config.fica_mais_party) setFicaMaisParty(mapFromDB(config.fica_mais_party));
-          if (config.storytelling) setStorytelling(mapFromDB(config.storytelling));
-          if (config.home_sections) {
-            const mapped = mapFromDB(config.home_sections);
-            if (Array.isArray(mapped)) {
-              mapped.forEach((s: any) => {
-                if (s.type === 'events' && (s.title?.pt === 'PRÓXIMOS EVENTOS' || s.title?.pt === 'Próximos Eventos' || s.title?.pt === 'Agenda Quero Mais')) {
-                  s.title.pt = 'AGENDA QUERO MAIS';
-                  s.title.en = 'QUERO MAIS SCHEDULE';
-                  s.title.es = 'AGENDA QUERO MÁS';
-                }
-              });
-            }
-            setHomeSections(mapped);
-          }
-        } else {
-          console.warn('⚠️ Nenhuma row encontrada em site_config! Execute a migration SQL.');
-        }
-
-        const { data: contact } = await supabase.from('contact_info').select('*').limit(1).single();
-        if (contact && mounted) {
-          contactInfoIdRef.current = contact.id; // Guardar UUID real
-          setContactInfo(mapFromDB(contact));
-        } else {
-          console.warn('⚠️ Nenhuma row encontrada em contact_info! Execute a migration SQL.');
+        // ─── ADMIN-ONLY: carregar apenas se estiver em rota /admin ───────────
+        if (window.location.pathname.startsWith('/admin')) {
+          await Promise.all([
+            fetchTable('contact_messages', setContactMessages),
+            fetchTable('newsletter_subscribers', setNewsletterSubscribers),
+          ]);
         }
       } catch (e) {
         console.error('Error load supabase data:', e);
