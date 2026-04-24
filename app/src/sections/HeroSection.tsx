@@ -81,16 +81,14 @@ export function HeroSection() {
     <section
       ref={containerRef}
       id="home"
-      className="relative w-full flex flex-col pt-[calc(3.5rem+env(safe-area-inset-top))] md:block md:pt-0 min-h-[100svh] md:min-h-0 md:h-[250vh] bg-[#050505]"
+      className="relative w-full pt-[calc(3.5rem+env(safe-area-inset-top))] md:block md:pt-0 md:h-[250vh] bg-[#050505]"
     >
-      {/* Desktop: sticky mantém o vídeo fixo durante os 250vh de scroll */}
-      {/* Mobile: flex-1 preenche todo o espaço restante do section */}
-      <div className="relative w-full flex-1 md:flex-none md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
-        <div className="absolute inset-0 flex items-center justify-center">
+      <div className="relative w-full md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
+        <div className="md:absolute md:inset-0 flex items-center justify-center">
           <video
             ref={videoRef}
             src={videoSrc}
-            className="w-full h-full object-contain md:object-cover md:object-center"
+            className="w-full md:h-full md:object-cover md:object-center"
             muted
             playsInline
             autoPlay={isMobile}
