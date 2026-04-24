@@ -7,7 +7,7 @@ import { EventCard } from '@/components/EventCard';
 
 export function EventsSection() {
   const { t } = useLanguage();
-  const { events } = useData();
+  const { events, isLoading } = useData();
 
   const activeEvents = events
     .filter(e => e.status === 'active')
@@ -26,7 +26,15 @@ export function EventsSection() {
         </div>
 
         {/* Estado vazio ââ‚¬â€ nenhum evento cadastrado */}
-        {activeEvents.length === 0 && (
+        {/* SKELETON - Enquanto está carregando os dados do banco */}
+        {isLoading && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="h-[280px] w-full bg-gray-100/50 rounded-lg animate-pulse" />
+            <div className="h-[280px] w-full bg-gray-100/50 rounded-lg animate-pulse hidden lg:block" />
+          </div>
+        )}
+
+        {!isLoading && activeEvents.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <h3 className="font-sans font-black text-2xl text-black uppercase mb-3">
               {t({ pt: 'Em breve!', en: 'Coming soon!', es: '¡Próximamente!' })}
@@ -41,8 +49,7 @@ export function EventsSection() {
           </div>
         )}
 
-        {/* Grid de eventos ââ‚¬â€ 2 colunas no desktop */}
-        {activeEvents.length > 0 && (
+        {!isLoading && activeEvents.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {activeEvents.map((event) => (
               <EventCard key={event.id} event={event} />

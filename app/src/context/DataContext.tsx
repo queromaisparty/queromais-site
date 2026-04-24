@@ -106,6 +106,9 @@ interface DataContextType {
   addNewsletterSubscriber: (sub: Omit<NewsletterSubscriber, 'id'|'createdAt'>) => void;
   updateNewsletterSubscriber: (id: string, sub: Partial<NewsletterSubscriber>) => void;
   deleteNewsletterSubscriber: (id: string) => void;
+
+  // Global Loading State
+  isLoading: boolean;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -252,6 +255,7 @@ function useOptimisticCRUD<T extends { id: string }>(table: string, setState: Re
 }
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
+  const [isLoading, setIsLoading] = useState(true);
   const [events, setEvents] = useState<Event[]>([]);
   const [ficaMaisParty, setFicaMaisParty] = useState<FicaMaisParty | null>(null);
   const [storytelling, setStorytelling] = useState<Storytelling>(defaultStorytelling);
@@ -345,6 +349,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (e) {
         console.error('Error load supabase data:', e);
+      } finally {
+        if (mounted) setIsLoading(false);
       }
     };
     loadData();
@@ -438,6 +444,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <DataContext.Provider value={{
+      isLoading,
       events, addEvent: crudEvents.add, updateEvent: crudEvents.update, deleteEvent: crudEvents.del, getFeaturedEvents, getUpcomingEvents,
       ficaMaisParty, updateFicaMaisParty,
       storytelling, updateStorytelling,
