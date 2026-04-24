@@ -61,43 +61,59 @@ export function MusicPage() {
             ) : (
               djSets.map(set => (
                 <div key={set.id} className="group flex flex-col sm:flex-row items-center gap-6 border-b border-gray-100 pb-6 mb-6 last:border-0 last:pb-0 last:mb-0 transition-all hover:bg-gray-50 p-4 -mx-4 rounded-xl">
-                      <div className="w-32 h-32 rounded-xl overflow-hidden relative shrink-0 bg-gray-100">
-                        {set.coverImage ? (
-                          <img src={set.coverImage} alt={typeof set.title === 'string' ? set.title : set.title.pt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gray-200"><Disc className="w-8 h-8 text-gray-400" /></div>
-                        )}
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="w-10 h-10 rounded-full bg-qm-magenta flex items-center justify-center">
-                            <Play className="w-4 h-4 text-white ml-1" />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex-1 text-center sm:text-left">
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-qm-magenta mb-1">
-                          DJ SET COMPLETO
-                        </div>
-                        <h3 className="text-xl font-bold text-black mb-2 line-clamp-1">
-                          {typeof set.title === 'string' ? set.title : set.title.pt}
-                        </h3>
-                        <p className="text-sm text-gray-600 line-clamp-2">
-                          {typeof set.description === 'string' ? set.description : set.description.pt}
-                        </p>
-                      </div>
-                      
-                      {(set.externalLink || set.soundcloudUrl || set.audioUrl || set.playlistUrl) && (
-                        <div className="shrink-0 w-full sm:w-auto mt-4 sm:mt-0">
-                          <a 
-                            href={set.externalLink || set.soundcloudUrl || set.audioUrl || set.playlistUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="bg-[#4A4A4A] hover:bg-[#333] text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-colors border border-transparent shadow-md w-full"
-                          >
-                            Ouvir Mix <ExternalLink className="w-3 h-3" />
-                          </a>
-                        </div>
-                      )}
+                        {(() => {
+                          const playUrl = set.externalLink || set.soundcloudUrl || set.audioUrl || set.playlistUrl;
+                          
+                          return (
+                            <>
+                              {/* Capa com Play (agora clicável) */}
+                              <a 
+                                href={playUrl || '#'} 
+                                target={playUrl ? "_blank" : undefined}
+                                rel={playUrl ? "noopener noreferrer" : undefined}
+                                className={`w-32 h-32 rounded-xl overflow-hidden relative shrink-0 bg-gray-100 block ${playUrl ? 'cursor-pointer' : 'cursor-default'}`}
+                              >
+                                {set.coverImage ? (
+                                  <img src={set.coverImage} alt={typeof set.title === 'string' ? set.title : set.title.pt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center bg-gray-200"><Disc className="w-8 h-8 text-gray-400" /></div>
+                                )}
+                                {playUrl && (
+                                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div className="w-10 h-10 rounded-full bg-qm-magenta flex items-center justify-center">
+                                      <Play className="w-4 h-4 text-white ml-1" />
+                                    </div>
+                                  </div>
+                                )}
+                              </a>
+                              
+                              <div className="flex-1 text-center sm:text-left">
+                                <div className="text-[10px] font-bold uppercase tracking-wider text-qm-magenta mb-1">
+                                  DJ SET COMPLETO
+                                </div>
+                                <h3 className="text-xl font-bold text-black mb-2 line-clamp-1">
+                                  {typeof set.title === 'string' ? set.title : set.title.pt}
+                                </h3>
+                                <p className="text-sm text-gray-600 line-clamp-2">
+                                  {typeof set.description === 'string' ? set.description : set.description.pt}
+                                </p>
+                              </div>
+                              
+                              {playUrl && (
+                                <div className="shrink-0 w-full sm:w-auto mt-4 sm:mt-0">
+                                  <a 
+                                    href={playUrl} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="bg-[#4A4A4A] hover:bg-[#333] text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-colors border border-transparent shadow-md w-full"
+                                  >
+                                    Ouvir Mix <ExternalLink className="w-3 h-3" />
+                                  </a>
+                                </div>
+                              )}
+                            </>
+                          );
+                        })()}
                     </div>
                   ))
                 )}

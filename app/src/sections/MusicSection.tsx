@@ -126,11 +126,21 @@ export function MusicSection() {
                       )}
                       
                       {/* Play Button Overlay */}
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="w-16 h-16 bg-qm-magenta rounded-none flex items-center justify-center hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 text-white ml-1" />
-                        </button>
-                      </div>
+                      {(() => {
+                        const playUrl = set.externalLink || set.soundcloudUrl || set.audioUrl || set.playlistUrl;
+                        return playUrl ? (
+                          <a 
+                            href={playUrl} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <button className="w-16 h-16 bg-qm-magenta rounded-none flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
+                              <Play className="w-8 h-8 text-white ml-1 pointer-events-none" />
+                            </button>
+                          </a>
+                        ) : null;
+                      })()}
                     </div>
                     <div className="p-6">
                       <h3 className="font-black text-xl text-black mb-2 uppercase">{t(set.title)}</h3>
