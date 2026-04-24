@@ -50,11 +50,11 @@ function ImageUploadField({ label, value, onChange, folder, fullWidth = false }:
           <span className="text-[10px] font-bold uppercase tracking-wider">Vazio</span>
         </div>
       )}
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input type="url" value={value} onChange={e => onChange(e.target.value)}
-          placeholder="Cole uma URL externa..." className="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-admin-accent focus:ring-1 focus:ring-admin-accent/50 placeholder:text-slate-400" />
+          placeholder="Cole uma URL externa..." className="flex-1 min-w-0 w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none focus:border-admin-accent focus:ring-1 focus:ring-admin-accent/50 placeholder:text-slate-400" />
         <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}
-          className="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 text-sm font-bold hover:text-admin-accent hover:border-admin-accent transition-all disabled:opacity-50">
+          className="shrink-0 w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 text-sm font-bold hover:text-admin-accent hover:border-admin-accent transition-all disabled:opacity-50">
           {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
           {uploading ? 'Enviando' : 'Upload'}
         </button>
@@ -68,12 +68,14 @@ function Input({ label, value, onChange, onBlur, placeholder, type = 'text', req
   label: string; value: string; onChange: (v: string) => void; onBlur?: () => void; placeholder?: string; type?: string; required?: boolean;
 }) {
   return (
-    <div>
-      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">
-        {label}{required && <span className="text-admin-accent ml-1">*</span>}
-      </label>
+    <div className="min-w-0 w-full">
+      {label && (
+        <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">
+          {label}{required && <span className="text-admin-accent ml-1">*</span>}
+        </label>
+      )}
       <input type={type} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} placeholder={placeholder}
-        className="w-full px-4 py-2.5 text-sm rounded-lg outline-none bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 placeholder:text-slate-400" />
+        className="w-full min-w-0 px-4 py-2.5 text-sm rounded-lg outline-none bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 placeholder:text-slate-400" />
     </div>
   );
 }
@@ -401,8 +403,8 @@ export function AdminMusic() {
                       )}
                     </div>
                     
-                    <div className="flex gap-2">
-                      <div className="flex-1">
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <div className="flex-1 min-w-0 w-full">
                         <Input 
                           label="" 
                           type="url" 
@@ -413,7 +415,7 @@ export function AdminMusic() {
                         />
                       </div>
                       <button type="button" onClick={() => handleImportSoundCloud(false)} disabled={isImportingSC || !currentSet.soundcloudUrl}
-                        className="shrink-0 flex items-center gap-1.5 px-4 py-2 mt-0.5 h-[42px] rounded-lg bg-[#ff5500] text-white text-sm font-bold hover:bg-[#ff5500]/90 transition-all disabled:opacity-50">
+                        className="shrink-0 w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 h-[42px] rounded-lg bg-[#ff5500] text-white text-sm font-bold hover:bg-[#ff5500]/90 transition-all disabled:opacity-50">
                         {isImportingSC ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link className="w-4 h-4" />}
                         {isImportingSC ? 'Buscando...' : 'Buscar Dados'}
                       </button>
