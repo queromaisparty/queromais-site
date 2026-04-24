@@ -72,100 +72,22 @@ export function HeroSection() {
     };
   }, [isMobile, videoSrc]);
 
-  // ── MOBILE: toque controla o vídeo; scroll travado até completar ──
-  useEffect(() => {
-    if (!isMobile) return;
-
-    progressRef.current = 0;
-
-    // Sensibilidade: quantos px de swipe para completar o vídeo (ajustável)
-    const SENSITIVITY = 220;
-
-    let startY = 0;
-    let gestureBaseProgress = 0;
-
-    const setVideoProgress = (p: number) => {
-      const clamped = Math.min(1, Math.max(0, p));
-      progressRef.current = clamped;
-      const video = videoRef.current;
-      if (video && video.readyState >= 2 && !isNaN(video.duration) && video.duration > 0) {
-        video.currentTime = clamped * (video.duration - 0.05);
-      }
-    };
-
-    const onTouchStart = (e: TouchEvent) => {
-      startY = e.touches[0].clientY;
-      gestureBaseProgress = progressRef.current;
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (!containerRef.current) return;
-
-      // Só trava se o hero ainda estiver visível (topo dentro da viewport)
-      const rect = containerRef.current.getBoundingClientRect();
-      if (rect.top > 20 || rect.bottom <= 0) return;
-
-      // Vídeo já completo: deixa scroll livre
-      if (progressRef.current >= 1) return;
-
-      const deltaY = startY - e.touches[0].clientY;
-
-      // Swipe para cima (sair do hero): bloqueia e avança vídeo
-      if (deltaY > 0) {
-        e.preventDefault();
-        setVideoProgress(gestureBaseProgress + deltaY / SENSITIVITY);
-      }
-      // Swipe para baixo (voltar): permite retroceder o vídeo normalmente
-    };
-
-    document.addEventListener('touchstart', onTouchStart, { passive: true });
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
-
-    return () => {
-      document.removeEventListener('touchstart', onTouchStart);
-      document.removeEventListener('touchmove', onTouchMove);
-    };
-  }, [isMobile, videoSrc]);
-
-  // ── MOBILE: forçar carregamento do vídeo (iOS ignora preload="auto") ───
-  useEffect(() => {
-    if (!isMobile) return;
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Tenta play + pause imediato para forçar o iOS a bufferizar o vídeo
-    const forceLoad = () => {
-      video.play()
-        .then(() => {
-          video.pause();
-          video.currentTime = 0;
-        })
-        .catch(() => {
-          // Bloqueado pelo browser: fallback — tenta apenas carregar
-          video.load();
-        });
-    };
-
-    if (video.readyState >= 1) {
-      forceLoad();
-    } else {
-      video.addEventListener('loadedmetadata', forceLoad, { once: true });
-    }
-  }, [isMobile, videoSrc]);
-
+  // Removemos a lógica de toque controlada para celular, 
+  // pois restrições do iOS/Android causam tela preta sem interação clara do usuário.
+  // No mobile, o vídeo tocará em background via autoPlay + loop nativo do HTML5.
+  
   if (hero && hero.active === false) return null;
 
-
   return (
-    // Mobile: aspect-[4/3] — visual normal sem espaço extra
-    // Desktop: h-[250vh] — espaço de scroll para o vídeo controlado pelo scroll
+    // Mobile: aspect-[4/3] — visual normal sem espaço extra e scroll livre
+    // Desktop: h-[250vh] — espaço de scroll para o vídeo controlado
     <section
       ref={containerRef}
       id="home"
       className="relative w-full pt-14 md:pt-0 aspect-[4/3] md:aspect-auto md:h-[250vh] bg-[#050505]"
     >
       {/* Desktop: sticky para o vídeo ficar fixo durante os 250vh de scroll */}
-      {/* Mobile: wrapper normal, sem sticky — o touch lock cuida do comportamento */}
+      {/* Mobile: wrapper normal, ocupando o container com scroll livre */}
       <div className="w-full h-full md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
           <video
@@ -174,6 +96,8 @@ export function HeroSection() {
             className="w-full h-full object-cover object-center"
             muted
             playsInline
+            autoPlay={isMobile}
+            loop={isMobile}
             preload="auto"
           />
         </div>
