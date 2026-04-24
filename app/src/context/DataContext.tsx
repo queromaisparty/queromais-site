@@ -385,12 +385,16 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const updateFicaMaisParty = useCallback(async (data: Partial<FicaMaisParty>) => {
-    setFicaMaisParty(prev => ({ ...prev, ...data } as any));
-    try {
+    setFicaMaisParty(prev => {
+      const merged = { ...prev, ...data } as FicaMaisParty;
+      // Salva o objeto COMPLETO (não só o fragmento), evitando destruir campos de outras abas
       const configId = siteConfigIdRef.current;
-      if (!configId) return;
-      await supabase.from('site_config').update({ fica_mais_party: data }).eq('id', configId);
-    } catch (e) { console.error(e); }
+      if (configId) {
+        supabase.from('site_config').update({ fica_mais_party: merged }).eq('id', configId)
+          .then(({ error }) => { if (error) console.error('updateFicaMaisParty:', error); });
+      }
+      return merged;
+    });
   }, []);
 
   const updateStorytelling = useCallback(async (data: Partial<Storytelling>) => {

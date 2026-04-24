@@ -1,19 +1,26 @@
-﻿import { Disc3, ArrowRight, Moon, Image as ImageIcon } from 'lucide-react';
+import { Disc3, ArrowRight, Moon, Image as ImageIcon } from 'lucide-react';
+import { Navigate } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/lib/translations';
 
 export function FicaMaisPage() {
   const { t } = useLanguage();
   const { djs, ficaMaisParty, galleryAlbums } = useData();
   const residentes = djs.filter(dj => dj.category === 'resident');
 
+  // Redireciona se o admin desativou a página
+  if (ficaMaisParty?.isActivePage === false) return <Navigate to="/" replace />;
+
   const ficaMaisAlbum = galleryAlbums.find(a => a.id === ficaMaisParty?.galleryAlbumId && (a.status === 'active' || !a.status));
   const galleryImages = ficaMaisAlbum?.images.slice(0, 4) ?? [];
 
-  const manifesto =
-    ficaMaisParty?.manifestoCompleto?.pt ||
-    ficaMaisParty?.manifestoCurto?.pt ||
-    'Quando a noite termina para a maioria, a nossa verdadeira jornada começa. Fica Mais Party é o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.';
+  // Manifesto multilíngue: admin (manifestoCompleto) → admin (manifestoCurto) → hardcoded
+  const manifesto = t({
+    pt: ficaMaisParty?.manifestoCompleto?.pt || ficaMaisParty?.manifestoCurto?.pt || 'Quando a noite termina para a maioria, a nossa verdadeira jornada começa. Fica Mais Party é o selo oficial de after-hours da Quero Mais, dedicado aos guerreiros da alvorada.',
+    en: ficaMaisParty?.manifestoCompleto?.en || ficaMaisParty?.manifestoCurto?.en || 'When the night ends for most, our true journey begins. Fica Mais Party is the official after-hours label of Quero Mais, dedicated to the dawn warriors.',
+    es: ficaMaisParty?.manifestoCompleto?.es || ficaMaisParty?.manifestoCurto?.es || 'Cuando la noche termina para la mayoría, nuestro verdadero viaje comienza. Fica Mais Party es el sello oficial de after-hours de Quero Más.',
+  });
 
   return (
     <main className="pt-24 min-h-screen bg-white">

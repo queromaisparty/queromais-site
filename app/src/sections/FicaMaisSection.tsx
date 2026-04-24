@@ -17,6 +17,9 @@ export function FicaMaisSection() {
     );
   };
 
+  // Não renderiza se o admin desativou o widget da home
+  if (ficaMaisParty?.showInHome === false) return null;
+
   return (
     <section id="fica-mais" className="py-32 bg-gradient-to-b from-black via-[#1a0a2e] to-black relative overflow-hidden">
       {/* Background Effects */}
@@ -39,8 +42,13 @@ export function FicaMaisSection() {
               <span className="text-[#8B5CF6]">FICA</span> MAIS{' '}
               <span className="text-qm-magenta">PARTY</span>
             </h2>
+            {/* Subtítulo: vem do admin (manifestoCurto) com fallback para translation hardcoded */}
             <p className="text-white/60 text-sm sm:text-lg max-w-2xl mx-auto">
-              {t(translations.ficaMais.description)}
+              {t({
+                pt: ficaMaisParty?.manifestoCurto?.pt || translations.ficaMais.description.pt,
+                en: ficaMaisParty?.manifestoCurto?.en || translations.ficaMais.description.en,
+                es: ficaMaisParty?.manifestoCurto?.es || translations.ficaMais.description.es,
+              })}
             </p>
           </div>
 
