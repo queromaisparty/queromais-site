@@ -11,9 +11,6 @@ export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(getIsMobile);
 
-  // Progresso acumulado do vídeo no mobile (ref para não re-renderizar)
-  const progressRef = useRef(0);
-
   // Vídeo vem do Admin — upload tem prioridade sobre URL
   const desktopSrc = hero?.desktop?.upload || hero?.desktop?.url || '/steampunk.mp4';
   const mobileSrc  = hero?.mobile?.upload  || hero?.mobile?.url  || desktopSrc;
@@ -79,21 +76,21 @@ export function HeroSection() {
   if (hero && hero.active === false) return null;
 
   return (
-    // Mobile: aspect-[4/3] — visual normal sem espaço extra e scroll livre
-    // Desktop: h-[250vh] — espaço de scroll para o vídeo controlado
+    // Mobile: min-h-[100svh] garante que o hero preencha SEMPRE 100% do viewport
+    // Desktop: h-[250vh] cria espaço de scroll para o vídeo controlado
     <section
       ref={containerRef}
       id="home"
-      className="relative w-full pt-14 md:pt-0 aspect-[4/3] md:aspect-auto md:h-[250vh] bg-[#050505]"
+      className="relative w-full flex flex-col pt-[calc(3.5rem+env(safe-area-inset-top))] md:block md:pt-0 min-h-[100svh] md:min-h-0 md:h-[250vh] bg-[#050505]"
     >
-      {/* Desktop: sticky para o vídeo ficar fixo durante os 250vh de scroll */}
-      {/* Mobile: wrapper normal, ocupando o container com scroll livre */}
-      <div className="w-full h-full md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
+      {/* Desktop: sticky mantém o vídeo fixo durante os 250vh de scroll */}
+      {/* Mobile: flex-1 preenche todo o espaço restante do section */}
+      <div className="relative w-full flex-1 md:flex-none md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
           <video
             ref={videoRef}
             src={videoSrc}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-[center_top] md:object-center"
             muted
             playsInline
             autoPlay={isMobile}
