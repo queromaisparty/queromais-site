@@ -5,6 +5,8 @@ import { EventListForm } from '@/components/EventListForm';
 
 export function EventCard({ event }: { event: any }) {
   const { t } = useLanguage();
+  const getTitle = (content: string | { pt?: string; en?: string; es?: string } | null | undefined) =>
+    typeof content === 'string' ? content : content?.pt || '';
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return '';
@@ -26,7 +28,7 @@ export function EventCard({ event }: { event: any }) {
         {event.coverImage || event.flyer ? (
           <img
             src={event.flyer || event.coverImage}
-            alt={t(event.title)}
+            alt={getTitle(event.title)}
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
           />
         ) : (
@@ -41,8 +43,8 @@ export function EventCard({ event }: { event: any }) {
 
         {/* Título — vem primeiro, bold, preto, 2pts maior */}
         {(() => {
-          const desc = event.shortDescription ? t(event.shortDescription) : '';
-          const title = t(event.title) || '';
+          const desc = event.shortDescription ? getTitle(event.shortDescription) : '';
+          const title = getTitle(event.title);
           return desc ? (
             <p className="text-lg sm:text-2xl text-black leading-snug sm:leading-relaxed mb-1 sm:mb-2 font-black line-clamp-2">
               {desc}
