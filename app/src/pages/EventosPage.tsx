@@ -106,7 +106,7 @@ export function EventosPage() {
                 className="group relative rounded-none overflow-hidden aspect-[16/9] md:aspect-[21/9] block border border-transparent hover:border-qm-magenta/50 transition-colors shadow-2xl"
               >
                 <img
-                  src={featuredEvent.coverImage}
+                  src={featuredEvent.detailCoverImage || featuredEvent.coverImage || featuredEvent.flyer}
                   alt={getTitle(featuredEvent.title)}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
@@ -125,7 +125,7 @@ export function EventosPage() {
                       {featuredEvent.venue || 'A Definir'}
                     </span>
                     <span className="ml-2 sm:ml-4 px-6 py-2.5 bg-qm-magenta text-white font-bold text-sm uppercase tracking-wider">
-                      Ver Detalhes â†’
+                      Ver Detalhes &rarr;
                     </span>
                   </div>
                 </div>

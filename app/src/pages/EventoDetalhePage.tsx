@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
 import { Calendar, MapPin, Ticket as TicketIcon, ArrowLeft, ArrowRight, Clock, Navigation } from 'lucide-react';
@@ -182,7 +182,7 @@ export function EventoDetalhePage() {
                   <div className="text-black font-semibold text-lg">{event.venue || 'A definir'}</div>
                   {(event.address || event.city) && (
                     <div className="text-gray-500 text-sm mt-0.5">
-                      {event.address}{event.city ? ` â€” ${event.city}` : ''}
+                      {event.address}{event.city ? ` - ${event.city}` : ''}
                     </div>
                   )}
                 </div>
@@ -253,7 +253,7 @@ export function EventoDetalhePage() {
                       to="/#galeria"
                       className="mt-3 inline-block text-sm font-bold text-qm-magenta hover:underline"
                     >
-                      Ver galeria do evento â†’
+                      Ver galeria do evento &rarr;
                     </Link>
                   </div>
                 )}
@@ -262,7 +262,7 @@ export function EventoDetalhePage() {
               {/* Flyer */}
               {event.flyer && event.flyer !== heroImage && (
                 <div className="overflow-hidden border border-gray-200 shadow-sm">
-                  <img src={event.flyer} alt={`Flyer â€” ${getTitle(event.title)}`} className="w-full object-cover" />
+                  <img src={event.flyer} alt={`Flyer - ${getTitle(event.title)}`} className="w-full object-cover" />
                 </div>
               )}
             </div>
