@@ -3,6 +3,7 @@ import { useData } from '@/context/DataContext';
 import type { TimelineItem, StatItem } from '@/types';
 import { Plus, Trash2, ChevronUp, ChevronDown, Save, Image, Upload, X, Loader2, Info } from 'lucide-react';
 import { uploadImage } from '@/lib/supabase';
+import { optimizeImage } from '@/lib/imageProcessor';
 import { toast } from 'sonner';
 
 type Tab = 'abertura' | 'stats' | 'origem' | 'essencia' | 'borboleta' | 'narrativa' | 'home' | 'cta';
@@ -33,7 +34,8 @@ function ImageField({ label, value, onChange, folder = 'storytelling' }: { label
     if (!file) return;
     setUploading(true);
     try {
-      const url = await uploadImage(file, folder);
+      const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.82, format: 'image/webp' });
+      const url = await uploadImage(optimizedFile, folder);
       onChange(url);
       toast.success('Imagem subida com sucesso.');
     } catch (err) {

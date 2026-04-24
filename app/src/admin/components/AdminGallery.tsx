@@ -9,7 +9,7 @@ import { supabase } from '@/lib/supabase';
 import type { GalleryAlbum, GalleryImage } from '@/types';
 import { extractFolderId, listGDriveImages } from '@/services/googleDrive';
 import { FlyerUploader } from './FlyerUploader';
-import imageCompression from 'browser-image-compression';
+import { optimizeImage } from '@/lib/imageProcessor';
 
 type ViewMode = 'list' | 'form';
 
@@ -132,13 +132,8 @@ export function AdminGallery() {
     
     try {
       const uploadPromises = Array.from(files).map(async (file) => {
-        // 1. Otimizar
-        const options = {
-          maxWidthOrHeight: 1600,
-          useWebWorker: true,
-          initialQuality: 0.8
-        };
-        const compressedFile = await imageCompression(file, options);
+        // 1. Otimizar com nosso processador padronizado
+        const compressedFile = await optimizeImage(file, { maxWidth: 1600, quality: 0.82, format: 'image/webp' });
         
         // 2. Upload para Storage
         const fileExt = file.name.split('.').pop();

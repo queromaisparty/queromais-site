@@ -4,7 +4,7 @@ import { useData } from '@/context/DataContext';
 import type { Product } from '@/types';
 import { toast } from 'sonner';
 import { uploadImage } from '@/lib/supabase';
-
+import { optimizeImage } from '@/lib/imageProcessor';
 export function AdminShop() {
   const { products, addProduct, updateProduct, deleteProduct } = useData();
   const [isEditing, setIsEditing] = useState(false);
@@ -97,7 +97,8 @@ export function AdminShop() {
     if (!file) return;
     setUploading(true);
     try {
-      const url = await uploadImage(file, 'produtos');
+      const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.82, format: 'image/webp' });
+      const url = await uploadImage(optimizedFile, 'produtos');
       setCurrentProduct(prev => ({
         ...prev,
         images: [...(prev.images || []), url]

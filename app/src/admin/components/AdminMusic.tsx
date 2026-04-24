@@ -4,7 +4,7 @@ import { useData } from '@/context/DataContext';
 import type { DJ, DJSet, Playlist } from '@/types';
 import { toast } from 'sonner';
 import { uploadImage } from '@/lib/supabase';
-
+import { optimizeImage } from '@/lib/imageProcessor';
 /* ── Componente de Upload reutilizável (tema Premium Light) ── */
 function ImageUploadField({ label, value, onChange, folder, aspect = 'square' }: {
   label: string; value: string; onChange: (v: string) => void; folder: string; aspect?: 'square' | 'video';
@@ -17,7 +17,8 @@ function ImageUploadField({ label, value, onChange, folder, aspect = 'square' }:
     if (!file) return;
     setUploading(true);
     try {
-      const url = await uploadImage(file, folder);
+      const optimizedFile = await optimizeImage(file, { maxWidth: 1000, quality: 0.82, format: 'image/webp' });
+      const url = await uploadImage(optimizedFile, folder);
       onChange(url);
       toast.success('Imagem enviada com sucesso!');
     } catch (err) {
