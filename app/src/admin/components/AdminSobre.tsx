@@ -127,9 +127,15 @@ export function AdminSobre() {
 
   // ── Tab: Stats ────────────────────────────────────────────
   function TabStats() {
-    const [stats, setStats] = useState<StatItem[]>(storytelling.stats);
+    // Initializer function: roda só na montagem — garante id estável mesmo se vier undefined do banco
+    const [stats, setStats] = useState<StatItem[]>(() =>
+      storytelling.stats.map((s, i) => ({
+        ...s,
+        id: s.id && s.id !== '' ? s.id : `stat-${i}-${Date.now()}`,
+      }))
+    );
 
-    const add = () => setStats(prev => [...prev, { id: Date.now().toString(), value: '', label: '', order: prev.length + 1 }]);
+    const add = () => setStats(prev => [...prev, { id: `stat-new-${Date.now()}`, value: '', label: '', order: prev.length + 1 }]);
     const remove = (id: string) => setStats(prev => prev.filter(s => s.id !== id));
     const update = (id: string, field: keyof StatItem, val: string) =>
       setStats(prev => prev.map(s => s.id === id ? { ...s, [field]: val } : s));
