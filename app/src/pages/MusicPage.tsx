@@ -105,44 +105,6 @@ export function MusicPage() {
         </div>
       </section>
 
-      {/* Playlists de Esquenta */}
-      <section className="w-full py-24 bg-black">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter mb-12 flex items-center gap-3">
-            <Headphones className="w-8 h-8 text-[#1DB954]" /> Playlists Oficiais
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {playlists.length === 0 ? (
-              <div className="col-span-full py-24 flex flex-col items-center text-center">
-                <Disc className="w-12 h-12 text-gray-800 mb-4" />
-                <h3 className="text-white font-bold mb-1">Nenhuma playlist selecionada</h3>
-                <p className="text-gray-400 text-sm">Em breve, nossa seleção musical oficial aqui.</p>
-              </div>
-            ) : (
-              playlists.map((pl, i) => (
-                 <a key={pl.id || i} href={pl.externalUrl} target="_blank" rel="noopener noreferrer" className="group overflow-hidden aspect-[4/3] relative block bg-[#111]">
-                      {pl.coverImage ? (
-                        <img src={pl.coverImage} alt={typeof pl.title === 'string' ? pl.title : pl.title.pt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-[#222]"><Headphones className="w-12 h-12 text-white/20" /></div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                      <div className="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between">
-                        <div>
-                          <div className="text-[#1DB954] text-[10px] font-bold uppercase tracking-wider mb-1">Spotify Playlist</div>
-                          <h3 className="text-xl font-bold text-white uppercase">{typeof pl.title === 'string' ? pl.title : pl.title.pt}</h3>
-                        </div>
-                        <div className="w-10 h-10 rounded-full bg-[#1DB954] flex items-center justify-center shrink-0 shadow-lg shadow-[#1DB954]/20 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
-                          <Play className="w-4 h-4 text-white ml-1" />
-                        </div>
-                      </div>
-                  </a>
-              ))
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* PAINEL DIREITO: Curados e Residentes */}
       <section className="w-full py-24 bg-[#F2F2F2]">

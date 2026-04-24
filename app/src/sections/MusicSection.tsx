@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Music, Play, Headphones, Disc, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -6,8 +6,8 @@ import { translations } from '@/lib/translations';
 
 export function MusicSection() {
   const { t } = useLanguage();
-  const { djs, djSets, playlists } = useData();
-  const [activeTab, setActiveTab] = useState<'djs' | 'sets' | 'playlists'>('djs');
+  const { djs, djSets } = useData();
+  const [activeTab, setActiveTab] = useState<'djs' | 'sets'>('djs');
 
   return (
     <section id="music" className="py-32 bg-white">
@@ -31,7 +31,6 @@ export function MusicSection() {
           {[
             { key: 'djs', label: translations.music.djs, icon: Headphones },
             { key: 'sets', label: translations.music.sets, icon: Disc },
-            { key: 'playlists', label: translations.music.playlists, icon: Music },
           ].map((tab) => (
             <button
               key={tab.key}
@@ -71,7 +70,11 @@ export function MusicSection() {
                       )}
                     </div>
                     <div className="p-3 sm:p-6">
-                      <h3 className="font-black text-sm sm:text-xl text-black mb-1 sm:mb-2 uppercase">{dj.name}</h3>
+                      <h3 className="font-black text-sm sm:text-xl text-black mb-1 uppercase">{dj.name}</h3>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--primary-color)] mb-3">
+                        {dj.category === 'resident' ? 'DJ Residente' : dj.category === 'guest' ? 'Convidado Especial' : 'Atração Especial'}
+                        {dj.musicStyle && ` • ${dj.musicStyle}`}
+                      </div>
                       <p className="text-black/60 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 mb-2 sm:mb-4">
                         {t(dj.bio)}
                       </p>
@@ -158,58 +161,6 @@ export function MusicSection() {
             </div>
           )}
 
-          {/* Playlists Tab */}
-          {activeTab === 'playlists' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {playlists.length > 0 ? (
-                playlists.map((playlist) => (
-                  <div key={playlist.id} className="group bg-[#3D4246] rounded-none overflow-hidden relative">
-                    <div className="relative aspect-square overflow-hidden">
-                      {playlist.coverImage ? (
-                        <img
-                          src={playlist.coverImage}
-                          alt={t(playlist.title)}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center">
-                          <Music className="w-16 h-16 text-white/20" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                      
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <h3 className="font-black text-white text-3xl mb-1 uppercase">{t(playlist.title)}</h3>
-                        <p className="text-[var(--primary-color)] font-bold text-sm tracking-widest">{playlist.tracks.length} TRACKS</p>
-                      </div>
-                    </div>
-                    <div className="p-6 absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center items-center text-center">
-                      <p className="text-white/80 text-sm line-clamp-3 mb-6 px-4">
-                        {t(playlist.description)}
-                      </p>
-                      {playlist.externalUrl && (
-                        <a
-                          href={playlist.externalUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-6 py-3 bg-qm-magenta text-white font-bold rounded-none hover:bg-qm-magenta-dark transition-colors uppercase text-sm"
-                        >
-                          <Play className="w-4 h-4 fill-current" />
-                          {t(translations.buttons.play)}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="col-span-full py-12 px-6 text-center flex flex-col items-center justify-center bg-[#3D4246] rounded-none border border-dashed border-gray-600">
-                  <Music className="w-12 h-12 text-white/20 mb-3" />
-                  <h3 className="font-sans font-black text-xl text-white uppercase">Playlists Ocultas</h3>
-                  <p className="text-white/50 text-sm mt-1">Ainda não definimos as vibrações oficias da semana.</p>
-                </div>
-              )}
-            </div>
-          )}
 
         </div>
       </div>
