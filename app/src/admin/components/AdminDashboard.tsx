@@ -92,6 +92,13 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
     { label: { pt: 'DJs', en: 'DJs', es: 'DJs' },                   value: djs.length,          icon: Music,        gradient: 'from-amber-500 to-amber-300' },
   ];
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return { pt: 'Bom dia', en: 'Good morning', es: 'Buenos días' };
+    if (hour >= 12 && hour < 18) return { pt: 'Boa tarde', en: 'Good afternoon', es: 'Buenas tardes' };
+    return { pt: 'Boa noite', en: 'Good evening', es: 'Buenas noches' };
+  };
+
   return (
     <div className="min-h-screen flex bg-slate-50 text-slate-900 font-sans">
       {/* ── MOBILE TOPBAR ─────────────────────────── */}
@@ -182,7 +189,7 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-                {t({ pt: 'Bom dia', en: 'Good morning', es: 'Buenos días' })} 👋
+                {t(getGreeting())} 👋
               </h1>
               <p className="text-sm md:text-base text-slate-500 mt-1">
                 {t({ pt: 'Visão geral do sistema e atalhos rápidos', en: 'System overview and shortcuts', es: 'Visión general del sistema y atajos' })}
