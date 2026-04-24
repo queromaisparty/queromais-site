@@ -64,7 +64,7 @@ export function EventCard({ event }: { event: any }) {
           <span className="truncate block">{event.venue}{event.city ? ` | ${event.city}` : ''}</span>
         </div>
 
-        {/* BotÃµes CTA */}
+        {/* Botões CTA */}
         <div className="flex flex-col items-start gap-2 sm:gap-4 w-full">
           {hasTicketLinks ? (
             (event.ticketLinks ?? []).map((link: any) => (
@@ -73,10 +73,10 @@ export function EventCard({ event }: { event: any }) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
+                className="flex items-center justify-between w-full max-w-[200px] sm:max-w-[240px] px-4 py-2 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-md sm:rounded-lg text-xs sm:text-base font-bold tracking-wider transition-colors font-sans"
               >
                 <span>{link.label}</span>
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-4" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
               </a>
             ))
           ) : hasFallbackTicket ? (
@@ -84,15 +84,15 @@ export function EventCard({ event }: { event: any }) {
               href={event.ticketUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between w-full sm:w-[240px] px-3 py-2 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-md sm:rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans"
+              className="flex items-center justify-between w-full max-w-[200px] sm:max-w-[240px] px-4 py-2 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-md sm:rounded-lg text-xs sm:text-base font-bold tracking-wider transition-colors font-sans"
             >
               <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-4" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
             </a>
           ) : null}
 
           {/* Lista de desconto */}
-          <div className="w-full sm:w-[240px]">
+          <div className="w-full max-w-[200px] sm:max-w-[240px]">
             <EventListForm eventId={event.id} />
           </div>
         </div>
