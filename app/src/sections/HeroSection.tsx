@@ -127,7 +127,34 @@ export function HeroSection() {
     };
   }, [isMobile, videoSrc]);
 
+  // ── MOBILE: forçar carregamento do vídeo (iOS ignora preload="auto") ───
+  useEffect(() => {
+    if (!isMobile) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Tenta play + pause imediato para forçar o iOS a bufferizar o vídeo
+    const forceLoad = () => {
+      video.play()
+        .then(() => {
+          video.pause();
+          video.currentTime = 0;
+        })
+        .catch(() => {
+          // Bloqueado pelo browser: fallback — tenta apenas carregar
+          video.load();
+        });
+    };
+
+    if (video.readyState >= 1) {
+      forceLoad();
+    } else {
+      video.addEventListener('loadedmetadata', forceLoad, { once: true });
+    }
+  }, [isMobile, videoSrc]);
+
   if (hero && hero.active === false) return null;
+
 
   return (
     // Mobile: aspect-[4/3] — visual normal sem espaço extra
