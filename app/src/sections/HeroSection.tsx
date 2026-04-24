@@ -79,21 +79,21 @@ export function HeroSection() {
   if (hero && hero.active === false) return null;
 
   return (
-    // Mobile: aspect-[4/3] — visual normal sem espaço extra e scroll livre
+    // Mobile: min-h-[100svh] — visual full screen real com padding seguro
     // Desktop: h-[250vh] — espaço de scroll para o vídeo controlado
     <section
       ref={containerRef}
       id="home"
-      className="relative w-full pt-14 md:pt-0 aspect-[4/3] md:aspect-auto md:h-[250vh] bg-[#050505]"
+      className="relative w-full pt-[calc(3.5rem+env(safe-area-inset-top))] md:pt-0 min-h-[100svh] md:min-h-0 md:h-[250vh] bg-[#050505]"
     >
       {/* Desktop: sticky para o vídeo ficar fixo durante os 250vh de scroll */}
       {/* Mobile: wrapper normal, ocupando o container com scroll livre */}
-      <div className="w-full h-full md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
+      <div className="relative w-full h-full md:sticky md:top-0 md:h-[100dvh] overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 flex items-center justify-center">
           <video
             ref={videoRef}
             src={videoSrc}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-[center_top] md:object-center"
             muted
             playsInline
             autoPlay={isMobile}

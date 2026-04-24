@@ -8,7 +8,7 @@ interface WebsiteLayoutProps {
 
 export function WebsiteLayout({ onAdminClick }: WebsiteLayoutProps) {
   return (
-    <div className="min-h-screen bg-white text-black overflow-x-clip">
+    <div className="min-h-[100svh] w-full max-w-[100vw] bg-white text-black overflow-x-hidden">
       <Header />
       <Outlet />
       <Footer onAdminClick={onAdminClick} />
