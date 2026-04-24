@@ -4,7 +4,7 @@ import { useData } from '@/context/DataContext';
 export function SobreSection() {
   const { storytelling } = useData();
   const s = storytelling;
-  const stats = [...s.stats].sort((a, b) => a.order - b.order);
+  const stats = Array.isArray(s?.stats) ? [...s.stats].sort((a, b) => a.order - b.order) : [];
 
   return (
     <section id="sobre" className="bg-white">
@@ -86,7 +86,7 @@ export function SobreSection() {
               <p className="text-[#666666] leading-relaxed font-sans text-sm">
                 {s.essenciaText2}
               </p>
-              {s.tags.length > 0 && (
+              {Array.isArray(s?.tags) && s.tags.length > 0 && (
                 <div className="flex flex-wrap gap-3 pt-1">
                   {s.tags.map(tag => (
                     <span key={tag} className="px-4 py-2 bg-[#F2F2F2] text-[#4A4A4A] text-xs font-semibold uppercase tracking-wider font-sans">
