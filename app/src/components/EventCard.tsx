@@ -24,7 +24,7 @@ export function EventCard({ event }: { event: any }) {
   return (
     <div className="flex flex-row gap-4 sm:gap-8 items-center lg:items-stretch w-full max-w-full lg:max-w-[680px]">
       {/* Imagem do artista (Formato 3:4) */}
-      <Link to={`/eventos/${event.slug}`} className="block w-[140px] sm:w-[280px] aspect-[3/4] flex-shrink-0 relative overflow-hidden rounded-lg sm:rounded-none shadow-sm sm:shadow-none">
+      <Link to={`/eventos/${event.slug}`} className="block w-[110px] sm:w-[280px] aspect-[3/4] flex-shrink-0 relative overflow-hidden rounded-md sm:rounded-none">
         {event.coverImage || event.flyer ? (
           <img
             src={event.flyer || event.coverImage}
@@ -43,10 +43,10 @@ export function EventCard({ event }: { event: any }) {
 
         {/* Título — vem primeiro, bold, preto, 2pts maior */}
         {/* Título — vem primeiro, bold, preto, 2pts maior */}
-        <h3 className="text-lg sm:text-2xl text-black leading-snug sm:leading-relaxed mb-0 font-black line-clamp-2">
+        <h3 className="text-base sm:text-2xl text-black leading-snug sm:leading-relaxed mb-0 font-black line-clamp-2">
           {getTitle(event.title)}
         </h3>
-        
+
         {/* Subtítulo / Descrição Curta */}
         {event.shortDescription && (
           <p className="text-sm sm:text-base text-black/70 font-bold mb-1 sm:mb-2 line-clamp-1">
@@ -55,17 +55,17 @@ export function EventCard({ event }: { event: any }) {
         )}
 
         {/* Data + horário — abaixo do título */}
-        <span className="block text-sm sm:text-lg font-semibold text-black/50 mb-2 sm:mb-3">
+        <span className="block text-xs sm:text-lg font-semibold text-black/50 mb-2 sm:mb-3">
           {formatDate(event.date)} | {event.time}
         </span>
 
         {/* Local */}
-        <div className="text-sm sm:text-base text-black/40 font-medium mb-4 sm:mb-10">
+        <div className="text-xs sm:text-base text-black/40 font-medium mb-4 sm:mb-10">
           <span className="truncate block">{event.venue}{event.city ? ` | ${event.city}` : ''}</span>
         </div>
 
         {/* Botões CTA */}
-        <div className="flex flex-col items-start gap-3 sm:gap-4 w-full">
+        <div className="flex flex-col items-start gap-2 sm:gap-4 w-full">
           {hasTicketLinks ? (
             (event.ticketLinks ?? []).map((link: any) => (
               <a
@@ -73,7 +73,7 @@ export function EventCard({ event }: { event: any }) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between w-full max-w-[260px] sm:max-w-[240px] px-5 py-3 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans shadow-sm"
+                className="flex items-center justify-between w-full max-w-[200px] sm:max-w-[240px] px-4 py-2 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-md sm:rounded-lg text-xs sm:text-base font-bold tracking-wider transition-colors font-sans"
               >
                 <span>{link.label}</span>
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
@@ -84,7 +84,7 @@ export function EventCard({ event }: { event: any }) {
               href={event.ticketUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between w-full max-w-[260px] sm:max-w-[240px] px-5 py-3 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-lg text-sm sm:text-base font-bold tracking-wider transition-colors font-sans shadow-sm"
+              className="flex items-center justify-between w-full max-w-[200px] sm:max-w-[240px] px-4 py-2 sm:px-6 sm:py-3 bg-qm-magenta hover:opacity-90 text-white rounded-md sm:rounded-lg text-xs sm:text-base font-bold tracking-wider transition-colors font-sans"
             >
               <span>{t({ pt: 'Ingressos', en: 'Tickets', es: 'Entradas' })}</span>
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
@@ -92,7 +92,7 @@ export function EventCard({ event }: { event: any }) {
           ) : null}
 
           {/* Lista de desconto */}
-          <div className="w-full max-w-[260px] sm:max-w-[240px]">
+          <div className="w-full max-w-[200px] sm:max-w-[240px]">
             <EventListForm eventId={event.id} />
           </div>
         </div>
