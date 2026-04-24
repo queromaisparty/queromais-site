@@ -118,15 +118,19 @@ export function FicaMaisSection() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-qm-magenta mb-1">24h</div>
+                      <div className="text-3xl font-black text-qm-magenta mb-1">
+                        {(ficaMaisParty as any)?.stat1Value ?? '24h'}
+                      </div>
                       <div className="text-white/50 text-sm">
-                        {t({ pt: 'De Festa', en: 'Of Party', es: 'De Fiesta' })}
+                        {(ficaMaisParty as any)?.stat1Label ?? t({ pt: 'De Festa', en: 'Of Party', es: 'De Fiesta' })}
                       </div>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">&infin;</div>
+                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">
+                        {(ficaMaisParty as any)?.stat2Value ?? '∞'}
+                      </div>
                       <div className="text-white/50 text-sm">
-                        {t({ pt: 'Memórias', en: 'Memories', es: 'Recuerdos' })}
+                        {(ficaMaisParty as any)?.stat2Label ?? t({ pt: 'Memórias', en: 'Memories', es: 'Recuerdos' })}
                       </div>
                     </div>
                   </div>

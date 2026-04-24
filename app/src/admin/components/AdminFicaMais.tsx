@@ -107,6 +107,11 @@ export function AdminFicaMais() {
     const [manifestoCompletoEs, setManifestoCompletoEs] = useState(ficaMaisParty?.manifestoCompleto?.es || '');
     const [showInHome, setShowInHome] = useState(ficaMaisParty?.showInHome ?? true);
     const [isActivePage, setIsActivePage] = useState(ficaMaisParty?.isActivePage ?? true);
+    // Stats dos cards (24h / ∞)
+    const [stat1Value, setStat1Value] = useState((ficaMaisParty as any)?.stat1Value ?? '24h');
+    const [stat1Label, setStat1Label] = useState((ficaMaisParty as any)?.stat1Label ?? 'De Festa');
+    const [stat2Value, setStat2Value] = useState((ficaMaisParty as any)?.stat2Value ?? '∞');
+    const [stat2Label, setStat2Label] = useState((ficaMaisParty as any)?.stat2Label ?? 'Memórias');
 
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
@@ -186,11 +191,34 @@ export function AdminFicaMais() {
           </div>
         </div>
 
+        {/* Cards de Stats */}
+        <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl space-y-4">
+          <div className="border-b border-slate-200 pb-3">
+            <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Cards de Destaque</h4>
+            <p className="text-[11px] font-medium text-slate-500 mt-1">Os dois cards com número/ícone e rótulo que aparecem abaixo do texto na home.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+              <label className={fieldStyle.label}>Card 1 — Valor <span className="text-admin-accent">*</span></label>
+              <input className={fieldStyle.input} value={stat1Value} onChange={e => setStat1Value(e.target.value)} placeholder="Ex: 24h" />
+              <label className={fieldStyle.label}>Card 1 — Rótulo</label>
+              <input className={fieldStyle.input} value={stat1Label} onChange={e => setStat1Label(e.target.value)} placeholder="Ex: De Festa" />
+            </div>
+            <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
+              <label className={fieldStyle.label}>Card 2 — Valor <span className="text-admin-accent">*</span></label>
+              <input className={fieldStyle.input} value={stat2Value} onChange={e => setStat2Value(e.target.value)} placeholder="Ex: ∞" />
+              <label className={fieldStyle.label}>Card 2 — Rótulo</label>
+              <input className={fieldStyle.input} value={stat2Label} onChange={e => setStat2Label(e.target.value)} placeholder="Ex: Memórias" />
+            </div>
+          </div>
+        </div>
+
         <SaveButton onClick={() => save({
           showInHome, isActivePage,
           manifestoCurto: { pt: manifestoCurtoPt, en: manifestoCurtoEn, es: manifestoCurtoEs },
           manifestoCompleto: { pt: manifestoCompletoPt, en: manifestoCompletoEn, es: manifestoCompletoEs },
-        })} />
+          stat1Value, stat1Label, stat2Value, stat2Label,
+        } as any)} />
       </div>
     );
   }
