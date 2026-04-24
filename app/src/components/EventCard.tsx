@@ -36,30 +36,31 @@ export function EventCard({ event }: { event: any }) {
         )}
       </Link>
 
-      {/* InformaÃ§Ãµes */}
+      {/* Informações */}
       <div className="flex-1 flex flex-col justify-center min-w-0 py-2 sm:py-4">
-        {/* Data + horÃ¡rio */}
-        <span className="block text-sm sm:text-2xl font-bold text-[#333333] mb-1 sm:mb-4">
-          {formatDate(event.date)} | {event.time}
-        </span>
 
-        {/* Título / Descrição */}
+        {/* Título — vem primeiro, bold, preto, 2pts maior */}
         {(() => {
           const desc = event.shortDescription ? t(event.shortDescription) : '';
           const title = t(event.title) || '';
           return desc ? (
-            <p className="text-sm sm:text-lg text-[#444444] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-medium line-clamp-2">
+            <p className="text-base sm:text-2xl text-black leading-snug sm:leading-relaxed mb-1 sm:mb-2 font-black line-clamp-2">
               {desc}
             </p>
           ) : (
-            <h3 className="text-base sm:text-xl text-[#333333] leading-snug sm:leading-relaxed mb-2 sm:mb-4 font-bold line-clamp-2">
+            <h3 className="text-base sm:text-2xl text-black leading-snug sm:leading-relaxed mb-1 sm:mb-2 font-black line-clamp-2">
               {title}
             </h3>
           );
         })()}
 
+        {/* Data + horário — abaixo do título */}
+        <span className="block text-xs sm:text-lg font-semibold text-black/50 mb-2 sm:mb-3">
+          {formatDate(event.date)} | {event.time}
+        </span>
+
         {/* Local */}
-        <div className="text-xs sm:text-lg text-[#444444] font-medium mb-4 sm:mb-10">
+        <div className="text-xs sm:text-base text-black/40 font-medium mb-4 sm:mb-10">
           <span className="truncate block">{event.venue}{event.city ? ` | ${event.city}` : ''}</span>
         </div>
 
