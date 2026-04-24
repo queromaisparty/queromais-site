@@ -6,6 +6,7 @@ Os arquivos abaixo têm implementações estáveis que foram corrigidas e testad
 **Não altere esses arquivos sem o usuário pedir diretamente:**
 
 - `app/src/sections/HeroSection.tsx` — lógica de hero com scroll-control no desktop e min-h-[100svh] no mobile. Qualquer alteração causa a "tarja preta" conhecida.
+- `app/src/components/layout/WebsiteLayout.tsx` — usa `overflow-x-clip` (NÃO `overflow-x-hidden`). Trocar por `hidden` quebra position:sticky do hero e causa container preto de 250vh.
 - `app/src/context/DataContext.tsx` — lógica de fetch do Supabase e cache de localStorage.
 - `app/index.html` — inline script de FOUC fix (cores do admin antes do React carregar).
 
