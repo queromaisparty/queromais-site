@@ -161,7 +161,10 @@ export function MusicPage() {
                         <h4 className="text-black font-bold uppercase group-hover:text-qm-magenta transition-colors">
                           {dj.name}
                         </h4>
-                        <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{dj.musicStyle || 'Open Format'}</p>
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-qm-magenta mt-1">
+                          {dj.category === 'resident' ? 'DJ Residente' : dj.category === 'guest' ? 'Convidado Especial' : 'Atração Especial'}
+                          {dj.musicStyle && ` • ${dj.musicStyle}`}
+                        </div>
                       </div>
                       <button title="Ver DJ" className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-qm-magenta flex items-center justify-center transition-colors">
                         <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white" />
