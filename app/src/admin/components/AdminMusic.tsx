@@ -64,15 +64,15 @@ function ImageUploadField({ label, value, onChange, folder, fullWidth = false }:
   );
 }
 
-function Input({ label, value, onChange, placeholder, type = 'text', required }: {
-  label: string; value: string; onChange: (v: string) => void; placeholder?: string; type?: string; required?: boolean;
+function Input({ label, value, onChange, onBlur, placeholder, type = 'text', required }: {
+  label: string; value: string; onChange: (v: string) => void; onBlur?: () => void; placeholder?: string; type?: string; required?: boolean;
 }) {
   return (
     <div>
       <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 pl-1">
         {label}{required && <span className="text-admin-accent ml-1">*</span>}
       </label>
-      <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
+      <input type={type} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} placeholder={placeholder}
         className="w-full px-4 py-2.5 text-sm rounded-lg outline-none bg-slate-50 border border-slate-200 text-slate-900 focus:bg-white focus:border-admin-accent focus:ring-2 focus:ring-admin-accent/20 placeholder:text-slate-400" />
     </div>
   );
@@ -134,8 +134,14 @@ export function AdminMusic() {
   const [currentSet, setCurrentSet] = useState<Partial<DJSet>>(DEFAULT_SET);
   const [isImportingSC, setIsImportingSC] = useState(false);
 
-  const handleImportSoundCloud = async () => {
-    if (!currentSet.soundcloudUrl) return toast.error('Cole a URL do SoundCloud primeiro.');
+  const handleImportSoundCloud = async (silent = false) => {
+    if (!currentSet.soundcloudUrl) {
+      if (!silent) toast.error('Cole a URL do SoundCloud primeiro.');
+      return;
+    }
+    
+    if (silent && currentSet.metadata?.soundcloud) return;
+
     setIsImportingSC(true);
     try {
       const data = await fetchSoundCloudOEmbed(currentSet.soundcloudUrl);
@@ -156,9 +162,10 @@ export function AdminMusic() {
           }
         }
       }));
-      toast.success('Dados importados com sucesso!');
+      if (!silent) toast.success('Dados importados com sucesso!');
+      else toast.success('Metadados extraídos automaticamente!');
     } catch (err: any) {
-      toast.error(err.message || 'Erro ao importar dados.');
+      if (!silent) toast.error(err.message || 'Erro ao importar dados.');
     } finally {
       setIsImportingSC(false);
     }
@@ -396,9 +403,16 @@ export function AdminMusic() {
                     
                     <div className="flex gap-2">
                       <div className="flex-1">
-                        <Input label="" type="url" value={currentSet.soundcloudUrl || ''} onChange={v => setCurrentSet({ ...currentSet, soundcloudUrl: v })} placeholder="https://soundcloud.com/queromaisparty/..." />
+                        <Input 
+                          label="" 
+                          type="url" 
+                          value={currentSet.soundcloudUrl || ''} 
+                          onChange={v => setCurrentSet({ ...currentSet, soundcloudUrl: v })} 
+                          onBlur={() => handleImportSoundCloud(true)}
+                          placeholder="https://soundcloud.com/queromaisparty/..." 
+                        />
                       </div>
-                      <button type="button" onClick={handleImportSoundCloud} disabled={isImportingSC || !currentSet.soundcloudUrl}
+                      <button type="button" onClick={() => handleImportSoundCloud(false)} disabled={isImportingSC || !currentSet.soundcloudUrl}
                         className="shrink-0 flex items-center gap-1.5 px-4 py-2 mt-0.5 h-[42px] rounded-lg bg-[#ff5500] text-white text-sm font-bold hover:bg-[#ff5500]/90 transition-all disabled:opacity-50">
                         {isImportingSC ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link className="w-4 h-4" />}
                         {isImportingSC ? 'Buscando...' : 'Buscar Dados'}
