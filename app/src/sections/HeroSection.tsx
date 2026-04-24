@@ -90,7 +90,7 @@ export function HeroSection() {
           <video
             ref={videoRef}
             src={videoSrc}
-            className="w-full h-full object-cover object-[center_top] md:object-center"
+            className="w-full h-full object-contain md:object-cover md:object-center"
             muted
             playsInline
             autoPlay={isMobile}
