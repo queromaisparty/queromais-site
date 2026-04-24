@@ -91,7 +91,7 @@ export function GallerySection() {
   };
 
   return (
-    <section id="gallery" className="py-32 bg-white relative overflow-hidden">
+    <section id="gallery" className="py-12 md:py-32 bg-white relative overflow-hidden">
       {/* Subtle background texture */}
       <div className="absolute inset-0 opacity-[0.015]" style={{
         backgroundImage: 'radial-gradient(circle at 1px 1px, #000 1px, transparent 0)',

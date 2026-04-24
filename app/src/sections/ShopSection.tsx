@@ -87,7 +87,7 @@ export function ShopSection() {
   };
 
   return (
-    <section id="shop" className="py-32 bg-[#0A0A0A]">
+    <section id="shop" className="py-12 md:py-32 bg-[#0A0A0A]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header da Seção & Cart Button */}

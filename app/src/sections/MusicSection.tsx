@@ -10,7 +10,7 @@ export function MusicSection() {
   const [activeTab, setActiveTab] = useState<'djs' | 'sets'>('djs');
 
   return (
-    <section id="music" className="py-32 bg-white">
+    <section id="music" className="py-12 md:py-32 bg-white">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header da Seção */}
