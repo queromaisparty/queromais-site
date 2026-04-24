@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
 import { Upload, X, Image as ImageIcon, AlertCircle } from 'lucide-react';
+import { optimizeImage } from '@/lib/imageProcessor';
+import { uploadImage } from '@/lib/supabase';
 
 interface ImageUploaderProps {
   value?: string;
@@ -28,7 +30,7 @@ export function ImageUploader({
   const [isProcessing, setIsProcessing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const processFile = (file: File) => {
+  const processFile = async (file: File) => {
     setError(null);
 
     if (!file.type.startsWith('image/')) {
@@ -44,39 +46,25 @@ export function ImageUploader({
     }
 
     setIsProcessing(true);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const src = e.target?.result as string;
-      const img = new window.Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let { width, height } = img;
+    try {
+      // 1. Otimiza a imagem via Canvas inteligente
+      const optimizedFile = await optimizeImage(file, { 
+        maxWidth: MAX_DIMENSION, 
+        quality: 0.82,
+        format: 'image/webp'
+      });
 
-        // Redimensionamento Inteligente
-        if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
-          if (width > height) {
-            height = Math.round((height / width) * MAX_DIMENSION);
-            width = MAX_DIMENSION;
-          } else {
-            width = Math.round((width / height) * MAX_DIMENSION);
-            height = MAX_DIMENSION;
-          }
-        }
+      // 2. Faz o upload do novo arquivo WebP para a nuvem
+      const publicUrl = await uploadImage(optimizedFile, 'geral');
 
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx?.drawImage(img, 0, 0, width, height);
-
-        // Qualidade adaptativa para respeitar limite sem estourar o banco
-        const quality = file.size > 1024 * 1024 ? 0.75 : 0.85;
-        const compressed = canvas.toDataURL('image/jpeg', quality);
-        onChange(compressed);
-        setIsProcessing(false);
-      };
-      img.src = src;
-    };
-    reader.readAsDataURL(file);
+      // 3. Retorna a URL curta para o banco
+      onChange(publicUrl);
+    } catch (err: any) {
+      console.error('Erro Upload:', err);
+      setError(err.message || 'Erro ao processar ou subir a imagem.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -4,6 +4,8 @@
  */
 import { useRef, useState } from 'react';
 import { ImagePlus, X, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
+import { optimizeImage } from '@/lib/imageProcessor';
+import { uploadImage } from '@/lib/supabase';
 
 interface FlyerUploaderProps {
   value: string;
@@ -15,34 +17,7 @@ interface FlyerUploaderProps {
 
 type Stage = 'idle' | 'reading' | 'compressing' | 'done' | 'error';
 
-async function compressImage(file: File, maxW = 1200, quality = 0.82): Promise<{ base64: string; originalKB: number; finalKB: number }> {
-  return new Promise((resolve, reject) => {
-    if (!file.type.match(/^image\/(jpeg|png|webp|gif)$/)) { reject(new Error('Formato não suportado. Use JPG, PNG ou WebP.')); return; }
-    if (file.size > 8 * 1024 * 1024) { reject(new Error('Imagem muito grande. Máximo 8MB.')); return; }
 
-    const originalKB = Math.round(file.size / 1024);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const scale = Math.min(1, maxW / img.width);
-        const canvas = document.createElement('canvas');
-        canvas.width = Math.round(img.width * scale);
-        canvas.height = Math.round(img.height * scale);
-        const ctx = canvas.getContext('2d');
-        if (!ctx) { reject(new Error('Canvas não suportado.')); return; }
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        const base64 = canvas.toDataURL('image/webp', quality);
-        const finalKB = Math.round((base64.length * 3) / 4 / 1024);
-        resolve({ base64, originalKB, finalKB });
-      };
-      img.onerror = () => reject(new Error('Erro ao processar imagem.'));
-      img.src = e.target!.result as string;
-    };
-    reader.onerror = () => reject(new Error('Erro ao ler arquivo.'));
-    reader.readAsDataURL(file);
-  });
-}
 
 export function FlyerUploader({ value, onChange, maxW = 1200, aspectRatio = "2/3", label = "Cartaz / Flyer Principal" }: FlyerUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -59,16 +34,17 @@ export function FlyerUploader({ value, onChange, maxW = 1200, aspectRatio = "2/3
     const tick = setInterval(() => setProgress(p => Math.min(p + 15, 80)), 80);
     try {
       setStage('compressing');
-      const result = await compressImage(file, maxW);
+      const optimizedFile = await optimizeImage(file, { maxWidth: maxW, quality: 0.82, format: 'image/webp' });
+      const publicUrl = await uploadImage(optimizedFile, 'eventos');
       clearInterval(tick);
       setProgress(100);
-      setInfo({ originalKB: result.originalKB, finalKB: result.finalKB });
+      setInfo({ originalKB: Math.round(file.size / 1024), finalKB: Math.round(optimizedFile.size / 1024) });
       setStage('done');
-      onChange(result.base64);
+      onChange(publicUrl);
     } catch (err) {
       clearInterval(tick);
       setStage('error');
-      setErrorMsg(err instanceof Error ? err.message : 'Erro desconhecido.');
+      setErrorMsg(err instanceof Error ? err.message : 'Erro desconhecido ao subir a imagem.');
     }
   };
 
