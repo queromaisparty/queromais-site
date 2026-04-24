@@ -196,7 +196,8 @@ export interface DJSet {
   description: TranslatableContent;
   coverImage: string;
   audioUrl?: string;
-  externalLink?: string;
+  soundcloudUrl?: string; // SoundCloud embed/link
+  externalLink?: string;  // YouTube ou outro
   playlistUrl?: string;
   status: 'active' | 'inactive';
   featured: boolean;
