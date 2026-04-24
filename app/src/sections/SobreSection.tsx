@@ -1,8 +1,20 @@
 import { Link } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
+import { useLanguage } from '@/context/LanguageContext';
+
+const translateDynamic = (val: string, t: any) => {
+  const map: Record<string, { pt: string, en: string, es: string }> = {
+    'VIVA A SUA MELHOR VERSÃO': { pt: 'VIVA A SUA MELHOR VERSÃO', en: 'LIVE YOUR BEST VERSION', es: 'VIVE TU MEJOR VERSIÓN' },
+    'Nascida no Rio de Janeiro, a Quero Mais é uma celebração itinerante que redefine o conceito de Day Party.': { pt: 'Nascida no Rio de Janeiro, a Quero Mais é uma celebração itinerante que redefine o conceito de Day Party.', en: 'Born in Rio de Janeiro, Quero Mais is a wandering celebration that redefines the Day Party concept.', es: 'Nacida en Río de Janeiro, Quero Mais es una celebración itinerante que redefine el concepto de Day Party.' },
+    'Estética impecável, curadoria musical de alto nível e um público que pulsa na mesma frequência.': { pt: 'Estética impecável, curadoria musical de alto nível e um público que pulsa na mesma frequência.', en: 'Impeccable aesthetics, high-level musical curation, and an audience that pulses at the same frequency.', es: 'Estética impecable, curaduría musical de alto nivel y un público que vibra en la misma frecuencia.' },
+    'Conheça nossa história': { pt: 'Conheça nossa história', en: 'Discover our story', es: 'Conoce nuestra historia' }
+  };
+  return map[val] ? t(map[val]) : val;
+};
 
 export function SobreSection() {
   const { storytelling } = useData();
+  const { t } = useLanguage();
   const s = storytelling;
   const stats = Array.isArray(s?.stats) ? [...s.stats].sort((a, b) => a.order - b.order) : [];
 
@@ -16,27 +28,27 @@ export function SobreSection() {
 
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60 mb-6 font-sans">
-                Quem somos
+                {t({ pt: 'Quem somos', en: 'About us', es: 'Quiénes somos' })}
               </p>
               <h2 className="font-sans font-black text-white uppercase leading-none tracking-tighter"
                   style={{ fontSize: 'clamp(1.6rem, 5vw, 4rem)' }}>
-                {s.homeTitle}
+                {translateDynamic(s.homeTitle, t)}
               </h2>
             </div>
 
             <div className="space-y-5">
               <p className="text-white/80 leading-relaxed text-base lg:text-lg font-sans">
-                {s.homeText1}
+                {translateDynamic(s.homeText1, t)}
               </p>
               <div className="w-12 h-px bg-white/30" />
               <p className="text-white/60 leading-relaxed text-sm font-sans">
-                {s.homeText2}
+                {translateDynamic(s.homeText2, t)}
               </p>
               <Link
                 to="/sobre"
                 className="inline-block text-white/70 hover:text-white font-sans font-bold uppercase tracking-wide text-sm hover:underline transition-colors"
               >
-                {s.homeCTA} &rarr;
+                {translateDynamic(s.homeCTA, t)} &rarr;
               </Link>
             </div>
 
