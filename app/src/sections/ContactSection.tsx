@@ -38,8 +38,8 @@ export function ContactSection() {
               href={`mailto:${contactInfo.email}`}
               className="flex items-center gap-3 px-6 py-4 bg-gray-50 border border-gray-200 hover:border-pink-500 hover:shadow-sm transition-all group rounded-none"
             >
-              <Mail className="w-6 h-6 text-gray-500 group-hover:text-pink-500 transition-colors" />
-              <span className="text-black font-semibold truncate max-w-[200px]">{contactInfo.email}</span>
+              <Mail className="w-6 h-6 text-gray-500 group-hover:text-pink-500 transition-colors flex-shrink-0" />
+              <span className="text-black font-semibold min-w-0 break-all">{contactInfo.email}</span>
             </a>
           )}
           {contactInfo.instagram && (
