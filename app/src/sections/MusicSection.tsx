@@ -1,8 +1,29 @@
 import { useState } from 'react';
-import { Music, Play, Headphones, Disc, ExternalLink } from 'lucide-react';
+import { Music, Play, Headphones, Disc, ExternalLink, Instagram } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { translations } from '@/lib/translations';
+
+function SocialIcon({ platform }: { platform: string }) {
+  const p = platform.toLowerCase();
+  if (p === 'instagram') return <Instagram className="w-4 h-4" />;
+  if (p === 'soundcloud') return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-label="SoundCloud">
+      <path d="M1.175 12.225c-.016 0-.024.013-.024.027l-.312 2.137.312 2.036c0 .016.008.025.024.025.015 0 .023-.009.023-.025l.351-2.036-.351-2.137c0-.014-.008-.027-.023-.027zm-.8.548c-.02 0-.031.015-.031.035l-.27 1.581.27 1.492c0 .02.011.035.031.035s.031-.015.031-.035l.308-1.492-.308-1.581c0-.02-.011-.035-.031-.035zm-.375.44c-.022 0-.038.016-.038.04l-.231 1.14.231 1.06c0 .024.016.04.038.04.023 0 .039-.016.039-.04l.264-1.06-.264-1.14c0-.024-.016-.04-.039-.04zm10.918-7.87c-.385 0-.753.08-1.087.224C9.56 3.63 8.016 2.5 6.2 2.5c-.507 0-.991.101-1.43.285-.163.065-.207.132-.208.19v9.24c.001.063.051.114.115.12h7.011c.063-.006.113-.057.115-.12V7.41c-.001-.47-.378-.867-.85-.867zm1.19.463c-.078 0-.152.013-.223.034-.217-1.73-1.7-3.07-3.5-3.07-.316 0-.619.044-.907.124-.112.033-.142.067-.143.096v7.33c.001.032.025.058.058.063h4.715c.034-.005.06-.031.06-.063V5.87c0-.582-.47-1.064-1.06-1.064z"/>
+    </svg>
+  );
+  if (p === 'spotify') return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-label="Spotify">
+      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.215c3.809-.87 7.077-.496 9.712 1.115a.623.623 0 01.207.857zm1.223-2.722a.78.78 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.78.78 0 01-.973-.519.781.781 0 01.52-.972c3.632-1.102 8.147-.568 11.233 1.328a.78.78 0 01.257 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.937.937 0 11-.543-1.793c3.526-1.07 9.37-.863 13.066 1.37a.937.937 0 01-.906 1.58z"/>
+    </svg>
+  );
+  if (p === 'youtube') return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-label="YouTube">
+      <path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+    </svg>
+  );
+  return <ExternalLink className="w-4 h-4" />;
+}
 
 export function MusicSection() {
   const { t } = useLanguage();
@@ -86,9 +107,10 @@ export function MusicSection() {
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
+                              title={link.platform}
                               className="text-black/40 hover:text-[var(--primary-color)] transition-colors"
                             >
-                              <ExternalLink className="w-4 h-4" />
+                              <SocialIcon platform={link.platform} />
                             </a>
                           ))}
                         </div>
