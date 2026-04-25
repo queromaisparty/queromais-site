@@ -6,6 +6,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { DataProvider, useData } from '@/context/DataContext';
 
 import { WebsiteLayout } from '@/components/layout/WebsiteLayout';
+import { ScrollToTop } from '@/components/ScrollToTop';
 import { HomePage } from '@/pages/HomePage';
 import { EventosPage } from '@/pages/EventosPage';
 import { EventoDetalhePage } from '@/pages/EventoDetalhePage';
@@ -113,6 +114,7 @@ function App() {
       <LanguageProvider>
         <DataProvider>
           <SiteEngine />
+          <ScrollToTop />
           <Toaster position="top-center" toastOptions={toasterStyle} />
           <Routes>
             <Route element={<WebsiteLayout onAdminClick={handleAdminClick} />}>
