@@ -96,7 +96,7 @@ export function ShopSection() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3 font-sans">
               {t({ pt: 'Loja Oficial', en: 'Official Store', es: 'Tienda Oficial' })}
             </p>
-            <h2 className="font-sans font-black text-xl sm:text-3xl lg:text-6xl text-white uppercase tracking-tighter">
+            <h2 className="font-sans font-black text-2xl sm:text-4xl lg:text-6xl text-white uppercase tracking-tighter">
               {t(translations.shop.title)}
             </h2>
           </div>
@@ -120,7 +120,7 @@ export function ShopSection() {
         {/* Painel do Carrinho */}
         {showCart && (
           <div className="mb-12 bg-[#1A1A1A] rounded-none p-6 md:p-8">
-            <h3 className="font-black text-2xl text-white mb-6 uppercase">
+            <h3 className="font-black text-xl sm:text-2xl text-white mb-6 uppercase">
               {t(translations.shop.cart)}
             </h3>
             

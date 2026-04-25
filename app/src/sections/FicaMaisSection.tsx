@@ -31,14 +31,14 @@ export function FicaMaisSection() {
       <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#8B5CF6]/20 border border-[#8B5CF6]/40 rounded-none mb-6">
               <Moon className="w-4 h-4 text-[#8B5CF6]" />
               <span className="text-[#8B5CF6] text-sm font-bold uppercase tracking-wider">
                 {t({ pt: 'After Party', en: 'After Party', es: 'After Party' })}
               </span>
             </div>
-            <h2 className="text-xl sm:text-3xl lg:text-6xl font-black text-white uppercase tracking-tighter mt-4 mb-4 sm:mb-6">
+            <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter mt-4 mb-4 sm:mb-6">
               <span className="text-[#8B5CF6]">FICA</span> MAIS{' '}
               <span className="text-qm-magenta">PARTY</span>
             </h2>
@@ -53,7 +53,7 @@ export function FicaMaisSection() {
           </div>
 
           {/* Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left - Visual */}
             <div className="relative">
               <div className="relative aspect-square max-w-[500px] mx-auto overflow-hidden rounded-none group shadow-2xl">
@@ -118,7 +118,7 @@ export function FicaMaisSection() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-qm-magenta mb-1">
+                      <div className="text-2xl sm:text-3xl font-black text-qm-magenta mb-1">
                         {(ficaMaisParty as any)?.stat1Value ?? '24h'}
                       </div>
                       <div className="text-white/50 text-sm">
@@ -126,7 +126,7 @@ export function FicaMaisSection() {
                       </div>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-none p-4 text-center">
-                      <div className="text-3xl font-black text-[#8B5CF6] mb-1">
+                      <div className="text-2xl sm:text-3xl font-black text-[#8B5CF6] mb-1">
                         {(ficaMaisParty as any)?.stat2Value ?? '∞'}
                       </div>
                       <div className="text-white/50 text-sm">

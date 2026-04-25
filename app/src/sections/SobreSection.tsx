@@ -22,9 +22,9 @@ export function SobreSection() {
     <section id="sobre" className="bg-white">
 
       {/* Bloco escuro â€” resumo institucional */}
-      <div className="bg-[#3D4246] py-24">
+      <div className="bg-[#3D4246] py-12 md:py-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20 items-center">
 
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60 mb-6 font-sans">
@@ -57,7 +57,7 @@ export function SobreSection() {
       </div>
 
       {/* Bloco branco â€” stats + essência */}
-      <div className="py-24 bg-white">
+      <div className="py-12 md:py-24 bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Stats â€” só renderiza se houver dados */}
@@ -73,7 +73,7 @@ export function SobreSection() {
           )}
 
           {/* Imagem + essência */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
             {s.essenciaImage ? (
               <div className="overflow-hidden aspect-[4/3]">
                 <img
@@ -92,7 +92,7 @@ export function SobreSection() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta font-sans">
                 {s.essenciaTitle}
               </p>
-              <h3 className="font-sans font-black text-2xl lg:text-3xl text-black uppercase leading-tight">
+              <h3 className="font-sans font-black text-xl lg:text-3xl text-black uppercase leading-tight">
                 {s.essenciaText1}
               </h3>
               <p className="text-[#666666] leading-relaxed font-sans text-sm">

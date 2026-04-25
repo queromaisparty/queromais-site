@@ -16,12 +16,13 @@ export function EventsSection() {
 
 
   return (
-    <section id="eventos" className="pt-10 pb-24 md:py-32 bg-white">
+    // No mobile a agenda sobe colada na hero (pt-0). No desktop mantém a folga generosa (md:py-32).
+    <section id="eventos" className="pt-0 pb-12 md:py-32 bg-white">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header da seção */}
-        <div className="text-center mb-10 sm:mb-16">
-          <h2 className="font-display text-xl sm:text-3xl lg:text-5xl text-[#555555] tracking-tighter uppercase">{t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
+        <div className="text-center mb-6 sm:mb-16 mt-4 md:mt-0">
+          <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl text-[#555555] tracking-tighter uppercase">{t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
           </h2>
         </div>
 

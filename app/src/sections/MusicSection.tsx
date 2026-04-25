@@ -14,14 +14,14 @@ export function MusicSection() {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header da Seção */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-8 sm:mb-14">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--primary-color)] mb-3">
             {t({ pt: 'Sons que marcam', en: 'Sounds that leave a mark', es: 'Sonidos que marcan' })}
           </p>
-          <h2 className="font-black text-xl sm:text-3xl lg:text-6xl text-black uppercase tracking-tighter">
+          <h2 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tighter">
             QM MUSIC
           </h2>
-          <p className="text-black/60 text-lg max-w-2xl mx-auto mt-4 font-medium">
+          <p className="text-black/60 text-sm sm:text-lg max-w-2xl mx-auto mt-4 font-medium">
             {t(translations.music.description)}
           </p>
         </div>
@@ -52,7 +52,7 @@ export function MusicSection() {
           
           {/* DJs */}
           {activeTab === 'djs' && (
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {djs.length > 0 ? (
                 djs.map((dj) => (
                   <div key={dj.id} className="group bg-[#F2F2F2] rounded-none overflow-hidden">
