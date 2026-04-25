@@ -54,13 +54,13 @@ export function Header() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-black/60 backdrop-blur-lg shadow-xl border-b border-white/10'
-            : 'bg-transparent'
+            : 'bg-white shadow-sm border-b border-gray-100 lg:bg-transparent lg:shadow-none lg:border-transparent'
         }`}
       >
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-14 lg:h-16">
 
-            {/* Hambúrguer — mobile */}
+            {/* Hambúrguer — somente mobile */}
             <button
               onClick={() => setMenuOpen(true)}
               className={`lg:hidden mr-3 p-2 -ml-2 rounded-sm transition-colors ${txt} ${hoverBg}`}
@@ -71,10 +71,17 @@ export function Header() {
 
             {/* Logo */}
             <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center shrink-0 group">
-              <img 
-                src={isLight ? '/LOGOQUEROMAIS_PRETA.svg' : '/LOGOQUEROMAIS_BRANCA.svg'} 
-                alt="Quero Mais" 
-                className="h-6 lg:h-8 w-auto transition-transform duration-300 group-hover:scale-105"
+              {/* Mobile: fundo branco no topo → sempre logo preta. Com scroll (fundo escuro) → logo branca */}
+              <img
+                src={scrolled ? '/LOGOQUEROMAIS_BRANCA.svg' : '/LOGOQUEROMAIS_PRETA.svg'}
+                alt="Quero Mais"
+                className="h-6 w-auto transition-transform duration-300 group-hover:scale-105 lg:hidden"
+              />
+              {/* Desktop: inalterado — segue isLight normalmente */}
+              <img
+                src={isLight ? '/LOGOQUEROMAIS_PRETA.svg' : '/LOGOQUEROMAIS_BRANCA.svg'}
+                alt="Quero Mais"
+                className="hidden lg:block h-8 w-auto transition-transform duration-300 group-hover:scale-105"
               />
             </Link>
 
@@ -130,7 +137,9 @@ export function Header() {
                   key={lang.code}
                   onClick={() => setLanguage(lang.code)}
                   className={`text-xs font-bold min-w-[36px] min-h-[36px] flex items-center justify-center rounded-sm transition-colors font-sans ${
-                    currentLanguage === lang.code ? 'text-qm-magenta' : `${txtMuted}`
+                    currentLanguage === lang.code
+                      ? 'text-qm-magenta'
+                      : `${txtMuted}`
                   }`}
                 >
                   {lang.label}
