@@ -205,6 +205,7 @@ const defaultSiteConfig: SiteConfig = {
   }, 
   hero: { 
     active: true, 
+    desktop: { url: '/steampunk.mp4', upload: '' },
     mobile: { url: '/steampunk.mp4', upload: '' }, 
     fallbackImage: '/hero-poster.jpg' 
   },
@@ -404,9 +405,16 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       
       // Evita quebrar o banco caso a coluna show_shop não exista. Salva o valor dentro do JSONB 'hero'
       const dataToSave: any = { ...data };
+      
+      // Se estamos atualizando hero, precisamos preservar o showShop que já estava lá
+      if ('hero' in dataToSave) {
+         dataToSave.hero = { ...dataToSave.hero, showShop: siteConfig.showShop };
+      }
+      
+      // Se estamos atualizando showShop especificamente
       if ('showShop' in dataToSave) {
-        dataToSave.hero = { ...(siteConfig.hero || {}), showShop: dataToSave.showShop };
-        delete dataToSave.showShop;
+        dataToSave.hero = { ...(dataToSave.hero || siteConfig.hero || {}), showShop: dataToSave.showShop };
+        delete dataToSave.showShop; // não enviar para não dar erro de coluna inexistente
       }
 
       const { error } = await supabase
