@@ -130,7 +130,7 @@ export function AdminShop() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-[#0A0A0A] p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-black text-white uppercase tracking-tight flex items-center gap-3">
