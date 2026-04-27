@@ -137,8 +137,8 @@ export function EventosPage() {
           {filteredList.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 opacity-50">
               <Calendar className="w-16 h-16 text-gray-400 mb-6" />
-              <h3 className="text-2xl font-bold text-white mb-2">Sem Eventos</h3>
-              <p className="text-gray-500 text-center">Não encontramos resultados para este filtro.</p>
+              <h3 className="text-2xl font-bold text-black mb-2">Sem Eventos</h3>
+              <p className="text-[#666666] text-center">Não encontramos resultados para este filtro.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
