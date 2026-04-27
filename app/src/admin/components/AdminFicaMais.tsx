@@ -3,6 +3,7 @@ import { useData } from '@/context/DataContext';
 import type { PartyDate } from '@/types';
 import { Plus, Trash2, Save, Image, Upload, X, Loader2, Calendar, MapPin, Link as LinkIcon, Info } from 'lucide-react';
 import { uploadImage } from '@/lib/supabase';
+import { optimizeImage } from '@/lib/imageProcessor';
 import { toast } from 'sonner';
 
 type Tab = 'manifesto' | 'dates' | 'media';
@@ -28,7 +29,8 @@ function ImageField({ label, value, onChange, folder = 'fica-mais' }: { label: s
     if (!file) return;
     setUploading(true);
     try {
-      const url = await uploadImage(file, folder);
+      const optimizedFile = await optimizeImage(file, { maxWidth: 1600, quality: 0.82, format: 'image/webp' });
+      const url = await uploadImage(optimizedFile, folder);
       onChange(url);
       toast.success('Material de mídia processado.');
     } catch (err) {
