@@ -172,7 +172,7 @@ const defaultStorytelling: Storytelling = {
     { id: '4', title: 'Vale Encantado', description: 'Natureza e música em perfeita sintonia.', order: 4 },
   ],
   ctaText: 'Pronto para escrever o próximo capítulo conosco?',
-  ctaButtonLabel: 'Ver Agenda Oficial',
+  ctaButtonLabel: 'Ver Próximas Experiências',
   ctaButtonLink: '/eventos',
   homeTitle: 'VIVA A SUA MELHOR VERSÃO',
   homeText1: 'Nascida no Rio de Janeiro, a Quero Mais é uma celebração itinerante que redefine o conceito de Day Party.',
@@ -198,8 +198,8 @@ const defaultSiteConfig: SiteConfig = {
     { platform: 'facebook', url: 'https://facebook.com/queromaisparty' }
   ], 
   seo: { 
-    title: {pt: 'Quero Mais Day Party | Agenda Oficial', en: 'Want More Day Party | Official Schedule', es: 'Quiero Más Day Party | Agenda Oficial'}, 
-    description: {pt: 'A maior experiência de day party do Rio de Janeiro. Confira nossa agenda, compre ingressos e viva a metamorfose.', en: 'The greatest day party experience in Rio. Check our schedule and buy tickets.', es: 'La mejor experiencia de day party en Río. Consulta nuestra agenda y compra entradas.'}, 
+    title: {pt: 'Quero Mais Day Party | PRÓXIMAS EXPERIÊNCIAS', en: 'Want More Day Party | UPCOMING EXPERIENCES', es: 'Quiero Más Day Party | PRÓXIMAS EXPERIENCIAS'}, 
+    description: {pt: 'A maior experiência de day party do Rio de Janeiro. Confira nossas próximas experiências, compre ingressos e viva a metamorfose.', en: 'The greatest day party experience in Rio. Check our schedule and buy tickets.', es: 'La mejor experiencia de day party en Río. Consulta nuestra agenda y compra entradas.'}, 
     keywords: 'festa, rio de janeiro, day party, música eletrônica, eventos, quero mais', 
     ogImage: '/og-image.jpg'
   }, 
@@ -335,10 +335,10 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
                 const mapped = mapFromDB(config.home_sections);
                 if (Array.isArray(mapped)) {
                   mapped.forEach((s: any) => {
-                    if (s.type === 'events' && (s.title?.pt === 'PRÓXIMOS EVENTOS' || s.title?.pt === 'Próximos Eventos' || s.title?.pt === 'Agenda Quero Mais')) {
-                      s.title.pt = 'AGENDA QUERO MAIS';
-                      s.title.en = 'QUERO MAIS SCHEDULE';
-                      s.title.es = 'AGENDA QUERO MÁS';
+                    if (s.type === 'events' && (s.title?.pt === 'PRÓXIMOS EVENTOS' || s.title?.pt === 'Próximos Eventos' || s.title?.pt === 'Agenda Quero Mais' || s.title?.pt === 'PRÓXIMAS EXPERIÊNCIAS')) {
+                      s.title.pt = 'PRÓXIMAS EXPERIÊNCIAS';
+                      s.title.en = 'UPCOMING EXPERIENCES';
+                      s.title.es = 'PRÓXIMAS EXPERIENCIAS';
                     }
                   });
                 }

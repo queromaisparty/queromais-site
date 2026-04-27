@@ -22,11 +22,11 @@ export function EventsSection() {
 
         {/* Header da seção */}
         <div className="text-center mb-6 sm:mb-16 mt-4 md:mt-0">
-          <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl text-[#555555] tracking-tighter uppercase">{t({ pt: 'Agenda Quero Mais', en: 'Quero Mais Schedule', es: 'Agenda Quero Más' })}
+          <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl text-[#555555] tracking-tighter uppercase">{t({ pt: 'PRÓXIMAS EXPERIÊNCIAS', en: 'UPCOMING EXPERIENCES', es: 'PRÓXIMAS EXPERIENCIAS' })}
           </h2>
         </div>
 
-        {/* Estado vazio ââ‚¬â€ nenhum evento cadastrado */}
+        {/* Estado vazio ââ‚¬â€  nenhum evento cadastrado */}
         {/* SKELETON - Enquanto está carregando os dados do banco */}
         {isEventsLoading && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -62,7 +62,7 @@ export function EventsSection() {
         {activeEvents.length > 2 && (
           <div className="text-center mt-12">
             <Link to="/eventos" className="inline-block px-10 py-3 bg-[#111111] hover:bg-black text-white text-sm font-bold tracking-widest uppercase transition-colors rounded-none">
-              {t({ pt: 'Ver Agenda Completa', en: 'See Full Schedule', es: 'Ver Agenda Completa' })}
+              {t({ pt: 'VER TODAS AS EXPERIÊNCIAS', en: 'SEE ALL EXPERIENCES', es: 'VER TODAS LAS EXPERIENCIAS' })}
             </Link>
           </div>
         )}

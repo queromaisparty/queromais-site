@@ -11,7 +11,7 @@ interface FooterProps {
 
 const navLinks = [
   { href: '/', label: { pt: 'Home', en: 'Home', es: 'Inicio' } },
-  { href: '/eventos', label: { pt: 'Agenda', en: 'Schedule', es: 'Agenda' } },
+  { href: '/eventos', label: { pt: 'PRÓXIMAS EXPERIÊNCIAS', en: 'UPCOMING EXPERIENCES', es: 'PRÓXIMAS EXPERIENCIAS' } },
   { href: '/fica-mais', label: { pt: 'Fica Mais Party', en: 'Fica Mais Party', es: 'Fica Mais Party' } },
   { href: '/sobre', label: { pt: 'Sobre a Quero Mais', en: 'About', es: 'Nosotros' } },
   { href: '/music', label: { pt: 'QM Music', en: 'QM Music', es: 'QM Music' } },
@@ -22,7 +22,7 @@ const navLinks = [
 
 export function Footer({ onAdminClick }: FooterProps) {
   const { t } = useLanguage();
-  const { contactInfo, addNewsletterSubscriber } = useData();
+  const { contactInfo, addNewsletterSubscriber, siteConfig } = useData();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -70,7 +70,7 @@ export function Footer({ onAdminClick }: FooterProps) {
                 <Instagram className="w-4 h-4" />
               </a>
               <a
-                href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`}
+                href={`https://wa.me/${(() => { const d = contactInfo.whatsapp?.replace(/\D/g, '') || ''; return d ? (d.startsWith('55') ? d : `55${d}`) : ''; })()}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-md bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-qm-magenta hover:text-white hover:border-qm-magenta transition-all"
@@ -92,7 +92,7 @@ export function Footer({ onAdminClick }: FooterProps) {
               {t({ pt: 'Navegação', en: 'Navigation', es: 'Navegación' })}
             </h3>
             <ul className="space-y-3">
-              {navLinks.map((link) => (
+              {navLinks.filter(link => !(link.href === '/loja' && siteConfig?.hero?.showShop === false)).map((link) => (
                 <li key={link.href}>
                   <Link
                     to={link.href}
@@ -124,7 +124,7 @@ export function Footer({ onAdminClick }: FooterProps) {
               <li className="flex items-start gap-3">
                 <MessageCircle className="w-4 h-4 text-[var(--primary-color)] mt-0.5 flex-shrink-0" />
                 <a
-                  href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`}
+                  href={`https://wa.me/${(() => { const d = contactInfo.whatsapp?.replace(/\D/g, '') || ''; return d ? (d.startsWith('55') ? d : `55${d}`) : ''; })()}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/50 hover:text-[var(--primary-color)] transition-colors text-sm font-sans"
@@ -146,9 +146,9 @@ export function Footer({ onAdminClick }: FooterProps) {
             </h3>
             <p className="text-white/50 text-sm mb-5 font-sans">
               {t({
-                pt: 'Seja o primeiro a saber sobre a nossa AGENDA QUERO MAIS.',
-                en: 'Be the first to know about our QUERO MAIS SCHEDULE.',
-                es: 'Sé el primero en saber sobre nuestra AGENDA QUERO MÁS.',
+                pt: 'Seja o primeiro a saber sobre as nossas PRÓXIMAS EXPERIÊNCIAS.',
+                en: 'Be the first to know about our UPCOMING EXPERIENCES.',
+                es: 'Sé el primero en saber sobre nuestras PRÓXIMAS EXPERIENCIAS.',
               })}
             </p>
             <form className="flex flex-col gap-2" onSubmit={handleSubscribe}>

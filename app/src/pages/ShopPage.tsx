@@ -60,14 +60,22 @@ export function ShopPage() {
   const cartItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const checkoutWhatsApp = () => {
-    const phone = contactInfo.whatsapp.replace(/\D/g, '');
-    let text = `*NOVO PEDIDO - QUERO MAIS STORE*%0A%0A`;
+    const rawPhone = contactInfo?.whatsapp || contactInfo?.phone || '';
+    const digits = rawPhone.replace(/\D/g, '');
+    if (!digits) {
+      alert('Número de WhatsApp não configurado.');
+      return;
+    }
+    const phone = digits.startsWith('55') ? digits : `55${digits}`;
+    
+    let text = `*NOVO PEDIDO - QUERO MAIS STORE*\n\n`;
     cart.forEach(item => {
-      text += `${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}%0A`;
+      text += `${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
     });
-    text += `%0A*TOTAL: R$ ${cartTotal.toFixed(2)}*%0A%0A`;
+    text += `\n*TOTAL: R$ ${cartTotal.toFixed(2)}*\n\n`;
     text += `Olá! Gostaria de finalizar o meu pedido.`;
-    window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+    
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   const formatPrice = (price: number) => {

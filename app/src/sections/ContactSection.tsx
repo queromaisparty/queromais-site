@@ -1,4 +1,4 @@
-﻿import { Mail, MessageCircle, Instagram, ArrowRight } from 'lucide-react';
+import { Mail, MessageCircle, Instagram, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
 import { Link } from 'react-router-dom';
@@ -24,7 +24,7 @@ export function ContactSection() {
         <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 sm:gap-6 mb-8 sm:mb-12">
           {contactInfo.whatsapp && (
             <a
-              href={`https://wa.me/${contactInfo.whatsapp.replace(/\D/g, '')}`}
+              href={`https://wa.me/${(() => { const d = contactInfo.whatsapp.replace(/\D/g, ''); return d ? (d.startsWith('55') ? d : `55${d}`) : ''; })()}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 px-6 py-4 bg-gray-50 border border-gray-200 hover:border-green-500 hover:shadow-sm transition-all group rounded-none"

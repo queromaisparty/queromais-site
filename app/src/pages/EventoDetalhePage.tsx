@@ -14,9 +14,11 @@ export function EventoDetalhePage() {
   const navigate = useNavigate();
   const { events, contactInfo } = useData();
 
-  const whatsappNumber = contactInfo?.whatsapp?.replace(/\D/g, '') || '';
-  const whatsappUrl = whatsappNumber
-    ? `https://wa.me/55${whatsappNumber}?text=Olá, gostaria de saber mais sobre reservas e camarotes.`
+  const rawPhone = contactInfo?.whatsapp || contactInfo?.phone || '';
+  const digits = rawPhone.replace(/\D/g, '');
+  const finalPhone = digits ? (digits.startsWith('55') ? digits : `55${digits}`) : '';
+  const whatsappUrl = finalPhone
+    ? `https://wa.me/${finalPhone}?text=${encodeURIComponent('Olá, gostaria de saber mais sobre reservas e camarotes.')}`
     : '#';
 
   const event = events.find(e => e.slug === slug && e.status === 'active');
@@ -26,7 +28,7 @@ export function EventoDetalhePage() {
   useEffect(() => {
     if (event) {
       const title = getTitle(event.title);
-      document.title = `${title} | Agenda Quero Mais`;
+      document.title = `${title} | PRÓXIMAS EXPERIÊNCIAS`;
       
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
@@ -50,7 +52,7 @@ export function EventoDetalhePage() {
           className="inline-flex items-center gap-2 px-8 py-3 bg-qm-magenta text-white font-bold uppercase tracking-wider text-sm hover:bg-qm-magenta-dark transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Ver Agenda Quero Mais
+          Ver PRÓXIMAS EXPERIÊNCIAS
         </Link>
       </main>
     );
@@ -108,7 +110,7 @@ export function EventoDetalhePage() {
             className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm font-semibold group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Agenda Quero Mais
+            PRÓXIMAS EXPERIÊNCIAS
           </button>
         </div>
 
@@ -274,7 +276,7 @@ export function EventoDetalhePage() {
           <section className="mt-20 pt-12 border-t border-gray-300">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-2">Agenda</div>
+                <div className="text-xs font-bold uppercase tracking-[0.2em] text-qm-magenta mb-2">PRÓXIMAS EXPERIÊNCIAS</div>
                 <h2 className="font-black text-3xl sm:text-4xl text-black uppercase tracking-tighter">Outros Eventos</h2>
               </div>
               <Link
@@ -322,7 +324,7 @@ export function EventoDetalhePage() {
 
             <div className="text-center mt-8 sm:hidden">
               <Link to="/eventos" className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-black">
-                Ver agenda completa <ArrowRight className="w-4 h-4" />
+                Ver experiências completas <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </section>

@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { useData } from '@/context/DataContext';
 import { Mail, Phone, MessageSquare, Plus, Send } from 'lucide-react';
 import { toast } from 'sonner';
@@ -165,7 +165,7 @@ export function ContactPage() {
 
             {/* Infos Adicionais */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <a href={`https://wa.me/${contactInfo.whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="bg-white border border-gray-200 p-6 rounded-none flex items-center gap-4 hover:border-qm-magenta transition-colors group">
+              <a href={`https://wa.me/${(() => { const d = contactInfo.whatsapp?.replace(/\D/g, '') || ''; return d ? (d.startsWith('55') ? d : `55${d}`) : ''; })()}`} target="_blank" rel="noopener noreferrer" className="bg-white border border-gray-200 p-6 rounded-none flex items-center gap-4 hover:border-qm-magenta transition-colors group">
                 <div className="w-12 h-12 bg-green-50 text-green-600 rounded-none flex items-center justify-center group-hover:bg-green-100 transition-colors">
                   <Phone className="w-6 h-6" />
                 </div>

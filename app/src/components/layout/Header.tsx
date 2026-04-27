@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const baseNavItems = [
   { href: '/',          label: { pt: 'Home',              en: 'Home',          es: 'Inicio'    } },
-  { href: '/eventos',   label: { pt: 'Agenda',  en: 'Schedule', es: 'Agenda' } },
+  { href: '/eventos',   label: { pt: 'PRÓXIMAS EXPERIÊNCIAS',  en: 'UPCOMING EXPERIENCES', es: 'PRÓXIMAS EXPERIENCIAS' } },
   { href: '/fica-mais', label: { pt: 'Fica Mais Party',   en: 'Fica Mais',     es: 'Fica Mais' } },
   { href: '/sobre',     label: { pt: 'Sobre',             en: 'About',         es: 'Nosotros'  } },
   { href: '/music',     label: { pt: 'QM Music',          en: 'QM Music',      es: 'QM Music'  } },
@@ -30,7 +30,7 @@ export function Header() {
   const activeSection = location.pathname;
 
   const navItems = baseNavItems.filter(item => {
-    if (item.href === '/loja' && siteConfig.showShop === false) return false;
+    if (item.href === '/loja' && siteConfig.hero?.showShop === false) return false;
     return true;
   });
 

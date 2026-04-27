@@ -56,7 +56,7 @@ export function EventosPage() {
           <div className="mb-12 border-b border-gray-300 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="font-black text-2xl sm:text-4xl lg:text-6xl text-black uppercase tracking-tighter leading-none mb-4">
-                Agenda <span className="text-qm-magenta">Quero Mais</span>
+                PRÓXIMAS <span className="text-qm-magenta">EXPERIÊNCIAS</span>
               </h1>
               <p className="text-[#666666] text-sm sm:text-lg lg:text-xl max-w-2xl">
                 Programe-se para as próximas noites inesquecíveis ou explore nosso histórico de edições épicas.
