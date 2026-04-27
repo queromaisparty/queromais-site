@@ -104,8 +104,8 @@ export const translations = {
   home: {
     heroTitle: {
       pt: 'QUERO MAIS',
-      en: 'WANT MORE',
-      es: 'QUIERO MÁS'
+      en: 'QUERO MAIS',
+      es: 'QUERO MAIS'
     },
     heroSubtitle: {
       pt: 'Experiências que transcendem',
@@ -115,11 +115,11 @@ export const translations = {
     heroDescription: {
       pt: 'Vive momentos únicos e inesquecíveis com a Quero Mais. Festas, música e energia que transformam suas noites em memórias eternas.',
       en: 'Live unique and unforgettable moments with Quero Mais. Parties, music and energy that transform your nights into eternal memories.',
-      es: 'Vive momentos únicos e inolvidables con Quero Más. Fiestas, música y energía que transforman tus noches en recuerdos eternos.'
+      es: 'Vive momentos únicos e inolvidables con Quero Mais. Fiestas, música y energía que transforman tus noches en recuerdos eternos.'
     },
     upcomingEvents: {
       pt: 'Agenda Quero Mais',
-      en: 'Quero Mais Schedule',
+      en: 'Agenda Quero Mais',
       es: 'Agenda Quero Mais'
     },
     eventsDescription: {
@@ -133,8 +133,8 @@ export const translations = {
   events: {
     title: {
       pt: 'AGENDA QUERO MAIS',
-      en: 'QUERO MAIS SCHEDULE',
-      es: 'AGENDA QUERO MÁS'
+      en: 'AGENDA QUERO MAIS',
+      es: 'AGENDA QUERO MAIS'
     },
     subtitle: {
       pt: 'Fique por dentro de tudo que está por vir',
@@ -173,7 +173,7 @@ export const translations = {
     subtitle: {
       pt: 'O after oficial da Quero Mais',
       en: 'The official Quero Mais after party',
-      es: 'El after oficial de Quero Más'
+      es: 'El after oficial de Quero Mais'
     },
     description: {
       pt: 'A festa continua quando o sol nasce. Momentos especiais para quem não quer que a noite acabe.',
@@ -231,7 +231,7 @@ export const translations = {
     description: {
       pt: 'Sinta a energia da Quero Mais em qualquer lugar. Nossos DJs residentes trazem o melhor da música eletrônica.',
       en: 'Feel the energy of Quero Mais anywhere. Our resident DJs bring the best of electronic music.',
-      es: 'Siente la energía de Quero Más en cualquier lugar. Nuestros DJs residentes traen lo mejor de la música electrónica.'
+      es: 'Siente la energía de Quero Mais en cualquier lugar. Nuestros DJs residentes traen lo mejor de la música electrónica.'
     },
     djs: {
       pt: 'Nossos DJs',

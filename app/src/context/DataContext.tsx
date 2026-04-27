@@ -187,7 +187,7 @@ const defaultContactInfo: ContactInfo = {
   address: 'RIO DE JANEIRO - RJ' 
 };
 const defaultSiteConfig: SiteConfig = { 
-  siteName: { pt: 'Quero Mais Day Party', en: 'Want More Day Party', es: 'Quiero Más Day Party' }, 
+  siteName: { pt: 'Quero Mais Day Party', en: 'Quero Mais Day Party', es: 'Quero Mais Day Party' }, 
   siteDescription: { pt: 'Experiência Imersiva | Estética | Música', en: 'Immersive Experience | Aesthetics | Music', es: 'Experiencia Inmersiva | Estética | Música' }, 
   logo: '/logo.png', 
   favicon: '/favicon.ico', 
@@ -198,7 +198,7 @@ const defaultSiteConfig: SiteConfig = {
     { platform: 'facebook', url: 'https://facebook.com/queromaisparty' }
   ], 
   seo: { 
-    title: {pt: 'Quero Mais Day Party | PRÓXIMAS EXPERIÊNCIAS', en: 'Want More Day Party | UPCOMING EXPERIENCES', es: 'Quiero Más Day Party | PRÓXIMAS EXPERIENCIAS'}, 
+    title: {pt: 'Quero Mais Day Party | PRÓXIMAS EXPERIÊNCIAS', en: 'Quero Mais Day Party | UPCOMING EXPERIENCES', es: 'Quero Mais Day Party | PRÓXIMAS EXPERIENCIAS'}, 
     description: {pt: 'A maior experiência de day party do Rio de Janeiro. Confira nossas próximas experiências, compre ingressos e viva a metamorfose.', en: 'The greatest day party experience in Rio. Check our schedule and buy tickets.', es: 'La mejor experiencia de day party en Río. Consulta nuestra agenda y compra entradas.'}, 
     keywords: 'festa, rio de janeiro, day party, música eletrônica, eventos, quero mais', 
     ogImage: '/og-image.jpg'

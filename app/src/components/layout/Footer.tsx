@@ -92,7 +92,7 @@ export function Footer({ onAdminClick }: FooterProps) {
               {t({ pt: 'Navegação', en: 'Navigation', es: 'Navegación' })}
             </h3>
             <ul className="space-y-3">
-              {navLinks.filter(link => !(link.href === '/loja' && siteConfig?.hero?.showShop === false)).map((link) => (
+              {navLinks.filter(link => !(link.href === '/loja' && siteConfig?.showShop === false)).map((link) => (
                 <li key={link.href}>
                   <Link
                     to={link.href}

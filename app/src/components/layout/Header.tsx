@@ -30,7 +30,7 @@ export function Header() {
   const activeSection = location.pathname;
 
   const navItems = baseNavItems.filter(item => {
-    if (item.href === '/loja' && siteConfig.hero?.showShop === false) return false;
+    if (item.href === '/loja' && siteConfig.showShop === false) return false;
     return true;
   });
 
