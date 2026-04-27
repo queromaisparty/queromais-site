@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useData } from '@/context/DataContext';
 import { Link, useLocation } from 'react-router-dom';
 
-const navItems = [
+const baseNavItems = [
   { href: '/',          label: { pt: 'Home',              en: 'Home',          es: 'Inicio'    } },
   { href: '/eventos',   label: { pt: 'Agenda',  en: 'Schedule', es: 'Agenda' } },
   { href: '/fica-mais', label: { pt: 'Fica Mais Party',   en: 'Fica Mais',     es: 'Fica Mais' } },
@@ -22,10 +23,16 @@ const langs = [
 
 export function Header() {
   const { t, currentLanguage, setLanguage } = useLanguage();
+  const { siteConfig } = useData();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const activeSection = location.pathname;
+
+  const navItems = baseNavItems.filter(item => {
+    if (item.href === '/loja' && siteConfig.showShop === false) return false;
+    return true;
+  });
 
   useEffect(() => {
     const onScroll = () => {

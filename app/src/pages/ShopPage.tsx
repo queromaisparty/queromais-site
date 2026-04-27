@@ -1,16 +1,24 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ShoppingBag, ArrowRight, Star, ShoppingCart, Ticket, Plus, Minus, Trash2, CreditCard } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
+import { useNavigate } from 'react-router-dom';
 import type { Product } from '@/types';
 
 type CartItem = { id: string; name: string; price: number; image: string; quantity: number };
 
 export function ShopPage() {
   const { t } = useLanguage();
-  const { products, getUpcomingEvents, contactInfo } = useData();
+  const { products, getUpcomingEvents, contactInfo, siteConfig } = useData();
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<'todos' | 'vestuario' | 'acessorios' | 'tickets'>('todos');
   
+  useEffect(() => {
+    if (siteConfig?.showShop === false) {
+      navigate('/', { replace: true });
+    }
+  }, [siteConfig?.showShop, navigate]);
+
   // Carrinho no localStorage
   const [cart, setCart] = useState<CartItem[]>(() => {
     if (typeof window === 'undefined') return [];

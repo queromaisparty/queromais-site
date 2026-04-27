@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { uploadImage } from '@/lib/supabase';
 import { optimizeImage } from '@/lib/imageProcessor';
 export function AdminShop() {
-  const { products, addProduct, updateProduct, deleteProduct } = useData();
+  const { products, addProduct, updateProduct, deleteProduct, siteConfig, updateSiteConfig } = useData();
   const [isEditing, setIsEditing] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({
     name: { pt: '', en: '', es: '' },
@@ -123,6 +123,12 @@ export function AdminShop() {
     toast.success(`Produto marcado como ${newStatus === 'active' ? 'Ativo' : 'Inativo'}`);
   };
 
+  const toggleShopVisibility = () => {
+    const newVal = siteConfig.showShop === false ? true : false;
+    updateSiteConfig({ showShop: newVal });
+    toast.success(`Loja ${newVal ? 'ativada' : 'desativada'} no site público.`);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -132,14 +138,27 @@ export function AdminShop() {
           </h2>
           <p className="text-white/60 mt-1">Controle do catálogo de produtos oficiais.</p>
         </div>
-        {!isEditing && (
-          <button
-            onClick={() => { resetForm(); setIsEditing(true); }}
-            className="flex items-center gap-2 bg-admin-accent text-white px-4 py-2 rounded-lg font-bold hover:bg-admin-accent-dark transition-colors"
-          >
-            <Plus className="w-5 h-5" /> Novo Produto
-          </button>
-        )}
+        <div className="flex items-center gap-4">
+          <label className="flex items-center gap-2 cursor-pointer bg-white/[0.05] border border-white/10 px-4 py-2 rounded-lg hover:bg-white/[0.1] transition-colors">
+            <input
+              type="checkbox"
+              checked={siteConfig.showShop !== false}
+              onChange={toggleShopVisibility}
+              className="w-4 h-4 accent-admin-accent"
+            />
+            <span className="text-sm font-bold text-white uppercase tracking-wider">
+              Loja Visível no Site
+            </span>
+          </label>
+          {!isEditing && (
+            <button
+              onClick={() => { resetForm(); setIsEditing(true); }}
+              className="flex items-center gap-2 bg-admin-accent text-white px-4 py-2 rounded-lg font-bold hover:bg-admin-accent-dark transition-colors"
+            >
+              <Plus className="w-5 h-5" /> Novo Produto
+            </button>
+          )}
+        </div>
       </div>
 
       {isEditing ? (

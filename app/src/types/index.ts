@@ -382,6 +382,7 @@ export interface SiteConfig {
     mobile: { url: string; upload: string };
     fallbackImage: string;
   };
+  showShop?: boolean;
 }
 
 export interface SEOConfig {

@@ -205,10 +205,10 @@ const defaultSiteConfig: SiteConfig = {
   }, 
   hero: { 
     active: true, 
-    desktop: { url: '/steampunk.mp4', upload: '' }, 
     mobile: { url: '/steampunk.mp4', upload: '' }, 
     fallbackImage: '/hero-poster.jpg' 
-  } 
+  },
+  showShop: true
 };
 
 function useOptimisticCRUD<T extends { id: string }>(table: string, setState: React.Dispatch<React.SetStateAction<T[]>>) {
@@ -312,13 +312,19 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           fetchTable('banners', setBanners),
           fetchTable('gallery_videos_new', setGalleryVideos),
 
-          // Config do site (antes rodava SEQUENCIAL depois do Promise.all)
           supabase.from('site_config').select('*').limit(1).single().then(({ data: config }) => {
             if (config && mounted) {
               siteConfigIdRef.current = config.id;
               if (config.primary_color) localStorage.setItem('@QueroMais:primaryColor', config.primary_color);
               if (config.secondary_color) localStorage.setItem('@QueroMais:secondaryColor', config.secondary_color);
-              setSiteConfig(mapFromDB(config));
+              
+              const mappedConfig = mapFromDB(config);
+              // Recupera showShop que foi guardado dentro de hero para evitar quebrar o schema do BD
+              if (config.hero && typeof config.hero.showShop !== 'undefined') {
+                mappedConfig.showShop = config.hero.showShop;
+              }
+              
+              setSiteConfig(mappedConfig);
               if (config.fica_mais_party) setFicaMaisParty(mapFromDB(config.fica_mais_party));
               if (config.storytelling) {
                 const dbS = mapFromDB(config.storytelling);
@@ -395,9 +401,17 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         console.error('❌ Sem ID de site_config — execute a migration SQL no Supabase!');
         return;
       }
+      
+      // Evita quebrar o banco caso a coluna show_shop não exista. Salva o valor dentro do JSONB 'hero'
+      const dataToSave: any = { ...data };
+      if ('showShop' in dataToSave) {
+        dataToSave.hero = { ...(siteConfig.hero || {}), showShop: dataToSave.showShop };
+        delete dataToSave.showShop;
+      }
+
       const { error } = await supabase
         .from('site_config')
-        .update(mapToDB(data))
+        .update(mapToDB(dataToSave))
         .eq('id', configId);
       if (error) {
         console.error('❌ Erro ao salvar site_config:', error);
@@ -405,7 +419,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         console.log('✅ site_config salvo com sucesso:', Object.keys(data));
       }
     } catch (e) { console.error('Exceção updateSiteConfig:', e); }
-  }, []);
+  }, [siteConfig]);
 
   const updateFicaMaisParty = useCallback(async (data: Partial<FicaMaisParty>) => {
     setFicaMaisParty(prev => {
