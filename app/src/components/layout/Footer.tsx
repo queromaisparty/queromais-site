@@ -62,7 +62,7 @@ export function Footer({ onAdminClick }: FooterProps) {
             {/* Redes Sociais */}
             <div className="mt-6 flex items-center gap-3">
               <a
-                href={`https://instagram.com/${contactInfo.instagram?.replace('@', '')}`}
+                href={siteConfig.socialLinks?.find(link => link.platform === 'instagram')?.url || `https://instagram.com/${contactInfo.instagram?.replace('@', '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-md bg-white/8 border border-white/10 flex items-center justify-center text-white/50 hover:bg-qm-magenta hover:text-white hover:border-qm-magenta transition-all"
