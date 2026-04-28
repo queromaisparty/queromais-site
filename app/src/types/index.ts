@@ -27,7 +27,7 @@ export interface AdminUser {
 // INGRESSOS — multi-plataforma
 // ============================================
 
-export type TicketPlatform = 'sympla' | 'ingresse' | 'shotgun' | 'bilheteria_digital' | 'custom';
+export type TicketPlatform = 'sympla' | 'ingresse' | 'shotgun' | 'bilheteria_digital' | 'guedder' | 'custom';
 
 export interface TicketLink {
   id: string;

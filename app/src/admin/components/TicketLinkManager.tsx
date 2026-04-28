@@ -15,6 +15,7 @@ const PLATFORMS: { value: TicketPlatform; label: string; colorClass: string; bgC
   { value: 'ingresse',           label: 'Ingresse',           colorClass: 'text-red-600',    bgClass: 'bg-red-50',    borderClass: 'border-red-200' },
   { value: 'shotgun',            label: 'Shotgun',            colorClass: 'text-amber-600',  bgClass: 'bg-amber-50',  borderClass: 'border-amber-200' },
   { value: 'bilheteria_digital', label: 'Bilheteria Digital', colorClass: 'text-emerald-600',bgClass: 'bg-emerald-50',borderClass: 'border-emerald-200' },
+  { value: 'guedder',            label: 'Guedder',            colorClass: 'text-fuchsia-600',bgClass: 'bg-fuchsia-50',borderClass: 'border-fuchsia-200' },
   { value: 'custom',             label: 'Link Personalizado', colorClass: 'text-slate-600',  bgClass: 'bg-slate-100', borderClass: 'border-slate-200' },
 ];
 
@@ -23,6 +24,7 @@ const PLATFORM_LABELS: Record<TicketPlatform, string> = {
   ingresse:           'Ingresse',
   shotgun:            'Shotgun',
   bilheteria_digital: 'Bilheteria Digital',
+  guedder:            'Guedder',
   custom:             'Link Personalizado',
 };
 
@@ -62,7 +64,7 @@ export function TicketLinkManager({ links, onChange }: TicketLinkManagerProps) {
             <LinkIcon className="w-4 h-4 text-slate-400" />
             Links de Ingresso
           </label>
-          <p className="text-[11px] text-slate-400 mt-0.5">Sympla, Ingresse, Shotgun...</p>
+          <p className="text-[11px] text-slate-400 mt-0.5">Sympla, Ingresse, Guedder, Shotgun...</p>
         </div>
         <button
           type="button"
