@@ -175,16 +175,13 @@ export function Footer({ onAdminClick }: FooterProps) {
 
       {/* Bottom bar */}
       <div className="border-t border-white/8">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/30 text-xs font-sans">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col items-center justify-center gap-2">
+          <p className="text-white/30 text-xs font-sans text-center">
             © {new Date().getFullYear()} Quero Mais. {t({ pt: 'Todos os direitos reservados.', en: 'All rights reserved.', es: 'Todos los derechos reservados.' })}
           </p>
-          <button
-            onClick={onAdminClick}
-            className="text-white/25 hover:text-[var(--primary-color)] text-xs transition-colors font-sans"
-          >
-            {t({ pt: 'Área Administrativa', en: 'Admin Area', es: 'Área Administrativa' })}
-          </button>
+          <p className="text-white/20 text-[10px] font-sans text-center uppercase tracking-wider">
+            Desenvolvido por: <a href="https://www.fontesgraphicsdesign.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-white/40 transition-colors">Fontes Graphics (www.fontesgraphicsdesign.com.br)</a>
+          </p>
         </div>
       </div>
     </footer>
