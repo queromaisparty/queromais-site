@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { AuthProvider } from '@/context/AuthContext';
@@ -78,6 +78,19 @@ function SiteEngine() {
   return null;
 }
 
+function AdminRouteHandler({ onTrigger }: { onTrigger: () => void }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Quando acessar a rota /admin, limpa a URL via React Router
+    // e muda o estado (view) para mostrar o login
+    navigate('/', { replace: true });
+    onTrigger();
+  }, [navigate, onTrigger]);
+
+  return null;
+}
+
 function App() {
   const [currentView, setCurrentView] = useState<View>(() => {
     return (localStorage.getItem('@QueroMais:view') as View) || 'website';
@@ -94,12 +107,9 @@ function App() {
     localStorage.setItem('@QueroMais:adminSection', adminSection);
   }, [adminSection]);
 
-  useEffect(() => {
-    if (window.location.pathname === '/admin') {
-      window.history.replaceState(null, '', '/');
-      setCurrentView(prev => prev === 'admin-dashboard' ? 'admin-dashboard' : 'admin-login');
-    }
-  }, []);
+  const handleAdminRoute = () => {
+    setCurrentView(prev => prev === 'admin-dashboard' ? 'admin-dashboard' : 'admin-login');
+  };
 
   const handleAdminClick = () => setCurrentView('admin-login');
   const handleAdminLogin = () => setCurrentView('admin-dashboard');
@@ -128,7 +138,7 @@ function App() {
               <Route path="/loja" element={<ShopPage />} />
               <Route path="/contato" element={<ContactPage />} />
               <Route path="/faq" element={<FAQPage />} />
-              <Route path="/admin" element={null} />
+              <Route path="/admin" element={<AdminRouteHandler onTrigger={handleAdminRoute} />} />
             </Route>
           </Routes>
         </DataProvider>
