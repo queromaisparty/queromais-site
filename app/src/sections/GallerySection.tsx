@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Camera, Download, X, Link2, Youtube, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
@@ -262,11 +262,17 @@ export function GallerySection() {
                       onClick={() => setActiveVideo(video)}
                     >
                       <div className="aspect-video bg-gray-100 relative overflow-hidden">
-                        <img 
-                          src={video.thumbnailUrl} 
-                          alt={t(video.title)} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                        />
+                        {video.thumbnailUrl ? (
+                          <img 
+                            src={video.thumbnailUrl} 
+                            alt={t(video.title)} 
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-900 flex items-center justify-center">
+                            <Youtube className="w-8 h-8 text-gray-700" />
+                          </div>
+                        )}
                         <div className="absolute inset-0 bg-black/40 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                           <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
                             <Play className="w-5 h-5 text-red-600 fill-red-600 ml-1" />

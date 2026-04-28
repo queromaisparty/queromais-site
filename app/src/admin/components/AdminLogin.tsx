@@ -83,6 +83,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   onChange={e => setEmail(e.target.value)}
                   placeholder="admin@queromais.com"
                   required
+                  autoComplete="username"
                   className="w-full pl-10 pr-4 py-2.5 text-sm md:text-base rounded-xl outline-none transition-all"
                   style={{
                     background: '#F9FAFB',
@@ -108,6 +109,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
+                  autoComplete="current-password"
                   className="w-full pl-10 pr-11 py-2.5 text-sm md:text-base rounded-xl outline-none transition-all"
                   style={{ background: '#F9FAFB', border: '1px solid #E8E8ED', color: '#1A1A2E' }}
                   onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--primary-color, #E91E8C)'; (e.target as HTMLElement).style.boxShadow = '0 0 0 3px rgba(233,30,140,0.08)'; }}

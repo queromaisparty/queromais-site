@@ -128,6 +128,7 @@ function App() {
               <Route path="/loja" element={<ShopPage />} />
               <Route path="/contato" element={<ContactPage />} />
               <Route path="/faq" element={<FAQPage />} />
+              <Route path="/admin" element={null} />
             </Route>
           </Routes>
         </DataProvider>

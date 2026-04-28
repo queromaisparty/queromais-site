@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useData } from '@/context/DataContext';
 import { Camera, ImageIcon, ChevronLeft, Calendar, Download, Share2, Link2, Youtube, Play, X } from 'lucide-react';
 import type { GalleryAlbum } from '@/types';
@@ -87,7 +87,13 @@ export function VoceNaQMPage() {
                         </div>
                       )}
                       <div className="relative aspect-[4/3] overflow-hidden">
-                          <img src={album.coverImage} alt={album.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                          {album.coverImage ? (
+                            <img src={album.coverImage} alt={album.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                          ) : (
+                            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                              <ImageIcon className="w-10 h-10 text-gray-400" />
+                            </div>
+                          )}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
                           
                           {album.type === 'internal' && (
@@ -124,11 +130,17 @@ export function VoceNaQMPage() {
                       onClick={() => setSelectedVideo(video)}
                     >
                       <div className="relative aspect-video overflow-hidden bg-black">
-                        <img 
-                          src={video.thumbnailUrl} 
-                          alt={video.title.pt} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80"
-                        />
+                        {video.thumbnailUrl ? (
+                          <img 
+                            src={video.thumbnailUrl} 
+                            alt={video.title.pt} 
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-900 flex items-center justify-center opacity-80">
+                            <Youtube className="w-10 h-10 text-gray-700" />
+                          </div>
+                        )}
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="w-16 h-16 rounded-full bg-red-600 text-white flex items-center justify-center shadow-2xl transform scale-90 group-hover:scale-100 transition-transform">
                             <Play className="w-8 h-8 fill-white ml-1" />
@@ -180,7 +192,13 @@ export function VoceNaQMPage() {
                    onClick={() => setSelectedPhoto(img.url)}
                    className="break-inside-avoid relative group rounded-none overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all"
                  >
-                    <img src={img.url} alt={`Foto ${idx+1}`} className="w-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
+                    {img.url ? (
+                      <img src={img.url} alt={`Foto ${idx+1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" />
+                    ) : (
+                      <div className="w-full aspect-[4/3] bg-gray-200 flex items-center justify-center">
+                        <ImageIcon className="w-10 h-10 text-gray-400" />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                        <div className="bg-white text-black font-bold uppercase text-xs px-4 py-2 rounded-none transform translate-y-4 group-hover:translate-y-0 transition-all">
                          Ampliar
