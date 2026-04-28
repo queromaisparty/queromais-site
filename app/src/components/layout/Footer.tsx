@@ -179,8 +179,8 @@ export function Footer({ onAdminClick }: FooterProps) {
           <p className="text-white/30 text-xs font-sans text-center">
             © {new Date().getFullYear()} Quero Mais. {t({ pt: 'Todos os direitos reservados.', en: 'All rights reserved.', es: 'Todos los derechos reservados.' })}
           </p>
-          <p className="text-white/20 text-[10px] font-sans text-center uppercase tracking-wider">
-            Desenvolvido por: <a href="https://www.fontesgraphicsdesign.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-white/40 transition-colors">Fontes Graphics (www.fontesgraphicsdesign.com.br)</a>
+          <p className="text-white/20 text-[10px] font-sans text-center tracking-wider">
+            Desenvolvido por: <a href="https://www.fontesgraphicsdesign.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-white/40 transition-colors">Fontes Graphics</a>
           </p>
         </div>
       </div>
