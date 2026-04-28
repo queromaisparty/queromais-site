@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Camera, Download, X, Link2, Youtube, Play } from 'lucide-react';
+import { Camera, Download, X, Link2, Youtube, Play, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import { useData } from '@/context/DataContext';
@@ -175,20 +175,34 @@ export function GallerySection() {
               </div>
               <p className="text-gray-400 text-sm mb-4">
                 {t({
-                  pt: 'Digite seu nome ou código do evento para buscar suas fotos.',
-                  en: 'Enter your name or event code to find your photos.',
-                  es: 'Ingresa tu nombre o código del evento para buscar tus fotos.'
+                  pt: 'Selecione o evento abaixo para acessar as fotos oficiais.',
+                  en: 'Select the event below to access the official photos.',
+                  es: 'Seleccione el evento a continuación para acceder a las fotos oficiales.'
                 })}
               </p>
-              <div className="flex gap-3">
-                <input
-                  type="text"
-                  placeholder={t({ pt: 'Nome ou código...', en: 'Name or code...', es: 'Nombre o código...' })}
-                  className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-qm-magenta focus:ring-1 focus:ring-qm-magenta transition-colors"
-                />
-                <button className="px-5 py-2.5 bg-[#111] text-white font-semibold text-sm rounded-none hover:bg-[#222] transition-colors">
-                  {t({ pt: 'Buscar', en: 'Search', es: 'Buscar' })}
-                </button>
+              <div className="flex flex-col gap-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                {filteredAlbums.length === 0 ? (
+                  <p className="text-sm text-gray-500 py-4 text-center">Nenhum álbum disponível no momento.</p>
+                ) : (
+                  filteredAlbums.map(album => (
+                    <Link
+                      key={album.id}
+                      to="/vocenaqm"
+                      className="flex items-center justify-between p-3 bg-white border border-gray-200 hover:border-qm-magenta hover:shadow-sm transition-all group"
+                      onClick={(e) => {
+                         if(album.type === 'external' && album.externalLink) {
+                            e.preventDefault();
+                            window.open(album.externalLink, '_blank');
+                         }
+                      }}
+                    >
+                      <span className="text-sm font-bold text-gray-900 group-hover:text-qm-magenta transition-colors uppercase tracking-tight">
+                        {t(album.title as any)}
+                      </span>
+                      <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-qm-magenta transition-colors" />
+                    </Link>
+                  ))
+                )}
               </div>
             </div>
           )}
