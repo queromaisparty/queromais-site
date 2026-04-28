@@ -182,6 +182,7 @@ function App() {
                 currentSection={adminSection as Parameters<typeof AdminDashboard>[0]['currentSection']}
                 onSectionChange={(s) => setAdminSection(s as AdminSection)}
                 onLogout={handleAdminLogout}
+                onGoToSite={() => setCurrentView('website')}
               />
             </div>
           </LanguageProvider>

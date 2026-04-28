@@ -11,7 +11,8 @@ import {
   Settings,
   LogOut,
   Users,
-  ChevronRight
+  ChevronRight,
+  ExternalLink
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useData } from '@/context/DataContext';
@@ -49,9 +50,10 @@ interface AdminDashboardProps {
   currentSection: AdminSection;
   onSectionChange: (section: AdminSection) => void;
   onLogout: () => void;
+  onGoToSite?: () => void;
 }
 
-export function AdminDashboard({ currentSection, onSectionChange, onLogout }: AdminDashboardProps) {
+export function AdminDashboard({ currentSection, onSectionChange, onLogout, onGoToSite }: AdminDashboardProps) {
   const { user, logout, isAuthenticated, isLoading } = useAuth();
   const { t } = useLanguage();
   const { events, products, galleryAlbums, djs } = useData();
@@ -170,6 +172,15 @@ export function AdminDashboard({ currentSection, onSectionChange, onLogout }: Ad
               <p className="text-xs text-slate-500 truncate">{user?.email}</p>
             </div>
           </div>
+          {onGoToSite && (
+            <button
+              onClick={onGoToSite}
+              className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 mb-2"
+            >
+              <ExternalLink className="w-4 h-4" />
+              <span>{t({ pt: 'Voltar ao Site', en: 'Back to Site', es: 'Volver al Sitio' })}</span>
+            </button>
+          )}
           <button
             onClick={handleLogout}
             className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-red-600 bg-red-50 hover:bg-red-100"
