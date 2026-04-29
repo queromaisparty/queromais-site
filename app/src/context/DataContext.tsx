@@ -183,7 +183,7 @@ const defaultContactInfo: ContactInfo = {
   email: 'contato@queromaisparty.com.br', 
   phone: '(21) 97259-6991', 
   whatsapp: '21972596991', 
-  instagram: '@queromaisparty', 
+  instagram: '@queromaisdayparty', 
   address: 'RIO DE JANEIRO - RJ' 
 };
 const defaultSiteConfig: SiteConfig = { 
@@ -194,7 +194,7 @@ const defaultSiteConfig: SiteConfig = {
   primaryColor: '#E91E8C', 
   secondaryColor: '#D81B80', 
   socialLinks: [
-    { platform: 'instagram', url: 'https://instagram.com/queromaisparty' },
+    { platform: 'instagram', url: 'https://www.instagram.com/queromaisdayparty/' },
     { platform: 'facebook', url: 'https://facebook.com/queromaisparty' }
   ], 
   seo: { 
