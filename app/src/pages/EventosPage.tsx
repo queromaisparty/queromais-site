@@ -118,7 +118,7 @@ export function EventosPage() {
                   <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm sm:text-base font-medium text-gray-200">
                     <span className="flex items-center gap-2">
                       <Calendar className="w-5 h-5 text-qm-magenta" />
-                      {new Date(featuredEvent.date).toLocaleDateString('pt-BR')}
+                      {new Date((featuredEvent.date.includes('T') ? featuredEvent.date.slice(0, 10) : featuredEvent.date) + 'T12:00:00').toLocaleDateString('pt-BR')}
                     </span>
                     <span className="flex items-center gap-2">
                       <MapPin className="w-5 h-5 text-qm-magenta" />
