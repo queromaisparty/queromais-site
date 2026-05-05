@@ -1,12 +1,13 @@
 import { useState, useRef } from 'react';
 import { useData } from '@/context/DataContext';
 import type { TimelineItem, StatItem } from '@/types';
-import { Plus, Trash2, ChevronUp, ChevronDown, Save, Image, Upload, X, Loader2, Info } from 'lucide-react';
+import { Plus, Trash2, ChevronUp, ChevronDown, Save, Image, Upload, X, Loader2, Info, User } from 'lucide-react';
 import { uploadImage } from '@/lib/supabase';
 import { optimizeImage } from '@/lib/imageProcessor';
+import { useFounderProfile } from '@/hooks/useFounderProfile';
 import { toast } from 'sonner';
 
-type Tab = 'abertura' | 'stats' | 'origem' | 'essencia' | 'borboleta' | 'narrativa' | 'home' | 'cta';
+type Tab = 'abertura' | 'stats' | 'origem' | 'essencia' | 'borboleta' | 'fundador' | 'narrativa' | 'home' | 'cta';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'abertura',  label: 'Abertura' },
@@ -14,6 +15,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'origem',    label: 'Origem' },
   { id: 'essencia',  label: 'Essência' },
   { id: 'borboleta', label: 'Borboleta' },
+  { id: 'fundador',  label: 'Fundador' },
   { id: 'narrativa', label: 'Timeline' },
   { id: 'home',      label: 'Home' },
   { id: 'cta',       label: 'Sub-Menu/CTA' },
@@ -476,12 +478,158 @@ export function AdminSobre() {
     );
   }
 
-  const tabContent = {
+  // ── Tab: Fundador ──────────────────────────────────────────
+  function TabFundador() {
+    const { founder, updateFounder } = useFounderProfile();
+    const [eyebrow, setEyebrow] = useState(founder.eyebrow);
+    const [name, setName] = useState(founder.name);
+    const [role, setRole] = useState(founder.role);
+    const [bio, setBio] = useState(founder.bio);
+    const [photoUrl, setPhotoUrl] = useState(founder.photoUrl);
+    const [photoAlt, setPhotoAlt] = useState(founder.photoAlt);
+    const [isActive, setIsActive] = useState(founder.isActive);
+    const fileRef = useRef<HTMLInputElement>(null);
+    const [uploading, setUploading] = useState(false);
+
+    // Sync state when founder data loads from DB
+    const syncedRef = useRef(false);
+    if (!syncedRef.current && founder.id) {
+      syncedRef.current = true;
+      if (founder.eyebrow !== eyebrow) setEyebrow(founder.eyebrow);
+      if (founder.name !== name) setName(founder.name);
+      if (founder.role !== role) setRole(founder.role);
+      if (founder.bio !== bio) setBio(founder.bio);
+      if (founder.photoUrl !== photoUrl) setPhotoUrl(founder.photoUrl);
+      if (founder.photoAlt !== photoAlt) setPhotoAlt(founder.photoAlt);
+      if (founder.isActive !== isActive) setIsActive(founder.isActive);
+    }
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      setUploading(true);
+      try {
+        const optimizedFile = await optimizeImage(file, { maxWidth: 1200, quality: 0.82, format: 'image/webp' });
+        const url = await uploadImage(optimizedFile, 'about/founder');
+        setPhotoUrl(url);
+        toast.success('Foto do fundador enviada com sucesso.');
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : 'Erro no upload da foto.');
+      } finally {
+        setUploading(false);
+        if (fileRef.current) fileRef.current.value = '';
+      }
+    };
+
+    const handleSave = () => {
+      updateFounder({ eyebrow, name, role, bio, photoUrl, photoAlt, isActive });
+      toast.success('Perfil do Fundador atualizado com sucesso.');
+    };
+
+    return (
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-purple-50 border border-purple-100 mb-2">
+           <User className="w-5 h-5 text-purple-500 shrink-0 mt-0.5" />
+           <p className="text-sm font-medium text-purple-800">
+             Perfil editorial do fundador. Aparece na página <strong>/sobre</strong> como seção própria.
+           </p>
+        </div>
+
+        {/* Toggle Ativo */}
+        <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl">
+          <div>
+            <label className={fieldStyle.label}>Seção Ativa</label>
+            <p className="text-xs text-slate-400 mt-0.5">Desative para ocultar a seção no site sem perder os dados.</p>
+          </div>
+          <button
+            onClick={() => setIsActive(!isActive)}
+            className={`relative w-12 h-7 rounded-full transition-colors duration-200 ${isActive ? 'bg-admin-accent' : 'bg-slate-300'}`}
+          >
+            <span className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform duration-200 ${isActive ? 'translate-x-5' : 'translate-x-0'}`} />
+          </button>
+        </div>
+
+        <div>
+          <label className={fieldStyle.label}>Eyebrow / Categoria</label>
+          <input className={fieldStyle.input} value={eyebrow} onChange={e => setEyebrow(e.target.value)} placeholder="Founder & Creative Director" />
+        </div>
+        <div>
+          <label className={fieldStyle.label}>Nome</label>
+          <input className={fieldStyle.input} value={name} onChange={e => setName(e.target.value)} placeholder="LUCAS BORGES" />
+        </div>
+        <div>
+          <label className={fieldStyle.label}>Cargo / Posição</label>
+          <input className={fieldStyle.input} value={role} onChange={e => setRole(e.target.value)} placeholder="Founder & Creative Director — QUERO MAIS GROUP" />
+        </div>
+        <div>
+          <label className={fieldStyle.label}>Bio / Texto Editorial</label>
+          <textarea className={fieldStyle.textarea} rows={10} value={bio} onChange={e => setBio(e.target.value)} placeholder="Texto editorial do fundador..." />
+          <p className="text-[10px] text-slate-400 mt-1 pl-1">Separe parágrafos com uma linha em branco para formatar corretamente no site.</p>
+        </div>
+
+        {/* Foto */}
+        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+          <label className={fieldStyle.label}>Foto do Fundador</label>
+          <div className="space-y-4">
+            {photoUrl ? (
+              <div className="relative w-full aspect-[3/4] max-h-72 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 group">
+                <img src={photoUrl} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/30 transition-colors" />
+                <button
+                  type="button"
+                  onClick={() => setPhotoUrl('')}
+                  className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm text-red-500 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white border border-red-100/50 shadow-sm"
+                  title="Remover foto"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div className="w-full aspect-[3/4] max-h-72 rounded-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 bg-slate-50 text-slate-400">
+                <User className="w-10 h-10 text-slate-300" />
+                <span className="text-[10px] font-bold uppercase tracking-wider">Sem Foto do Fundador</span>
+              </div>
+            )}
+            <div className="flex gap-2">
+              <input
+                type="url"
+                className={fieldStyle.input}
+                value={photoUrl}
+                onChange={e => setPhotoUrl(e.target.value)}
+                placeholder="Cole uma URL externa..."
+              />
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+                className="shrink-0 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-sm font-bold hover:text-admin-accent hover:border-admin-accent transition-all shadow-sm disabled:opacity-50 min-w-[120px]"
+                title="Upload Local"
+              >
+                {uploading ? <Loader2 className="w-4 h-4 animate-spin text-admin-accent" /> : <Upload className="w-4 h-4" />}
+                {uploading ? 'Aguarde' : 'Procurar'}
+              </button>
+              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label className={fieldStyle.label}>Alt Text da Imagem (SEO/Acessibilidade)</label>
+          <input className={fieldStyle.input} value={photoAlt} onChange={e => setPhotoAlt(e.target.value)} placeholder="Lucas Borges, Founder & Creative Director" />
+        </div>
+
+        <SaveButton onClick={handleSave} />
+      </div>
+    );
+  }
+
+  const tabContent: Record<Tab, React.ReactNode> = {
     abertura:  <TabAbertura />,
     stats:     <TabStats />,
     origem:    <TabOrigem />,
     essencia:  <TabEssencia />,
     borboleta: <TabBorboleta />,
+    fundador:  <TabFundador />,
     narrativa: <TabNarrativa />,
     home:      <TabHome />,
     cta:       <TabCTA />,

@@ -1,9 +1,11 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useData } from '@/context/DataContext';
+import { useFounderProfile } from '@/hooks/useFounderProfile';
 
 export function SobrePage() {
   const { storytelling } = useData();
   const s = storytelling;
+  const { founder } = useFounderProfile();
 
   const timeline = [...s.timeline].sort((a, b) => a.order - b.order);
   const stats = [...s.stats].sort((a, b) => a.order - b.order);
@@ -12,7 +14,7 @@ export function SobrePage() {
     <main className="pt-32 pb-24 min-h-screen bg-white overflow-hidden">
       
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* BLOCO 1 â€” Hero */}
+        {/* BLOCO 1 — Hero */}
         <div className="text-center mt-8 mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
           <h1 className="font-black text-3xl sm:text-5xl lg:text-6xl text-black uppercase tracking-tighter leading-[0.9] mb-6">
             {s.heroTitle.split(' ').map((word, i, arr) =>
@@ -26,7 +28,7 @@ export function SobrePage() {
           </p>
         </div>
 
-        {/* BLOCO 2 â€” Stats (oculto se vazio) */}
+        {/* BLOCO 2 — Stats (oculto se vazio) */}
         {stats.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-24">
             {stats.map(stat => (
@@ -38,7 +40,7 @@ export function SobrePage() {
           </div>
         )}
 
-        {/* BLOCO 3 â€” Origem e Propósito */}
+        {/* BLOCO 3 — Origem e Propósito */}
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
@@ -65,7 +67,7 @@ export function SobrePage() {
         </div>
       </section>
 
-      {/* BLOCO 4 â€” Essência da Marca */}
+      {/* BLOCO 4 — Essência da Marca */}
       <section className="w-full bg-[#3D4246] py-24 mb-24">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -94,12 +96,12 @@ export function SobrePage() {
       </section>
 
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* BLOCO 5 â€” O Símbolo: A Borboleta */}
+        {/* BLOCO 5 — O Símbolo: A Borboleta */}
         <div className="mb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {s.simboloImage ? (
               <div className="aspect-square overflow-hidden rounded-none">
-                <img src={s.simboloImage} alt="A borboleta â€” símbolo da Quero Mais" className="w-full h-full object-cover" />
+                <img src={s.simboloImage} alt="A borboleta — símbolo da Quero Mais" className="w-full h-full object-cover" />
               </div>
             ) : (
               <div className="aspect-square bg-[#F8F8F8] rounded-none flex items-center justify-center">
@@ -120,7 +122,52 @@ export function SobrePage() {
           </div>
         </div>
 
-        {/* BLOCO 6 â€” Narrativa Contínua */}
+        {/* BLOCO 5.5 — Founder & Creative Director */}
+        {founder.isActive && founder.name && (
+          <div className="mb-24">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-qm-magenta mb-5 font-sans">
+                  {founder.eyebrow || 'Founder & Creative Director'}
+                </p>
+                <h2 className="font-sans font-black text-black uppercase leading-tight tracking-tighter mb-2"
+                    style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
+                  {founder.name}
+                </h2>
+                <p className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-8">
+                  {founder.role}
+                </p>
+                {founder.bio && (
+                  <div className="space-y-4">
+                    {founder.bio.split('\n\n').map((paragraph, idx) => (
+                      <p key={idx} className={idx === 0 ? 'text-gray-600 leading-relaxed' : 'text-gray-500 leading-relaxed text-sm'}>
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {founder.photoUrl ? (
+                <div className="aspect-[3/4] overflow-hidden rounded-none">
+                  <img
+                    src={founder.photoUrl}
+                    alt={founder.photoAlt || founder.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="aspect-[3/4] bg-[#F8F8F8] rounded-none flex flex-col items-center justify-center gap-3">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                    <span className="text-3xl font-black text-gray-400">{founder.name?.charAt(0) || 'F'}</span>
+                  </div>
+                  <span className="text-gray-300 text-sm">Foto em breve</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* BLOCO 6 — Narrativa Contínua */}
         {timeline.length > 0 && (
           <div className="mb-24">
             <div className="text-center mb-14">
@@ -155,7 +202,7 @@ export function SobrePage() {
           </div>
         )}
 
-        {/* BLOCO 7 â€” CTA Final */}
+        {/* BLOCO 7 — CTA Final */}
         <div className="text-center border-t border-gray-100 pt-16">
           <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto">{s.ctaText}</p>
           <Link
@@ -169,5 +216,3 @@ export function SobrePage() {
     </main>
   );
 }
-
-
