@@ -189,7 +189,7 @@ export function SobrePage() {
                     <div className="absolute left-[11px] sm:left-1/2 w-2 h-2 bg-qm-magenta rounded-full sm:-translate-x-1/2 shadow-[0_0_12px_rgba(233,30,140,0.5)]" />
                     <div className="flex-1 ml-10 sm:ml-0">
                       {item.year && (
-                        <div className="text-3xl font-black text-gray-100 mb-1 leading-none">{item.year}</div>
+                        <div className="text-3xl font-black text-qm-magenta/35 mb-1 leading-none">{item.year}</div>
                       )}
                       <h3 className="text-lg font-bold text-black mb-1">{item.title}</h3>
                       <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
