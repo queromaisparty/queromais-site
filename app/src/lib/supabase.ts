@@ -82,26 +82,40 @@ async function compressImage(file: File, maxSize = 1600, quality = 0.8): Promise
   }
 }
 
+// ── Cloudinary (imagens) ─────────────────────────────────────
+// Imagens são servidas pelo CDN do Cloudinary para não consumir
+// egress do Supabase. Cloud name e preset unsigned são públicos
+// por design (upload direto do browser, sem segredo).
+const CLOUDINARY_CLOUD_NAME = 'qsabwf5z';
+const CLOUDINARY_UPLOAD_PRESET = 'queromais_site';
+
 /**
- * Faz upload de uma imagem para o bucket 'site-images' no Supabase Storage.
- * Comprime automaticamente (max 1600px, WEBP) e aplica cache de 30 dias.
- * O bucket deve existir e ser público no painel do Supabase.
- * Retorna a URL pública do arquivo.
+ * Faz upload de uma imagem para o Cloudinary (CDN externo).
+ * Comprime no browser (max 1600px, WEBP) antes de enviar e retorna
+ * URL com f_auto/q_auto (Cloudinary entrega o melhor formato por dispositivo).
+ * Assinatura mantida — todos os módulos do admin continuam iguais.
  */
 export async function uploadImage(file: File, folder = 'geral'): Promise<string> {
   const compressed = await compressImage(file);
-  const ext = compressed.name.split('.').pop() ?? 'jpg';
-  const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-  const { error } = await supabase.storage
-    .from('site-images')
-    .upload(filename, compressed, {
-      upsert: true,
-      contentType: compressed.type,
-      cacheControl: CACHE_CONTROL_30_DIAS,
-    });
-  if (error) throw new Error(error.message);
-  const { data } = supabase.storage.from('site-images').getPublicUrl(filename);
-  return data.publicUrl;
+
+  const formData = new FormData();
+  formData.append('file', compressed);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  formData.append('folder', `site/${folder}`);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error?.message || `Erro no upload (HTTP ${res.status})`);
+  }
+
+  const data = await res.json();
+  // Injeta f_auto,q_auto na URL: otimização automática de formato e qualidade
+  return (data.secure_url as string).replace('/image/upload/', '/image/upload/f_auto,q_auto/');
 }
 
 export async function uploadVideo(file: File, folder = 'hero'): Promise<string> {
