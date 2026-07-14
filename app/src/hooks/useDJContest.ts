@@ -25,6 +25,12 @@ export interface DJContestSettings {
   results_reveal_at: string | null;
   results_public: boolean;
   winner_id: string | null;
+  home_banner_enabled: boolean;
+  home_banner_title: string | null;
+  home_banner_text: string | null;
+  home_banner_image_url: string | null;
+  home_banner_button_label: string | null;
+  home_banner_button_link: string | null;
 }
 
 export function useDJContest() {

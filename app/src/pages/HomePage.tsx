@@ -1,5 +1,6 @@
 import { HeroSection } from '@/sections/HeroSection';
 import { EventsSection } from '@/sections/EventsSection';
+import { HomeDJContestBanner } from '@/sections/HomeDJContestBanner';
 import { FicaMaisSection } from '@/sections/FicaMaisSection';
 import { SobreSection } from '@/sections/SobreSection';
 import { MusicSection } from '@/sections/MusicSection';
@@ -15,6 +16,7 @@ export function HomePage() {
     <main>
       <HeroSection />
       <EventsSection />
+      <HomeDJContestBanner />
       <FicaMaisSection />
       <SobreSection />
       <MusicSection />

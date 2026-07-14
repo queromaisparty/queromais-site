@@ -5,7 +5,8 @@ import type { DJParticipant, DJContestSettings } from '@/hooks/useDJContest';
 import { Download, Plus, Save, Trash2, Edit2, ImageIcon } from 'lucide-react';
 
 export function AdminDJContest() {
-  const [activeTab, setActiveTab] = useState<'participants' | 'settings' | 'results'>('participants');
+  const [activeTab, setActiveTab] = useState<'participants' | 'settings' | 'results' | 'home'>('participants');
+  const [uploadingBanner, setUploadingBanner] = useState(false);
   
   // States
   const [participants, setParticipants] = useState<DJParticipant[]>([]);
@@ -54,6 +55,38 @@ export function AdminDJContest() {
     setLoading(false);
     if (error) toast.error('Erro ao salvar config: ' + error.message);
     else toast.success('Configurações salvas!');
+  };
+
+  const saveHomeBanner = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!settings) return;
+    setLoading(true);
+    const { error } = await supabase.from('dj_contest_settings').update({
+      home_banner_enabled: settings.home_banner_enabled,
+      home_banner_title: settings.home_banner_title,
+      home_banner_text: settings.home_banner_text,
+      home_banner_image_url: settings.home_banner_image_url,
+      home_banner_button_label: settings.home_banner_button_label,
+      home_banner_button_link: settings.home_banner_button_link,
+    }).eq('id', 1);
+    setLoading(false);
+    if (error) toast.error('Erro ao salvar banner: ' + error.message);
+    else toast.success('Banner da Home salvo!');
+  };
+
+  const handleBannerUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !settings) return;
+    try {
+      setUploadingBanner(true);
+      const publicUrl = await uploadImage(file, 'dj-contest-banner');
+      setSettings({ ...settings, home_banner_image_url: publicUrl });
+      toast.success('Imagem enviada com sucesso!');
+    } catch (err: any) {
+      toast.error('Erro ao enviar imagem: ' + err.message);
+    } finally {
+      setUploadingBanner(false);
+    }
   };
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,6 +206,16 @@ export function AdminDJContest() {
           }`}
         >
           Apuração
+        </button>
+        <button
+          onClick={() => setActiveTab('home')}
+          className={`flex-1 py-4 px-6 font-bold text-sm transition-all border-b-2 ${
+            activeTab === 'home'
+              ? 'border-[#E91E8C] text-[#E91E8C] bg-white'
+              : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'
+          }`}
+        >
+          Banner Home
         </button>
       </div>
 
@@ -433,6 +476,70 @@ export function AdminDJContest() {
               Nota: Os resultados listados acima são retornados através de uma View protegida do banco. O acesso é exclusivo para a Role Authenticated. O acesso anônimo falhará (RLS ativado).
             </p>
           </div>
+        )}
+
+        {/* Tab 4: Banner da Home */}
+        {activeTab === 'home' && settings && (
+          <form onSubmit={saveHomeBanner} className="space-y-6 max-w-2xl">
+            <div>
+              <h3 className="text-lg font-bold text-slate-900 mb-1">Banner de Divulgação na Home</h3>
+              <p className="text-slate-500 text-sm">Container exibido na página inicial, entre "Próximas Experiências" e a seção Fica Mais Party.</p>
+            </div>
+
+            <label className="flex items-center gap-3 cursor-pointer select-none p-5 bg-slate-50 border border-slate-200 rounded-xl">
+              <input type="checkbox" checked={settings.home_banner_enabled ?? true} onChange={e => setSettings({...settings, home_banner_enabled: e.target.checked})} className="w-5 h-5 accent-[#E91E8C] rounded border-slate-300" />
+              <span className="font-bold text-slate-700">Exibir banner na Home</span>
+            </label>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Título</label>
+              <input value={settings.home_banner_title || ''} onChange={e => setSettings({...settings, home_banner_title: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" placeholder="QUERO MAIS DJ CONTEST" />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Corpo do Texto</label>
+              <textarea value={settings.home_banner_text || ''} onChange={e => setSettings({...settings, home_banner_text: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={3} placeholder="Quem merece a vaga na final? Vote agora e ajude a decidir os finalistas!"></textarea>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase text-slate-500 mb-2">Imagem de Fundo</label>
+              <div className="flex items-center gap-4 p-4 border border-slate-200 rounded-lg bg-slate-50/50">
+                {settings.home_banner_image_url ? (
+                  <img src={settings.home_banner_image_url} alt="Preview" className="w-28 h-20 rounded-lg object-cover border border-slate-200 shadow-sm" />
+                ) : (
+                  <div className="w-28 h-20 bg-slate-200 rounded-lg flex items-center justify-center border border-slate-300">
+                    <ImageIcon className="w-8 h-8 text-slate-400" />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <input type="file" accept="image/*" onChange={handleBannerUpload} className="hidden" id="banner-image-upload" disabled={uploadingBanner} />
+                  <label htmlFor="banner-image-upload" className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer select-none transition-colors shadow-sm">
+                    {uploadingBanner ? 'Enviando Imagem...' : 'Fazer Upload da Imagem'}
+                  </label>
+                  {settings.home_banner_image_url && (
+                    <button type="button" onClick={() => setSettings({...settings, home_banner_image_url: null})} className="ml-3 text-xs font-semibold text-red-500 hover:text-red-700">Remover</button>
+                  )}
+                  <p className="text-[10px] text-slate-400 mt-2">Recomendado: imagem horizontal (JPG, PNG, WEBP). A imagem aparece escurecida atrás do texto.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Texto do Botão</label>
+                <input value={settings.home_banner_button_label || ''} onChange={e => setSettings({...settings, home_banner_button_label: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" placeholder="Vote agora" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Link do Botão</label>
+                <input value={settings.home_banner_button_link || ''} onChange={e => setSettings({...settings, home_banner_button_link: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" placeholder="/dj-contest" />
+              </div>
+            </div>
+            <p className="text-[11px] text-slate-400 -mt-2">Use <code className="text-slate-500">/dj-contest</code> para a página de votação interna, ou uma URL completa (https://...) para link externo.</p>
+
+            <button disabled={loading || uploadingBanner} type="submit" className="w-full bg-[#E91E8C] hover:bg-[#d01577] text-white py-4 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors shadow-sm disabled:opacity-50">
+              {loading ? 'Salvando...' : <><Save className="w-5 h-5"/> Salvar Banner</>}
+            </button>
+          </form>
         )}
       </div>
     </div>
