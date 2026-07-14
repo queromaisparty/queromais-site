@@ -28,7 +28,7 @@ const DRY_RUN = process.argv.includes('--dry-run');
 // ── Config ───────────────────────────────────────────────────
 const CLOUDINARY_CLOUD_NAME = 'qsabwf5z';
 const CLOUDINARY_UPLOAD_PRESET = 'queromais_site';
-const BUCKET = 'site-images';
+const BUCKETS = ['site-images', 'galleries'];
 const VIDEO_EXTS = ['mp4', 'webm', 'mov', 'avi', 'mkv'];
 
 // Tabelas que podem conter URLs de imagem (todas varridas genericamente)
@@ -36,7 +36,15 @@ const TABLES = [
   'site_config',
   'events',
   'events_meta',
-  'galleries',
+  'gallery_albums',
+  'gallery_videos_new',
+  'banners',
+  'djs',
+  'dj_sets',
+  'playlists',
+  'products',
+  'tickets',
+  'faqs',
   'about_founder_profile',
   'contact_info',
   'dj_participants',
@@ -74,20 +82,19 @@ if (!SERVICE_KEY) {
 }
 
 const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
-const OLD_URL_PREFIX = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/`;
 
-// ── 1. Listar arquivos do bucket (recursivo) ─────────────────
-async function listAllFiles(prefix = '') {
+// ── 1. Listar arquivos de um bucket (recursivo) ──────────────
+async function listAllFiles(bucket, prefix = '') {
   const files = [];
-  const { data, error } = await supabase.storage.from(BUCKET).list(prefix, { limit: 1000 });
-  if (error) throw new Error(`Erro listando "${prefix}": ${error.message}`);
+  const { data, error } = await supabase.storage.from(bucket).list(prefix, { limit: 1000 });
+  if (error) throw new Error(`Erro listando "${bucket}/${prefix}": ${error.message}`);
   for (const item of data ?? []) {
     const path = prefix ? `${prefix}/${item.name}` : item.name;
     if (item.id === null) {
       // é uma pasta
-      files.push(...await listAllFiles(path));
+      files.push(...await listAllFiles(bucket, path));
     } else {
-      files.push({ path, size: item.metadata?.size ?? 0 });
+      files.push({ bucket, path, size: item.metadata?.size ?? 0 });
     }
   }
   return files;
@@ -131,12 +138,21 @@ function deepReplace(value, urlMap) {
 async function main() {
   console.log(`\n${DRY_RUN ? '🔍 DRY-RUN (nada será alterado)' : '🚀 MIGRAÇÃO REAL'}\n`);
 
-  console.log('📂 Listando arquivos do bucket...');
-  const files = await listAllFiles();
+  console.log('📂 Listando arquivos dos buckets...');
+  const files = [];
+  for (const bucket of BUCKETS) {
+    try {
+      const bucketFiles = await listAllFiles(bucket);
+      console.log(`   ${bucket}: ${bucketFiles.length} arquivos`);
+      files.push(...bucketFiles);
+    } catch (err) {
+      console.log(`   ⚠️  ${bucket}: ${err.message}`);
+    }
+  }
   const images = files.filter(f => !VIDEO_EXTS.includes(f.path.split('.').pop().toLowerCase()));
   const videos = files.length - images.length;
   const totalMB = (images.reduce((s, f) => s + f.size, 0) / 1024 / 1024).toFixed(1);
-  console.log(`   ${files.length} arquivos | ${images.length} imagens (${totalMB} MB) | ${videos} vídeos (pulados)\n`);
+  console.log(`   Total: ${files.length} arquivos | ${images.length} imagens (${totalMB} MB) | ${videos} vídeos (pulados)\n`);
 
   // Upload de cada imagem
   const urlMap = new Map(); // URL antiga → URL nova
@@ -144,25 +160,25 @@ async function main() {
   let done = 0;
 
   for (const file of images) {
-    const oldUrl = OLD_URL_PREFIX + file.path;
+    const oldUrl = `${SUPABASE_URL}/storage/v1/object/public/${file.bucket}/${file.path}`;
     const folder = file.path.includes('/') ? file.path.slice(0, file.path.lastIndexOf('/')) : '';
     done++;
 
     if (DRY_RUN) {
-      console.log(`   [${done}/${images.length}] (dry) ${file.path} (${(file.size / 1024).toFixed(0)} KB)`);
+      console.log(`   [${done}/${images.length}] (dry) ${file.bucket}/${file.path} (${(file.size / 1024).toFixed(0)} KB)`);
       continue;
     }
 
     try {
-      const { data, error } = await supabase.storage.from(BUCKET).download(file.path);
+      const { data, error } = await supabase.storage.from(file.bucket).download(file.path);
       if (error) throw new Error(error.message);
       const buffer = Buffer.from(await data.arrayBuffer());
       const newUrl = await uploadToCloudinary(buffer, data.type, folder);
       urlMap.set(oldUrl, newUrl);
-      console.log(`   [${done}/${images.length}] ✅ ${file.path}`);
+      console.log(`   [${done}/${images.length}] ✅ ${file.bucket}/${file.path}`);
     } catch (err) {
-      failed.push({ path: file.path, error: err.message });
-      console.log(`   [${done}/${images.length}] ❌ ${file.path} — ${err.message}`);
+      failed.push({ path: `${file.bucket}/${file.path}`, error: err.message });
+      console.log(`   [${done}/${images.length}] ❌ ${file.bucket}/${file.path} — ${err.message}`);
     }
   }
 

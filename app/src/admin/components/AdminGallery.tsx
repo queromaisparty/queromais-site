@@ -5,11 +5,10 @@ import {
 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
+import { uploadImage } from '@/lib/supabase';
 import type { GalleryAlbum, GalleryImage } from '@/types';
 import { extractFolderId, listGDriveImages } from '@/services/googleDrive';
 import { FlyerUploader } from './FlyerUploader';
-import { optimizeImage } from '@/lib/imageProcessor';
 
 type ViewMode = 'list' | 'form';
 
@@ -132,23 +131,8 @@ export function AdminGallery() {
     
     try {
       const uploadPromises = Array.from(files).map(async (file) => {
-        // 1. Otimizar com nosso processador padronizado
-        const compressedFile = await optimizeImage(file, { maxWidth: 1600, quality: 0.82, format: 'image/webp' });
-        
-        // 2. Upload para Storage
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-        const filePath = `albums/${fileName}`;
-        
-        const { error: uploadError } = await supabase.storage
-          .from('galleries')
-          .upload(filePath, compressedFile);
-          
-        if (uploadError) throw uploadError;
-        
-        const { data: { publicUrl } } = supabase.storage
-          .from('galleries')
-          .getPublicUrl(filePath);
+        // uploadImage já comprime (max 1600px, WEBP) e envia pro Cloudinary
+        const publicUrl = await uploadImage(file, 'albums');
 
         return {
           id: Date.now().toString() + Math.random().toString(),
