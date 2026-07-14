@@ -40,17 +40,65 @@ export async function testSupabaseConnection(): Promise<boolean> {
   }
 }
 
+// Cache de 30 dias no CDN/navegador — reduz egress do Supabase em visitas recorrentes
+const CACHE_CONTROL_30_DIAS = String(60 * 60 * 24 * 30);
+
+/**
+ * Comprime uma imagem no navegador antes do upload:
+ * redimensiona para no máximo 1600px (lado maior) e converte para WEBP ~80%.
+ * GIFs (animados) e SVGs são enviados sem alteração.
+ * Se a compressão falhar por qualquer motivo, retorna o arquivo original.
+ */
+async function compressImage(file: File, maxSize = 1600, quality = 0.8): Promise<File> {
+  if (file.type === 'image/gif' || file.type === 'image/svg+xml') return file;
+
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
+    const width = Math.round(bitmap.width * scale);
+    const height = Math.round(bitmap.height * scale);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return file;
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close();
+
+    const blob = await new Promise<Blob | null>(resolve =>
+      canvas.toBlob(resolve, 'image/webp', quality)
+    );
+    if (!blob) return file;
+
+    // Só usa a versão comprimida se realmente ficou menor
+    if (blob.size >= file.size) return file;
+
+    const newName = file.name.replace(/\.[^.]+$/, '') + '.webp';
+    return new File([blob], newName, { type: 'image/webp' });
+  } catch (err) {
+    console.warn('⚠️ Compressão de imagem falhou, enviando original:', err);
+    return file;
+  }
+}
+
 /**
  * Faz upload de uma imagem para o bucket 'site-images' no Supabase Storage.
+ * Comprime automaticamente (max 1600px, WEBP) e aplica cache de 30 dias.
  * O bucket deve existir e ser público no painel do Supabase.
  * Retorna a URL pública do arquivo.
  */
 export async function uploadImage(file: File, folder = 'geral'): Promise<string> {
-  const ext = file.name.split('.').pop() ?? 'jpg';
+  const compressed = await compressImage(file);
+  const ext = compressed.name.split('.').pop() ?? 'jpg';
   const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
   const { error } = await supabase.storage
     .from('site-images')
-    .upload(filename, file, { upsert: true, contentType: file.type });
+    .upload(filename, compressed, {
+      upsert: true,
+      contentType: compressed.type,
+      cacheControl: CACHE_CONTROL_30_DIAS,
+    });
   if (error) throw new Error(error.message);
   const { data } = supabase.storage.from('site-images').getPublicUrl(filename);
   return data.publicUrl;
@@ -61,7 +109,11 @@ export async function uploadVideo(file: File, folder = 'hero'): Promise<string> 
   const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
   const { error } = await supabase.storage
     .from('site-images')
-    .upload(filename, file, { upsert: true, contentType: file.type });
+    .upload(filename, file, {
+      upsert: true,
+      contentType: file.type,
+      cacheControl: CACHE_CONTROL_30_DIAS,
+    });
   if (error) throw new Error(error.message);
   const { data } = supabase.storage.from('site-images').getPublicUrl(filename);
   return data.publicUrl;
