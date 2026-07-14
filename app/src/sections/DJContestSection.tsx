@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useDJContest, DJParticipant } from '@/hooks/useDJContest';
+import { useDJContest, type DJParticipant } from '@/hooks/useDJContest';
 import { toast } from 'sonner';
+
 import { PlayCircle, Trophy, User } from 'lucide-react';
 
 export function DJContestSection() {

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
-import { DJParticipant, DJContestSettings } from '@/hooks/useDJContest';
+import type { DJParticipant, DJContestSettings } from '@/hooks/useDJContest';
 import { Download, Plus, Save, Trash2, Edit2, ImageIcon } from 'lucide-react';
+
 
 export function AdminDJContest() {
   const [activeTab, setActiveTab] = useState<'participants' | 'settings' | 'results'>('participants');
