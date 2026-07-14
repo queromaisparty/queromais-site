@@ -1,188 +1,174 @@
-import { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { Toaster } from 'sonner';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { AuthProvider } from '@/context/AuthContext';
-import { DataProvider, useData } from '@/context/DataContext';
-
-import { WebsiteLayout } from '@/components/layout/WebsiteLayout';
-import { ScrollToTop } from '@/components/ScrollToTop';
-import { HomePage } from '@/pages/HomePage';
-import { EventosPage } from '@/pages/EventosPage';
-import { EventoDetalhePage } from '@/pages/EventoDetalhePage';
-import { FicaMaisPage } from '@/pages/FicaMaisPage';
-import { SobrePage } from '@/pages/SobrePage';
-import { MusicPage } from '@/pages/MusicPage';
-import { VoceNaQMPage } from '@/pages/VoceNaQMPage';
-import { ShopPage } from '@/pages/ShopPage';
-import { ContactPage } from '@/pages/ContactPage';
-import { FAQPage } from '@/pages/FAQPage';
-
+import { DataProvider } from '@/context/DataContext';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { HeroSection } from '@/sections/HeroSection';
+import { EventsSection } from '@/sections/EventsSection';
+import { FicaMaisSection } from '@/sections/FicaMaisSection';
+import { StorytellingSection } from '@/sections/StorytellingSection';
+import { MusicSection } from '@/sections/MusicSection';
+import { GallerySection } from '@/sections/GallerySection';
+import { ShopSection } from '@/sections/ShopSection';
+import { ContactSection } from '@/sections/ContactSection';
+import { DJContestSection } from '@/sections/DJContestSection';
 import { AdminLogin } from '@/admin/components/AdminLogin';
 import { AdminDashboard } from '@/admin/components/AdminDashboard';
 import './App.css';
 
-type View = 'website' | 'admin-login' | 'admin-dashboard';
-type AdminSection =
+type View = 'website' | 'admin-login' | 'admin-dashboard' | 'dj-contest';
+type AdminSection = 
   | 'dashboard'
-  | 'home'
   | 'events'
   | 'fica-mais'
-  | 'sobre'
-  | 'qm-music'
-  | 'voce-na-qm'
+  | 'storytelling'
+  | 'music'
+  | 'gallery'
   | 'shop'
   | 'contact'
   | 'faq'
-  | 'header'
-  | 'footer'
-  | 'seo'
-  | 'banners'
-  | 'social'
-  | 'users'
-  | 'logs'
-  | 'settings';
-
-const toasterStyle = {
-  style: {
-    background: '#1a1a1a',
-    color: '#fff',
-    border: '1px solid rgba(255,255,255,0.1)',
-  },
-};
-
-function SiteEngine() {
-  const { siteConfig } = useData();
-
-  useEffect(() => {
-    if (!siteConfig) return;
-
-    // 1. Atualizar SEO (Title e Meta Description)
-    const title = siteConfig.seo?.title?.pt || siteConfig.siteName?.pt || 'Quero Mais';
-    document.title = title;
-    
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.setAttribute('name', 'description');
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.setAttribute('content', siteConfig.seo?.description?.pt || siteConfig.siteDescription?.pt || '');
-
-    // 2. Atualizar CSS Variables Globais (Variáveis de Cor)
-    const root = document.documentElement;
-    root.style.setProperty('--primary-color', siteConfig.primaryColor || 'var(--primary-color, #E91E8C)');
-    root.style.setProperty('--secondary-color', siteConfig.secondaryColor || '#8B5CF6');
-  }, [siteConfig]);
-
-  return null;
-}
-
-function AdminRouteHandler({ onTrigger }: { onTrigger: () => void }) {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Quando acessar a rota /admin, limpa a URL via React Router
-    // e muda o estado (view) para mostrar o login
-    navigate('/', { replace: true });
-    onTrigger();
-  }, [navigate, onTrigger]);
-
-  return null;
-}
+  | 'settings'
+  | 'dj-contest';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>(() => {
-    return (localStorage.getItem('@QueroMais:view') as View) || 'website';
+    const path = window.location.pathname;
+    if (path === '/dj-contest') return 'dj-contest';
+    if (path.startsWith('/admin')) return 'admin-login';
+    return 'website';
   });
-  const [adminSection, setAdminSection] = useState<AdminSection>(() => {
-    return (localStorage.getItem('@QueroMais:adminSection') as AdminSection) || 'dashboard';
-  });
+  const [adminSection, setAdminSection] = useState<AdminSection>('dashboard');
 
-  useEffect(() => {
-    localStorage.setItem('@QueroMais:view', currentView);
-  }, [currentView]);
-
-  useEffect(() => {
-    localStorage.setItem('@QueroMais:adminSection', adminSection);
-  }, [adminSection]);
-
-  const handleAdminRoute = () => {
-    setCurrentView(prev => prev === 'admin-dashboard' ? 'admin-dashboard' : 'admin-login');
+  const handleAdminClick = () => {
+    setCurrentView('admin-login');
   };
 
-  const handleAdminClick = () => setCurrentView('admin-login');
-  const handleAdminLogin = () => setCurrentView('admin-dashboard');
+  const handleAdminLogin = () => {
+    setCurrentView('admin-dashboard');
+  };
+
   const handleAdminLogout = () => {
     setCurrentView('website');
     setAdminSection('dashboard');
   };
 
-  // ── SITE PÚBLICO ──────────────────────────────
+  const handleSectionChange = (section: AdminSection) => {
+    setAdminSection(section);
+  };
+
+  // Renderizar o site principal
   if (currentView === 'website') {
     return (
       <LanguageProvider>
         <DataProvider>
-          <SiteEngine />
-          <ScrollToTop />
-          <Toaster position="top-center" toastOptions={toasterStyle} />
-          <Routes>
-            <Route element={<WebsiteLayout onAdminClick={handleAdminClick} />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/eventos" element={<EventosPage />} />
-              <Route path="/eventos/:slug" element={<EventoDetalhePage />} />
-              <Route path="/fica-mais" element={<FicaMaisPage />} />
-              <Route path="/sobre" element={<SobrePage />} />
-              <Route path="/music" element={<MusicPage />} />
-              <Route path="/vocenaqm" element={<VoceNaQMPage />} />
-              <Route path="/loja" element={<ShopPage />} />
-              <Route path="/contato" element={<ContactPage />} />
-              <Route path="/faq" element={<FAQPage />} />
-              <Route path="/admin" element={<AdminRouteHandler onTrigger={handleAdminRoute} />} />
-            </Route>
-          </Routes>
+          <div className="min-h-screen bg-black text-white">
+            <Toaster 
+              position="top-center" 
+              toastOptions={{
+                style: {
+                  background: '#1a1a1a',
+                  color: '#fff',
+                  border: '1px solid rgba(255,255,255,0.1)'
+                }
+              }}
+            />
+            <Header />
+            <main>
+              <HeroSection />
+              <EventsSection />
+              <FicaMaisSection />
+              <StorytellingSection />
+              <MusicSection />
+              <GallerySection />
+              <ShopSection />
+              <ContactSection />
+            </main>
+            <Footer onAdminClick={handleAdminClick} />
+          </div>
         </DataProvider>
       </LanguageProvider>
     );
   }
 
-  // ── ADMIN LOGIN ───────────────────────────────
+  // Renderizar a página de DJ Contest
+  if (currentView === 'dj-contest') {
+    return (
+      <LanguageProvider>
+        <DataProvider>
+          <div className="min-h-screen bg-black text-white">
+            <Toaster 
+              position="top-center" 
+              toastOptions={{
+                style: {
+                  background: '#1a1a1a',
+                  color: '#fff',
+                  border: '1px solid rgba(255,255,255,0.1)'
+                }
+              }}
+            />
+            <Header />
+            <main>
+              <DJContestSection />
+            </main>
+            <Footer onAdminClick={handleAdminClick} />
+          </div>
+        </DataProvider>
+      </LanguageProvider>
+    );
+  }
+
+  // Renderizar login do admin
   if (currentView === 'admin-login') {
     return (
       <AuthProvider>
-        <DataProvider>
-          <LanguageProvider>
-            <SiteEngine />
-            <div className="min-h-screen bg-[#0A0A0A] text-white">
-              <Toaster position="top-center" toastOptions={toasterStyle} />
-              <button
-                onClick={() => setCurrentView('website')}
-                className="fixed top-4 left-4 z-50 px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm font-sans"
-              >
-                ← Voltar ao Site
-              </button>
-              <AdminLogin onLogin={handleAdminLogin} />
-            </div>
-          </LanguageProvider>
-        </DataProvider>
+        <LanguageProvider>
+          <div className="min-h-screen bg-black text-white">
+            <Toaster 
+              position="top-center"
+              toastOptions={{
+                style: {
+                  background: '#1a1a1a',
+                  color: '#fff',
+                  border: '1px solid rgba(255,255,255,0.1)'
+                }
+              }}
+            />
+            <button
+              onClick={() => setCurrentView('website')}
+              className="fixed top-4 left-4 z-50 px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+            >
+              ← Voltar ao Site
+            </button>
+            <AdminLogin onLogin={handleAdminLogin} />
+          </div>
+        </LanguageProvider>
       </AuthProvider>
     );
   }
 
-  // ── ADMIN DASHBOARD ───────────────────────────
+  // Renderizar dashboard do admin
   if (currentView === 'admin-dashboard') {
     return (
       <AuthProvider>
         <DataProvider>
           <LanguageProvider>
-            <SiteEngine />
-            <div className="min-h-screen bg-[#0A0A0A] text-white">
-              <Toaster position="top-center" toastOptions={toasterStyle} />
-              <AdminDashboard
-                currentSection={adminSection as Parameters<typeof AdminDashboard>[0]['currentSection']}
-                onSectionChange={(s) => setAdminSection(s as AdminSection)}
+            <div className="min-h-screen bg-black text-white">
+              <Toaster 
+                position="top-center"
+                toastOptions={{
+                  style: {
+                    background: '#1a1a1a',
+                    color: '#fff',
+                    border: '1px solid rgba(255,255,255,0.1)'
+                  }
+                }}
+              />
+              <AdminDashboard 
+                currentSection={adminSection}
+                onSectionChange={handleSectionChange}
                 onLogout={handleAdminLogout}
-                onGoToSite={() => setCurrentView('website')}
               />
             </div>
           </LanguageProvider>
