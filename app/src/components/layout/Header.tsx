@@ -10,10 +10,12 @@ const baseNavItems = [
   { href: '/fica-mais', label: { pt: 'Fica Mais Party',   en: 'Fica Mais',     es: 'Fica Mais' } },
   { href: '/sobre',     label: { pt: 'Sobre',             en: 'About',         es: 'Nosotros'  } },
   { href: '/music',     label: { pt: 'QM Music',          en: 'QM Music',      es: 'QM Music'  } },
+  { href: '/dj-contest', label: { pt: 'DJ Contest',        en: 'DJ Contest',    es: 'DJ Contest' } },
   { href: '/vocenaqm',  label: { pt: 'VOCÊ NA QUERO MAIS', en: 'YOU AT QUERO MAIS', es: 'VOCÊ NA QUERO MAIS' } },
   { href: '/loja',      label: { pt: 'Loja',              en: 'Shop',          es: 'Tienda'    } },
   { href: '/contato',   label: { pt: 'Contato',           en: 'Contact',       es: 'Contacto'  } },
 ];
+
 
 const langs = [
   { code: 'pt' as const, label: 'PT' },
