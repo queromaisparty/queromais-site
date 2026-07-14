@@ -31,6 +31,7 @@ export interface DJContestSettings {
   home_banner_image_url: string | null;
   home_banner_button_label: string | null;
   home_banner_button_link: string | null;
+  vote_success_message: string | null;
 }
 
 export function useDJContest() {
@@ -98,7 +99,7 @@ export function useDJContest() {
         return { success: false, message: 'Erro ao processar voto.' };
       }
 
-      return { success: true, message: 'Voto computado com sucesso! 🎧' };
+      return { success: true, message: settings.vote_success_message || 'Voto computado com sucesso! 🎧' };
 
     } catch (err: any) {
       return { success: false, message: 'Erro de conexão: ' + err.message };

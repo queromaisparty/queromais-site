@@ -51,6 +51,7 @@ export function AdminDJContest() {
       voting_open: settings.voting_open,
       results_public: settings.results_public,
       winner_id: settings.winner_id,
+      vote_success_message: settings.vote_success_message,
     }).eq('id', 1);
     setLoading(false);
     if (error) toast.error('Erro ao salvar config: ' + error.message);
@@ -381,6 +382,11 @@ export function AdminDJContest() {
               <div className="col-span-2">
                 <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Descrição</label>
                 <textarea value={settings.contest_description || ''} onChange={e => setSettings({...settings, contest_description: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={2}></textarea>
+              </div>
+              <div className="col-span-2">
+                <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Mensagem Após o Voto</label>
+                <textarea value={settings.vote_success_message || ''} onChange={e => setSettings({...settings, vote_success_message: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={2} placeholder="Voto computado com sucesso! 🎧"></textarea>
+                <p className="text-[11px] text-slate-400 mt-1">Exibida na notificação de confirmação quando a pessoa vota.</p>
               </div>
               <div>
                 <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Fase Atual</label>
