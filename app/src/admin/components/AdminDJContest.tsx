@@ -4,7 +4,6 @@ import { toast } from 'sonner';
 import type { DJParticipant, DJContestSettings } from '@/hooks/useDJContest';
 import { Download, Plus, Save, Trash2, Edit2, ImageIcon } from 'lucide-react';
 
-
 export function AdminDJContest() {
   const [activeTab, setActiveTab] = useState<'participants' | 'settings' | 'results'>('participants');
   
@@ -132,24 +131,36 @@ export function AdminDJContest() {
   };
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
       {/* Tabs */}
-      <div className="flex border-b border-white/10">
+      <div className="flex border-b border-slate-200 bg-slate-50/50">
         <button 
           onClick={() => setActiveTab('participants')}
-          className={`flex-1 py-4 font-bold ${activeTab === 'participants' ? 'bg-white/10 text-[#CCFF00]' : 'text-white/60 hover:bg-white/5'}`}
+          className={`flex-1 py-4 px-6 font-bold text-sm transition-all border-b-2 ${
+            activeTab === 'participants' 
+              ? 'border-[#E91E8C] text-[#E91E8C] bg-white' 
+              : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'
+          }`}
         >
           Participantes
         </button>
         <button 
           onClick={() => setActiveTab('settings')}
-          className={`flex-1 py-4 font-bold ${activeTab === 'settings' ? 'bg-white/10 text-[#CCFF00]' : 'text-white/60 hover:bg-white/5'}`}
+          className={`flex-1 py-4 px-6 font-bold text-sm transition-all border-b-2 ${
+            activeTab === 'settings' 
+              ? 'border-[#E91E8C] text-[#E91E8C] bg-white' 
+              : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'
+          }`}
         >
           Configurações
         </button>
         <button 
           onClick={() => setActiveTab('results')}
-          className={`flex-1 py-4 font-bold ${activeTab === 'results' ? 'bg-white/10 text-[#CCFF00]' : 'text-white/60 hover:bg-white/5'}`}
+          className={`flex-1 py-4 px-6 font-bold text-sm transition-all border-b-2 ${
+            activeTab === 'results' 
+              ? 'border-[#E91E8C] text-[#E91E8C] bg-white' 
+              : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'
+          }`}
         >
           Apuração
         </button>
@@ -162,90 +173,90 @@ export function AdminDJContest() {
             {!isEditingParticipant ? (
               <>
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-xl font-bold">Participantes</h3>
+                  <h3 className="text-lg font-bold text-slate-900">Gerenciar DJs</h3>
                   <button 
                     onClick={() => { setEditingParticipant({ is_active: true, phase: 'semifinal', display_order: 0, tech_sheet: '{}' }); setIsEditingParticipant(true); }}
-                    className="bg-[#CCFF00] text-black px-4 py-2 rounded-xl font-bold flex items-center gap-2"
+                    className="bg-[#E91E8C] hover:bg-[#d01577] text-white px-4 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 transition-colors shadow-sm"
                   >
-                    <Plus className="w-5 h-5" /> Adicionar
+                    <Plus className="w-4 h-4" /> Adicionar DJ
                   </button>
                 </div>
                 
-                <div className="grid gap-4">
+                <div className="grid gap-3">
                   {participants.map(p => (
-                    <div key={p.id} className="flex items-center gap-4 p-4 bg-black/50 border border-white/10 rounded-xl">
+                    <div key={p.id} className="flex items-center gap-4 p-4 bg-slate-50 border border-slate-200 rounded-lg transition-all hover:bg-slate-100/30">
                       {p.photo_url ? (
-                        <img src={p.photo_url} alt="" className="w-12 h-12 rounded-full object-cover" />
+                        <img src={p.photo_url} alt="" className="w-12 h-12 rounded-full object-cover shadow-inner" />
                       ) : (
-                        <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-                          <ImageIcon className="w-6 h-6 text-white/50" />
+                        <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center">
+                          <ImageIcon className="w-5 h-5 text-slate-400" />
                         </div>
                       )}
                       <div className="flex-1">
-                        <h4 className="font-bold text-lg leading-tight">{p.name}</h4>
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${p.is_active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                        <h4 className="font-bold text-slate-800 text-base leading-tight">{p.name}</h4>
+                        <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wide inline-block mt-1 ${p.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                           {p.phase} {p.is_active ? '' : '(Inativo)'}
                         </span>
                       </div>
-                      <button onClick={() => { setEditingParticipant({...p, tech_sheet: JSON.stringify(p.tech_sheet, null, 2)}); setIsEditingParticipant(true); }} className="p-2 text-white/60 hover:text-white">
-                        <Edit2 className="w-5 h-5" />
+                      <button onClick={() => { setEditingParticipant({...p, tech_sheet: JSON.stringify(p.tech_sheet, null, 2)}); setIsEditingParticipant(true); }} className="p-2 text-slate-400 hover:text-slate-700 transition-colors">
+                        <Edit2 className="w-4.5 h-4.5" />
                       </button>
-                      <button onClick={() => deleteParticipant(p.id)} className="p-2 text-white/60 hover:text-red-500">
-                        <Trash2 className="w-5 h-5" />
+                      <button onClick={() => deleteParticipant(p.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
+                        <Trash2 className="w-4.5 h-4.5" />
                       </button>
                     </div>
                   ))}
-                  {participants.length === 0 && <p className="text-white/50">Nenhum participante.</p>}
+                  {participants.length === 0 && <p className="text-slate-400 text-center py-6 text-sm">Nenhum participante cadastrado ainda.</p>}
                 </div>
               </>
             ) : (
               <form onSubmit={saveParticipant} className="space-y-4 max-w-2xl">
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-xl font-bold">{editingParticipant.id ? 'Editar Participante' : 'Novo Participante'}</h3>
-                  <button type="button" onClick={() => setIsEditingParticipant(false)} className="text-white/50 hover:text-white">Voltar</button>
+                  <h3 className="text-lg font-bold text-slate-900">{editingParticipant.id ? 'Editar Participante' : 'Novo Participante'}</h3>
+                  <button type="button" onClick={() => setIsEditingParticipant(false)} className="text-slate-400 hover:text-slate-700 text-sm font-semibold">Voltar</button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase text-white/50 mb-1">Nome</label>
-                    <input required value={editingParticipant.name || ''} onChange={e => setEditingParticipant({...editingParticipant, name: e.target.value})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white" />
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Nome</label>
+                    <input required value={editingParticipant.name || ''} onChange={e => setEditingParticipant({...editingParticipant, name: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase text-white/50 mb-1">Fase</label>
-                    <select value={editingParticipant.phase || 'semifinal'} onChange={e => setEditingParticipant({...editingParticipant, phase: e.target.value as any})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white">
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Fase</label>
+                    <select value={editingParticipant.phase || 'semifinal'} onChange={e => setEditingParticipant({...editingParticipant, phase: e.target.value as any})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]">
                       <option value="semifinal">Semifinal</option>
                       <option value="final">Final</option>
                     </select>
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-xs uppercase text-white/50 mb-1">URL da Foto (Supabase Storage)</label>
-                    <input value={editingParticipant.photo_url || ''} onChange={e => setEditingParticipant({...editingParticipant, photo_url: e.target.value})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white" />
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">URL da Foto (Supabase Storage)</label>
+                    <input value={editingParticipant.photo_url || ''} onChange={e => setEditingParticipant({...editingParticipant, photo_url: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-xs uppercase text-white/50 mb-1">URL do Set (Soundcloud/Youtube/Mixcloud)</label>
-                    <input value={editingParticipant.set_url || ''} onChange={e => setEditingParticipant({...editingParticipant, set_url: e.target.value})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white" />
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">URL do Set (Soundcloud/Youtube/Mixcloud)</label>
+                    <input value={editingParticipant.set_url || ''} onChange={e => setEditingParticipant({...editingParticipant, set_url: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-xs uppercase text-white/50 mb-1">Mini Bio</label>
-                    <textarea value={editingParticipant.bio || ''} onChange={e => setEditingParticipant({...editingParticipant, bio: e.target.value})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white" rows={3}></textarea>
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Mini Bio</label>
+                    <textarea value={editingParticipant.bio || ''} onChange={e => setEditingParticipant({...editingParticipant, bio: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={3}></textarea>
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-xs uppercase text-white/50 mb-1">Ficha Técnica (JSON) ex: {"{\"cidade\": \"SP\"}"}</label>
-                    <textarea value={editingParticipant.tech_sheet as string || '{}'} onChange={e => setEditingParticipant({...editingParticipant, tech_sheet: e.target.value})} className="w-full bg-black border border-white/10 rounded-xl p-3 font-mono text-sm text-white" rows={4}></textarea>
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Ficha Técnica (JSON) ex: {"{\"cidade\": \"SP\"}"}</label>
+                    <textarea value={editingParticipant.tech_sheet as string || '{}'} onChange={e => setEditingParticipant({...editingParticipant, tech_sheet: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 font-mono text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={3}></textarea>
                   </div>
                   <div>
-                    <label className="block text-xs uppercase text-white/50 mb-1">Ordem</label>
-                    <input type="number" value={editingParticipant.display_order || 0} onChange={e => setEditingParticipant({...editingParticipant, display_order: Number(e.target.value)})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white" />
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Ordem de Exibição</label>
+                    <input type="number" value={editingParticipant.display_order || 0} onChange={e => setEditingParticipant({...editingParticipant, display_order: Number(e.target.value)})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" />
                   </div>
                   <div className="flex items-center mt-6">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={editingParticipant.is_active ?? true} onChange={e => setEditingParticipant({...editingParticipant, is_active: e.target.checked})} className="w-5 h-5 accent-[#CCFF00]" />
-                      <span className="text-white">Ativo (Exibir no site)</span>
+                    <label className="flex items-center gap-2 cursor-pointer select-none">
+                      <input type="checkbox" checked={editingParticipant.is_active ?? true} onChange={e => setEditingParticipant({...editingParticipant, is_active: e.target.checked})} className="w-5 h-5 accent-[#E91E8C] rounded border-slate-300" />
+                      <span className="text-slate-700 text-sm font-semibold">Ativo (Exibir no site)</span>
                     </label>
                   </div>
                 </div>
 
-                <button disabled={loading} type="submit" className="w-full bg-[#CCFF00] text-black py-4 rounded-xl font-bold flex justify-center items-center gap-2 mt-4 hover:bg-[#b3ff00] transition-colors">
+                <button disabled={loading} type="submit" className="w-full bg-[#E91E8C] hover:bg-[#d01577] text-white py-4 rounded-xl font-bold flex justify-center items-center gap-2 mt-4 transition-colors shadow-sm">
                   {loading ? 'Salvando...' : <><Save className="w-5 h-5"/> Salvar Participante</>}
                 </button>
               </form>
@@ -256,27 +267,27 @@ export function AdminDJContest() {
         {/* Tab 2: Configurações */}
         {activeTab === 'settings' && settings && (
           <form onSubmit={saveSettings} className="space-y-6 max-w-2xl">
-            <h3 className="text-xl font-bold mb-4">Configurações Gerais</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-4">Configurações do Concurso</h3>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
-                <label className="block text-xs uppercase text-white/50 mb-1">Título do Concurso</label>
-                <input required value={settings.contest_title} onChange={e => setSettings({...settings, contest_title: e.target.value})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white" />
+                <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Título do Concurso</label>
+                <input required value={settings.contest_title} onChange={e => setSettings({...settings, contest_title: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" />
               </div>
               <div className="col-span-2">
-                <label className="block text-xs uppercase text-white/50 mb-1">Descrição</label>
-                <textarea value={settings.contest_description || ''} onChange={e => setSettings({...settings, contest_description: e.target.value})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white" rows={2}></textarea>
+                <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Descrição</label>
+                <textarea value={settings.contest_description || ''} onChange={e => setSettings({...settings, contest_description: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={2}></textarea>
               </div>
               <div>
-                <label className="block text-xs uppercase text-white/50 mb-1">Fase Atual</label>
-                <select value={settings.current_phase} onChange={e => setSettings({...settings, current_phase: e.target.value as any})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white">
+                <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Fase Atual</label>
+                <select value={settings.current_phase} onChange={e => setSettings({...settings, current_phase: e.target.value as any})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]">
                   <option value="semifinal">Semifinal</option>
                   <option value="final">Final</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs uppercase text-white/50 mb-1">Vencedor Final (ID)</label>
-                <select value={settings.winner_id || ''} onChange={e => setSettings({...settings, winner_id: e.target.value || null})} className="w-full bg-black border border-white/10 rounded-xl p-3 text-white">
+                <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Vencedor Final</label>
+                <select value={settings.winner_id || ''} onChange={e => setSettings({...settings, winner_id: e.target.value || null})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]">
                   <option value="">-- Ninguém (Em andamento) --</option>
                   {participants.filter(p => p.phase === 'final').map(p => (
                     <option key={p.id} value={p.id}>{p.name}</option>
@@ -285,19 +296,19 @@ export function AdminDJContest() {
               </div>
             </div>
 
-            <div className="space-y-4 p-4 bg-white/5 rounded-xl border border-white/10">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input type="checkbox" checked={settings.voting_open} onChange={e => setSettings({...settings, voting_open: e.target.checked})} className="w-5 h-5 accent-[#CCFF00]" />
-                <span className="font-bold text-lg text-white">Votação Aberta (Permitir votos no site)</span>
+            <div className="space-y-4 p-5 bg-slate-50 border border-slate-200 rounded-xl">
+              <label className="flex items-center gap-3 cursor-pointer select-none">
+                <input type="checkbox" checked={settings.voting_open} onChange={e => setSettings({...settings, voting_open: e.target.checked})} className="w-5 h-5 accent-[#E91E8C] rounded border-slate-300" />
+                <span className="font-bold text-slate-700">Votação Aberta (Permitir votos no site)</span>
               </label>
               
-              <label className="flex items-center gap-3 cursor-pointer text-yellow-400">
-                <input type="checkbox" checked={settings.results_public} onChange={e => setSettings({...settings, results_public: e.target.checked})} className="w-5 h-5 accent-yellow-400" />
-                <span className="font-bold text-lg">Exibir Vencedor no Site (Finaliza Concurso)</span>
+              <label className="flex items-center gap-3 cursor-pointer select-none">
+                <input type="checkbox" checked={settings.results_public} onChange={e => setSettings({...settings, results_public: e.target.checked})} className="w-5 h-5 accent-[#E91E8C] rounded border-slate-300" />
+                <span className="font-bold text-slate-700">Exibir Vencedor no Site (Finaliza Concurso)</span>
               </label>
             </div>
 
-            <button disabled={loading} type="submit" className="w-full bg-[#CCFF00] text-black py-4 rounded-xl font-bold flex justify-center items-center gap-2 hover:bg-[#b3ff00] transition-colors">
+            <button disabled={loading} type="submit" className="w-full bg-[#E91E8C] hover:bg-[#d01577] text-white py-4 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors shadow-sm">
               {loading ? 'Salvando...' : <><Save className="w-5 h-5"/> Salvar Configurações</>}
             </button>
           </form>
@@ -307,22 +318,22 @@ export function AdminDJContest() {
         {activeTab === 'results' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold flex items-center gap-2 text-white">
+              <h3 className="text-lg font-bold flex items-center gap-2 text-slate-900">
                 Apuração em Tempo Real <span className="bg-red-500 animate-pulse w-2 h-2 rounded-full inline-block"></span>
               </h3>
               <div className="flex gap-2">
-                <button onClick={fetchResults} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl flex items-center gap-2 text-sm">
+                <button onClick={fetchResults} className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl flex items-center gap-2 text-sm border border-slate-200 font-semibold transition-colors">
                   Atualizar
                 </button>
-                <button onClick={handleExportCSV} className="bg-[#CCFF00] hover:bg-[#b3ff00] text-black px-4 py-2 rounded-xl flex items-center gap-2 font-bold text-sm">
+                <button onClick={handleExportCSV} className="bg-[#E91E8C] hover:bg-[#d01577] text-white px-4 py-2 rounded-xl flex items-center gap-2 font-bold text-sm transition-colors shadow-sm">
                   <Download className="w-4 h-4" /> CSV ({settings?.current_phase})
                 </button>
               </div>
             </div>
 
-            <div className="bg-black/50 border border-white/10 rounded-xl overflow-hidden">
+            <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
               <table className="w-full text-left">
-                <thead className="bg-white/5 border-b border-white/10 text-xs uppercase text-white/50">
+                <thead className="bg-slate-50 border-b border-slate-200 text-xs uppercase font-bold text-slate-500">
                   <tr>
                     <th className="p-4">Rank</th>
                     <th className="p-4">Participante</th>
@@ -330,32 +341,34 @@ export function AdminDJContest() {
                     <th className="p-4 text-right">Votos Auditados</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {results.filter(r => r.phase === settings?.current_phase).map((r, i) => (
-                    <tr key={r.id} className="border-b border-white/5 hover:bg-white/5 text-white">
-                      <td className="p-4 font-mono font-bold text-lg text-[#CCFF00]">{i + 1}º</td>
+                    <tr key={r.id} className="hover:bg-slate-50/50 transition-colors">
+                      <td className="p-4 font-mono font-bold text-base text-[#E91E8C]">{i + 1}º</td>
                       <td className="p-4 flex items-center gap-3">
                         {r.photo_url ? (
-                          <img src={r.photo_url} className="w-8 h-8 rounded-full object-cover" />
+                          <img src={r.photo_url} className="w-8 h-8 rounded-full object-cover shadow-inner" />
                         ) : (
-                          <div className="w-8 h-8 rounded-full bg-white/10" />
+                          <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center">
+                            <ImageIcon className="w-4 h-4 text-slate-400" />
+                          </div>
                         )}
-                        <span className="font-bold">{r.name}</span>
+                        <span className="font-bold text-slate-900">{r.name}</span>
                       </td>
-                      <td className="p-4 text-sm text-white/50">{r.phase}</td>
-                      <td className="p-4 text-right font-mono font-bold text-xl">{r.total_votes}</td>
+                      <td className="p-4 text-sm text-slate-500 uppercase font-semibold">{r.phase}</td>
+                      <td className="p-4 text-right font-mono font-bold text-lg text-slate-900">{r.total_votes}</td>
                     </tr>
                   ))}
                   {results.filter(r => r.phase === settings?.current_phase).length === 0 && (
                     <tr>
-                      <td colSpan={4} className="p-8 text-center text-white/50">Nenhum voto contabilizado ainda.</td>
+                      <td colSpan={4} className="p-8 text-center text-slate-400 text-sm">Nenhum voto contabilizado ainda nesta fase.</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
             
-            <p className="text-white/40 text-xs mt-4">
+            <p className="text-slate-400 text-xs mt-4">
               Nota: Os resultados listados acima são retornados através de uma View protegida do banco. O acesso é exclusivo para a Role Authenticated. O acesso anônimo falhará (RLS ativado).
             </p>
           </div>
