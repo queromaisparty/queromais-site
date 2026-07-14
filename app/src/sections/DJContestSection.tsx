@@ -1,7 +1,81 @@
 import { useState } from 'react';
 import { useDJContest, type DJParticipant } from '@/hooks/useDJContest';
 import { toast } from 'sonner';
-import { PlayCircle, Trophy, User } from 'lucide-react';
+import { Trophy, User, PlayCircle, MapPin, Music } from 'lucide-react';
+
+function AudioPlayer({ url }: { url: string }) {
+  if (!url) return null;
+
+  const isSoundCloud = url.includes('soundcloud.com');
+  const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
+  const isMixcloud = url.includes('mixcloud.com');
+
+  if (isSoundCloud) {
+    const embedUrl = `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23E91E8C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false`;
+    return (
+      <iframe
+        width="100%"
+        height="120"
+        scrolling="no"
+        frameBorder="no"
+        allow="autoplay"
+        src={embedUrl}
+        className="rounded-xl border border-slate-200/60 shadow-sm mt-3"
+      />
+    );
+  }
+
+  if (isYouTube) {
+    let videoId = '';
+    if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
+    } else if (url.includes('v=')) {
+      videoId = url.split('v=')[1]?.split('&')[0] || '';
+    } else if (url.includes('embed/')) {
+      videoId = url.split('embed/')[1]?.split('?')[0] || '';
+    }
+    
+    if (videoId) {
+      return (
+        <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-slate-200/60 shadow-sm mt-3">
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${videoId}`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      );
+    }
+  }
+
+  if (isMixcloud) {
+    const embedUrl = `https://www.mixcloud.com/widget/iframe/?mini=1&light=1&feed=${encodeURIComponent(url)}`;
+    return (
+      <iframe
+        width="100%"
+        height="60"
+        frameBorder="0"
+        src={embedUrl}
+        className="rounded-xl border border-slate-200/60 shadow-sm mt-3"
+      />
+    );
+  }
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E91E8C] hover:underline mt-3"
+    >
+      <PlayCircle className="w-4 h-4" /> Ouvir Set Externo
+    </a>
+  );
+}
 
 export function DJContestSection() {
   const { settings, participants, loading, submitVote } = useDJContest();
@@ -112,15 +186,36 @@ export function DJContestSection() {
                     <User className="w-16 h-16 text-slate-300" />
                   </div>
                 )}
-                {dj.set_url && (
-                  <a href={dj.set_url} target="_blank" rel="noopener noreferrer" className="absolute bottom-4 right-4 w-12 h-12 bg-[#E91E8C] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200 z-10">
-                    <PlayCircle className="w-6 h-6" />
-                  </a>
-                )}
               </div>
               <div className="p-6 flex flex-col flex-1">
-                <h3 className="text-xl font-bold text-[#1A1A2E] mb-2">{dj.name}</h3>
-                {dj.bio && <p className="text-slate-500 text-sm line-clamp-3 mb-6 flex-1">{dj.bio}</p>}
+                <h3 className="text-xl font-bold text-[#1A1A2E] mb-1 leading-tight">{dj.name}</h3>
+                
+                {/* Ficha Técnica do DJ */}
+                {dj.tech_sheet && (
+                  <div className="flex flex-col gap-1 mb-3">
+                    {dj.tech_sheet.cidade && (
+                      <div className="flex items-center gap-1 text-[11px] font-semibold text-slate-500">
+                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                        <span>{dj.tech_sheet.cidade}</span>
+                      </div>
+                    )}
+                    {dj.tech_sheet.genero && (
+                      <div className="flex items-center gap-1 text-[11px] font-semibold text-slate-500">
+                        <Music className="w-3.5 h-3.5 text-slate-400" />
+                        <span>{dj.tech_sheet.genero}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {dj.bio && <p className="text-slate-500 text-sm line-clamp-3 mb-4">{dj.bio}</p>}
+                
+                {/* Embed do Player de Áudio/Vídeo */}
+                {dj.set_url && (
+                  <div className="mb-6 mt-auto">
+                    <AudioPlayer url={dj.set_url} />
+                  </div>
+                )}
                 
                 <button 
                   disabled={!settings.voting_open || settings.results_public}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, uploadImage } from '@/lib/supabase';
 import { toast } from 'sonner';
 import type { DJParticipant, DJContestSettings } from '@/hooks/useDJContest';
 import { Download, Plus, Save, Trash2, Edit2, ImageIcon } from 'lucide-react';
@@ -12,6 +12,7 @@ export function AdminDJContest() {
   const [settings, setSettings] = useState<DJContestSettings | null>(null);
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Forms
   const [isEditingParticipant, setIsEditingParticipant] = useState(false);
@@ -55,19 +56,28 @@ export function AdminDJContest() {
     else toast.success('Configurações salvas!');
   };
 
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    try {
+      setUploadingImage(true);
+      const publicUrl = await uploadImage(file, 'djs');
+      setEditingParticipant(prev => ({ ...prev, photo_url: publicUrl }));
+      toast.success('Foto enviada com sucesso!');
+    } catch (err: any) {
+      toast.error('Erro ao enviar foto: ' + err.message);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const saveParticipant = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    // Convert tech_sheet string back to JSON if needed
-    let tech_sheet = editingParticipant.tech_sheet;
-    if (typeof tech_sheet === 'string') {
-      try {
-        tech_sheet = JSON.parse(tech_sheet);
-      } catch (err) {
-        tech_sheet = {};
-      }
-    }
+    // tech_sheet is built dynamically from separate fields in the UI state
+    const tech_sheet = editingParticipant.tech_sheet || {};
 
     const payload = {
       name: editingParticipant.name,
@@ -175,7 +185,7 @@ export function AdminDJContest() {
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-lg font-bold text-slate-900">Gerenciar DJs</h3>
                   <button 
-                    onClick={() => { setEditingParticipant({ is_active: true, phase: 'semifinal', display_order: 0, tech_sheet: '{}' }); setIsEditingParticipant(true); }}
+                    onClick={() => { setEditingParticipant({ is_active: true, phase: 'semifinal', display_order: 0, tech_sheet: {} }); setIsEditingParticipant(true); }}
                     className="bg-[#E91E8C] hover:bg-[#d01577] text-white px-4 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 transition-colors shadow-sm"
                   >
                     <Plus className="w-4 h-4" /> Adicionar DJ
@@ -198,7 +208,7 @@ export function AdminDJContest() {
                           {p.phase} {p.is_active ? '' : '(Inativo)'}
                         </span>
                       </div>
-                      <button onClick={() => { setEditingParticipant({...p, tech_sheet: JSON.stringify(p.tech_sheet, null, 2)}); setIsEditingParticipant(true); }} className="p-2 text-slate-400 hover:text-slate-700 transition-colors">
+                      <button onClick={() => { setEditingParticipant({ ...p, tech_sheet: p.tech_sheet || {} }); setIsEditingParticipant(true); }} className="p-2 text-slate-400 hover:text-slate-700 transition-colors">
                         <Edit2 className="w-4.5 h-4.5" />
                       </button>
                       <button onClick={() => deleteParticipant(p.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
@@ -228,22 +238,73 @@ export function AdminDJContest() {
                       <option value="final">Final</option>
                     </select>
                   </div>
+
                   <div className="col-span-2">
-                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">URL da Foto (Supabase Storage)</label>
-                    <input value={editingParticipant.photo_url || ''} onChange={e => setEditingParticipant({...editingParticipant, photo_url: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" />
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-2">Foto do DJ</label>
+                    <div className="flex items-center gap-4 p-4 border border-slate-200 rounded-lg bg-slate-50/50">
+                      {editingParticipant.photo_url ? (
+                        <img src={editingParticipant.photo_url} alt="Preview" className="w-20 h-20 rounded-full object-cover border border-slate-200 shadow-sm" />
+                      ) : (
+                        <div className="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center border border-slate-300">
+                          <ImageIcon className="w-8 h-8 text-slate-400" />
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          onChange={handlePhotoUpload} 
+                          className="hidden" 
+                          id="dj-photo-upload" 
+                          disabled={uploadingImage}
+                        />
+                        <label 
+                          htmlFor="dj-photo-upload"
+                          className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer select-none transition-colors shadow-sm"
+                        >
+                          {uploadingImage ? 'Enviando Imagem...' : 'Fazer Upload da Foto'}
+                        </label>
+                        <p className="text-[10px] text-slate-400 mt-2">Formatos aceitos: JPG, PNG, WEBP. Tamanho máximo recomendado: 5MB.</p>
+                      </div>
+                    </div>
                   </div>
+
                   <div className="col-span-2">
-                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">URL do Set (Soundcloud/Youtube/Mixcloud)</label>
-                    <input value={editingParticipant.set_url || ''} onChange={e => setEditingParticipant({...editingParticipant, set_url: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" />
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Link do Set (Soundcloud/Youtube/Mixcloud)</label>
+                    <input value={editingParticipant.set_url || ''} onChange={e => setEditingParticipant({...editingParticipant, set_url: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" placeholder="https://soundcloud.com/..." />
                   </div>
+                  
                   <div className="col-span-2">
                     <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Mini Bio</label>
-                    <textarea value={editingParticipant.bio || ''} onChange={e => setEditingParticipant({...editingParticipant, bio: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={3}></textarea>
+                    <textarea value={editingParticipant.bio || ''} onChange={e => setEditingParticipant({...editingParticipant, bio: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={3} placeholder="Breve apresentação sobre o DJ..."></textarea>
                   </div>
-                  <div className="col-span-2">
-                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Ficha Técnica (JSON) ex: {"{\"cidade\": \"SP\"}"}</label>
-                    <textarea value={editingParticipant.tech_sheet as string || '{}'} onChange={e => setEditingParticipant({...editingParticipant, tech_sheet: e.target.value})} className="w-full bg-white border border-slate-200 rounded-lg p-3 font-mono text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" rows={3}></textarea>
+
+                  {/* Ficha Técnica Simplificada - Removido o JSON cru */}
+                  <div>
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Cidade / Estado</label>
+                    <input 
+                      value={editingParticipant.tech_sheet?.cidade || ''} 
+                      onChange={e => setEditingParticipant({
+                        ...editingParticipant, 
+                        tech_sheet: { ...editingParticipant.tech_sheet, cidade: e.target.value }
+                      })} 
+                      className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" 
+                      placeholder="Ex: Rio de Janeiro - RJ"
+                    />
                   </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Gênero / Estilo Musical</label>
+                    <input 
+                      value={editingParticipant.tech_sheet?.genero || ''} 
+                      onChange={e => setEditingParticipant({
+                        ...editingParticipant, 
+                        tech_sheet: { ...editingParticipant.tech_sheet, genero: e.target.value }
+                      })} 
+                      className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" 
+                      placeholder="Ex: House / Tech House"
+                    />
+                  </div>
+
                   <div>
                     <label className="block text-xs font-semibold uppercase text-slate-500 mb-1">Ordem de Exibição</label>
                     <input type="number" value={editingParticipant.display_order || 0} onChange={e => setEditingParticipant({...editingParticipant, display_order: Number(e.target.value)})} className="w-full bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]" />
@@ -256,7 +317,7 @@ export function AdminDJContest() {
                   </div>
                 </div>
 
-                <button disabled={loading} type="submit" className="w-full bg-[#E91E8C] hover:bg-[#d01577] text-white py-4 rounded-xl font-bold flex justify-center items-center gap-2 mt-4 transition-colors shadow-sm">
+                <button disabled={loading || uploadingImage} type="submit" className="w-full bg-[#E91E8C] hover:bg-[#d01577] text-white py-4 rounded-xl font-bold flex justify-center items-center gap-2 mt-4 transition-colors shadow-sm disabled:opacity-50">
                   {loading ? 'Salvando...' : <><Save className="w-5 h-5"/> Salvar Participante</>}
                 </button>
               </form>
