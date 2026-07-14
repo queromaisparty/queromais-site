@@ -60,7 +60,7 @@ export function MusicPage() {
               </div>
             ) : (
               djSets.map(set => (
-                <div key={set.id} className="group flex flex-col sm:flex-row items-center gap-6 border-b border-gray-100 pb-6 mb-6 last:border-0 last:pb-0 last:mb-0 transition-all hover:bg-gray-50 p-4 -mx-4 rounded-xl">
+                <div key={set.id} className="group flex flex-col sm:flex-row items-center gap-6 p-4 rounded-xl transition-all hover:bg-gray-50">
                         {(() => {
                           const playUrl = set.externalLink || set.soundcloudUrl || set.audioUrl || set.playlistUrl;
                           
