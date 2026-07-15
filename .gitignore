@@ -61,3 +61,4 @@ ts_errors.txt
 ts_errors_utf8.txt
 build_errors.log
 info.md
+app/scripts/users.json
