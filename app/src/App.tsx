@@ -95,7 +95,10 @@ function AdminRouteHandler({ onTrigger }: { onTrigger: () => void }) {
 
 function App() {
   const [currentView, setCurrentView] = useState<View>(() => {
-    return (localStorage.getItem('@QueroMais:view') as View) || 'website';
+    // Só o dashboard persiste entre visitas (admin logado continua onde estava).
+    // 'admin-login' salvo prendia o visitante na tela de login ao abrir o site.
+    const stored = localStorage.getItem('@QueroMais:view') as View;
+    return stored === 'admin-dashboard' ? 'admin-dashboard' : 'website';
   });
   const [adminSection, setAdminSection] = useState<AdminSection>(() => {
     return (localStorage.getItem('@QueroMais:adminSection') as AdminSection) || 'dashboard';
