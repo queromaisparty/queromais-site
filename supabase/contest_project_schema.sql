@@ -53,6 +53,7 @@ create table if not exists public.dj_votes (
   participant_id uuid not null references public.dj_participants(id) on delete cascade,
   voter_name text not null,
   voter_email text not null,
+  voter_cpf text,
   phase text not null,
   ip_address text,
   user_agent text,
@@ -62,6 +63,10 @@ create table if not exists public.dj_votes (
 -- 1 voto por e-mail por fase (antifraude)
 create unique index if not exists dj_votes_one_per_email_phase
   on public.dj_votes (voter_email, phase);
+
+-- 1 voto por CPF por fase (antifraude)
+create unique index if not exists dj_votes_one_per_cpf_phase
+  on public.dj_votes (voter_cpf, phase) where voter_cpf is not null;
 
 -- RLS
 alter table public.dj_participants enable row level security;
