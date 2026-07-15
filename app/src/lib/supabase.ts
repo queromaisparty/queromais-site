@@ -20,6 +20,24 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
+// ── Projeto Supabase dedicado ao DJ Contest ──────────────────
+// A votação mora num projeto separado (cota de uso isolada do site).
+// Sem as envs configuradas, cai no projeto principal — nada quebra.
+const contestUrl = import.meta.env.VITE_CONTEST_SUPABASE_URL as string | undefined;
+const contestAnonKey = import.meta.env.VITE_CONTEST_SUPABASE_ANON_KEY as string | undefined;
+
+export const hasContestProject = Boolean(contestUrl && contestAnonKey);
+
+export const contestSupabase = hasContestProject
+  ? createClient(contestUrl!, contestAnonKey!, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: false,
+      },
+    })
+  : supabase;
+
 /**
  * Testa a conexão com o Supabase.
  * Retorna true se conectado, false caso contrário.

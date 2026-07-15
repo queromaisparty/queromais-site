@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { AdminUser } from '@/types';
-import { supabase } from '@/lib/supabase';
+import { supabase, contestSupabase, hasContestProject } from '@/lib/supabase';
 
 interface AuthContextType {
   user: AdminUser | null;
@@ -58,6 +58,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.error('Login erro:', error.message);
         return false;
       }
+      // Login espelhado no projeto do DJ Contest (mesmo e-mail/senha).
+      // Best-effort: se falhar, o admin do concurso avisa, mas o resto funciona.
+      if (hasContestProject && data.user) {
+        const { error: contestError } = await contestSupabase.auth.signInWithPassword({ email, password });
+        if (contestError) {
+          console.warn('⚠️ Login no projeto do DJ Contest falhou (crie o mesmo usuário lá):', contestError.message);
+        }
+      }
       return !!data.user;
     } catch (error) {
       console.error(error);
@@ -67,6 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await supabase.auth.signOut();
+    if (hasContestProject) await contestSupabase.auth.signOut();
     setUser(null);
   }, []);
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { contestSupabase as supabase } from '@/lib/supabase';
 
 export interface DJParticipant {
   id: string;

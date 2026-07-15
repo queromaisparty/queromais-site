@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase, uploadImage } from '@/lib/supabase';
+import { contestSupabase as supabase, uploadImage } from '@/lib/supabase';
 import { toast } from 'sonner';
 import type { DJParticipant, DJContestSettings } from '@/hooks/useDJContest';
 import { Download, Plus, Save, Trash2, Edit2, ImageIcon } from 'lucide-react';
