@@ -3,6 +3,27 @@ import { useDJContest, type DJParticipant } from '@/hooks/useDJContest';
 import { toast } from 'sonner';
 import { Trophy, User, PlayCircle, MapPin, Music } from 'lucide-react';
 
+// Validação oficial dos dígitos verificadores do CPF
+function isValidCPF(cpf: string): boolean {
+  const digits = cpf.replace(/\D/g, '');
+  if (digits.length !== 11 || /^(\d)\1{10}$/.test(digits)) return false;
+  for (const factor of [10, 11]) {
+    let sum = 0;
+    for (let i = 0; i < factor - 1; i++) sum += parseInt(digits[i]) * (factor - i);
+    const check = ((sum * 10) % 11) % 10;
+    if (check !== parseInt(digits[factor - 1])) return false;
+  }
+  return true;
+}
+
+function formatCPF(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 11);
+  return digits
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+    .replace(/\.(\d{3})(\d)/, '.$1-$2');
+}
+
 function AudioPlayer({ url }: { url: string }) {
   if (!url) return null;
 
@@ -82,6 +103,7 @@ export function DJContestSection() {
   const [selectedDJ, setSelectedDJ] = useState<DJParticipant | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [cpf, setCpf] = useState('');
   const [website, setWebsite] = useState(''); // Honeypot
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -111,8 +133,13 @@ export function DJContestSection() {
       return;
     }
 
+    if (!isValidCPF(cpf)) {
+      toast.error('CPF inválido. Confira os números digitados.');
+      return;
+    }
+
     setIsSubmitting(true);
-    const result = await submitVote(selectedDJ.id, name, email);
+    const result = await submitVote(selectedDJ.id, name, email, cpf);
     setIsSubmitting(false);
 
     if (result.success) {
@@ -121,6 +148,7 @@ export function DJContestSection() {
       setSelectedDJ(null);
       setName('');
       setEmail('');
+      setCpf('');
     } else {
       toast.error(result.message);
     }
@@ -246,7 +274,7 @@ export function DJContestSection() {
               </button>
               <h3 className="text-2xl font-bold mb-2 text-[#1A1A2E]">Votar em <span className="text-[#E91E8C]">{selectedDJ.name}</span></h3>
               <p className="text-slate-500 mb-6 text-sm">
-                Preencha seus dados para confirmar. Apenas 1 voto por e-mail nesta fase.
+                Preencha seus dados para confirmar. Apenas 1 voto por pessoa (CPF) nesta fase.
               </p>
               
               <form onSubmit={handleVote} className="space-y-4">
@@ -261,16 +289,29 @@ export function DJContestSection() {
                   />
                 </div>
                 <div>
+                  <label className="block text-slate-500 text-xs font-bold uppercase mb-2 tracking-wide">CPF</label>
+                  <input
+                    type="text"
+                    required
+                    inputMode="numeric"
+                    placeholder="000.000.000-00"
+                    value={cpf}
+                    onChange={e => setCpf(formatCPF(e.target.value))}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-[#E91E8C] transition-colors"
+                  />
+                  <p className="text-[11px] text-slate-400 mt-1.5">Usado apenas para validar 1 voto por pessoa. Não é divulgado.</p>
+                </div>
+                <div>
                   <label className="block text-slate-500 text-xs font-bold uppercase mb-2 tracking-wide">E-mail</label>
-                  <input 
-                    type="email" 
-                    required 
+                  <input
+                    type="email"
+                    required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-[#E91E8C] transition-colors"
                   />
                 </div>
-                
+
                 {/* Honeypot */}
                 <div className="hidden">
                   <input type="text" value={website} onChange={e => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" />

@@ -161,9 +161,9 @@ export function AdminDJContest() {
       return;
     }
     
-    const csvRows = ['id,participant_id,voter_name,voter_email,phase,created_at'];
+    const csvRows = ['id,participant_id,voter_name,voter_email,voter_cpf,phase,created_at'];
     data.forEach(v => {
-      csvRows.push(`${v.id},${v.participant_id},"${v.voter_name}","${v.voter_email}",${v.phase},${v.created_at}`);
+      csvRows.push(`${v.id},${v.participant_id},"${v.voter_name}","${v.voter_email}","${v.voter_cpf || ''}",${v.phase},${v.created_at}`);
     });
     
     const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });

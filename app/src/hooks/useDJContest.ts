@@ -78,22 +78,27 @@ export function useDJContest() {
     fetchContestData();
   }, []);
 
-  const submitVote = async (participantId: string, name: string, email: string) => {
+  const submitVote = async (participantId: string, name: string, email: string, cpf: string) => {
     if (!settings) return { success: false, message: 'Configurações indisponíveis.' };
-    
+
     const normalizedEmail = email.trim().toLowerCase();
+    const normalizedCpf = cpf.replace(/\D/g, '');
 
     try {
       const { error } = await supabase.from('dj_votes').insert([{
         participant_id: participantId,
         voter_name: name,
         voter_email: normalizedEmail,
+        voter_cpf: normalizedCpf,
         phase: settings.current_phase,
         user_agent: navigator.userAgent
       }]);
 
       if (error) {
         if (error.code === '23505') {
+          if (error.message?.includes('cpf')) {
+            return { success: false, message: 'Este CPF já votou nesta fase. Apenas 1 voto por pessoa.' };
+          }
           return { success: false, message: 'Este e-mail já votou nesta fase. Cada e-mail pode votar apenas uma vez.' };
         }
         return { success: false, message: 'Erro ao processar voto.' };
