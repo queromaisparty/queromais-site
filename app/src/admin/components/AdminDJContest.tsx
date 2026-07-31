@@ -1,12 +1,24 @@
 import { useState, useEffect } from 'react';
 import { contestSupabase as supabase, uploadImage } from '@/lib/supabase';
 import { toast } from 'sonner';
-import type { DJParticipant, DJContestSettings } from '@/hooks/useDJContest';
-import { Download, Plus, Save, Trash2, Edit2, ImageIcon } from 'lucide-react';
+import type { DJParticipant, DJContestSettings, JuryCode } from '@/hooks/useDJContest';
+import { Download, Plus, Save, Trash2, Edit2, ImageIcon, Copy, KeyRound } from 'lucide-react';
+
+// Código legível sem caracteres ambíguos (sem I/O/0/1)
+function generateJuryCode(): string {
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let out = '';
+  const bytes = new Uint8Array(5);
+  crypto.getRandomValues(bytes);
+  for (const b of bytes) out += alphabet[b % alphabet.length];
+  return `QM-${out}`;
+}
 
 export function AdminDJContest() {
-  const [activeTab, setActiveTab] = useState<'participants' | 'settings' | 'results' | 'home'>('participants');
+  const [activeTab, setActiveTab] = useState<'participants' | 'settings' | 'results' | 'home' | 'jury'>('participants');
   const [uploadingBanner, setUploadingBanner] = useState(false);
+  const [juryCodes, setJuryCodes] = useState<JuryCode[]>([]);
+  const [newJurorName, setNewJurorName] = useState('');
   
   // States
   const [participants, setParticipants] = useState<DJParticipant[]>([]);
@@ -23,7 +35,43 @@ export function AdminDJContest() {
     fetchSettings();
     if (activeTab === 'participants') fetchParticipants();
     if (activeTab === 'results') fetchResults();
+    if (activeTab === 'jury') fetchJuryCodes();
   }, [activeTab]);
+
+  const fetchJuryCodes = async () => {
+    const { data, error } = await supabase.from('dj_jury_codes').select('*').order('voter_name');
+    if (error) toast.error('Erro ao carregar jurados: ' + error.message);
+    else if (data) setJuryCodes(data);
+  };
+
+  const addJuror = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const name = newJurorName.trim();
+    if (!name) return;
+    const { error } = await supabase.from('dj_jury_codes').insert([{
+      voter_name: name,
+      code: generateJuryCode(),
+      phase: 'final',
+    }]);
+    if (error) toast.error('Erro ao adicionar: ' + error.message);
+    else {
+      toast.success(`Código gerado para ${name}!`);
+      setNewJurorName('');
+      fetchJuryCodes();
+    }
+  };
+
+  const deleteJuror = async (id: string, name: string) => {
+    if (!window.confirm(`Remover o código de ${name}?`)) return;
+    const { error } = await supabase.from('dj_jury_codes').delete().eq('id', id);
+    if (error) toast.error(error.message);
+    else fetchJuryCodes();
+  };
+
+  const copyText = (text: string, msg: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success(msg);
+  };
 
   const fetchSettings = async () => {
     const { data } = await supabase.from('dj_contest_settings').select('*').eq('id', 1).single();
@@ -52,6 +100,7 @@ export function AdminDJContest() {
       results_public: settings.results_public,
       winner_id: settings.winner_id,
       vote_success_message: settings.vote_success_message,
+      final_jury_only: settings.final_jury_only,
     }).eq('id', 1);
     setLoading(false);
     if (error) toast.error('Erro ao salvar config: ' + error.message);
@@ -217,6 +266,16 @@ export function AdminDJContest() {
           }`}
         >
           Banner Home
+        </button>
+        <button
+          onClick={() => setActiveTab('jury')}
+          className={`flex-1 py-4 px-6 font-bold text-sm transition-all border-b-2 ${
+            activeTab === 'jury'
+              ? 'border-[#E91E8C] text-[#E91E8C] bg-white'
+              : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100/50'
+          }`}
+        >
+          Jurados
         </button>
       </div>
 
@@ -416,6 +475,11 @@ export function AdminDJContest() {
                 <input type="checkbox" checked={settings.results_public} onChange={e => setSettings({...settings, results_public: e.target.checked})} className="w-5 h-5 accent-[#E91E8C] rounded border-slate-300" />
                 <span className="font-bold text-slate-700">Exibir Vencedor no Site (Finaliza Concurso)</span>
               </label>
+
+              <label className="flex items-center gap-3 cursor-pointer select-none">
+                <input type="checkbox" checked={settings.final_jury_only ?? false} onChange={e => setSettings({...settings, final_jury_only: e.target.checked})} className="w-5 h-5 accent-[#E91E8C] rounded border-slate-300" />
+                <span className="font-bold text-slate-700">Final restrita a jurados (voto por código — aba Jurados)</span>
+              </label>
             </div>
 
             <button disabled={loading} type="submit" className="w-full bg-[#E91E8C] hover:bg-[#d01577] text-white py-4 rounded-xl font-bold flex justify-center items-center gap-2 transition-colors shadow-sm">
@@ -546,6 +610,90 @@ export function AdminDJContest() {
               {loading ? 'Salvando...' : <><Save className="w-5 h-5"/> Salvar Banner</>}
             </button>
           </form>
+        )}
+
+        {/* Tab 5: Jurados */}
+        {activeTab === 'jury' && (
+          <div>
+            <div className="mb-6">
+              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <KeyRound className="w-5 h-5 text-[#E91E8C]" /> Jurados da Final
+              </h3>
+              <p className="text-slate-500 text-sm mt-1">
+                Cada jurado recebe um código de uso único — vale exatamente 1 voto na final.
+                Ative "Final restrita a jurados" na aba Configurações para exigir o código no site.
+              </p>
+            </div>
+
+            <form onSubmit={addJuror} className="flex gap-3 mb-6">
+              <input
+                value={newJurorName}
+                onChange={e => setNewJurorName(e.target.value)}
+                placeholder="Nome do jurado"
+                className="flex-1 bg-white border border-slate-200 rounded-lg p-3 text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#E91E8C] focus:border-[#E91E8C]"
+              />
+              <button type="submit" className="bg-[#E91E8C] hover:bg-[#d01577] text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 transition-colors shadow-sm">
+                <Plus className="w-4 h-4" /> Gerar Código
+              </button>
+            </form>
+
+            {juryCodes.length > 0 && (
+              <div className="flex justify-end mb-3">
+                <button
+                  onClick={() => copyText(
+                    juryCodes.map(j => `${j.voter_name}: ${j.code}`).join('\n'),
+                    'Lista completa copiada!'
+                  )}
+                  className="text-xs font-bold text-[#E91E8C] hover:underline flex items-center gap-1.5"
+                >
+                  <Copy className="w-3.5 h-3.5" /> Copiar lista completa (nome + código)
+                </button>
+              </div>
+            )}
+
+            <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+              <table className="w-full text-left">
+                <thead className="bg-slate-50 border-b border-slate-200 text-xs uppercase font-bold text-slate-500">
+                  <tr>
+                    <th className="p-4">Jurado</th>
+                    <th className="p-4">Código</th>
+                    <th className="p-4">Status</th>
+                    <th className="p-4 text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-slate-700">
+                  {juryCodes.map(j => (
+                    <tr key={j.id} className="hover:bg-slate-50/50 transition-colors">
+                      <td className="p-4 font-bold text-slate-900">{j.voter_name}</td>
+                      <td className="p-4">
+                        <span className="font-mono font-bold text-[#E91E8C] tracking-wider">{j.code}</span>
+                      </td>
+                      <td className="p-4">
+                        {j.used_at ? (
+                          <span className="text-xs px-2.5 py-1 rounded-full font-bold uppercase bg-green-100 text-green-700">Votou</span>
+                        ) : (
+                          <span className="text-xs px-2.5 py-1 rounded-full font-bold uppercase bg-slate-100 text-slate-500">Pendente</span>
+                        )}
+                      </td>
+                      <td className="p-4 text-right">
+                        <button onClick={() => copyText(j.code, `Código de ${j.voter_name} copiado!`)} className="p-2 text-slate-400 hover:text-slate-700 transition-colors" title="Copiar código">
+                          <Copy className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => deleteJuror(j.id, j.voter_name)} disabled={!!j.used_at} className="p-2 text-slate-400 hover:text-red-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed" title={j.used_at ? 'Código já usado — não pode ser removido' : 'Remover'}>
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {juryCodes.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="p-8 text-center text-slate-400 text-sm">Nenhum jurado cadastrado ainda.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
         )}
       </div>
     </div>

@@ -32,6 +32,16 @@ export interface DJContestSettings {
   home_banner_button_label: string | null;
   home_banner_button_link: string | null;
   vote_success_message: string | null;
+  final_jury_only: boolean;
+}
+
+export interface JuryCode {
+  id: string;
+  voter_name: string;
+  code: string;
+  phase: 'semifinal' | 'final';
+  used_at: string | null;
+  created_at: string;
 }
 
 export function useDJContest() {
@@ -111,11 +121,36 @@ export function useDJContest() {
     }
   };
 
+  const submitJuryVote = async (participantId: string, code: string) => {
+    try {
+      const { data, error } = await supabase.rpc('submit_jury_vote', {
+        p_code: code.trim(),
+        p_participant: participantId,
+      });
+      if (error) return { success: false, message: 'Erro ao processar voto.' };
+      return data as { success: boolean; message: string };
+    } catch (err: any) {
+      return { success: false, message: 'Erro de conexão: ' + err.message };
+    }
+  };
+
+  const validateJuryCode = async (code: string) => {
+    try {
+      const { data, error } = await supabase.rpc('validate_jury_code', { p_code: code.trim() });
+      if (error) return { valid: false, message: 'Erro ao validar código.' };
+      return data as { valid: boolean; voter_name?: string; message?: string };
+    } catch {
+      return { valid: false, message: 'Erro de conexão.' };
+    }
+  };
+
   return {
     settings,
     participants,
     loading,
     submitVote,
+    submitJuryVote,
+    validateJuryCode,
     refetch: fetchContestData
   };
 }

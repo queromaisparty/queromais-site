@@ -99,13 +99,16 @@ function AudioPlayer({ url }: { url: string }) {
 }
 
 export function DJContestSection() {
-  const { settings, participants, loading, submitVote } = useDJContest();
+  const { settings, participants, loading, submitVote, submitJuryVote } = useDJContest();
   const [selectedDJ, setSelectedDJ] = useState<DJParticipant | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [cpf, setCpf] = useState('');
+  const [juryCode, setJuryCode] = useState('');
   const [website, setWebsite] = useState(''); // Honeypot
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const juryMode = Boolean(settings?.final_jury_only && settings?.current_phase === 'final');
 
   if (loading) {
     return (
@@ -127,6 +130,26 @@ export function DJContestSection() {
     e.preventDefault();
     if (website) return; // Honeypot
     if (!selectedDJ) return;
+
+    // Modo jurado: código de uso único validado e queimado no banco
+    if (juryMode) {
+      if (!juryCode.trim()) {
+        toast.error('Informe seu código de votação.');
+        return;
+      }
+      setIsSubmitting(true);
+      const result = await submitJuryVote(selectedDJ.id, juryCode);
+      setIsSubmitting(false);
+
+      if (result.success) {
+        toast.success(result.message);
+        setSelectedDJ(null);
+        setJuryCode('');
+      } else {
+        toast.error(result.message);
+      }
+      return;
+    }
 
     if (localStorage.getItem(`dj_voted_${settings.current_phase}`)) {
       toast.error('Você já votou nesta fase no seu dispositivo.');
@@ -274,15 +297,32 @@ export function DJContestSection() {
               </button>
               <h3 className="text-2xl font-bold mb-2 text-[#1A1A2E]">Votar em <span className="text-[#E91E8C]">{selectedDJ.name}</span></h3>
               <p className="text-slate-500 mb-6 text-sm">
-                Preencha seus dados para confirmar. Apenas 1 voto por pessoa (CPF) nesta fase.
+                {juryMode
+                  ? 'Votação restrita. Informe seu código de votação exclusivo.'
+                  : 'Preencha seus dados para confirmar. Apenas 1 voto por pessoa (CPF) nesta fase.'}
               </p>
-              
+
               <form onSubmit={handleVote} className="space-y-4">
+                {juryMode ? (
+                  <div>
+                    <label className="block text-slate-500 text-xs font-bold uppercase mb-2 tracking-wide">Código de Votação</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="QM-XXXXX"
+                      value={juryCode}
+                      onChange={e => setJuryCode(e.target.value.toUpperCase())}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-mono tracking-widest focus:outline-none focus:border-[#E91E8C] transition-colors"
+                    />
+                    <p className="text-[11px] text-slate-400 mt-1.5">Código de uso único enviado pela organização. Vale 1 voto.</p>
+                  </div>
+                ) : (
+                <>
                 <div>
                   <label className="block text-slate-500 text-xs font-bold uppercase mb-2 tracking-wide">Nome Completo</label>
-                  <input 
-                    type="text" 
-                    required 
+                  <input
+                    type="text"
+                    required
                     value={name}
                     onChange={e => setName(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-[#E91E8C] transition-colors"
@@ -311,6 +351,8 @@ export function DJContestSection() {
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-[#E91E8C] transition-colors"
                   />
                 </div>
+                </>
+                )}
 
                 {/* Honeypot */}
                 <div className="hidden">
