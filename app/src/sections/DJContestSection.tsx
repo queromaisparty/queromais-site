@@ -2,7 +2,15 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDJContest, type DJParticipant } from '@/hooks/useDJContest';
 import { toast } from 'sonner';
-import { Trophy, User, PlayCircle, MapPin, Music } from 'lucide-react';
+import { Trophy, User, PlayCircle, MapPin, Music, ListMusic, TrendingUp, Sliders, Waves, Sparkles, Headphones } from 'lucide-react';
+
+const JURY_CRITERIA = [
+  { icon: ListMusic, label: 'Curadoria Musical' },
+  { icon: TrendingUp, label: 'Construção e Progressão' },
+  { icon: Sliders, label: 'Técnica de Mixagem' },
+  { icon: Waves, label: 'Coesão e Densidade da Pista' },
+  { icon: Sparkles, label: 'Identidade Artística' },
+];
 
 // Validação oficial dos dígitos verificadores do CPF
 function isValidCPF(cpf: string): boolean {
@@ -100,7 +108,7 @@ function AudioPlayer({ url }: { url: string }) {
 }
 
 export function DJContestSection() {
-  const { settings, participants, loading, submitVote, submitJuryVote } = useDJContest();
+  const { settings, participants, loading, submitVote, submitJuryVote, validateJuryCode } = useDJContest();
   const [selectedDJ, setSelectedDJ] = useState<DJParticipant | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -112,11 +120,19 @@ export function DJContestSection() {
   const juryMode = Boolean(settings?.final_jury_only && settings?.current_phase === 'final');
 
   // Link personalizado do jurado: /dj-contest?codigo=QM-XXXXX pré-preenche o código
+  // e identifica o jurado pelo nome (validação server-side, sem expor a lista)
   const [searchParams] = useSearchParams();
+  const [jurorName, setJurorName] = useState<string | null>(null);
   useEffect(() => {
     const fromLink = searchParams.get('codigo');
-    if (fromLink) setJuryCode(fromLink.toUpperCase());
-  }, [searchParams]);
+    if (!fromLink) return;
+    setJuryCode(fromLink.toUpperCase());
+    if (!settings) return;
+    validateJuryCode(fromLink).then(result => {
+      if (result.valid && result.voter_name) setJurorName(result.voter_name);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, settings?.current_phase]);
 
   if (loading) {
     return (
@@ -210,6 +226,52 @@ export function DJContestSection() {
             </span>
           </div>
         </div>
+
+        {/* Painel do Jurado (link personalizado) */}
+        {juryMode && jurorName && !settings.results_public && (
+          <div className="mb-16 relative overflow-hidden rounded-3xl bg-[#1A1A2E] shadow-xl">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(233,30,140,0.25),transparent_55%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.2),transparent_55%)] pointer-events-none" />
+
+            <div className="relative z-10 px-6 py-10 md:px-12 md:py-12">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-white/90 mb-5">
+                <Headphones className="w-4 h-4 text-[#E91E8C]" />
+                <span className="text-[11px] font-bold tracking-widest uppercase">Júri Oficial</span>
+              </div>
+
+              <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight mb-3">
+                Olá, <span className="text-[#E91E8C]">{jurorName}</span>!
+              </h2>
+              <p className="text-white/75 text-base md:text-lg max-w-3xl mb-2">
+                Obrigado por fazer parte deste projeto. Sua avaliação define o grande vencedor do {settings.contest_title}.
+              </p>
+              <p className="text-white/60 text-sm md:text-base max-w-3xl mb-8">
+                Cada finalista enviou um <strong className="text-white/85">set de 30 minutos</strong>, que deverá ser
+                avaliado com base exclusivamente nos critérios abaixo.
+              </p>
+
+              <div className="mb-2 flex items-center gap-2">
+                <span className="text-xs font-bold tracking-widest uppercase text-white/50">Critérios de Avaliação</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E91E8C]/20 text-[#E91E8C] border border-[#E91E8C]/30">nota de 1 a 5</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-3">
+                {JURY_CRITERIA.map(({ icon: Icon, label }) => (
+                  <div key={label} className="flex lg:flex-col items-center lg:items-start gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 lg:py-5">
+                    <div className="w-9 h-9 rounded-xl bg-[#E91E8C]/15 border border-[#E91E8C]/25 flex items-center justify-center shrink-0">
+                      <Icon className="w-4.5 h-4.5 text-[#E91E8C]" />
+                    </div>
+                    <span className="text-white/85 text-sm font-semibold leading-snug">{label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-white/45 text-xs md:text-sm mt-8">
+                Ouça os sets com atenção e vote no finalista que mais se destacar. Para confirmar o voto,
+                seu código de votação exclusivo será solicitado — ele vale um único voto.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Revelação do Vencedor */}
         {settings.results_public && winner && (
