@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { contestSupabase as supabase, uploadImage } from '@/lib/supabase';
 import { toast } from 'sonner';
 import type { DJParticipant, DJContestSettings, JuryCode } from '@/hooks/useDJContest';
-import { Download, Plus, Save, Trash2, Edit2, ImageIcon, Copy, KeyRound } from 'lucide-react';
+import { Download, Plus, Save, Trash2, Edit2, ImageIcon, Copy, KeyRound, RefreshCw, Check, X } from 'lucide-react';
 
 // Código legível sem caracteres ambíguos (sem I/O/0/1)
 function generateJuryCode(): string {
@@ -19,6 +19,8 @@ export function AdminDJContest() {
   const [uploadingBanner, setUploadingBanner] = useState(false);
   const [juryCodes, setJuryCodes] = useState<JuryCode[]>([]);
   const [newJurorName, setNewJurorName] = useState('');
+  const [editingJurorId, setEditingJurorId] = useState<string | null>(null);
+  const [editingJurorName, setEditingJurorName] = useState('');
   
   // States
   const [participants, setParticipants] = useState<DJParticipant[]>([]);
@@ -61,11 +63,43 @@ export function AdminDJContest() {
     }
   };
 
-  const deleteJuror = async (id: string, name: string) => {
-    if (!window.confirm(`Remover o código de ${name}?`)) return;
-    const { error } = await supabase.from('dj_jury_codes').delete().eq('id', id);
+  const deleteJuror = async (juror: JuryCode) => {
+    const msg = juror.used_at
+      ? `${juror.voter_name} JÁ VOTOU. Remover o registro dele da lista? O voto continua contabilizado na apuração.`
+      : `Remover o código de ${juror.voter_name}? O link enviado a ele deixa de funcionar.`;
+    if (!window.confirm(msg)) return;
+    const { error } = await supabase.from('dj_jury_codes').delete().eq('id', juror.id);
     if (error) toast.error(error.message);
-    else fetchJuryCodes();
+    else {
+      toast.success('Removido.');
+      fetchJuryCodes();
+    }
+  };
+
+  const regenerateJurorCode = async (juror: JuryCode) => {
+    if (juror.used_at) {
+      toast.error('Este jurado já votou — não é possível gerar novo código.');
+      return;
+    }
+    if (!window.confirm(`Gerar NOVO código para ${juror.voter_name}? O código e o link antigos param de funcionar na hora.`)) return;
+    const { error } = await supabase.from('dj_jury_codes').update({ code: generateJuryCode() }).eq('id', juror.id);
+    if (error) toast.error(error.message);
+    else {
+      toast.success(`Novo código gerado para ${juror.voter_name}!`);
+      fetchJuryCodes();
+    }
+  };
+
+  const renameJuror = async (id: string) => {
+    const name = editingJurorName.trim();
+    if (!name) return;
+    const { error } = await supabase.from('dj_jury_codes').update({ voter_name: name }).eq('id', id);
+    if (error) toast.error(error.message);
+    else {
+      toast.success('Nome atualizado.');
+      setEditingJurorId(null);
+      fetchJuryCodes();
+    }
   };
 
   const copyText = (text: string, msg: string) => {
@@ -668,7 +702,36 @@ export function AdminDJContest() {
                 <tbody className="divide-y divide-slate-100 text-slate-700">
                   {juryCodes.map(j => (
                     <tr key={j.id} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="p-4 font-bold text-slate-900">{j.voter_name}</td>
+                      <td className="p-4 font-bold text-slate-900">
+                        {editingJurorId === j.id ? (
+                          <span className="flex items-center gap-2">
+                            <input
+                              autoFocus
+                              value={editingJurorName}
+                              onChange={e => setEditingJurorName(e.target.value)}
+                              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); renameJuror(j.id); } if (e.key === 'Escape') setEditingJurorId(null); }}
+                              className="bg-white border border-slate-300 rounded-lg px-2 py-1.5 text-sm text-slate-900 focus:outline-none focus:border-[#E91E8C] w-full max-w-[220px]"
+                            />
+                            <button onClick={() => renameJuror(j.id)} className="p-1.5 text-green-600 hover:bg-green-50 rounded" title="Salvar nome">
+                              <Check className="w-4 h-4" />
+                            </button>
+                            <button onClick={() => setEditingJurorId(null)} className="p-1.5 text-slate-400 hover:bg-slate-100 rounded" title="Cancelar">
+                              <X className="w-4 h-4" />
+                            </button>
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-2">
+                            {j.voter_name}
+                            <button
+                              onClick={() => { setEditingJurorId(j.id); setEditingJurorName(j.voter_name); }}
+                              className="p-1 text-slate-300 hover:text-slate-600 transition-colors"
+                              title="Editar nome"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                          </span>
+                        )}
+                      </td>
                       <td className="p-4">
                         <span className="font-mono font-bold text-[#E91E8C] tracking-wider">{j.code}</span>
                       </td>
@@ -679,10 +742,10 @@ export function AdminDJContest() {
                           <span className="text-xs px-2.5 py-1 rounded-full font-bold uppercase bg-slate-100 text-slate-500">Pendente</span>
                         )}
                       </td>
-                      <td className="p-4 text-right">
+                      <td className="p-4 text-right whitespace-nowrap">
                         <button
                           onClick={() => copyText(juryVoteLink(j.code), `Link de votação de ${j.voter_name} copiado!`)}
-                          className="text-xs font-bold text-[#E91E8C] hover:bg-[#E91E8C]/10 border border-[#E91E8C]/30 px-3 py-1.5 rounded-lg mr-2 transition-colors"
+                          className="text-xs font-bold text-[#E91E8C] hover:bg-[#E91E8C]/10 border border-[#E91E8C]/30 px-3 py-1.5 rounded-lg mr-1 transition-colors"
                           title="Copiar link de votação com o código embutido"
                         >
                           Copiar Link
@@ -690,7 +753,15 @@ export function AdminDJContest() {
                         <button onClick={() => copyText(j.code, `Código de ${j.voter_name} copiado!`)} className="p-2 text-slate-400 hover:text-slate-700 transition-colors" title="Copiar só o código">
                           <Copy className="w-4 h-4" />
                         </button>
-                        <button onClick={() => deleteJuror(j.id, j.voter_name)} disabled={!!j.used_at} className="p-2 text-slate-400 hover:text-red-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed" title={j.used_at ? 'Código já usado — não pode ser removido' : 'Remover'}>
+                        <button
+                          onClick={() => regenerateJurorCode(j)}
+                          disabled={!!j.used_at}
+                          className="p-2 text-slate-400 hover:text-[#E91E8C] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                          title={j.used_at ? 'Já votou — código não pode ser trocado' : 'Gerar novo código (o antigo para de funcionar)'}
+                        >
+                          <RefreshCw className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => deleteJuror(j)} className="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Remover jurado">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </td>
