@@ -250,9 +250,8 @@ export function DJContestSection() {
                 avaliado com base exclusivamente nos critérios abaixo.
               </p>
 
-              <div className="mb-2 flex items-center gap-2">
+              <div className="mb-2">
                 <span className="text-xs font-bold tracking-widest uppercase text-white/50">Critérios de Avaliação</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E91E8C]/20 text-[#E91E8C] border border-[#E91E8C]/30">nota de 1 a 5</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-3">
                 {JURY_CRITERIA.map(({ icon: Icon, label }) => (
