@@ -73,6 +73,10 @@ export function AdminDJContest() {
     toast.success(msg);
   };
 
+  // Link com o código embutido — jurado abre e vota direto
+  const juryVoteLink = (code: string) =>
+    `${window.location.origin}/dj-contest?codigo=${encodeURIComponent(code)}`;
+
   const fetchSettings = async () => {
     const { data } = await supabase.from('dj_contest_settings').select('*').eq('id', 1).single();
     if (data) setSettings(data);
@@ -641,12 +645,12 @@ export function AdminDJContest() {
               <div className="flex justify-end mb-3">
                 <button
                   onClick={() => copyText(
-                    juryCodes.map(j => `${j.voter_name}: ${j.code}`).join('\n'),
-                    'Lista completa copiada!'
+                    juryCodes.map(j => `${j.voter_name}\n${juryVoteLink(j.code)}`).join('\n\n'),
+                    'Lista completa copiada (nome + link de votação)!'
                   )}
                   className="text-xs font-bold text-[#E91E8C] hover:underline flex items-center gap-1.5"
                 >
-                  <Copy className="w-3.5 h-3.5" /> Copiar lista completa (nome + código)
+                  <Copy className="w-3.5 h-3.5" /> Copiar lista completa (nome + link de votação)
                 </button>
               </div>
             )}
@@ -676,7 +680,14 @@ export function AdminDJContest() {
                         )}
                       </td>
                       <td className="p-4 text-right">
-                        <button onClick={() => copyText(j.code, `Código de ${j.voter_name} copiado!`)} className="p-2 text-slate-400 hover:text-slate-700 transition-colors" title="Copiar código">
+                        <button
+                          onClick={() => copyText(juryVoteLink(j.code), `Link de votação de ${j.voter_name} copiado!`)}
+                          className="text-xs font-bold text-[#E91E8C] hover:bg-[#E91E8C]/10 border border-[#E91E8C]/30 px-3 py-1.5 rounded-lg mr-2 transition-colors"
+                          title="Copiar link de votação com o código embutido"
+                        >
+                          Copiar Link
+                        </button>
+                        <button onClick={() => copyText(j.code, `Código de ${j.voter_name} copiado!`)} className="p-2 text-slate-400 hover:text-slate-700 transition-colors" title="Copiar só o código">
                           <Copy className="w-4 h-4" />
                         </button>
                         <button onClick={() => deleteJuror(j.id, j.voter_name)} disabled={!!j.used_at} className="p-2 text-slate-400 hover:text-red-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed" title={j.used_at ? 'Código já usado — não pode ser removido' : 'Remover'}>

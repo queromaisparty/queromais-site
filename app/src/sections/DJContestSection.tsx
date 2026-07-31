@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useDJContest, type DJParticipant } from '@/hooks/useDJContest';
 import { toast } from 'sonner';
 import { Trophy, User, PlayCircle, MapPin, Music } from 'lucide-react';
@@ -109,6 +110,13 @@ export function DJContestSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const juryMode = Boolean(settings?.final_jury_only && settings?.current_phase === 'final');
+
+  // Link personalizado do jurado: /dj-contest?codigo=QM-XXXXX pré-preenche o código
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    const fromLink = searchParams.get('codigo');
+    if (fromLink) setJuryCode(fromLink.toUpperCase());
+  }, [searchParams]);
 
   if (loading) {
     return (
