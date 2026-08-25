@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { AuthProvider } from '@/context/AuthContext';
@@ -143,7 +143,8 @@ function App() {
               <Route path="/loja" element={<ShopPage />} />
               <Route path="/contato" element={<ContactPage />} />
               <Route path="/faq" element={<FAQPage />} />
-              <Route path="/dj-contest" element={<DJContestSection />} />
+              {/* Concurso fora do ar — reativar trocando o Navigate pelo DJContestSection */}
+              <Route path="/dj-contest" element={<Navigate to="/" replace />} />
               <Route path="/admin" element={<AdminRouteHandler onTrigger={handleAdminRoute} />} />
             </Route>
           </Routes>
